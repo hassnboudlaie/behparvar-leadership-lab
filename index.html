@@ -7,41 +7,52 @@
 <title>آزمایشگاه رهبری بهپرور | جلسه اول</title>
 <style>
 :root{
-  --g:#185d57;--g2:#2d746d;--bg:#f5f7f6;--card:#fff;--ink:#223033;--muted:#6b7779;
-  --line:#dbe4e1;--soft:#eaf4f1;--warm:#f8f4ea;--gold:#9a7a31;--ok:#2f745f;
+  --g:#185d57;--g2:#2b756d;--bg:#f5f7f6;--card:#fff;--ink:#213033;--muted:#6b7779;
+  --line:#dbe4e1;--soft:#eaf4f1;--warm:#f8f4ea;--gold:#9a7a31;--blue:#edf3f7;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",Arial,sans-serif;line-height:1.85}
 button{font:inherit;cursor:pointer}
 button:focus-visible{outline:3px solid rgba(24,93,87,.18);outline-offset:2px}
-.wrap{max-width:950px;margin:auto;padding:16px 12px 60px}
+.wrap{max-width:980px;margin:auto;padding:16px 12px 60px}
 .top{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
 .eyebrow{font-size:12px;font-weight:900;color:var(--g)}
 h1{font-size:24px;line-height:1.55;margin:3px 0 2px}
-h2{font-size:19px;margin:0 0 8px}
+h2{font-size:20px;margin:0 0 8px}
 h3{font-size:15px;margin:0 0 8px}
 p{margin:7px 0}.small{font-size:12px}.muted{color:var(--muted)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0}
-.soft{background:var(--soft)}.warm{background:var(--warm)}
-.grid{display:grid;grid-template-columns:1fr;gap:10px}
-@media(min-width:680px){.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}}
 .btn{min-height:44px;border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff;color:var(--ink);font-weight:850}
-.btn.primary{background:var(--g);color:#fff;border-color:var(--g)}.btn:disabled{opacity:.42;cursor:not-allowed}
+.btn.primary{background:var(--g);color:#fff;border-color:var(--g)}
+.btn.ghost{background:transparent}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0}
+.soft{background:var(--soft)}.warm{background:var(--warm)}.blue{background:var(--blue)}
+.stats{display:grid;grid-template-columns:1.2fr .8fr;gap:10px;margin-bottom:12px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
+.num{font-size:21px;font-weight:900}
+.bar{height:9px;background:#e4ebe8;border-radius:999px;overflow:hidden}.bar span{display:block;height:100%;width:0;background:var(--g);transition:.2s}
+.view{display:none}.view.active{display:block}
+.home-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:720px){.home-grid{grid-template-columns:1fr 1fr}}
+.module-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;text-align:right;position:relative}
+.module-card.done{border-color:#96beb4;background:linear-gradient(180deg,#fff,#f4faf8)}
+.module-card .n{font-size:11px;font-weight:900;color:var(--g)}
+.module-card h3{font-size:16px;margin:4px 0}
+.module-card .status{position:absolute;left:12px;top:12px;font-size:11px;border:1px solid var(--line);border-radius:999px;padding:3px 7px;background:#fff}
+.module-card.done .status{background:var(--soft);border-color:#a9cfc5;color:var(--g);font-weight:900}
+.choice-grid{display:grid;grid-template-columns:1fr;gap:9px}
+@media(min-width:680px){.choice-grid.two{grid-template-columns:1fr 1fr}}
 .option{width:100%;text-align:right;border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;min-height:54px;transition:.15s}
 .option.active{background:var(--soft);border-color:var(--g);box-shadow:0 0 0 1px rgba(24,93,87,.04) inset}
-.bar{height:9px;background:#e4ebe8;border-radius:999px;overflow:hidden}.bar span{display:block;height:100%;width:0;background:var(--g);transition:.2s}
-.stats{display:grid;grid-template-columns:1.15fr .85fr;gap:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}.num{font-size:21px;font-weight:900}
-.nav{display:flex;gap:7px;overflow-x:auto;padding:5px 0 9px;position:sticky;top:0;background:rgba(245,247,246,.96);backdrop-filter:blur(9px);z-index:5}
-.chip{white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#fff;font-size:12px}.chip.active{background:var(--soft);border-color:var(--g);font-weight:850}
-.badges{display:flex;gap:6px;flex-wrap:wrap}.badge{border:1px solid var(--line);border-radius:999px;padding:5px 8px;font-size:11px;background:#fff}.badge.on{background:var(--soft);border-color:var(--g);font-weight:850}
-.step{display:none}.step.active{display:block}
-.row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.feedback{border-right:4px solid var(--g);background:#eff5f3;border-radius:12px;padding:11px;margin-top:10px}
-.pause{border:1px dashed #aebfba;background:#fff;border-radius:15px;padding:13px;margin:14px 0}
-.pause .tag{display:inline-block;background:var(--g);color:#fff;border-radius:999px;padding:3px 8px;font-size:10px;font-weight:900;margin-bottom:6px}
 .lesson{border:1px solid var(--line);background:#fff;border-radius:16px;padding:14px;margin:10px 0}
-.lesson-title{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}.lesson-title strong{color:var(--g)}
+.lesson-title{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.lesson-title strong{color:var(--g)}
+.keypoints{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+@media(min-width:680px){.keypoints{grid-template-columns:1fr 1fr}}
+.key{background:#fff;border:1px solid var(--line);border-radius:13px;padding:11px}
+.key b{color:var(--g)}
+.facilitator{border:1px dashed #aebfba;background:#fff;border-radius:15px;padding:13px;margin:14px 0}
+.facilitator .tag{display:inline-block;background:var(--g);color:#fff;border-radius:999px;padding:3px 8px;font-size:10px;font-weight:900;margin-bottom:6px}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:580px;background:#fff}
 th,td{border:1px solid var(--line);padding:10px;vertical-align:top;text-align:right;font-size:12px}
@@ -50,15 +61,39 @@ th{background:#eef4f2;color:var(--g)}
 .flow .node{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center;font-weight:800}
 .flow .arrow{text-align:center;color:var(--g);font-weight:900}
 @media(min-width:760px){.flow{grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;align-items:center}.flow .arrow{transform:rotate(180deg)}}
-.matrix{display:grid;grid-template-columns:1fr 1fr;gap:8px}.matrix>div{border:1px solid var(--line);border-radius:13px;padding:10px;background:#fff}.matrix .good{background:var(--soft);border-color:#b7d3cb}
+.matrix{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.matrix>div{border:1px solid var(--line);border-radius:13px;padding:10px;background:#fff}
+.matrix .good{background:var(--soft);border-color:#b7d3cb}
+.module-nav{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:16px}
 .kicker{font-size:11px;color:var(--g);font-weight:900;margin-bottom:3px}
-.wait{display:none;margin-top:10px;padding:10px 12px;border-radius:12px;background:#f6f7f7;border:1px solid var(--line);font-size:12px;color:#536163}
-.wait.show{display:block}
-.pill{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 9px;font-size:11px}
-.profile{display:none}.profile.show{display:block}
-.complete{border:1px solid var(--g);background:var(--soft);border-radius:16px;padding:15px}
+.note{font-size:11px;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 8px;font-size:11px;margin:2px}
+.inline-row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.home-note{border:1px solid var(--line);background:#fff;border-radius:15px;padding:12px}
+.grid-wrap{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:820px){.grid-wrap{grid-template-columns:1.05fr .95fr}}
+.scale-block{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;margin:10px 0}
+.scale-options{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:8px}
+.scale-options button{border:1px solid var(--line);background:#fff;border-radius:10px;min-height:40px;font-size:11px}
+.scale-options button.active{background:var(--soft);border-color:var(--g);font-weight:900;color:var(--g)}
+.grid-box{position:relative;aspect-ratio:1/1;background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px 24px 34px 38px}
+.grid-area{position:relative;width:100%;height:100%;background:
+ linear-gradient(to right, transparent calc(11.111% - .5px), #dce5e2 calc(11.111% - .5px), #dce5e2 calc(11.111% + .5px), transparent calc(11.111% + .5px)),
+ linear-gradient(to bottom, transparent calc(11.111% - .5px), #dce5e2 calc(11.111% - .5px), #dce5e2 calc(11.111% + .5px), transparent calc(11.111% + .5px));
+ background-size:11.111% 11.111%;
+ border-left:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.axis-x{position:absolute;bottom:5px;left:38px;right:10px;text-align:center;font-size:11px;font-weight:800}
+.axis-y{position:absolute;right:auto;left:4px;top:50%;transform:rotate(-90deg) translateX(-50%);transform-origin:left top;font-size:11px;font-weight:800;white-space:nowrap}
+.marker{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--g);border:3px solid #fff;box-shadow:0 0 0 2px var(--g);transform:translate(-50%,50%);display:none}
+.ref{position:absolute;font-size:9px;color:#536163;background:rgba(255,255,255,.84);padding:1px 4px;border-radius:6px;transform:translate(-50%,50%);white-space:nowrap}
+.result{display:none;border:1px solid #a9cfc5;background:var(--soft);border-radius:15px;padding:13px;margin-top:12px}
+.result.show{display:block}
+.checkline{display:flex;gap:8px;align-items:flex-start;margin:7px 0}.checkline span:first-child{color:var(--g);font-weight:900}
 .footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);text-align:center}
-@media(max-width:560px){h1{font-size:20px}.wrap{padding:12px 9px 46px}.stats{grid-template-columns:1fr}.matrix{grid-template-columns:1fr}.card{padding:13px}}
+@media(max-width:560px){
+ h1{font-size:20px}.wrap{padding:12px 9px 46px}.stats{grid-template-columns:1fr}.matrix{grid-template-columns:1fr}
+ .card{padding:13px}.scale-options{grid-template-columns:repeat(5,1fr)}.scale-options button{padding:5px 2px;font-size:10px}
+}
 </style>
 </head>
 <body>
@@ -67,120 +102,100 @@ th{background:#eef4f2;color:var(--g)}
     <div>
       <div class="eyebrow">آزمایشگاه رهبری بهپرور | Behparvar Leadership Lab</div>
       <h1>جلسه اول: از مدیر بودن تا مدیر حرفه‌ای شدن</h1>
-      <div class="muted small">نقش من در رهبری افراد و ایجاد نتیجه</div>
+      <div class="muted small">جزوه تعاملی + خودارزیابی + کیس + تمرین محیط کار</div>
     </div>
-    <button class="btn" id="reset">شروع دوباره</button>
+    <button class="btn" id="reset">پاک‌کردن پاسخ‌ها</button>
   </div>
 
   <div class="stats">
     <div class="stat">
-      <div class="small muted">پیشرفت جلسه</div>
-      <div class="num" id="progress">۰٪</div>
+      <div class="small muted">بخش‌های دیده‌شده</div>
+      <div class="num"><span id="doneCount">۰</span> از ۸</div>
       <div class="bar"><span id="bar"></span></div>
     </div>
     <div class="stat">
-      <div class="small muted">امتیاز یادگیری</div>
-      <div><span class="num" id="xp">۰</span> <span class="small">XP</span></div>
-      <div class="badges" style="margin-top:7px">
-        <span class="badge" id="b1">👁️ مشاهده‌گر</span>
-        <span class="badge" id="b2">🧭 قضاوت مدیریتی</span>
-        <span class="badge" id="b3">✅ اقدام‌محور</span>
-      </div>
+      <div class="small muted">مسیر آزاد است</div>
+      <div class="small">از هر بخشی شروع کنید، برگردید و دوباره وارد شوید.</div>
     </div>
   </div>
 
-  <div class="nav">
-    <button class="chip active" data-step="0">شروع</button>
-    <button class="chip" data-step="1">نقش مدیر</button>
-    <button class="chip" data-step="2">رفتار مدیر</button>
-    <button class="chip" data-step="3">تجربه مدیریتی</button>
-    <button class="chip" data-step="4">کیس بهپرور</button>
-    <button class="chip" data-step="5">اقتدار و رابطه</button>
-    <button class="chip" data-step="6">سبک من</button>
-    <button class="chip" data-step="7">قابلیت‌سازی</button>
-    <button class="chip" data-step="8">تعهد</button>
-  </div>
-
-  <section class="step active" data-step="0">
-    <div class="card">
-      <div class="kicker">شروع ساده</div>
-      <h2>اول فقط موقعیت خودتان را مشخص کنید</h2>
-      <p>هیچ متن طولانی لازم نیست. فقط انتخاب کنید.</p>
-
-      <h3>نقش شما چیست؟</h3>
-      <div class="grid two">
-        <button class="option role" data-v="manager"><strong>مدیر</strong><br><span class="small muted">هدایت مدیران/سرپرستان، هماهنگی، تفویض و پاسخگویی</span></button>
-        <button class="option role" data-v="supervisor"><strong>سرپرست</strong><br><span class="small muted">رهبری روزمره کارکنان، اجرا، تعارض و فشار عملیاتی</span></button>
+  <section class="view active" id="home">
+    <div class="home-note">
+      <strong>راهنمای استفاده در کلاس</strong>
+      <div class="small muted">این جلسه خطی نیست. تسهیل‌گر می‌تواند متناسب با بحث کلاس هر ماژول را باز کند. پاسخ‌های انتخابی روی همین دستگاه ذخیره می‌شوند و هر زمان قابل تغییرند.</div>
+      <div class="inline-row" style="margin-top:10px">
+        <span class="pill">👤 نقش: <b id="roleLabel">انتخاب نشده</b></span>
+        <button class="btn" data-open="profile">انتخاب / تغییر نقش</button>
       </div>
+    </div>
 
-      <h3 style="margin-top:16px">سخت‌ترین بخش مدیریت افراد برای شما کدام است؟</h3>
-      <div class="grid two">
-        <button class="option challenge" data-v="motivation">ایجاد انگیزه و درگیری کارکنان</button>
-        <button class="option challenge" data-v="accountability">مسئولیت‌پذیری و پاسخگویی</button>
-        <button class="option challenge" data-v="experienced">کار با نیروهای باسابقه / تفاوت نسلی</button>
-        <button class="option challenge" data-v="conflict">تعارض و گفت‌وگوی دشوار</button>
-        <button class="option challenge" data-v="delegation">تفویض و وابستگی افراد به مدیر</button>
-        <button class="option challenge" data-v="performance">عملکرد ضعیف یا تکرار خطا</button>
-        <button class="option challenge" data-v="communication">ارتباط و سوءبرداشت</button>
-        <button class="option challenge" data-v="other">موضوع دیگر</button>
-      </div>
-
-      <div id="startWait" class="wait">انتخاب شما ثبت شد. تحلیل این مسئله را در کلاس با تسهیل‌گر باز می‌کنیم.</div>
-
-      <div class="pause">
-        <span class="tag">مکث تسهیل‌گری | Facilitator Pause</span>
-        <strong>کدام گزینه در کلاس پرتکرارتر است؟</strong>
-        <div class="small muted">تسهیل‌گر می‌تواند با یک show of hands، ۲–۳ الگوی غالب گروه را surface کند.</div>
-      </div>
-
-      <div class="row"><span></span><button class="btn primary next" data-from="0" disabled>ادامه جلسه</button></div>
+    <div class="home-grid" id="moduleGrid" style="margin-top:12px">
+      <button class="module-card" data-open="m1"><span class="status">باز نشده</span><div class="n">ماژول ۱</div><h3>نقش مدیر حرفه‌ای</h3><div class="small muted">Managing Work × Leading People × Context</div></button>
+      <button class="module-card" data-open="m2"><span class="status">باز نشده</span><div class="n">ماژول ۲</div><h3>اثر رفتار مدیر</h3><div class="small muted">از رفتار مدیر تا رفتار کارکنان و نتیجه</div></button>
+      <button class="module-card" data-open="m3"><span class="status">باز نشده</span><div class="n">ماژول ۳</div><h3>بهترین و دشوارترین مدیر</h3><div class="small muted">Reflection بر رفتار قابل مشاهده</div></button>
+      <button class="module-card" data-open="m4"><span class="status">باز نشده</span><div class="n">ماژول ۴</div><h3>اعتماد، احترام، اقتدار و مرز</h3><div class="small muted">چهار مفهوم مشابه‌نما اما متفاوت</div></button>
+      <button class="module-card" data-open="m5"><span class="status">باز نشده</span><div class="n">ماژول ۵</div><h3>شبکه سبک رهبری بلیک–موتون</h3><div class="small muted">خودارزیابی آموزشی روی Grid 9×9</div></button>
+      <button class="module-card" data-open="m6"><span class="status">باز نشده</span><div class="n">ماژول ۶</div><h3>کیس بهپرور</h3><div class="small muted">نیروی باسابقه، نظر مخالف و اقتدار مدیر</div></button>
+      <button class="module-card" data-open="m7"><span class="status">باز نشده</span><div class="n">ماژول ۷</div><h3>من زیر فشار چه می‌کنم؟</h3><div class="small muted">آینه رفتاری کوتاه برای Self-awareness</div></button>
+      <button class="module-card" data-open="m8"><span class="status">باز نشده</span><div class="n">ماژول ۸</div><h3>آزمایش رفتاری هفته</h3><div class="small muted">یک Behaviour Experiment قابل مشاهده</div></button>
     </div>
   </section>
 
-  <section class="step" data-step="1">
+  <section class="view" id="profile">
     <div class="card">
-      <div class="kicker">جزوه کوتاه + تمرین بسته</div>
-      <h2>۱) مدیر حرفه‌ای دقیقاً چه چیزی را مدیریت می‌کند؟</h2>
+      <div class="kicker">پروفایل شرکت‌کننده</div>
+      <h2>نقش شما در این دوره چیست؟</h2>
+      <div class="choice-grid two">
+        <button class="option role" data-value="manager"><strong>مدیر</strong><br><span class="small muted">هدایت مدیران/سرپرستان، هماهنگی، تصمیم و پاسخگویی</span></button>
+        <button class="option role" data-value="supervisor"><strong>سرپرست</strong><br><span class="small muted">رهبری روزمره کارکنان، اجرا و فشار عملیاتی</span></button>
+      </div>
+      <div class="facilitator">
+        <span class="tag">پیام مدرس</span>
+        یک چارچوب مشترک داریم، اما مثال، سطح اختیار و پیچیدگی تصمیم برای مدیر و سرپرست یکسان نیست.
+      </div>
+      <div class="module-nav"><button class="btn primary homeBtn">بازگشت به نقشه جلسه</button></div>
+    </div>
+  </section>
 
+  <section class="view" id="m1">
+    <div class="card">
+      <div class="kicker">ماژول ۱ | نقش مدیر حرفه‌ای</div>
+      <h2>مدیر حرفه‌ای فقط «کارها» را مدیریت نمی‌کند</h2>
       <div class="lesson">
-        <div class="lesson-title"><strong>سه بُعد نقش مدیریتی</strong><span class="small muted">Task × People × Context</span></div>
+        <div class="lesson-title"><strong>مدل سه‌بُعدی نقش مدیر</strong><span class="small muted">Task × People × Context</span></div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>بُعد</th><th>تمرکز</th><th>مثال در بهپرور</th></tr></thead>
+            <thead><tr><th>بُعد</th><th>سؤال محوری</th><th>نمونه</th></tr></thead>
             <tbody>
-              <tr><td><strong>مدیریت کار<br>Managing Work</strong></td><td>زمان، کیفیت، منابع، برنامه و پیگیری</td><td>شیفت، تولید، کیفیت، توقف، تحویل و اولویت‌ها</td></tr>
-              <tr><td><strong>رهبری افراد<br>Leading People</strong></td><td>انتظار روشن، اعتماد، انگیزش، بازخورد و پاسخگویی</td><td>نیروی باسابقه، فرد کم‌انگیزه، تعارض و تفویض</td></tr>
-              <tr><td><strong>درک موقعیت<br>Context</strong></td><td>فرد، تجربه، فشار، ریسک و محدودیت واقعی</td><td>فشار تولید، کمبود نیرو، تفاوت نسلی و وابستگی بین واحدها</td></tr>
+              <tr><td><b>مدیریت کار<br>Managing Work</b></td><td>چه کاری، با چه کیفیت و تا چه زمانی؟</td><td>برنامه، کیفیت، زمان، منابع، پیگیری</td></tr>
+              <tr><td><b>رهبری افراد<br>Leading People</b></td><td>افراد چگونه مسئولیت بپذیرند و نتیجه بسازند؟</td><td>اعتماد، انتظار روشن، بازخورد، انگیزش</td></tr>
+              <tr><td><b>درک موقعیت<br>Context</b></td><td>این فرد و این موقعیت الان چه اقتضایی دارد؟</td><td>تجربه، فشار، ریسک، تفاوت نسلی، محدودیت</td></tr>
             </tbody>
           </table>
         </div>
-        <div class="feedback"><strong>پیام:</strong> Leadership جای Management را نمی‌گیرد؛ مدیر حرفه‌ای هر دو را با توجه به Context به‌کار می‌گیرد.</div>
       </div>
-
-      <h3>در شرایط فشار، کدام بُعد بیشتر از دست شما خارج می‌شود؟</h3>
-      <div class="grid">
-        <button class="option q1" data-v="task">روی کار و نتیجه بیش از حد متمرکز می‌شوم.</button>
-        <button class="option q1" data-v="people">برای حفظ رابطه، روی استاندارد و پیگیری کوتاه می‌آیم.</button>
-        <button class="option q1" data-v="context">شرایط فرد و موقعیت را کم‌تر می‌بینم و سریع واکنش نشان می‌دهم.</button>
+      <div class="keypoints">
+        <div class="key"><b>۱.</b> مدیریت و رهبری جایگزین هم نیستند؛ هر دو لازم‌اند.</div>
+        <div class="key"><b>۲.</b> نتیجه پایدار از «کار + افراد» می‌آید، نه از یکی به‌تنهایی.</div>
+        <div class="key"><b>۳.</b> یک رفتار مدیریتی ممکن است در یک Context مفید و در Context دیگر ضعیف باشد.</div>
+        <div class="key"><b>۴.</b> مدیر حرفه‌ای شرایطی می‌سازد که افراد بتوانند نتیجه ایجاد کنند.</div>
       </div>
-      <div id="w1" class="wait">انتخاب ثبت شد. تحلیل Strength و Risk هر گزینه را تسهیل‌گر در کلاس جمع‌بندی می‌کند.</div>
-
-      <div class="pause">
-        <span class="tag">مکث تسهیل‌گری</span>
-        <strong>وقتی یکی از این سه بُعد غالب می‌شود، چه هزینه‌ای برای تیم یا نتیجه ایجاد می‌شود؟</strong>
+      <h3 style="margin-top:15px">در فشار کاری، کدام ریسک برای شما آشناتر است؟</h3>
+      <div class="choice-grid">
+        <button class="option save-choice" data-key="m1choice" data-value="task">آن‌قدر روی کار و نتیجه متمرکز می‌شوم که People Side کم‌رنگ می‌شود.</button>
+        <button class="option save-choice" data-key="m1choice" data-value="people">برای حفظ رابطه، گاهی استاندارد و پیگیری را شل می‌کنم.</button>
+        <button class="option save-choice" data-key="m1choice" data-value="context">بدون دیدن تفاوت فرد و موقعیت، یک نسخه را برای همه اجرا می‌کنم.</button>
       </div>
-
-      <div class="row"><button class="btn back">قبلی</button><button class="btn primary next" data-from="1" disabled>ادامه</button></div>
+      <div class="facilitator"><span class="tag">پیام مدرس / Debrief</span><strong>سؤال کلاس:</strong> اگر یکی از سه ضلع Task، People یا Context ضعیف شود، اولین نشانه آن در تیم چیست؟</div>
+      <div class="module-nav"><button class="btn primary homeBtn">نقشه جلسه</button><button class="btn" data-open="m2">بخش پیشنهادی بعدی</button></div>
     </div>
   </section>
 
-  <section class="step" data-step="2">
+  <section class="view" id="m2">
     <div class="card">
-      <div class="kicker">جزوه کوتاه + تحلیل موقعیت</div>
-      <h2>۲) رفتار مدیر، رفتار کارکنان را شکل می‌دهد</h2>
-
+      <div class="kicker">ماژول ۲ | رفتار مدیر</div>
+      <h2>رفتار مدیر، رفتار کارکنان را شکل می‌دهد</h2>
       <div class="lesson">
-        <div class="lesson-title"><strong>زنجیره اثر رفتار مدیر</strong><span class="small muted">Manager Behaviour → Results</span></div>
         <div class="flow">
           <div class="node">رفتار مدیر</div><div class="arrow">←</div>
           <div class="node">برداشت کارکنان</div><div class="arrow">←</div>
@@ -188,291 +203,341 @@ th{background:#eef4f2;color:var(--g)}
           <div class="node">فضای تیم</div><div class="arrow">←</div>
           <div class="node">نتیجه</div>
         </div>
-        <div class="feedback">گاهی مدیر ناخواسته همان رفتاری را تقویت می‌کند که بعداً از آن شکایت دارد.</div>
       </div>
-
-      <h3>مدیر می‌گوید: «اگر خودم پیگیری نکنم، هیچ کاری جلو نمی‌رود.» کدام تفسیر دقیق‌تر است؟</h3>
-      <div class="grid">
-        <button class="option q2" data-v="people">کارکنان ذاتاً مسئولیت‌پذیر نیستند.</button>
-        <button class="option q2" data-v="system">ممکن است شیوه مدیریت، وابستگی به مدیر را تقویت کرده باشد.</button>
-        <button class="option q2" data-v="control">راه‌حل اصلی این است که کنترل و پیگیری را بیشتر کنیم.</button>
-        <button class="option q2" data-v="unknown">بدون مثال واقعی نمی‌توان با اطمینان نتیجه گرفت.</button>
+      <div class="keypoints">
+        <div class="key"><b>۱.</b> کارکنان فقط به دستور واکنش نشان نمی‌دهند؛ به برداشتشان از رفتار مدیر هم واکنش نشان می‌دهند.</div>
+        <div class="key"><b>۲.</b> Micromanagement می‌تواند وابستگی بسازد؛ رهاکردن کامل هم ابهام می‌سازد.</div>
+        <div class="key"><b>۳.</b> رفتاری که در بحران نتیجه فوری می‌دهد، ممکن است Capability بلندمدت را تضعیف کند.</div>
+        <div class="key"><b>۴.</b> قبل از شکایت از رفتار تیم، سهم رفتار مدیریتی خود را هم بررسی کنید.</div>
       </div>
-      <div id="w2" class="wait">پاسخ ثبت شد. اینجا هدف «صحیح/غلط» ساده نیست؛ Trade-offها را در کلاس بررسی می‌کنیم.</div>
-
-      <div class="pause">
-        <span class="tag">مکث تسهیل‌گری</span>
-        <strong>چه رفتار مدیریتی‌ای می‌تواند Ownership را بیشتر کند بدون اینکه کنترل نتیجه از دست برود؟</strong>
+      <h3 style="margin-top:15px">مدیر می‌گوید: «اگر خودم پیگیری نکنم، هیچ کاری جلو نمی‌رود.» بهترین نقطه شروع تحلیل چیست؟</h3>
+      <div class="choice-grid">
+        <button class="option save-choice" data-key="m2choice" data-value="people">مشکل اصلی خود کارکنان هستند.</button>
+        <button class="option save-choice" data-key="m2choice" data-value="manager">اول بررسی کنیم آیا الگوی مدیریت، وابستگی ساخته است.</button>
+        <button class="option save-choice" data-key="m2choice" data-value="morecontrol">کنترل و پیگیری را بیشتر کنیم.</button>
+        <button class="option save-choice" data-key="m2choice" data-value="evidence">قبل از نتیجه، مثال واقعی و رفتار قابل مشاهده جمع کنیم.</button>
       </div>
-
-      <div class="row"><button class="btn back">قبلی</button><button class="btn primary next" data-from="2" disabled>ادامه</button></div>
+      <div class="facilitator"><span class="tag">پیام مدرس</span>هدف این سؤال پیدا کردن «مقصر» نیست؛ هدف دیدن رابطه دوطرفه بین رفتار مدیر و رفتار کارکنان است.</div>
+      <div class="module-nav"><button class="btn primary homeBtn">نقشه جلسه</button><button class="btn" data-open="m3">بخش پیشنهادی بعدی</button></div>
     </div>
   </section>
 
-  <section class="step" data-step="3">
+  <section class="view" id="m3">
     <div class="card">
-      <div class="kicker">Reflection بدون نوشتن</div>
-      <h2>۳) کدام رفتار مدیریتی را بیشتر ارزشمند می‌دانید؟</h2>
-      <p class="muted">به جای نوشتن درباره «بهترین مدیر»، از بین رفتارهای قابل مشاهده انتخاب کنید.</p>
-
-      <h3>یک رفتار که بیشترین اثر مثبت را روی شما داشته است:</h3>
-      <div class="grid two">
-        <button class="option q3a" data-v="listen">قبل از تصمیم، واقعاً گوش می‌داد.</button>
-        <button class="option q3a" data-v="clarity">انتظار و استاندارد را روشن می‌کرد.</button>
-        <button class="option q3a" data-v="trust">اعتماد می‌کرد و اختیار می‌داد.</button>
-        <button class="option q3a" data-v="feedback">بازخورد صریح ولی محترمانه می‌داد.</button>
+      <div class="kicker">ماژول ۳ | بهترین و دشوارترین مدیر</div>
+      <h2>از صفت به رفتار قابل مشاهده برویم</h2>
+      <div class="lesson blue">
+        <strong>مثال:</strong> به‌جای «مدیر خوبی بود» بگوییم «قبل از تصمیم، نظر افراد را می‌پرسید». به‌جای «مدیر بدی بود» بگوییم «جلوی جمع انتقاد می‌کرد».
       </div>
-
-      <h3 style="margin-top:16px">یک رفتار که بیشترین اثر منفی را روی شما داشته است:</h3>
-      <div class="grid two">
-        <button class="option q3b" data-v="public">جلوی جمع انتقاد می‌کرد.</button>
-        <button class="option q3b" data-v="micromanage">در جزئیات همه‌چیز دخالت می‌کرد.</button>
-        <button class="option q3b" data-v="unclear">انتظارها و اولویت‌ها مبهم بود.</button>
-        <button class="option q3b" data-v="avoid">گفت‌وگوهای سخت را عقب می‌انداخت.</button>
+      <div class="keypoints">
+        <div class="key"><b>۱.</b> رفتار قابل مشاهده، قابل یادگیری و قابل اصلاح است.</div>
+        <div class="key"><b>۲.</b> تجربه مدیریتی گذشته روی برداشت ما از «مدیر خوب» اثر می‌گذارد.</div>
+        <div class="key"><b>۳.</b> تحت فشار ممکن است همان رفتارهایی را تکرار کنیم که قبلاً از آنها ناراضی بودیم.</div>
+        <div class="key"><b>۴.</b> Self-awareness از دیدن الگوهای رفتاری خودمان شروع می‌شود.</div>
       </div>
-      <div id="w3" class="wait">دو انتخاب ثبت شد. این‌ها مواد خام گفت‌وگوی کلاسی درباره «رفتار قابل مشاهده» هستند.</div>
-
-      <div class="pause">
-        <span class="tag">مکث تسهیل‌گری</span>
-        <strong>کدام رفتار منفی را ممکن است خود ما هم تحت فشار تکرار کنیم؟</strong>
+      <h3 style="margin-top:15px">بیشترین اثر مثبت را کدام رفتار روی شما داشته است؟</h3>
+      <div class="choice-grid two">
+        <button class="option save-choice" data-key="m3positive" data-value="listen">قبل از تصمیم، واقعاً گوش می‌داد.</button>
+        <button class="option save-choice" data-key="m3positive" data-value="clarity">انتظار و استاندارد را روشن می‌کرد.</button>
+        <button class="option save-choice" data-key="m3positive" data-value="trust">اعتماد می‌کرد و اختیار می‌داد.</button>
+        <button class="option save-choice" data-key="m3positive" data-value="feedback">بازخورد صریح ولی محترمانه می‌داد.</button>
       </div>
-
-      <div class="row"><button class="btn back">قبلی</button><button class="btn primary next" data-from="3" disabled>ادامه</button></div>
+      <h3 style="margin-top:15px">بیشترین اثر منفی را کدام رفتار روی شما داشته است؟</h3>
+      <div class="choice-grid two">
+        <button class="option save-choice" data-key="m3negative" data-value="public">جلوی جمع انتقاد می‌کرد.</button>
+        <button class="option save-choice" data-key="m3negative" data-value="micro">در جزئیات همه‌چیز دخالت می‌کرد.</button>
+        <button class="option save-choice" data-key="m3negative" data-value="unclear">انتظارها و اولویت‌ها مبهم بود.</button>
+        <button class="option save-choice" data-key="m3negative" data-value="avoid">گفت‌وگوی سخت را عقب می‌انداخت.</button>
+      </div>
+      <div class="facilitator"><span class="tag">پیام مدرس</span><strong>سؤال کلیدی:</strong> کدام رفتار منفی را خود ما ممکن است در فشار کاری تکرار کنیم؟</div>
+      <div class="module-nav"><button class="btn primary homeBtn">نقشه جلسه</button><button class="btn" data-open="m4">بخش پیشنهادی بعدی</button></div>
     </div>
   </section>
 
-  <section class="step" data-step="4">
+  <section class="view" id="m4">
     <div class="card">
-      <div class="kicker">قضاوت مدیریتی | Leadership Judgment</div>
-      <h2>۴) کیس بهپرور: نیروی باسابقه و مدیر جدید</h2>
+      <div class="kicker">ماژول ۴ | رابطه حرفه‌ای</div>
+      <h2>اعتماد، احترام، اقتدار و مرز حرفه‌ای</h2>
+      <div class="matrix">
+        <div><strong>Trust ≠ Friendship</strong><br><span class="small muted">اعتماد با رفاقت یکی نیست.</span></div>
+        <div><strong>Respect ≠ Agreement</strong><br><span class="small muted">احترام، موافقت دائمی نیست.</span></div>
+        <div><strong>Authority ≠ Aggression</strong><br><span class="small muted">اقتدار با تحکم یکی نیست.</span></div>
+        <div class="good"><strong>Empathy ≠ Permissiveness</strong><br><span class="small muted">همدلی، رها کردن استاندارد نیست.</span></div>
+      </div>
+      <div class="keypoints">
+        <div class="key"><b>۱.</b> رابطه حرفه‌ای یعنی هم اعتماد باشد و هم استاندارد.</div>
+        <div class="key"><b>۲.</b> اقتدار پایدار بیشتر از وضوح، ثبات و انصاف می‌آید تا صدای بلند.</div>
+        <div class="key"><b>۳.</b> صمیمیت بدون مرز، Accountability را مبهم می‌کند.</div>
+        <div class="key"><b>۴.</b> احترام یعنی حتی در اختلاف، شأن فرد و نقش مدیریتی هر دو حفظ شوند.</div>
+      </div>
+      <h3 style="margin-top:15px">در تیم شما کدام مورد بیشترین نیاز به تقویت دارد؟</h3>
+      <div class="choice-grid two">
+        <button class="option save-choice" data-key="m4choice" data-value="trust">اعتماد</button>
+        <button class="option save-choice" data-key="m4choice" data-value="respect">احترام متقابل</button>
+        <button class="option save-choice" data-key="m4choice" data-value="authority">اقتدار حرفه‌ای</button>
+        <button class="option save-choice" data-key="m4choice" data-value="boundary">مرزبندی روشن</button>
+      </div>
+      <div class="facilitator"><span class="tag">پیام مدرس</span>به‌جای تعریف نظری، از گروه بخواهید نشانه رفتاری هر مفهوم را مثال بزنند: «اعتماد در رفتار چه شکلی است؟ اقتدار چه شکلی است؟»</div>
+      <div class="module-nav"><button class="btn primary homeBtn">نقشه جلسه</button><button class="btn" data-open="m5">بخش پیشنهادی بعدی</button></div>
+    </div>
+  </section>
 
-      <div id="caseIntro" class="card soft"></div>
+  <section class="view" id="m5">
+    <div class="card">
+      <div class="kicker">ماژول ۵ | خودارزیابی سبک رهبری</div>
+      <h2>شبکه مدیریتی بلیک–موتون | Managerial Grid</h2>
+      <p class="muted small">این ابزار یک خودارزیابی آموزشیِ اقتباس‌شده از منطق Blake–Mouton است و آزمون روان‌سنجی رسمی یا تشخیص شخصیت نیست.</p>
+
+      <div class="grid-wrap">
+        <div>
+          <div class="lesson">
+            <strong>راهنما:</strong> برای هر جمله یکی از گزینه‌های ۱ تا ۵ را انتخاب کنید.
+            <div class="small muted">۱ = تقریباً هرگز · ۲ = کم · ۳ = گاهی · ۴ = اغلب · ۵ = تقریباً همیشه</div>
+          </div>
+          <div id="gridQuestions"></div>
+          <button class="btn primary" id="calcGrid">محاسبه جایگاه من روی Grid</button>
+          <div id="gridResult" class="result"></div>
+        </div>
+        <div>
+          <div class="grid-box">
+            <div class="axis-y">توجه به افراد | Concern for People</div>
+            <div class="grid-area" id="managerialGrid">
+              <span class="ref" style="left:0%;bottom:0%">1,1</span>
+              <span class="ref" style="left:0%;bottom:100%">1,9</span>
+              <span class="ref" style="left:100%;bottom:0%">9,1</span>
+              <span class="ref" style="left:50%;bottom:50%">5,5</span>
+              <span class="ref" style="left:100%;bottom:100%">9,9</span>
+              <span class="marker" id="marker"></span>
+            </div>
+            <div class="axis-x">توجه به کار / نتیجه | Concern for Production</div>
+          </div>
+          <div class="lesson">
+            <div class="checkline"><span>•</span><div><b>1,1</b> — حداقل توجه به کار و افراد</div></div>
+            <div class="checkline"><span>•</span><div><b>1,9</b> — توجه بالا به افراد، پایین به کار</div></div>
+            <div class="checkline"><span>•</span><div><b>9,1</b> — توجه بالا به کار، پایین به افراد</div></div>
+            <div class="checkline"><span>•</span><div><b>5,5</b> — رویکرد میانه / موازنه متوسط</div></div>
+            <div class="checkline"><span>•</span><div><b>9,9</b> — توجه بالا هم‌زمان به افراد و نتیجه</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="keypoints">
+        <div class="key"><b>۱.</b> Grid ترجیح رفتاری را نشان می‌دهد، نه «شخصیت ثابت» شما را.</div>
+        <div class="key"><b>۲.</b> High People بدون نتیجه‌گرایی کافی نیست؛ High Task بدون People هم هزینه دارد.</div>
+        <div class="key"><b>۳.</b> 9,9 یک مرجع مفهومی است، نه نسخه مکانیکی برای همه موقعیت‌ها.</div>
+        <div class="key"><b>۴.</b> سؤال مهم‌تر از Score این است: «در فشار، نقطه من به کدام سمت حرکت می‌کند؟»</div>
+      </div>
+      <div class="facilitator"><span class="tag">پیام مدرس</span>بعد از نمایش نقاط، روی «چرا» و «چه زمانی» بحث کنید، نه روی برچسب‌زدن افراد. از شرکت‌کننده بپرسید در بحران، نقطه او به کدام جهت حرکت می‌کند.</div>
+      <div class="module-nav"><button class="btn primary homeBtn">نقشه جلسه</button><button class="btn" data-open="m6">بخش پیشنهادی بعدی</button></div>
+    </div>
+  </section>
+
+  <section class="view" id="m6">
+    <div class="card">
+      <div class="kicker">ماژول ۶ | کیس بهپرور</div>
+      <h2>نیروی باسابقه و مدیر جدید</h2>
+      <div id="caseIntro" class="lesson soft"></div>
       <p><strong>در یک روز پرفشار، فرد باسابقه جلوی جمع می‌گوید: «مهندس، شما تازه اومدی؛ این کار این‌جوری جواب نمی‌ده.»</strong></p>
       <h3>واکنش اولیه شما چیست؟</h3>
-      <div class="grid">
-        <button class="option case" data-v="force">جلوی جمع محکم برخورد می‌کنم تا اقتدار حفظ شود.</button>
-        <button class="option case" data-v="later">بحث را متوقف می‌کنم و بعداً خصوصی صحبت می‌کنم.</button>
-        <button class="option case" data-v="ask">دلیل فنی او را همان‌جا می‌پرسم و بعد تصمیم می‌گیرم.</button>
-        <button class="option case" data-v="balanced">نظر فنی را می‌شنوم، اما مرز رفتاری و تصمیم نهایی را روشن نگه می‌دارم.</button>
-      </div>
-      <div id="wc1" class="wait">انتخاب اول ثبت شد. هنوز پاسخ نهایی ندهید؛ اطلاعات جدید می‌آید.</div>
-
-      <div id="twist" style="display:none">
-        <div class="lesson warm">
-          <strong>اطلاعات جدید:</strong> مشخص می‌شود فرد باسابقه در بخشی از نگرانی فنی خود درست گفته است؛ اما نحوه مطرح‌کردن موضوع جلوی جمع مناسب نبوده است.
-        </div>
-        <h3>حالا کدام رویکرد را انتخاب می‌کنید؟</h3>
-        <div class="grid">
-          <button class="option twist" data-v="win">مدیر باید نشان دهد چه کسی رئیس است؛ درستی فنی موضوع دوم است.</button>
-          <button class="option twist" data-v="ignore">چون از نظر فنی درست گفته، از نحوه رفتارش عبور می‌کنیم.</button>
-          <button class="option twist" data-v="separate">محتوا و رفتار را جدا می‌کنیم: Expertise را می‌پذیریم و Boundary را روشن می‌کنیم.</button>
-        </div>
-        <div id="wc2" class="wait">انتخاب دوم ثبت شد. تحلیل نهایی را تسهیل‌گر با گروه باز می‌کند.</div>
+      <div class="choice-grid">
+        <button class="option save-choice case1" data-key="m6a" data-value="force">جلوی جمع محکم برخورد می‌کنم تا اقتدار حفظ شود.</button>
+        <button class="option save-choice case1" data-key="m6a" data-value="later">بحث را متوقف می‌کنم و بعداً خصوصی صحبت می‌کنم.</button>
+        <button class="option save-choice case1" data-key="m6a" data-value="ask">دلیل فنی او را همان‌جا می‌پرسم و بعد تصمیم می‌گیرم.</button>
+        <button class="option save-choice case1" data-key="m6a" data-value="balanced">نظر فنی را می‌شنوم، اما مرز رفتاری و تصمیم نهایی را روشن نگه می‌دارم.</button>
       </div>
 
-      <div class="pause">
-        <span class="tag">مکث تسهیل‌گری</span>
-        <strong>اینجا سه چیز را هم‌زمان باید حفظ کنیم: نتیجه، رابطه و اقتدار. کدام پاسخ چه چیزی را حفظ یا تهدید می‌کند؟</strong>
+      <div class="lesson warm" style="margin-top:15px">
+        <strong>اطلاعات جدید:</strong> بعداً مشخص می‌شود او در بخشی از نگرانی فنی خود درست گفته است؛ اما نحوه مطرح‌کردن موضوع جلوی جمع مناسب نبوده است.
+      </div>
+      <h3>با اطلاعات جدید، کدام نگاه برای شما قانع‌کننده‌تر است؟</h3>
+      <div class="choice-grid">
+        <button class="option save-choice" data-key="m6b" data-value="authority">اولویت اول نشان دادن Authority مدیر است.</button>
+        <button class="option save-choice" data-key="m6b" data-value="expertise">چون از نظر فنی درست گفته، نحوه رفتارش اهمیت کمتری دارد.</button>
+        <button class="option save-choice" data-key="m6b" data-value="separate">محتوا و رفتار را جدا می‌کنیم: Expertise را می‌پذیریم و Boundary را روشن می‌کنیم.</button>
       </div>
 
-      <div class="row"><button class="btn back">قبلی</button><button class="btn primary next" data-from="4" disabled>ادامه</button></div>
+      <div class="keypoints">
+        <div class="key"><b>۱.</b> درستی فنی و درستی رفتار، دو سؤال جدا هستند.</div>
+        <div class="key"><b>۲.</b> Authority باید هم‌زمان با Psychological Safety حفظ شود.</div>
+        <div class="key"><b>۳.</b> استفاده از تجربه فرد، به معنی واگذاری نقش مدیریتی به او نیست.</div>
+        <div class="key"><b>۴.</b> مدیر حرفه‌ای می‌تواند اختلاف را از «نبرد جایگاه» به «حل مسئله» برگرداند.</div>
+      </div>
+      <div class="facilitator"><span class="tag">پیام مدرس</span>Debrief را روی سه متغیر ببندید: <b>نتیجه، رابطه، اقتدار</b>. هر گزینه کدام را حفظ می‌کند و کدام را تهدید می‌کند؟</div>
+      <div class="module-nav"><button class="btn primary homeBtn">نقشه جلسه</button><button class="btn" data-open="m7">بخش پیشنهادی بعدی</button></div>
     </div>
   </section>
 
-  <section class="step" data-step="5">
+  <section class="view" id="m7">
     <div class="card">
-      <div class="kicker">جزوه کوتاه + انتخاب</div>
-      <h2>۵) اعتماد، احترام، اقتدار و مرزبندی</h2>
-
+      <div class="kicker">ماژول ۷ | سبک شخصی تحت فشار</div>
+      <h2>وقتی فشار بالا می‌رود، به کدام سمت می‌روم؟</h2>
       <div class="lesson">
-        <div class="grid two">
-          <div class="card soft"><strong>Trust ≠ Friendship</strong><br><span class="small">اعتماد با رفاقت یکی نیست.</span></div>
-          <div class="card soft"><strong>Respect ≠ Agreement</strong><br><span class="small">احترام به معنی موافقت دائمی نیست.</span></div>
-          <div class="card soft"><strong>Authority ≠ Aggression</strong><br><span class="small">اقتدار با تحکم یکی نیست.</span></div>
-          <div class="card soft"><strong>Empathy ≠ Permissiveness</strong><br><span class="small">همدلی به معنی رها کردن استاندارد نیست.</span></div>
-        </div>
-        <div class="matrix">
-          <div><strong>صمیمیت زیاد + اقتدار کم</strong><br><span class="small muted">ریسک: مرز و پاسخگویی مبهم</span></div>
-          <div><strong>اقتدار زیاد + اعتماد کم</strong><br><span class="small muted">ریسک: سکوت و مقاومت پنهان</span></div>
-          <div><strong>فاصله زیاد + ارتباط کم</strong><br><span class="small muted">ریسک: اطلاعات و همکاری ضعیف</span></div>
-          <div class="good"><strong>اعتماد + احترام + مرز روشن</strong><br><span class="small">رابطه حرفه‌ای و قابل پیگیری</span></div>
-        </div>
+        <strong>این بخش کوتاه است:</strong> هدف شناخت Trigger و الگوی رفتاری است؛ نه ساختن یک تیپ شخصیتی جدید.
       </div>
-
-      <h3>در تیم شما کدام مورد بیشترین نیاز به تقویت دارد؟</h3>
-      <div class="grid two">
-        <button class="option q5" data-v="trust">اعتماد</button>
-        <button class="option q5" data-v="respect">احترام متقابل</button>
-        <button class="option q5" data-v="authority">اقتدار حرفه‌ای</button>
-        <button class="option q5" data-v="boundary">مرزبندی و استاندارد</button>
+      <div id="pressureQuestions"></div>
+      <button class="btn primary" id="pressureResultBtn">دیدن الگوی انتخاب‌ها</button>
+      <div id="pressureResult" class="result"></div>
+      <div class="keypoints">
+        <div class="key"><b>۱.</b> Strength هر سبک اگر افراطی شود می‌تواند Risk شود.</div>
+        <div class="key"><b>۲.</b> فشار معمولاً سبک ترجیحی ما را شدیدتر می‌کند.</div>
+        <div class="key"><b>۳.</b> خودآگاهی یعنی قبل از واکنش، بتوانیم الگوی خودمان را ببینیم.</div>
+        <div class="key"><b>۴.</b> حرفه‌ای بودن یعنی انتخاب پاسخ متناسب، نه تکرار خودکار عادت.</div>
       </div>
-      <div id="w5" class="wait">انتخاب ثبت شد. تسهیل‌گر درباره نشانه‌های واقعی هر گزینه در محیط کار بحث را ادامه می‌دهد.</div>
-
-      <div class="pause">
-        <span class="tag">مکث تسهیل‌گری</span>
-        <strong>اگر فقط یکی از این چهار مورد را در دو هفته آینده بهتر کنیم، کدام بیشترین اثر را روی عملکرد خواهد داشت؟</strong>
-      </div>
-
-      <div class="row"><button class="btn back">قبلی</button><button class="btn primary next" data-from="5" disabled>ادامه</button></div>
+      <div class="facilitator"><span class="tag">پیام مدرس</span>سؤال جمع‌بندی: «چه موقع Strength شما از حد می‌گذرد و به Risk تبدیل می‌شود؟»</div>
+      <div class="module-nav"><button class="btn primary homeBtn">نقشه جلسه</button><button class="btn" data-open="m8">بخش پیشنهادی بعدی</button></div>
     </div>
   </section>
 
-  <section class="step" data-step="6">
+  <section class="view" id="m8">
     <div class="card">
-      <div class="kicker">Self-awareness ساده</div>
-      <h2>۶) من در شرایط فشار چگونه مدیریت می‌کنم؟</h2>
-      <p class="muted small">برای هر موقعیت فقط یک گزینه را انتخاب کنید. این Test روان‌سنجی نیست؛ یک آینه رفتاری است.</p>
-      <div id="pressure"></div>
-      <button class="btn primary" id="calc">دیدن الگوی انتخاب‌های من</button>
-      <div id="profile" class="profile feedback"></div>
-
-      <div class="pause">
-        <span class="tag">مکث تسهیل‌گری</span>
-        <strong>Strength سبک شما چه زمانی تبدیل به Risk می‌شود؟</strong>
+      <div class="kicker">ماژول ۸ | انتقال یادگیری</div>
+      <h2>یک Behaviour Experiment برای هفته آینده</h2>
+      <p>فقط یک رفتار کوچک، مشخص و قابل مشاهده انتخاب کنید.</p>
+      <div class="choice-grid">
+        <button class="option save-choice" data-key="m8choice" data-value="questions">قبل از ارائه راه‌حل، حداقل دو سؤال می‌پرسم.</button>
+        <button class="option save-choice" data-key="m8choice" data-value="clarity">انتظار و نتیجه مورد انتظار را روشن‌تر بیان می‌کنم.</button>
+        <button class="option save-choice" data-key="m8choice" data-value="listen">در یک گفت‌وگوی دشوار، قبل از پاسخ Perspective فرد را می‌شنوم.</button>
+        <button class="option save-choice" data-key="m8choice" data-value="boundary">در یک رابطه، Boundary حرفه‌ای را روشن می‌کنم.</button>
+        <button class="option save-choice" data-key="m8choice" data-value="observe">فقط یک رفتار مدیریتی خودم را در طول هفته مشاهده و ثبت می‌کنم.</button>
       </div>
-
-      <div class="row"><button class="btn back">قبلی</button><button class="btn primary next" data-from="6" disabled>ادامه</button></div>
+      <div class="keypoints">
+        <div class="key"><b>۱.</b> رفتار انتخابی باید قابل مشاهده باشد، نه یک نیت کلی.</div>
+        <div class="key"><b>۲.</b> یک تغییر کوچک بهتر از پنج تعهد مبهم است.</div>
+        <div class="key"><b>۳.</b> هفته بعد تجربه اجرا مهم‌تر از «موفق/ناموفق» بودن است.</div>
+        <div class="key"><b>۴.</b> هدف این دوره انتقال یادگیری به محیط واقعی کار است.</div>
+      </div>
+      <div class="facilitator"><span class="tag">پیام مدرس</span>از هر نفر بخواهید دقیقاً بگوید «کجا و با چه کسی» این رفتار را امتحان می‌کند؛ بدون نیاز به ثبت نام فرد در App.</div>
+      <div class="module-nav"><button class="btn primary homeBtn">نقشه جلسه</button></div>
     </div>
   </section>
 
-  <section class="step" data-step="7">
-    <div class="card">
-      <div class="kicker">Capability Building</div>
-      <h2>۷) مدیر قهرمان یا مدیر توانمندساز؟</h2>
-
-      <div class="lesson">
-        <div class="feedback"><strong>چرخه وابستگی:</strong> مدیر مسئله را حل می‌کند → کارمند کمتر تصمیم می‌گیرد → وابستگی بالا می‌رود → مدیر بیشتر وارد جزئیات می‌شود.</div>
-        <h3 style="margin-top:12px">سه سؤال قبل از راه‌حل دادن</h3>
-        <div class="grid">
-          <div class="card soft"><strong>۱. واقعیت چیست؟</strong></div>
-          <div class="card soft"><strong>۲. به نظر تو مسئله اصلی چیست؟</strong></div>
-          <div class="card soft"><strong>۳. چه گزینه‌ای پیشنهاد می‌کنی و Next Best Step چیست؟</strong></div>
-        </div>
-        <div class="small muted">در بحران، ایمنی یا استاندارد غیرقابل مذاکره، Direction روشن کاملاً حرفه‌ای است.</div>
-      </div>
-
-      <h3>مدیری همه مسائل را خودش سریع حل می‌کند. بعد از مدتی، تیم برای تصمیم‌های کوچک هم منتظر او می‌ماند. مسئله اصلی چیست؟</h3>
-      <div class="grid">
-        <button class="option q7" data-v="lazy">کارکنان تنبل‌اند.</button>
-        <button class="option q7" data-v="dependency">مدیر ناخواسته Dependency ایجاد کرده است.</button>
-        <button class="option q7" data-v="fine">تا وقتی نتیجه می‌گیریم، مشکلی نیست.</button>
-        <button class="option q7" data-v="mixed">باید هم ویژگی افراد و هم الگوی مدیریت را بررسی کرد.</button>
-      </div>
-      <div id="w7" class="wait">انتخاب ثبت شد. تحلیل را با تمرکز بر Delegation، Decision Rights و Ownership در کلاس ادامه می‌دهیم.</div>
-
-      <div class="pause">
-        <span class="tag">مکث تسهیل‌گری</span>
-        <strong>چه چیزی باعث می‌شود واگذاری برای مدیر سخت شود: ریسک، زمان، اعتماد یا عادت مدیریتی؟</strong>
-      </div>
-
-      <div class="row"><button class="btn back">قبلی</button><button class="btn primary next" data-from="7" disabled>ادامه</button></div>
-    </div>
-  </section>
-
-  <section class="step" data-step="8">
-    <div class="card">
-      <div class="kicker">Transfer to Work</div>
-      <h2>۸) فقط یک رفتار برای هفته آینده</h2>
-      <p>یکی را انتخاب کنید. همین یک انتخاب، تکلیف بین دو جلسه است.</p>
-
-      <div class="grid">
-        <button class="option commit" data-v="ask">قبل از ارائه راه‌حل، سه سؤال می‌پرسم.</button>
-        <button class="option commit" data-v="clarify">انتظار و نتیجه مورد انتظار را روشن‌تر می‌کنم.</button>
-        <button class="option commit" data-v="delegate">یک مسئولیت را با Outcome روشن واگذار می‌کنم.</button>
-        <button class="option commit" data-v="listen">در یک گفت‌وگوی دشوار، اول Perspective فرد را می‌شنوم.</button>
-        <button class="option commit" data-v="boundary">در یک رابطه، Boundary حرفه‌ای را روشن می‌کنم.</button>
-      </div>
-
-      <div id="w8" class="wait">تعهد شما انتخاب شد. هفته آینده تجربه اجرای همین رفتار را مرور می‌کنیم.</div>
-
-      <div class="pause">
-        <span class="tag">مکث تسهیل‌گری پایانی</span>
-        <strong>چه چیزی کمک می‌کند این انتخاب واقعاً اجرا شود و فقط یک تصمیم خوب روی صفحه نماند؟</strong>
-      </div>
-
-      <button class="btn primary" id="finish" disabled>پایان جلسه</button>
-      <div id="done" class="complete" style="display:none;margin-top:14px">
-        <strong>جلسه اول تکمیل شد ✅</strong><br>
-        شما یک Behaviour Experiment برای محیط واقعی کار انتخاب کرده‌اید. در جلسه بعد، تجربه اجرا و نتیجه آن را مرور می‌کنیم.
-      </div>
-      <div class="row" style="margin-top:12px"><button class="btn back">قبلی</button><span></span></div>
-    </div>
-  </section>
-
-  <div class="footer">نسخه آموزشی آزمایشگاه رهبری بهپرور — فاز نخست: رهبری کارکنان</div>
+  <div class="footer">آزمایشگاه رهبری بهپرور — جلسه اول | نسخه کارگاهی غیرخطی</div>
 </div>
 
 <script>
 (()=>{
-const app=document.getElementById('app'),qs=s=>app.querySelector(s),qsa=s=>[...app.querySelectorAll(s)];
+const app=document.getElementById('app');
+const qs=s=>app.querySelector(s), qsa=s=>[...app.querySelectorAll(s)];
+const STORAGE='behparvar_session1_v4';
+let state={role:null,visited:{},answers:{},grid:{},pressure:{}};
+try{const x=JSON.parse(localStorage.getItem(STORAGE)||'{}');state={...state,...x,visited:x.visited||{},answers:x.answers||{},grid:x.grid||{},pressure:x.pressure||{}}}catch(e){}
 const fa=n=>Number(n).toLocaleString('fa-IR');
-let state={step:0,max:0,xp:0,done:new Set(),badges:[false,false,false],role:null,challenge:null,pressure:{},commit:null};
-function choose(group,b){qsa(group).forEach(x=>x.classList.remove('active'));b.classList.add('active')}
-function update(){
- const pct=Math.round(state.max/8*100);
- qs('#progress').textContent=fa(pct)+'٪';qs('#bar').style.width=pct+'%';qs('#xp').textContent=fa(state.xp);
- ['#b1','#b2','#b3'].forEach((id,i)=>qs(id).classList.toggle('on',state.badges[i]));
- qsa('.chip').forEach(b=>{const n=+b.dataset.step;b.classList.toggle('active',n===state.step);b.disabled=n>state.max;});
+
+function save(){localStorage.setItem(STORAGE,JSON.stringify(state));renderHome()}
+function openView(id){
+ qsa('.view').forEach(v=>v.classList.remove('active'));
+ qs('#'+id).classList.add('active');
+ if(/^m[1-8]$/.test(id)){state.visited[id]=true;save()}
+ if(id==='m6')renderCase();
+ restoreSelections();
+ window.scrollTo({top:0,behavior:'smooth'});
 }
-function go(n){if(n>state.max)return;state.step=n;qsa('.step').forEach(x=>x.classList.toggle('active',+x.dataset.step===n));update();if(n===4)renderCase();window.scrollTo({top:0,behavior:'smooth'})}
-function complete(n,xp){if(!state.done.has(n)){state.done.add(n);state.xp+=xp;if(n<8)state.max=Math.max(state.max,n+1);if(n===3)state.badges[0]=true;if(n===4)state.badges[1]=true;update()}}
-qsa('.chip').forEach(b=>b.addEventListener('click',()=>go(+b.dataset.step)));
-qsa('.back').forEach(b=>b.addEventListener('click',()=>go(Math.max(0,state.step-1))));
-qsa('.next').forEach(b=>b.addEventListener('click',()=>{const n=+b.dataset.from;complete(n,n===4?80:45);go(n+1)}));
+qsa('[data-open]').forEach(b=>b.addEventListener('click',()=>openView(b.dataset.open)));
+qsa('.homeBtn').forEach(b=>b.addEventListener('click',()=>openView('home')));
 
-qsa('.role').forEach(b=>b.addEventListener('click',()=>{choose('.role',b);state.role=b.dataset.v;checkStart()}));
-qsa('.challenge').forEach(b=>b.addEventListener('click',()=>{choose('.challenge',b);state.challenge=b.dataset.v;qs('#startWait').classList.add('show');checkStart()}));
-function checkStart(){qs('.next[data-from="0"]').disabled=!(state.role&&state.challenge)}
-
-function single(group,wait,next){
- qsa(group).forEach(b=>b.addEventListener('click',()=>{choose(group,b);qs(wait).classList.add('show');qs(next).disabled=false}))
+function renderHome(){
+ const done=Object.keys(state.visited).filter(k=>state.visited[k]).length;
+ qs('#doneCount').textContent=fa(done);qs('#bar').style.width=(done/8*100)+'%';
+ qs('#roleLabel').textContent=state.role==='manager'?'مدیر':state.role==='supervisor'?'سرپرست':'انتخاب نشده';
+ qsa('.module-card').forEach(c=>{const id=c.dataset.open, d=!!state.visited[id];c.classList.toggle('done',d);c.querySelector('.status').textContent=d?'دیده شده':'باز نشده'});
 }
-single('.q1','#w1','.next[data-from="1"]');
-single('.q2','#w2','.next[data-from="2"]');
+qsa('.role').forEach(b=>b.addEventListener('click',()=>{qsa('.role').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.role=b.dataset.value;save()}));
 
-let a=false,b=false;
-qsa('.q3a').forEach(x=>x.addEventListener('click',()=>{choose('.q3a',x);a=true;check3()}));
-qsa('.q3b').forEach(x=>x.addEventListener('click',()=>{choose('.q3b',x);b=true;check3()}));
-function check3(){if(a&&b){qs('#w3').classList.add('show');qs('.next[data-from="3"]').disabled=false}}
+qsa('.save-choice').forEach(b=>b.addEventListener('click',()=>{
+ const key=b.dataset.key;state.answers[key]=b.dataset.value;
+ qsa('.save-choice[data-key="'+key+'"]').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');save();
+}));
+
+function restoreSelections(){
+ qsa('.save-choice').forEach(b=>b.classList.toggle('active',state.answers[b.dataset.key]===b.dataset.value));
+ qsa('.role').forEach(b=>b.classList.toggle('active',state.role===b.dataset.value));
+ qsa('.scale-options button').forEach(b=>{const idx=b.dataset.index; b.classList.toggle('active',String(state.grid[idx])===b.dataset.value)});
+ qsa('.pressure-choice').forEach(b=>{const idx=b.dataset.index;b.classList.toggle('active',String(state.pressure[idx])===b.dataset.value)});
+}
 
 function renderCase(){
  qs('#caseIntro').textContent=state.role==='manager'
-  ? 'در یکی از واحدهای بهپرور، مدیری نسبتاً جدید مسئول هدایت چند سرپرست شده است. یکی از سرپرستان باسابقه نفوذ غیررسمی بالایی دارد و دیگران گاهی پیش از تصمیم‌گیری نظر او را می‌پرسند.'
-  : 'در یکی از واحدهای عملیاتی بهپرور، سرپرستی نسبتاً جوان مسئول تیم شده است. یکی از کارکنان حدود ۱۸ سال سابقه دارد، کار را بسیار خوب می‌داند و نزد همکاران اعتبار بالایی دارد.';
+ ? 'در یکی از واحدهای بهپرور، مدیری نسبتاً جدید مسئول هدایت چند سرپرست شده است. یکی از سرپرستان باسابقه نفوذ غیررسمی بالایی دارد و دیگران گاهی پیش از تصمیم‌گیری نظر او را می‌پرسند.'
+ : 'در یکی از واحدهای عملیاتی بهپرور، سرپرستی نسبتاً جدید مسئول تیم شده است. یکی از کارکنان باسابقه، دانش فنی و اعتبار غیررسمی بالایی در بین همکاران دارد.';
 }
-qsa('.case').forEach(x=>x.addEventListener('click',()=>{choose('.case',x);qs('#wc1').classList.add('show');qs('#twist').style.display='block'}));
-qsa('.twist').forEach(x=>x.addEventListener('click',()=>{choose('.twist',x);qs('#wc2').classList.add('show');qs('.next[data-from="4"]').disabled=false}));
 
-single('.q5','#w5','.next[data-from="5"]');
-
-const pressure=[
- ['وقتی کار عقب می‌افتد...',['خودم وارد کار می‌شوم و کنترل را بیشتر می‌کنم.','مسئولیت و اولویت را روشن می‌کنم و پیگیری می‌کنم.','از فرد می‌خواهم مانع و راه‌حل پیشنهادی را توضیح دهد.']],
- ['وقتی فردی اشتباه می‌کند...',['فوراً روش درست را می‌گویم.','استاندارد و پیامد را روشن می‌کنم.','اول با سؤال کمک می‌کنم علت و راه‌حل را تحلیل کند.']],
- ['وقتی نیروی باسابقه با من مخالف است...',['روی Authority خود تأکید می‌کنم.','نظرش را می‌شنوم و بعد تصمیم را روشن می‌کنم.','از تجربه او برای بررسی گزینه‌ها استفاده می‌کنم.']],
- ['وقتی زمان خیلی کم است...',['دستوری‌تر می‌شوم.','نقش‌ها و اولویت‌ها را شفاف‌تر می‌کنم.','برخی تصمیم‌ها را به افراد توانمند واگذار می‌کنم.']]
+// Blake–Mouton adapted educational self-assessment
+const gridItems=[
+ {d:'t',t:'نتیجه و استاندارد مورد انتظار را برای افراد روشن می‌کنم.'},
+ {d:'p',t:'پیش از تصمیم‌های مهم، دیدگاه افراد مرتبط را می‌شنوم.'},
+ {d:'t',t:'در فشار کاری، اولویت‌ها و زمان‌بندی را برای تیم شفاف می‌کنم.'},
+ {d:'p',t:'تفاوت تجربه، آمادگی و نیاز افراد را در شیوه مدیریتم لحاظ می‌کنم.'},
+ {d:'t',t:'پیشرفت کار را تا رسیدن به نتیجه پیگیری می‌کنم.'},
+ {d:'p',t:'بازخورد را صریح اما با حفظ احترام فرد ارائه می‌کنم.'},
+ {d:'t',t:'مسئولیت‌ها، حدود اختیار و نقاط تصمیم را روشن می‌کنم.'},
+ {d:'p',t:'شرایطی ایجاد می‌کنم که افراد بتوانند نگرانی یا نظر مخالف را مطرح کنند.'},
+ {d:'t',t:'وقتی عملکرد از استاندارد فاصله می‌گیرد، موضوع را پیگیری می‌کنم.'},
+ {d:'p',t:'تلاش و مشارکت افراد را می‌بینم و به‌موقع به رسمیت می‌شناسم.'},
+ {d:'t',t:'کار، زمان و منابع را حول نتیجه مورد انتظار سازمان می‌دهم.'},
+ {d:'p',t:'در فشار بالا تلاش می‌کنم احترام و اعتماد قربانی نتیجه کوتاه‌مدت نشود.'}
 ];
-pressure.forEach((q,i)=>{
- const d=document.createElement('div');d.className='lesson';d.innerHTML='<strong>'+q[0]+'</strong>';
- q[1].forEach((t,j)=>{const b=document.createElement('button');b.className='option';b.style.marginTop='7px';b.textContent=t;b.addEventListener('click',()=>{[...d.querySelectorAll('.option')].forEach(x=>x.classList.remove('active'));b.classList.add('active');state.pressure[i]=j});d.appendChild(b)});
- qs('#pressure').appendChild(d);
+const gq=qs('#gridQuestions');
+gridItems.forEach((it,i)=>{
+ const d=document.createElement('div');d.className='scale-block';
+ d.innerHTML='<strong>'+(i+1)+'. '+it.t+'</strong><div class="scale-options"></div>';
+ const opts=d.querySelector('.scale-options');
+ ['1','2','3','4','5'].forEach(v=>{
+   const b=document.createElement('button');b.textContent=v;b.dataset.index=i;b.dataset.value=v;
+   b.addEventListener('click',()=>{state.grid[i]=Number(v);save();restoreSelections()});
+   opts.appendChild(b);
+ });
+ gq.appendChild(d);
 });
-qs('#calc').addEventListener('click',()=>{
+
+function nearestStyle(t,p){
+ const refs=[
+  {x:1,y:1,n:'1,1 — حداقل‌گرایی مدیریتی'},
+  {x:1,y:9,n:'1,9 — توجه بالا به افراد'},
+  {x:9,y:1,n:'9,1 — توجه بالا به کار/نتیجه'},
+  {x:5,y:5,n:'5,5 — رویکرد میانه'},
+  {x:9,y:9,n:'9,9 — توجه بالا به افراد و نتیجه'}
+ ];
+ return refs.sort((a,b)=>((a.x-t)**2+(a.y-p)**2)-((b.x-t)**2+(b.y-p)**2))[0];
+}
+qs('#calcGrid').addEventListener('click',()=>{
+ if(Object.keys(state.grid).length<gridItems.length){alert('لطفاً به هر ۱۲ عبارت پاسخ بدهید.');return}
+ let ts=0,ps=0,tn=0,pn=0;
+ gridItems.forEach((it,i)=>{if(it.d==='t'){ts+=state.grid[i];tn++}else{ps+=state.grid[i];pn++}});
+ const t=Math.max(1,Math.min(9,Math.round(1+((ts/tn)-1)*2)));
+ const p=Math.max(1,Math.min(9,Math.round(1+((ps/pn)-1)*2)));
+ const st=nearestStyle(t,p);
+ const m=qs('#marker');m.style.left=((t-1)/8*100)+'%';m.style.bottom=((p-1)/8*100)+'%';m.style.display='block';
+ const r=qs('#gridResult');r.innerHTML='<strong>جایگاه فعلی شما: ('+t+','+p+')</strong><br>توجه به کار/نتیجه: <b>'+t+'/9</b> · توجه به افراد: <b>'+p+'/9</b><br><span class="small">نزدیک‌ترین مرجع مفهومی: <b>'+st.n+'</b>. این نتیجه یک نقطه برای گفت‌وگو و بازاندیشی است، نه برچسب شخصیت.</span>';r.classList.add('show');
+ state.answers.gridTask=t;state.answers.gridPeople=p;state.visited.m5=true;save();
+});
+
+// Pressure reflection
+const pressure=[
+ ['وقتی کار عقب می‌افتد...',['خودم بیشتر وارد جزئیات می‌شوم.','اولویت و مسئولیت را روشن می‌کنم.','از فرد می‌خواهم مانع و راه‌حل پیشنهادی را بگوید.']],
+ ['وقتی فردی اشتباه می‌کند...',['سریع روش درست را می‌گویم.','استاندارد و پیامد را روشن می‌کنم.','اول با سؤال علت و راه‌حل را بررسی می‌کنم.']],
+ ['وقتی فرد باسابقه با من مخالف است...',['روی Authority خود تأکید می‌کنم.','نظرش را می‌شنوم و بعد تصمیم را روشن می‌کنم.','از تجربه او برای بررسی گزینه‌ها استفاده می‌کنم.']],
+ ['وقتی زمان بسیار کم است...',['دستوری‌تر می‌شوم.','نقش‌ها و اولویت‌ها را شفاف‌تر می‌کنم.','بخشی از تصمیم را به فرد توانمند واگذار می‌کنم.']]
+];
+const pq=qs('#pressureQuestions');
+pressure.forEach((q,i)=>{
+ const d=document.createElement('div');d.className='scale-block';d.innerHTML='<strong>'+q[0]+'</strong><div class="choice-grid" style="margin-top:8px"></div>';
+ q[1].forEach((t,j)=>{const b=document.createElement('button');b.className='option pressure-choice';b.textContent=t;b.dataset.index=i;b.dataset.value=j;b.addEventListener('click',()=>{state.pressure[i]=j;save();restoreSelections()});d.querySelector('.choice-grid').appendChild(b)});
+ pq.appendChild(d);
+});
+qs('#pressureResultBtn').addEventListener('click',()=>{
  if(Object.keys(state.pressure).length<4){alert('لطفاً برای هر چهار موقعیت یک گزینه انتخاب کنید.');return}
  const c=[0,0,0];Object.values(state.pressure).forEach(v=>c[v]++);
- const i=c.indexOf(Math.max(...c));
- const labels=['Directive / هدایت مستقیم','Structured Accountability / ساختار و پاسخگویی','Coaching & Empowerment / پرسش و توانمندسازی'];
- qs('#profile').innerHTML='<strong>الگوی غالب انتخاب‌های شما:</strong> '+labels[i]+'<br><span class="small muted">این یک برچسب ثابت نیست؛ فقط الگوی همین چهار انتخاب است. تحلیل Strength و Risk آن را با تسهیل‌گر انجام دهید.</span>';
- qs('#profile').classList.add('show');qs('.next[data-from="6"]').disabled=false;
+ const max=Math.max(...c), winners=c.map((v,i)=>v===max?i:null).filter(v=>v!==null);
+ const labels=['گرایش بیشتر به هدایت مستقیم / Directive','گرایش بیشتر به ساختار و پاسخگویی / Structured Accountability','گرایش بیشتر به پرسش و توانمندسازی / Coaching & Empowerment'];
+ const txt=winners.length===1?labels[winners[0]]:'الگوی شما ترکیبی است؛ یک گرایش غالب واضح دیده نمی‌شود.';
+ const r=qs('#pressureResult');r.innerHTML='<strong>'+txt+'</strong><br><span class="small">این نتیجه فقط خلاصه همین چهار انتخاب است. سؤال اصلی برای بحث: «در فشار، کدام رفتار من شدیدتر می‌شود و چه هزینه‌ای دارد؟»</span>';r.classList.add('show');
+ state.visited.m7=true;save();
 });
 
-single('.q7','#w7','.next[data-from="7"]');
-
-qsa('.commit').forEach(x=>x.addEventListener('click',()=>{choose('.commit',x);state.commit=x.dataset.v;qs('#w8').classList.add('show');qs('#finish').disabled=false}));
-qs('#finish').addEventListener('click',()=>{complete(8,100);state.badges[2]=true;state.max=8;update();qs('#done').style.display='block';qs('#finish').disabled=true});
-qs('#reset').addEventListener('click',()=>{if(confirm('جلسه از ابتدا شروع شود؟'))location.reload()});
-update();
+qs('#reset').addEventListener('click',()=>{if(confirm('همه پاسخ‌های ذخیره‌شده روی این دستگاه پاک شود؟')){localStorage.removeItem(STORAGE);location.reload()}});
+renderHome();restoreSelections();
 })();
 </script>
-<!-- standalone repository: behparvar-leadership-lab -->
 </body>
 </html>

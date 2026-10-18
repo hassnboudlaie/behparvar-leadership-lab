@@ -1,6 +1,6 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const html=fs.readFileSync(__dirname+'/index.html','utf8');
-const script=html.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/\}\)\(\);\s*$/,'globalThis.__triangleTests={triCases,triCalculate,triPoint,triNormalize,triCurrent,triClassify,triProfiles,getState:()=>state};})();');
+const script=html.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/\}\)\(\);\s*$/,'globalThis.__triangleTests={triCases,triCalculate,triPoint,triNormalize,triCurrent,triClassify,triProfiles,quizBank,quizQuestions,quizNormalize,quizScore,getState:()=>state};})();');
 const voids=new Set(['meta','link','img','input','br','hr','source']);
 class Element{
  constructor(tag,attrs={}){this.tagName=tag;this.attrs=attrs;this.children=[];this.parent=null;this.listeners={};this.style={};this.hidden='hidden' in attrs;this.value='';this.open='open' in attrs;this._text='';this.dataset={};for(const [k,v]of Object.entries(attrs))if(k.startsWith('data-'))this.dataset[k.slice(5).replace(/-([a-z])/g,(_,c)=>c.toUpperCase())]=v;
@@ -8,7 +8,7 @@ class Element{
  this.classList={contains:c=>this.className.split(/\s+/).includes(c),add:c=>{if(!this.classList.contains(c))this.className=(this.className+' '+c).trim()},remove:c=>{this.className=this.className.split(/\s+/).filter(v=>v!==c).join(' ')},toggle:(c,on)=>{const x=on??!this.classList.contains(c);this.classList[x?'add':'remove'](c);return x}};
  }
  get id(){return this.attrs.id}get className(){return this.attrs.class||''}set className(x){this.attrs.class=x}
- removeAttribute(k){delete this.attrs[k]}setAttribute(k,v){this.attrs[k]=String(v)}getAttribute(k){return this.attrs[k]}
+ removeAttribute(k){delete this.attrs[k]}setAttribute(k,v){this.attrs[k]=String(v);if(k.startsWith('data-'))this.dataset[k.slice(5).replace(/-([a-z])/g,(_,c)=>c.toUpperCase())]=String(v)}getAttribute(k){return this.attrs[k]}
  appendChild(c){c.parent=this;this.children.push(c);return c}
  get textContent(){return this._text+this.children.map(x=>x.textContent).join('')}set textContent(t){this._text=String(t);this.children=[]}
  set innerHTML(t){this._html=t;this.children=[];parse(t,this)}get innerHTML(){return this._html||''}
@@ -30,9 +30,9 @@ function boot({hash='',data={},blocked=false}={}){
 }
 const app=boot();
 assert.equal(app.active(),'home');
-assert.equal(app.all('.module-card').length,6,'exactly six workshop sections');
-for(const id of ['home','m1','m2','leaders','techniques','visuals','diseases','action','assessment'])assert.equal(boot({hash:'#'+id}).active(),id);
-const aliases={session:'home',workshop:'home',profile:'home',m3:'leaders',m4:'techniques',m5:'visuals',m6:'diseases',m7:'m1',m8:'action',m1cases:'m2',m1model:'m1',m1learning:'action',m1action:'action',m1office:'m2'};
+assert.equal(app.all('.module-card').length,7,'exactly seven workshop sections');
+for(const id of ['home','m1','m2','leaders','techniques','visuals','diseases','quiz','action','assessment'])assert.equal(boot({hash:'#'+id}).active(),id);
+const aliases={session:'home',workshop:'home',profile:'home',m3:'leaders',m4:'techniques',m5:'visuals',m6:'diseases',m7:'quiz',m8:'action',m1cases:'m2',m1model:'m1',m1learning:'action',m1action:'action',m1office:'m2'};
 for(const [old,target] of Object.entries(aliases))assert.equal(boot({hash:'#'+old}).active(),target,'old bookmark '+old);
 assert.equal(boot({hash:'#unknown'}).active(),'home');
 const ids=app.all('[id]').map(e=>e.id);assert.equal(new Set(ids).size,ids.length,'unique IDs');
@@ -59,7 +59,7 @@ app.q('#reset').click();assert.ok(app.reloaded);assert.equal(Object.keys(app.dat
 assert.ok(!html.includes('یک کیس، سه نگاه'));assert.ok(!html.includes('چه چیزی با خودم می‌برم'));assert.ok(!html.includes('ماژول ۸'));
 const handout=fs.readFileSync(__dirname+'/handout-module-1.html','utf8');for(const file of [html,handout])assert.ok(file.includes('assets/vazirmatn.woff2'));
 assert.ok(handout.includes('./#m1'));assert.ok(handout.includes('./#m2'));assert.ok(handout.includes('./#leaders'));
-console.log('PASS: 6 sections; 9 views; 14 legacy bookmarks; 24 option-specific feedbacks; saved answers, notes and prior notes; grid scores and stale-result invalidation; class mode; blocked storage; reset; anchors and handout.');
+console.log('PASS: 7 sections; 10 views; 14 legacy bookmarks; 24 option-specific feedbacks; saved answers, notes and prior notes; grid scores and stale-result invalidation; class mode; blocked storage; reset; anchors and handout.');
 const tri=boot({hash:'#assessment'}),core=tri.test;
 assert.equal(tri.all('[data-tri-plot]').length,1);assert.equal(tri.q('[data-tri-dot]').getAttribute('visibility'),'hidden');assert.equal(tri.all('[data-tri-option]').length,3);assert.equal(tri.all('[data-tri-case]').length,8);
 core.triCases.forEach(c=>{assert.equal(c.options.length,3);assert.equal(new Set(c.options.map(o=>o.focus)).size,3);c.options.forEach(o=>{assert.equal(o.w.reduce((a,b)=>a+b,0),1);assert.equal(o.w[o.focus],1)})});
@@ -106,7 +106,7 @@ assert.equal(techniqueReload.q('#technique-recognition').hidden,false,'last open
 for(const id of techniqueIds)assert.equal(techniqueReload.q('#tech_'+id+'Feedback').hidden,false,'technique response restored');
 const timing=html.match(/<summary>زمان‌بندی جلسه و ابزارهای همراه<\/summary><p>(.*?)<strong>/)[1];
 const minutes=[...timing.matchAll(/([۰-۹]+) دقیقه/g)].map(m=>Number(m[1].replace(/[۰-۹]/g,c=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(c))));
-assert.equal(minutes.reduce((a,b)=>a+b,0),120,'four-module plan fits two hours');
+assert.equal(minutes.reduce((a,b)=>a+b,0),120,'seven-section plan fits two hours');
 assert.equal(techniquesTest.all('.technique-switch button').length,4);
 console.log('PASS: 4 clickable techniques; one panel visible; 4 role-plays with 25 turns; key messages; all responses and last panel persist; total workshop time 120 minutes.');
 
@@ -145,3 +145,77 @@ const illnessReload=boot({hash:'#diseases',data:illnesses.data});assert.equal(il
 illnessReload.q('#nitpickerToggle').click();assert.equal(illnessReload.q('#nitpickerLesson').hidden,true);assert.equal(illnessReload.q('#nitpickerToggle').getAttribute('aria-expanded'),'false');
 assert.ok(handout.includes('./#diseases'));
 console.log('PASS: sixth section, one expandable lesson, five-turn example, bold lesson, source links, exercise feedback and open/choice persistence.');
+
+// Quiz keys are asserted independently of the scoring function.
+const expectedKeys=['C','A','D','B','C','D','A','B','C','D'];
+const quiz=boot({hash:'#quiz'}),bank=quiz.test.quizQuestions;
+assert.equal(JSON.stringify(quiz.test.quizBank),JSON.stringify(JSON.parse(fs.readFileSync(__dirname+'/quiz-questions.json','utf8'))),'embedded and authoring banks match');
+assert.equal(bank.length,10);assert.equal(new Set(bank.map(q=>q.id)).size,10);
+assert.equal(JSON.stringify([...new Set(bank.map(q=>q.source))].sort()),JSON.stringify(['m1','m2','leaders','techniques','visuals','diseases'].sort()),'all six learning sections covered');
+bank.forEach((q,i)=>{
+ assert.equal(q.correct,expectedKeys[i]);assert.equal(q.options.length,4);
+ assert.equal(q.options.filter(o=>o.value===q.correct).length,1);
+ assert.equal(JSON.stringify(q.options.map(o=>o.value)),JSON.stringify(['A','B','C','D']));
+ assert.equal(new Set(q.options.map(o=>o.label)).size,4);
+ assert.ok(q.basis.length>30&&q.concept.length>10&&q.hint.length>20);
+ for(const o of q.options)assert.ok(o.label.length>40&&o.feedback.length>35,'substantive option and explanation');
+ assert.ok(quiz.q('#'+q.source));
+});
+assert.equal(quiz.all('[data-quiz-option]').length,4);
+assert.equal(quiz.q('#quizQuestionText').textContent,bank[0].question);
+assert.equal(quiz.q('#quizReport').hidden,true);assert.equal(quiz.all('#quizKeyBody tr').length,0);assert.equal(quiz.all('.quiz-review').length,0);assert.equal(quiz.q('#quizScoreTitle').textContent,'');
+assert.equal(quiz.q('#quizPrev').disabled,true);assert.equal(quiz.q('#quizNext').disabled,true);
+quiz.q('#quizNext').click();assert.equal(quiz.test.getState().quiz.current,0,'cannot skip unanswered question');
+quiz.q('[data-quiz-option="A"]').click();assert.equal(quiz.all('[data-quiz-option][aria-pressed="true"]').length,1);assert.equal(quiz.q('#quizReport').hidden,true);assert.equal(quiz.all('.quiz-review').length,0,'no immediate explanation');
+quiz.q('#quizNext').click();quiz.q('[data-quiz-option="B"]').click();quiz.q('#quizPrev').click();
+assert.equal(quiz.q('[data-quiz-option="A"]').getAttribute('aria-pressed'),'true');quiz.q('[data-quiz-option="C"]').click();
+const partialQuiz=boot({hash:'#quiz',data:quiz.data});assert.equal(partialQuiz.test.getState().quiz.answers.q1,'C');assert.equal(partialQuiz.test.getState().quiz.answers.q2,'B');assert.equal(partialQuiz.q('#quizReport').hidden,true);
+for(let i=0;i<10;i++){
+ assert.equal(partialQuiz.test.getState().quiz.current,i);assert.equal(partialQuiz.q('#quizQuestionText').textContent,bank[i].question);
+ partialQuiz.q('[data-quiz-option="'+expectedKeys[i]+'"]').click();
+ assert.equal(partialQuiz.all('#quizKeyBody tr').length,0,'answer key withheld even after selecting tenth response');
+ assert.equal(partialQuiz.q('#quizReport').hidden,true);
+ partialQuiz.q('#quizNext').click();
+}
+assert.equal(partialQuiz.q('#quizReport').hidden,false);assert.equal(partialQuiz.q('#quizAttempt').hidden,true);assert.equal(partialQuiz.q('#quizScoreTitle').textContent,'۱۰ از ۱۰');
+assert.equal(partialQuiz.all('#quizKeyBody tr').length,10);assert.equal(partialQuiz.all('.quiz-review').length,10);assert.equal(partialQuiz.all('.quiz-review-option').length,40);
+assert.equal(partialQuiz.all('.quiz-review').filter(e=>e.open).length,0,'analysis is clickable');
+partialQuiz.q('[data-quiz-review="q10"]').click();assert.equal(partialQuiz.q('#quiz-review-q10').open,true);
+const reportReload=boot({hash:'#quiz',data:partialQuiz.data});assert.equal(reportReload.q('#quizReport').hidden,false);assert.equal(reportReload.q('#quizScoreTitle').textContent,'۱۰ از ۱۰');
+for(const q of bank){
+ const review=reportReload.q('#quiz-review-'+q.id);assert.ok(review.textContent.includes(q.question));assert.ok(review.textContent.includes(q.basis));
+ for(const o of q.options)assert.ok(review.textContent.includes(o.feedback),'all options explained');
+ reportReload.q('[data-quiz-source="'+q.id+'"]').click();assert.equal(reportReload.active(),q.source,'source route');
+ if(q.leader)assert.equal(reportReload.q('#leader-'+q.leader).hidden,false);
+ if(q.technique)assert.equal(reportReload.q('#technique-'+q.technique).hidden,false);
+ if(q.picture)assert.equal(reportReload.q('#picture-'+q.picture).hidden,false);
+ if(q.source==='diseases')assert.equal(reportReload.q('#nitpickerLesson').hidden,false);
+}
+reportReload.q('#actionWhen').value='یادداشت باقی بماند';reportReload.q('#actionWhen').fire('input');
+reportReload.q('[data-question="conversation"][data-value="clear"]').click();
+reportReload.q('.scale-options button[data-index="0"][data-value="5"]').click();
+chooseAll(reportReload,[0,1,2,0,1,2,0,1]);
+const retainedBefore=JSON.stringify({answers:reportReload.test.getState().answers,grid:reportReload.test.getState().grid,triangle:reportReload.test.getState().triangle});
+reportReload.q('#quizRestart').click();assert.equal(reportReload.q('#quizReport').hidden,true);assert.equal(reportReload.all('.quiz-review').length,0);assert.equal(reportReload.all('#quizKeyBody tr').length,0);assert.equal(reportReload.q('#quizScoreTitle').textContent,'');assert.equal(reportReload.test.getState().quiz.current,0);assert.equal(Object.keys(reportReload.test.getState().quiz.answers).length,0);
+assert.equal(JSON.stringify({answers:reportReload.test.getState().answers,grid:reportReload.test.getState().grid,triangle:reportReload.test.getState().triangle}),retainedBefore,'restart preserves all other exercises and notes');
+const withQuizState=q=>({behparvar_session1_v4:JSON.stringify({answers:{workshop_when:'قبلی'},quiz:q})});
+const quizInvalid=boot({hash:'#quiz',data:withQuizState({version:1,current:100,submitted:true,answers:{q1:'fake',q2:'A',unknown:'D'}})});
+assert.equal(quizInvalid.test.getState().quiz.current,0);assert.equal(quizInvalid.test.getState().quiz.submitted,false);assert.equal(Object.keys(quizInvalid.test.getState().quiz.answers).length,1);
+assert.equal(quizInvalid.q('#quizReport').hidden,true);assert.equal(quizInvalid.all('.quiz-review').length,0);
+const obsoleteQuiz=boot({hash:'#quiz',data:withQuizState({version:0,current:5,answers:{q1:'C'},submitted:true})});assert.equal(Object.keys(obsoleteQuiz.test.getState().quiz.answers).length,0);assert.equal(obsoleteQuiz.q('#actionWhen').value,'قبلی');
+const nineAnswers=Object.fromEntries(bank.slice(1).map((q,i)=>[q.id,expectedKeys[i+1]]));
+const incompleteQuiz=boot({hash:'#quiz',data:withQuizState({version:1,current:9,answers:nineAnswers,submitted:true})});assert.equal(incompleteQuiz.q('#quizReport').hidden,true);incompleteQuiz.q('#quizNext').click();assert.equal(incompleteQuiz.test.getState().quiz.current,0,'final submission finds earlier unanswered question');assert.equal(incompleteQuiz.all('.quiz-review').length,0);
+incompleteQuiz.q('[data-quiz-option="C"]').click();for(let i=0;i<10;i++)incompleteQuiz.q('#quizNext').click();assert.equal(incompleteQuiz.q('#quizReport').hidden,false);
+const keyScores={A:2,B:2,C:3,D:3};
+for(const [value,expected] of Object.entries(keyScores)){
+ const answers=Object.fromEntries(bank.map(q=>[q.id,value]));const fixture=boot({hash:'#quiz',data:withQuizState({version:1,current:9,answers,submitted:true})});assert.equal(fixture.test.quizScore(answers),expected);assert.equal(fixture.q('#quizScoreTitle').textContent,expected.toLocaleString('fa-IR')+' از ۱۰');
+}
+const wrongAnswers=Object.fromEntries(bank.map((q,i)=>[q.id,expectedKeys[i]==='A'?'B':'A']));
+for(let score=0;score<=10;score++){
+ const answers=Object.fromEntries(bank.map((q,i)=>[q.id,i<score?expectedKeys[i]:wrongAnswers[q.id]]));
+ assert.equal(quiz.test.quizScore(answers),score,'independent fixture for score '+score);
+}
+const wrongQuiz=boot({hash:'#quiz',data:withQuizState({version:1,current:9,answers:wrongAnswers,submitted:true})});assert.equal(wrongQuiz.q('#quizScoreTitle').textContent,'۰ از ۱۰');assert.equal(wrongQuiz.all('#quizKeyBody td').filter(e=>e.textContent==='نیاز به مرور').length,10);
+const blockedQuiz=boot({hash:'#quiz',blocked:true});for(const value of expectedKeys){blockedQuiz.q('[data-quiz-option="'+value+'"]').click();blockedQuiz.q('#quizNext').click()}assert.equal(blockedQuiz.q('#quizScoreTitle').textContent,'۱۰ از ۱۰');assert.ok(blockedQuiz.q('#quizStatus').textContent.includes('در دسترس نیست'));
+assert.ok(handout.includes('./#quiz'));assert.equal(boot({hash:'#action'}).q('.site-nav [data-open="quiz"]').getAttribute('aria-current'),'page');
+console.log('PASS: final quiz; 10 conceptual items across all six sections; 4 options each; delayed key and 40 option analyses; navigation, editing, source links, scores 0–10, report/partial persistence, blocked storage, invalid/premature state, version reset, and quiz-only restart.');

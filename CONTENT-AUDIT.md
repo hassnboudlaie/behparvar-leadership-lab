@@ -1,19 +1,20 @@
 # Workshop simplification audit — 18 October 2026
 
-The first session now has six primary sections following the requested addition of a managerial habits module. The home page and navigation use plain Persian task names. Ambiguous labels have been removed.
+The first session now has seven primary sections: six learning sections and the requested final conceptual quiz. The home page and navigation use plain Persian task names. Ambiguous labels have been removed.
 
 ## Two-hour teaching plan
 
 | Activity | Minutes |
 | --- | ---: |
 | Welcome and purpose | 5 |
-| My leadership style: Blake–Mouton and paired reflection | 20 |
+| My leadership style: Blake–Mouton and paired reflection | 15 |
 | A real conversation: delayed handover report and role play | 20 |
 | Break | 5 |
-| Two leadership examples and interactive discussion | 15 |
+| Two leadership examples and interactive discussion | 10 |
 | Four leadership techniques, one visible at a time | 25 |
-| Management pictures and short discussion | 15 |
+| Management pictures and short discussion | 10 |
 | First managerial habit: the nitpicker | 10 |
+| Ten-question conceptual quiz and review | 15 |
 | One action for tomorrow | 5 |
 | Total | 120 |
 
@@ -21,7 +22,7 @@ The triangle assessment is optional after-class practice, outside these 120 minu
 
 ## Learning design
 
-- Each primary section starts with a visible bold key message and concrete example.
+- Each learning section starts with a visible bold key message and concrete example; the final quiz uses application scenarios.
 - One familiar work scenario replaces conceptual subpages.
 - All three response options in each of eight questions have distinct feedback.
 - The conversation covers observed behavior, impact, inquiry, ownership, support and an agreed follow-up time.
@@ -29,7 +30,7 @@ The triangle assessment is optional after-class practice, outside these 120 minu
 - The conclusion asks for one behavior and one time/context, with a copy button.
 - Role selection and progress dashboard are removed. Nonlinear access remains.
 - Fourteen former routes resolve to relevant new sections. Previous notes remain readable; no automatic deletion.
-- The short handout follows the same six sections and links to the live tools.
+- The short handout follows the same seven sections and links to the live tools.
 
 ## Leadership sources
 
@@ -42,7 +43,7 @@ The triangle assessment is optional after-class practice, outside these 120 minu
 
 ## Verification and limits
 
-Run `node verify.js` for navigation, legacy routes, per-option feedback, persisted choices and notes, retained prior notes, blocked storage, grid scores, obsolete-result invalidation, classroom mode and reset. Retained triangle regressions cover seven profiles, completion/edit flows, percentage totals, point coordinates, legacy migration, scoped reset and 1,000 scoring fixtures. HTML nesting, duplicate IDs, local assets and referenced routes were also checked.
+Run `node verify.js` for the final quiz (all keys and option feedback, delayed disclosure, complete/partial persistence, source routes, invalid/premature states, blocked storage and quiz-only restart), navigation, legacy routes, per-option feedback, persisted choices and notes, retained prior notes, blocked storage, grid scores, obsolete-result invalidation, classroom mode and reset. Retained triangle regressions cover seven profiles, completion/edit flows, percentage totals, point coordinates, legacy migration, scoped reset and 1,000 scoring fixtures. HTML nesting, duplicate IDs, local assets and referenced routes were also checked.
 
 These are DOM-harness and static checks, not a real browser visual inspection. The managed environment did not expose the required control-browser skill, so no preview server/browser was started. Responsive and RTL styles were reviewed in source; a real-device visual check remains unverified.
 
@@ -66,3 +67,12 @@ Book source identification:
 - Charles F. Austin (1966), Management's Self-Inflicted Wounds: A Formula for Executive Self-Analysis, Holt, Rinehart and Winston. Metadata verified in Open Library OL5981245M and FAO AGRIS record 65de0e6eb766d82b18fc0457 (National Agricultural Library provider).
 - Persian title بیماری‌های مدیریت, translated by سیروس پرهام; Farzan Ruz edition metadata verified at https://mahdroo.ir/shop/product/book-1643200-q19kvu .
 - The editor's page https://myindustry.ir/managers-disease/ explicitly identifies its Persian adaptation's source. Its PDF pages 4–5 contain the matching nitpicker example and remedy. The workshop paraphrases the user-provided excerpt; the local dialogue and exercise are new teaching applications.
+
+
+## Seventh and final section: conceptual quiz
+
+Ten scenario-based questions, four plausible options each, with one best answer grounded in the existing six sections. Coverage: Blake–Mouton (1), conversation (1), leader lessons (2), techniques (3, with credibility and charisma integrated), pictures (2, combining support, shared action and downstream effects), managerial habits (1). The authoring bank in `quiz-questions.json` is embedded verbatim as data in the buildless page; runtime does not fetch a separate file. Each item records its source section, taught basis, concept, nonspoiling authoring hint, key and feedback for all four options. Hints and source concepts are not shown during the attempt.
+
+One question appears at a time. Responses can be changed before submission, previous/next controls preserve choices, and no score, key or explanation is rendered until all ten valid responses have been submitted. The final report contains a score, clickable answer sheet, ten expandable analyses, explanations for every distractor, and links to the relevant lesson or exact subpanel. The score describes performance on these ten questions; it is not a leadership assessment or diagnosis.
+
+Attempt and report state persist only in the same browser. Normalization rejects unknown answers, invalid versions/positions and premature submitted states. Restart clears only quiz data, preserving earlier notes, exercises, grid and triangle results. The m7 alias opens the quiz. The 120-minute plan includes 15 minutes for the quiz, with shorter style, leader and picture discussions.

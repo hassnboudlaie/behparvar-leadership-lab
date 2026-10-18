@@ -1,6 +1,6 @@
 # Workshop simplification audit — 18 October 2026
 
-The first session now has five primary sections following the requested addition of a management pictures module. The home page and navigation use plain Persian task names. Ambiguous labels have been removed.
+The first session now has six primary sections following the requested addition of a managerial habits module. The home page and navigation use plain Persian task names. Ambiguous labels have been removed.
 
 ## Two-hour teaching plan
 
@@ -10,9 +10,10 @@ The first session now has five primary sections following the requested addition
 | My leadership style: Blake–Mouton and paired reflection | 20 |
 | A real conversation: delayed handover report and role play | 20 |
 | Break | 5 |
-| Two leadership examples and interactive discussion | 20 |
-| Four leadership techniques, one visible at a time | 30 |
+| Two leadership examples and interactive discussion | 15 |
+| Four leadership techniques, one visible at a time | 25 |
 | Management pictures and short discussion | 15 |
+| First managerial habit: the nitpicker | 10 |
 | One action for tomorrow | 5 |
 | Total | 120 |
 
@@ -22,13 +23,13 @@ The triangle assessment is optional after-class practice, outside these 120 minu
 
 - Each primary section starts with a visible bold key message and concrete example.
 - One familiar work scenario replaces conceptual subpages.
-- All three response options in each of seven questions have distinct feedback.
+- All three response options in each of eight questions have distinct feedback.
 - The conversation covers observed behavior, impact, inquiry, ownership, support and an agreed follow-up time.
 - The leadership section shows one leader at a time. Historical source summaries are distinguished from invented teaching examples.
 - The conclusion asks for one behavior and one time/context, with a copy button.
 - Role selection and progress dashboard are removed. Nonlinear access remains.
 - Fourteen former routes resolve to relevant new sections. Previous notes remain readable; no automatic deletion.
-- The short handout follows the same five sections and links to the live tools.
+- The short handout follows the same six sections and links to the live tools.
 
 ## Leadership sources
 
@@ -56,3 +57,12 @@ Each of the four techniques now includes a visible simulated two-person role-pla
 Four independent pictures are selected one at a time. Two uploaded JPGs are copied unchanged. The combined fairness/hierarchy upload is separated into two self-contained SVG image assets using distinct viewports over the unchanged embedded JPEG; the separator lies between y=772 and y=798. Artwork, signature and original credits are retained. Each has a bold takeaway, brief interpretation, Behparvar example and a discussion question. Full-size links open the corresponding independent picture asset. The text treats cartoons as discussion metaphors; it does not independently authenticate the quotation in the Mandela graphic. The m5 alias now opens the requested fifth section. No assessment answers or notes are cleared.
 
 The two independent SVG assets were rendered with Inkscape and visually inspected. Both display the intended complete artwork without the other panel; the JPEG embedded in each was verified byte-for-byte against the upload. Real-browser UI visual verification remains unavailable.
+
+## Sixth section: managerial diseases / habits
+
+One expandable card opens the first lesson, the nitpicker (مدیر ملانقطه‌ای). It includes a plain-language explanation, bold takeaway, simulated Behparvar report dialogue, three-choice exercise with distinct feedback, optional report-review practice and verified book links. The 50% rule appearing in the uploaded slides is not presented as a validated diagnostic cutoff. This is behavioral learning, with purposeful review retained; neither indiscriminate rewriting nor blind approval is recommended. The open/closed state and exercise choice persist locally. The m6 alias opens the requested sixth section.
+
+Book source identification:
+- Charles F. Austin (1966), Management's Self-Inflicted Wounds: A Formula for Executive Self-Analysis, Holt, Rinehart and Winston. Metadata verified in Open Library OL5981245M and FAO AGRIS record 65de0e6eb766d82b18fc0457 (National Agricultural Library provider).
+- Persian title بیماری‌های مدیریت, translated by سیروس پرهام; Farzan Ruz edition metadata verified at https://mahdroo.ir/shop/product/book-1643200-q19kvu .
+- The editor's page https://myindustry.ir/managers-disease/ explicitly identifies its Persian adaptation's source. Its PDF pages 4–5 contain the matching nitpicker example and remedy. The workshop paraphrases the user-provided excerpt; the local dialogue and exercise are new teaching applications.

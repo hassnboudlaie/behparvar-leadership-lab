@@ -30,19 +30,19 @@ function boot({hash='',data={},blocked=false}={}){
 }
 const app=boot();
 assert.equal(app.active(),'home');
-assert.equal(app.all('.module-card').length,5,'exactly five workshop sections');
-for(const id of ['home','m1','m2','leaders','techniques','visuals','action','assessment'])assert.equal(boot({hash:'#'+id}).active(),id);
-const aliases={session:'home',workshop:'home',profile:'home',m3:'leaders',m4:'techniques',m5:'visuals',m6:'m2',m7:'m1',m8:'action',m1cases:'m2',m1model:'m1',m1learning:'action',m1action:'action',m1office:'m2'};
+assert.equal(app.all('.module-card').length,6,'exactly six workshop sections');
+for(const id of ['home','m1','m2','leaders','techniques','visuals','diseases','action','assessment'])assert.equal(boot({hash:'#'+id}).active(),id);
+const aliases={session:'home',workshop:'home',profile:'home',m3:'leaders',m4:'techniques',m5:'visuals',m6:'diseases',m7:'m1',m8:'action',m1cases:'m2',m1model:'m1',m1learning:'action',m1action:'action',m1office:'m2'};
 for(const [old,target] of Object.entries(aliases))assert.equal(boot({hash:'#'+old}).active(),target,'old bookmark '+old);
 assert.equal(boot({hash:'#unknown'}).active(),'home');
 const ids=app.all('[id]').map(e=>e.id);assert.equal(new Set(ids).size,ids.length,'unique IDs');
 for(const a of app.all('[data-open]')){a.click();assert.equal(app.active(),a.dataset.open)}
 for(const a of app.all('a')){const href=a.getAttribute('href');if(href.startsWith('#'))assert.ok(app.q(href),'broken anchor '+href)}
-for(const key of ['conversation','nadella','mulally','tech_credibility','tech_charisma','tech_reward','tech_recognition']){
+for(const key of ['conversation','nadella','mulally','tech_credibility','tech_charisma','tech_reward','tech_recognition','nitpicker']){
  const options=app.all('[data-question="'+key+'"]');assert.equal(options.length,3);
  const messages=new Set();for(const b of options){b.click();assert.equal(app.q('#'+key+'Feedback').hidden,false);messages.add(app.q('#'+key+'Feedback').textContent);assert.equal(app.all('[data-question="'+key+'"][aria-pressed="true"]').length,1)}assert.equal(messages.size,3,'distinct feedback for '+key);
 }
-const returned=boot({data:app.data});for(const key of ['conversation','nadella','mulally','tech_credibility','tech_charisma','tech_reward','tech_recognition'])assert.equal(returned.q('#'+key+'Feedback').hidden,false,'answer restored');
+const returned=boot({data:app.data});for(const key of ['conversation','nadella','mulally','tech_credibility','tech_charisma','tech_reward','tech_recognition','nitpicker'])assert.equal(returned.q('#'+key+'Feedback').hidden,false,'answer restored');
 app.q('[data-leader="mulally"]').click();assert.equal(app.q('#leader-nadella').hidden,true);assert.equal(app.q('#leader-mulally').hidden,false);app.q('[data-leader="nadella"]').click();assert.equal(app.q('#leader-mulally').hidden,true);
 app.q('#calcGrid').click();assert.equal(app.alerts.length,1,'missing answers');
 for(let i=0;i<12;i++)app.q('.scale-options button[data-index="'+i+'"][data-value="5"]').click();
@@ -59,7 +59,7 @@ app.q('#reset').click();assert.ok(app.reloaded);assert.equal(Object.keys(app.dat
 assert.ok(!html.includes('یک کیس، سه نگاه'));assert.ok(!html.includes('چه چیزی با خودم می‌برم'));assert.ok(!html.includes('ماژول ۸'));
 const handout=fs.readFileSync(__dirname+'/handout-module-1.html','utf8');for(const file of [html,handout])assert.ok(file.includes('assets/vazirmatn.woff2'));
 assert.ok(handout.includes('./#m1'));assert.ok(handout.includes('./#m2'));assert.ok(handout.includes('./#leaders'));
-console.log('PASS: 5 sections; 8 views; 14 legacy bookmarks; 21 option-specific feedbacks; saved answers, notes and prior notes; grid scores and stale-result invalidation; class mode; blocked storage; reset; anchors and handout.');
+console.log('PASS: 6 sections; 9 views; 14 legacy bookmarks; 24 option-specific feedbacks; saved answers, notes and prior notes; grid scores and stale-result invalidation; class mode; blocked storage; reset; anchors and handout.');
 const tri=boot({hash:'#assessment'}),core=tri.test;
 assert.equal(tri.all('[data-tri-plot]').length,1);assert.equal(tri.q('[data-tri-dot]').getAttribute('visibility'),'hidden');assert.equal(tri.all('[data-tri-option]').length,3);assert.equal(tri.all('[data-tri-case]').length,8);
 core.triCases.forEach(c=>{assert.equal(c.options.length,3);assert.equal(new Set(c.options.map(o=>o.focus)).size,3);c.options.forEach(o=>{assert.equal(o.w.reduce((a,b)=>a+b,0),1);assert.equal(o.w[o.focus],1)})});
@@ -128,3 +128,20 @@ const galleryResume=boot({hash:'#visuals',data:gallery.data});
 assert.equal(galleryResume.q('#picture-impact').hidden,false,'last picture persists');
 assert.ok(handout.includes('./#visuals'));
 console.log('PASS: four picture selectors, one picture visible, separate existing assets, alt text, key messages, discussion questions and persisted picture selection.');
+
+const illnesses=boot({hash:'#diseases'});
+assert.equal(illnesses.active(),'diseases');
+assert.equal(illnesses.all('.illness-card').length,1,'one first sample');
+assert.equal(illnesses.q('#nitpickerLesson').hidden,true,'lesson starts collapsed');
+illnesses.q('#nitpickerToggle').click();assert.equal(illnesses.q('#nitpickerLesson').hidden,false);assert.equal(illnesses.q('#nitpickerToggle').getAttribute('aria-expanded'),'true');
+assert.ok(illnesses.q('#nitpickerLesson .key-message strong').textContent.includes('چه چیزی را بهتر'));
+assert.equal(illnesses.all('#nitpickerLesson .dialogue p').length,5);
+assert.equal(illnesses.all('#diseaseBook a').length,3);
+assert.ok(illnesses.q('#diseaseBook').textContent.includes('سیروس پرهام'));
+assert.ok(illnesses.all('#diseaseBook a').some(a=>a.getAttribute('href').includes('OL5981245M')));
+assert.ok(illnesses.all('#diseaseBook a').some(a=>a.getAttribute('href').includes('managers-disease')));
+illnesses.q('[data-question="nitpicker"][data-value="decision"]').click();assert.equal(illnesses.q('#nitpickerFeedback').hidden,false);
+const illnessReload=boot({hash:'#diseases',data:illnesses.data});assert.equal(illnessReload.q('#nitpickerLesson').hidden,false);assert.equal(illnessReload.q('[data-question="nitpicker"][data-value="decision"]').getAttribute('aria-pressed'),'true');
+illnessReload.q('#nitpickerToggle').click();assert.equal(illnessReload.q('#nitpickerLesson').hidden,true);assert.equal(illnessReload.q('#nitpickerToggle').getAttribute('aria-expanded'),'false');
+assert.ok(handout.includes('./#diseases'));
+console.log('PASS: sixth section, one expandable lesson, five-turn example, bold lesson, source links, exercise feedback and open/choice persistence.');

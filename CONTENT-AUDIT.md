@@ -1,51 +1,44 @@
-# ممیزی محتوایی و مسیر اجرای کارگاه بهپرور
+# Workshop simplification audit — 18 October 2026
 
-تاریخ: ۱۵ اکتبر ۲۰۲۶
+The first session now has three primary sections instead of eight modules. The home page and navigation use plain Persian task names. Ambiguous labels have been removed.
 
-## هدف ماژول یک
+## Two-hour teaching plan
 
-شرکت‌کننده بتواند یک تصمیم کاری را از سه زاویه بررسی کند و یک رفتار قابل مشاهده برای تمرین انتخاب کند. این بخش، آموزش مقدماتی نقش مدیر حرفه‌ای است؛ تشخیص شخصیت، سنجش صلاحیت یا رتبه‌بندی افراد نیست.
+| Activity | Minutes |
+| --- | ---: |
+| Welcome and purpose | 5 |
+| My leadership style: Blake–Mouton and paired reflection | 35 |
+| A real conversation: delayed handover report and role play | 40 |
+| Break | 5 |
+| Two leadership examples and interactive discussion | 30 |
+| One action for tomorrow | 5 |
+| Total | 120 |
 
-## تصمیم‌های محتوایی
+The triangle assessment is optional after-class practice, outside these 120 minutes. It retains the eight scenarios, scoring, seven analysis profiles, private analysis button and browser-local storage. Blake–Mouton retains the twelve statements, scales, scoring and reference positions. Changing an answer hides an obsolete result until recalculation.
 
-| مشاهده در نسخه پیشین | اصلاح نهایی | دلیل آموزشی |
-| --- | --- | --- |
-| تکرار نتیجه شخصی مثلث در صفحه مدل | فقط یک نمودار زنده در خودارزیابی | جلوگیری از تکرار و تصور وجود دو نتیجه |
-| سؤال‌های انتخابی دیگر پس از هشت موقعیت | حذف سؤال‌های تکراری کیس و بازاندیشی | انتقال از انتخاب گزینه به استدلال و گفت‌وگو |
-| دو کیس در یک بانک با گزینه صحیح آشکار | یک کیس اصلی با سه دریچه؛ کیس ستادی در صفحه مستقل | یک مسئله مشترک و عمق اختیاری |
-| چهار بخش، دکمه شروع جدا و رفت‌وبرگشت‌های متعدد | سه گام اصلی با ادامه مستقیم | روشن‌بودن اقدام بعدی |
-| همپوشانی آمادگی فرد در «کارکنان» و «موقعیت» | کارکنان: آمادگی/حمایت؛ موقعیت: ریسک/منابع/وابستگی | تمایز مفاهیم در توضیح مدل |
-| تکرار مدل و مطالب کلاس در جزوه | چک‌لیست، جمله‌های کاربردی و برگه پیگیری | جزوه برای کاربرد پس از کلاس |
-| تکلیف در ابتدا و انتهای کارگاه | یک برگه اقدام مشترک با لینک از هر دو محل | یک تعهد عملی و قابل پیگیری |
+## Learning design
 
-## مسیر اصلی ماژول یک، ۲۵ دقیقه
+- Each primary section starts with a visible bold key message and concrete example.
+- One familiar work scenario replaces conceptual subpages.
+- All three response options in each of three questions have distinct feedback.
+- The conversation covers observed behavior, impact, inquiry, ownership, support and an agreed follow-up time.
+- The leadership section shows one leader at a time. Historical source summaries are distinguished from invented teaching examples.
+- The conclusion asks for one behavior and one time/context, with a copy button.
+- Role selection and progress dashboard are removed. Nonlinear access remains.
+- Fourteen former routes resolve to relevant new sections. Previous notes remain readable; no automatic deletion.
+- The short handout follows the same three messages and links to the live tools.
 
-۱. اولویت‌های من، ۸ دقیقه: هشت موقعیت تک‌انتخابی؛ نتیجه زنده و تحلیل شخصی اختیاری روی دستگاه فرد.
+## Leadership sources
 
-۲. یک کیس، سه نگاه، ۱۲ دقیقه: ارسال نزدیک است و هماهنگی شیفت ناقص؛ ابتدا گفت‌وگوی دو نفره، سپس بازکردن دریچه کار، کارکنان یا موقعیت. توضیحات هر دریچه، پاسخ‌نامه آزمون نیست؛ نمونه‌ای برای کامل‌کردن تصمیم کلاس است.
+1. Satya Nadella, official Microsoft blog, 24 July 2025:
+   https://blogs.microsoft.com/blog/2025/07/24/recommitting-to-our-why-what-and-how/
+   Basis: growth mindset, learning, humility and empathy. The employee objection and suggested questions are teaching applications, not historical quotes.
+2. Alan Mulally, direct McKinsey interview, 1 November 2013:
+   https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/leading-in-the-21st-century-an-interview-with-fords-alan-mulally
+   Basis: supportive responses to production problems, honest dialogue, planning, accountability and regular review. The quality scenario is a teaching application.
 
-۳. جمع‌بندی، ۵ دقیقه: سه سؤال یادآور و یک انتخاب رفتاری. ثبت تمرین می‌تواند در پایان کارگاه یا پس از آن انجام شود.
+## Verification and limits
 
-مدل تفصیلی، کیس ستادی و جزوه منابع اختیاری‌اند و پیش‌نیاز عبور به بخش بعد نیستند. همه مسیرها بدون تکمیل اجباری آزمون باز می‌شوند. فقط تحلیل نهایی خودارزیابی به تکمیل هشت پاسخ نیاز دارد.
+Run `node verify.js` for navigation, legacy routes, per-option feedback, persisted choices and notes, retained prior notes, blocked storage, grid scores, obsolete-result invalidation, classroom mode and reset. Retained triangle regressions cover seven profiles, completion/edit flows, percentage totals, point coordinates, legacy migration, scoped reset and 1,000 scoring fixtures. HTML nesting, duplicate IDs, local assets and referenced routes were also checked.
 
-## کنترل تناسب و ادعاها
-
-- کار: خروجی، معیار کیفیت، مسئول و زمان بررسی.
-- کارکنان: آمادگی، درک کار، نیاز به حمایت، بازخورد و اختیار.
-- موقعیت: فوریت، منابع، ریسک، حدود اختیار و وابستگی بین واحدها.
-- وزن‌های مثلث، سهم اولویت‌های انتخاب‌شده‌اند؛ مرکز مثلث نتیجه مطلوب همگانی نیست.
-- مثلث سه‌بُعدی ابزار آموزشی این کارگاه است و معادل شبکه دوبُعدی بلیک–موتون یا آزمون اعتبارسنجی‌شده معرفی نمی‌شود.
-- سناریوها فرضی و متناسب با زمینه فعالیت شرکت‌اند؛ هیچ رویدادی به عنوان واقعیت تأییدشده شرکت ادعا نمی‌شود.
-- فشار زمانی جای الزام کیفیت یا اختیار مسئول مجاز را نمی‌گیرد.
-
-## راهنمای دو ساعته
-
-آغاز ۵ دقیقه؛ ماژول‌ها به‌ترتیب ۲۵، ۱۰، ۱۰، ۱۵، ۱۵، ۲۰، ۱۰ و ۱۰ دقیقه. جمع ۱۲۰ دقیقه است. پرسشنامه تکمیلی ماژول پنج، کیس ستادی و جزوه در صورت کمبود وقت به بعد از کلاس منتقل می‌شوند. زمان ثبت یک اقدام و جمع‌بندی حفظ می‌شود.
-
-## کنترل تجربه کاربر
-
-مسیر اصلی سه لینک روشن دارد. جزئیات در حالت آغاز بسته‌اند. هر صفحه خانه، نقشه و بازگشت دارد. مسیر اصلی از نتیجه خودارزیابی به کیس و از کیس به جمع‌بندی و ماژول دو ادامه می‌یابد. متن وب‌سایت فارسی و راست‌به‌چپ باقی مانده است. یادداشت‌ها و پاسخ‌های قبلی در مرورگر حفظ شده‌اند.
-
-فونت مشترک به یک فایل محلی با مجوز موجود منتقل شده است؛ صفحه اصلی و جزوه آن را دوباره استفاده می‌کنند. تغییر در فونت و اندازه آن داده نشده است. اندازه HTML صفحه اصلی از حدود ۲۹۶ کیلوبایت به حدود ۱۴۶ کیلوبایت و جزوه از حدود ۱۸۸ کیلوبایت به حدود ۳۸ کیلوبایت کاهش یافته است؛ فایل مشترک فونت حدود ۱۱۱ کیلوبایت است.
-
-کنترل‌ها: صحت اجرای کد، ۱۸ مسیر، ۳ گام اصلی، ۷ حالت تحلیل، ۱۰۰۰ نمونه محاسبات، حفظ یادداشت‌ها و پاسخ‌های قدیمی، ذخیره‌سازی مسدود، جمع زمان‌ها، لینک ابزارهای جزوه و باز/بسته‌شدن برای چاپ. امکان بازبینی تصویری در مرورگر این محیط فراهم نبود.
+These are DOM-harness and static checks, not a real browser visual inspection. The managed environment did not expose the required control-browser skill, so no preview server/browser was started. Responsive and RTL styles were reviewed in source; a real-device visual check remains unverified.

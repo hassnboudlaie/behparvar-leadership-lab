@@ -30,19 +30,19 @@ function boot({hash='',data={},blocked=false}={}){
 }
 const app=boot();
 assert.equal(app.active(),'home');
-assert.equal(app.all('.module-card').length,3,'exactly three workshop sections');
-for(const id of ['home','m1','m2','leaders','action','assessment'])assert.equal(boot({hash:'#'+id}).active(),id);
-const aliases={session:'home',workshop:'home',profile:'home',m3:'leaders',m4:'m2',m5:'m1',m6:'m2',m7:'m1',m8:'action',m1cases:'m2',m1model:'m1',m1learning:'action',m1action:'action',m1office:'m2'};
+assert.equal(app.all('.module-card').length,4,'exactly four workshop sections');
+for(const id of ['home','m1','m2','leaders','techniques','action','assessment'])assert.equal(boot({hash:'#'+id}).active(),id);
+const aliases={session:'home',workshop:'home',profile:'home',m3:'leaders',m4:'techniques',m5:'m1',m6:'m2',m7:'m1',m8:'action',m1cases:'m2',m1model:'m1',m1learning:'action',m1action:'action',m1office:'m2'};
 for(const [old,target] of Object.entries(aliases))assert.equal(boot({hash:'#'+old}).active(),target,'old bookmark '+old);
 assert.equal(boot({hash:'#unknown'}).active(),'home');
 const ids=app.all('[id]').map(e=>e.id);assert.equal(new Set(ids).size,ids.length,'unique IDs');
 for(const a of app.all('[data-open]')){a.click();assert.equal(app.active(),a.dataset.open)}
 for(const a of app.all('a')){const href=a.getAttribute('href');if(href.startsWith('#'))assert.ok(app.q(href),'broken anchor '+href)}
-for(const key of ['conversation','nadella','mulally']){
+for(const key of ['conversation','nadella','mulally','tech_credibility','tech_charisma','tech_reward','tech_recognition']){
  const options=app.all('[data-question="'+key+'"]');assert.equal(options.length,3);
  const messages=new Set();for(const b of options){b.click();assert.equal(app.q('#'+key+'Feedback').hidden,false);messages.add(app.q('#'+key+'Feedback').textContent);assert.equal(app.all('[data-question="'+key+'"][aria-pressed="true"]').length,1)}assert.equal(messages.size,3,'distinct feedback for '+key);
 }
-const returned=boot({data:app.data});for(const key of ['conversation','nadella','mulally'])assert.equal(returned.q('#'+key+'Feedback').hidden,false,'answer restored');
+const returned=boot({data:app.data});for(const key of ['conversation','nadella','mulally','tech_credibility','tech_charisma','tech_reward','tech_recognition'])assert.equal(returned.q('#'+key+'Feedback').hidden,false,'answer restored');
 app.q('[data-leader="mulally"]').click();assert.equal(app.q('#leader-nadella').hidden,true);assert.equal(app.q('#leader-mulally').hidden,false);app.q('[data-leader="nadella"]').click();assert.equal(app.q('#leader-mulally').hidden,true);
 app.q('#calcGrid').click();assert.equal(app.alerts.length,1,'missing answers');
 for(let i=0;i<12;i++)app.q('.scale-options button[data-index="'+i+'"][data-value="5"]').click();
@@ -59,7 +59,7 @@ app.q('#reset').click();assert.ok(app.reloaded);assert.equal(Object.keys(app.dat
 assert.ok(!html.includes('یک کیس، سه نگاه'));assert.ok(!html.includes('چه چیزی با خودم می‌برم'));assert.ok(!html.includes('ماژول ۸'));
 const handout=fs.readFileSync(__dirname+'/handout-module-1.html','utf8');for(const file of [html,handout])assert.ok(file.includes('assets/vazirmatn.woff2'));
 assert.ok(handout.includes('./#m1'));assert.ok(handout.includes('./#m2'));assert.ok(handout.includes('./#leaders'));
-console.log('PASS: 3 sections; 6 views; 14 legacy bookmarks; 9 option-specific feedbacks; saved answers, notes and prior notes; grid scores and stale-result invalidation; class mode; blocked storage; reset; anchors and handout.');
+console.log('PASS: 4 sections; 7 views; 14 legacy bookmarks; 21 option-specific feedbacks; saved answers, notes and prior notes; grid scores and stale-result invalidation; class mode; blocked storage; reset; anchors and handout.');
 const tri=boot({hash:'#assessment'}),core=tri.test;
 assert.equal(tri.all('[data-tri-plot]').length,1);assert.equal(tri.q('[data-tri-dot]').getAttribute('visibility'),'hidden');assert.equal(tri.all('[data-tri-option]').length,3);assert.equal(tri.all('[data-tri-case]').length,8);
 core.triCases.forEach(c=>{assert.equal(c.options.length,3);assert.equal(new Set(c.options.map(o=>o.focus)).size,3);c.options.forEach(o=>{assert.equal(o.w.reduce((a,b)=>a+b,0),1);assert.equal(o.w[o.focus],1)})});
@@ -85,3 +85,27 @@ let seed=816;function rand(n){seed=(Math.imul(seed,1664525)+1013904223)>>>0;retu
 for(let run=0;run<1000;run++){const ans={},expected=[0,0,0];for(const c of core.triCases){if(rand(4)===0)continue;const o=c.options[rand(3)];ans[c.id]=o.id;expected[o.focus]++}const result=core.triCalculate(ans);assert.equal(JSON.stringify(result.raw),JSON.stringify(expected));assert.equal(result.total,expected.reduce((a,b)=>a+b,0));if(result.total){assert.equal(result.percentages.reduce((a,b)=>a+b,0),100);const p=core.triPoint(result.shares);assert.ok(p.x>=45&&p.x<=375&&p.y>=60&&p.y<=295)}}
 
 console.log('PASS: retained triangle; seven profiles, completion, editing, private analysis, persistence, migration, scoped reset and 1,000 scoring fixtures.');
+
+const techniquesTest=boot({hash:'#techniques'});
+const techniqueIds=['credibility','charisma','reward','recognition'];
+for(const id of techniqueIds){
+ techniquesTest.q('.technique-switch [data-technique="'+id+'"]').click();
+ assert.equal(techniquesTest.all('.technique-page').filter(e=>!e.hidden).length,1,'one technique visible');
+ assert.equal(techniquesTest.q('#technique-'+id).hidden,false);
+ assert.equal(techniquesTest.q('.technique-switch [data-technique="'+id+'"]').getAttribute('aria-pressed'),'true');
+ assert.ok(techniquesTest.q('#technique-'+id+' .key-message strong').textContent.length>10,'visible key message');
+ assert.ok(techniquesTest.all('#technique-'+id+' .roleplay-dialogue p').length>=6,'at least six dialogue turns');
+ assert.ok(techniquesTest.q('#technique-'+id+' .roleplay-roles').textContent.includes('نفر اول'));
+ assert.ok(techniquesTest.q('#technique-'+id+' .roleplay-roles').textContent.includes('نفر دوم'));
+ assert.ok(techniquesTest.q('#technique-'+id+' .roleplay-observe').textContent.includes('تکنیک را کجا دیدیم'));
+ techniquesTest.q('[data-question="tech_'+id+'"]').click();
+ assert.equal(techniquesTest.q('#tech_'+id+'Feedback').hidden,false);
+}
+const techniqueReload=boot({hash:'#techniques',data:techniquesTest.data});
+assert.equal(techniqueReload.q('#technique-recognition').hidden,false,'last open technique restored');
+for(const id of techniqueIds)assert.equal(techniqueReload.q('#tech_'+id+'Feedback').hidden,false,'technique response restored');
+const timing=html.match(/<summary>زمان‌بندی جلسه و ابزارهای همراه<\/summary><p>(.*?)<strong>/)[1];
+const minutes=[...timing.matchAll(/([۰-۹]+) دقیقه/g)].map(m=>Number(m[1].replace(/[۰-۹]/g,c=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(c))));
+assert.equal(minutes.reduce((a,b)=>a+b,0),120,'four-module plan fits two hours');
+assert.equal(techniquesTest.all('.technique-switch button').length,4);
+console.log('PASS: 4 clickable techniques; one panel visible; 4 role-plays with 25 turns; key messages; all responses and last panel persist; total workshop time 120 minutes.');

@@ -9,3 +9,12 @@
 - Company context: https://behparvar.com/ and https://behparvar.com/زنجیره_تولید/.
 - Vazirmatn variable font: https://github.com/rastikerdar/vazirmatn, embedded in the two HTML pages under the SIL Open Font License; see OFL-Vazirmatn.txt.
 - The two teaching cases are fictional. The handout contains post-class review tools and follow-up rather than the full case narratives.
+
+## User-supplied management pictures — 18 October 2026
+
+- `management-mandela.jpg`: unchanged upload `1000207946.jpg`.
+- `management-boss-leader.jpg`: unchanged upload `1000207942.jpg`.
+- `management-fairness.svg`: upper artwork from upload `1000207938.jpg`, independent SVG viewport, original JPEG embedded unchanged.
+- `management-hierarchy.svg`: lower artwork from the same upload, independent SVG viewport, original credits retained.
+
+These are user-provided teaching materials. No generative redrawing was used.

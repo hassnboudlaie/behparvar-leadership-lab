@@ -30,9 +30,9 @@ function boot({hash='',data={},blocked=false}={}){
 }
 const app=boot();
 assert.equal(app.active(),'home');
-assert.equal(app.all('.module-card').length,4,'exactly four workshop sections');
-for(const id of ['home','m1','m2','leaders','techniques','action','assessment'])assert.equal(boot({hash:'#'+id}).active(),id);
-const aliases={session:'home',workshop:'home',profile:'home',m3:'leaders',m4:'techniques',m5:'m1',m6:'m2',m7:'m1',m8:'action',m1cases:'m2',m1model:'m1',m1learning:'action',m1action:'action',m1office:'m2'};
+assert.equal(app.all('.module-card').length,5,'exactly five workshop sections');
+for(const id of ['home','m1','m2','leaders','techniques','visuals','action','assessment'])assert.equal(boot({hash:'#'+id}).active(),id);
+const aliases={session:'home',workshop:'home',profile:'home',m3:'leaders',m4:'techniques',m5:'visuals',m6:'m2',m7:'m1',m8:'action',m1cases:'m2',m1model:'m1',m1learning:'action',m1action:'action',m1office:'m2'};
 for(const [old,target] of Object.entries(aliases))assert.equal(boot({hash:'#'+old}).active(),target,'old bookmark '+old);
 assert.equal(boot({hash:'#unknown'}).active(),'home');
 const ids=app.all('[id]').map(e=>e.id);assert.equal(new Set(ids).size,ids.length,'unique IDs');
@@ -59,7 +59,7 @@ app.q('#reset').click();assert.ok(app.reloaded);assert.equal(Object.keys(app.dat
 assert.ok(!html.includes('یک کیس، سه نگاه'));assert.ok(!html.includes('چه چیزی با خودم می‌برم'));assert.ok(!html.includes('ماژول ۸'));
 const handout=fs.readFileSync(__dirname+'/handout-module-1.html','utf8');for(const file of [html,handout])assert.ok(file.includes('assets/vazirmatn.woff2'));
 assert.ok(handout.includes('./#m1'));assert.ok(handout.includes('./#m2'));assert.ok(handout.includes('./#leaders'));
-console.log('PASS: 4 sections; 7 views; 14 legacy bookmarks; 21 option-specific feedbacks; saved answers, notes and prior notes; grid scores and stale-result invalidation; class mode; blocked storage; reset; anchors and handout.');
+console.log('PASS: 5 sections; 8 views; 14 legacy bookmarks; 21 option-specific feedbacks; saved answers, notes and prior notes; grid scores and stale-result invalidation; class mode; blocked storage; reset; anchors and handout.');
 const tri=boot({hash:'#assessment'}),core=tri.test;
 assert.equal(tri.all('[data-tri-plot]').length,1);assert.equal(tri.q('[data-tri-dot]').getAttribute('visibility'),'hidden');assert.equal(tri.all('[data-tri-option]').length,3);assert.equal(tri.all('[data-tri-case]').length,8);
 core.triCases.forEach(c=>{assert.equal(c.options.length,3);assert.equal(new Set(c.options.map(o=>o.focus)).size,3);c.options.forEach(o=>{assert.equal(o.w.reduce((a,b)=>a+b,0),1);assert.equal(o.w[o.focus],1)})});
@@ -109,3 +109,22 @@ const minutes=[...timing.matchAll(/([۰-۹]+) دقیقه/g)].map(m=>Number(m[1].
 assert.equal(minutes.reduce((a,b)=>a+b,0),120,'four-module plan fits two hours');
 assert.equal(techniquesTest.all('.technique-switch button').length,4);
 console.log('PASS: 4 clickable techniques; one panel visible; 4 role-plays with 25 turns; key messages; all responses and last panel persist; total workshop time 120 minutes.');
+
+const gallery=boot({hash:'#visuals'});
+const pictureIds=['support','together','fairness','impact'];
+assert.equal(gallery.all('.picture-switch button').length,4);
+for(const id of pictureIds){
+ gallery.q('.picture-switch [data-picture="'+id+'"]').click();
+ assert.equal(gallery.all('.picture-page').filter(e=>!e.hidden).length,1,'one picture visible');
+ assert.equal(gallery.q('#picture-'+id).hidden,false);
+ assert.equal(gallery.q('.picture-switch [data-picture="'+id+'"]').getAttribute('aria-pressed'),'true');
+ assert.ok(gallery.q('#picture-'+id+' .key-message strong').textContent.length>10);
+ assert.ok(gallery.q('#picture-'+id+' .picture-discussion p').textContent.length>10);
+ const img=gallery.q('#picture-'+id+' img');
+ assert.ok(fs.existsSync(__dirname+'/'+img.getAttribute('src')));
+ assert.ok(img.getAttribute('alt').length>15);
+}
+const galleryResume=boot({hash:'#visuals',data:gallery.data});
+assert.equal(galleryResume.q('#picture-impact').hidden,false,'last picture persists');
+assert.ok(handout.includes('./#visuals'));
+console.log('PASS: four picture selectors, one picture visible, separate existing assets, alt text, key messages, discussion questions and persisted picture selection.');

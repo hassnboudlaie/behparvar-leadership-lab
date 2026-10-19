@@ -13,21 +13,21 @@ class Element{
  get textContent(){return this._text+this.children.map(x=>x.textContent).join('')}set textContent(t){this._text=String(t);this.children=[]}
  set innerHTML(t){this._html=t;this.children=[];parse(t,this)}get innerHTML(){return this._html||''}
  addEventListener(name,fn){(this.listeners[name]??=[]).push(fn)}
- click(){if(!this.disabled)this.fire('click')}fire(name){for(const fn of this.listeners[name]||[])fn({target:this,preventDefault(){}})}focus(){this.focused=true}scrollIntoView(){}
+ click(){if(!this.disabled)this.fire('click')}fire(name){for(const fn of this.listeners[name]||[])fn({target:this,preventDefault(){}})}focus(){this.focused=true;let root=this;while(root.parent)root=root.parent;root.activeElement=this}scrollIntoView(){}
  querySelector(s){return this.querySelectorAll(s)[0]||null}
  querySelectorAll(sel){const parts=sel.trim().split(/\s+/);const out=[];const test=(e,p)=>{const attrs=[...p.matchAll(/\[([^=\]]+)(?:="([^"]*)")?\]/g)];for(const[,k,v]of attrs)if(!(k in e.attrs)||(v!==undefined&&e.attrs[k]!==v))return false;p=p.replace(/\[[^\]]*\]/g,'');const id=p.match(/#([^.#]+)/);if(id&&e.id!==id[1])return false;for(const[,c]of p.matchAll(/\.([^.#]+)/g))if(!e.classList.contains(c))return false;const tag=p.match(/^[\w-]+/);return !tag||e.tagName===tag[0]};
  const walk=e=>{for(const c of e.children){if(test(c,parts.at(-1))){let n=c.parent,ix=parts.length-2;while(ix>=0&&n){if(test(n,parts[ix]))ix--;n=n.parent}if(ix<0)out.push(c)}walk(c)}};walk(this);return out;
  }
 }
 function parse(markup,root=new Element('document')){let cur=root;const tokens=markup.match(/<!--[\s\S]*?-->|<![^>]*>|<[^>]*>|[^<]+/g)||[];for(const t of tokens){if(t.startsWith('<!--')||t.startsWith('<!'))continue;if(t.startsWith('</')){if(cur.parent)cur=cur.parent;continue}if(t.startsWith('<')){const m=t.match(/^<([\w-]+)([\s\S]*?)\/?\s*>$/);if(!m)continue;const attrs={};for(const a of m[2].matchAll(/([^\s=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/g))attrs[a[1]]=a[2]??a[3]??a[4]??'';const n=cur.appendChild(new Element(m[1],attrs));if(!voids.has(m[1])&&!t.endsWith('/>'))cur=n;}else cur._text+=t;}return root;}
-function boot({hash='',data={},blocked=false,audience='managers',display=''}={}){
+function boot({hash='',data={},blocked=false,audience='managers',display='',width=1280}={}){
  const doc=parse(html.replace(/<style>[\s\S]*?<\/style>/g,'').replace(/<script>[\s\S]*?<\/script>/g,''));doc.createElement=t=>new Element(t);doc.getElementById=id=>doc.querySelector('#'+id);doc.body=doc.querySelector('body');
  const events={},alerts=[];let reloaded=false;const initialUrl=new URL('https://example.test/?'+(audience?'audience='+audience:'')+(display?'&display='+display:'')+hash);const location={hash,href:initialUrl.href,search:initialUrl.search,reload:()=>reloaded=true,assign:h=>{const u=new URL(h,location.href);location.href=u.href;location.hash=u.hash;location.search=u.search;reloaded=true}};
  const storage={getItem:k=>{if(blocked)throw Error('blocked');return data[k]||null},setItem:(k,v)=>{if(blocked)throw Error('blocked');data[k]=v},removeItem:k=>{if(blocked)throw Error('blocked');delete data[k]}};
- const context={URL,document:doc,localStorage:storage,location,history:{replaceState:(a,b,h)=>{location.hash=new URL(h,location.href).hash;location.href=new URL(h,location.href).href},pushState:(a,b,h)=>{location.hash=new URL(h,location.href).hash;location.href=new URL(h,location.href).href}},window:{scrollTo:()=>{},addEventListener:(n,f)=>events[n]=f},alert:t=>alerts.push(t),confirm:()=>true,console};
+ const context={URL,document:doc,localStorage:storage,location,history:{replaceState:(a,b,h)=>{location.hash=new URL(h,location.href).hash;location.href=new URL(h,location.href).href},pushState:(a,b,h)=>{location.hash=new URL(h,location.href).hash;location.href=new URL(h,location.href).href}},window:{innerWidth:width,scrollTo:()=>{},addEventListener:(n,f)=>events[n]=f},alert:t=>alerts.push(t),confirm:()=>true,console};
  vm.runInNewContext(fs.readFileSync(__dirname+'/audience-content.js','utf8'),context,{timeout:2000});
  vm.runInNewContext(script,context,{timeout:2000});
- return{doc,data,events,alerts,location,test:context.__triangleTests,get reloaded(){return reloaded},q:s=>doc.querySelector(s),all:s=>doc.querySelectorAll(s),active:()=>doc.querySelector('.view.active').id};
+ return{doc,data,events,alerts,location,viewport:context.window,test:context.__triangleTests,get reloaded(){return reloaded},q:s=>doc.querySelector(s),all:s=>doc.querySelectorAll(s),active:()=>doc.querySelector('.view.active').id};
 }
 const app=boot();
 assert.equal(app.active(),'home');
@@ -428,3 +428,56 @@ classroomEntry.q('#displayMode').click();assert.equal(classroomEntry.doc.body.cl
 const classroomDeep=boot({audience:null,display:'class',hash:'#m2'});classroomDeep.q('[data-audience-entry="supervisors"]').click();assert.equal(classroomDeep.location.hash,'#m2');assert.equal(new URL(classroomDeep.location.href).searchParams.get('display'),'class','pending lesson and classroom flag both survive entry');
 assert.ok(handout.includes('<h1>توسعه مهارت‌های رهبری</h1>'));
 console.log('PASS: redesigned learning-journey home, development title, two route cards, desktop-only campus source, collapsed overview, home/lesson navigation, title focus, synchronized classroom controls, URL persistence and unchanged learning data. Visual browser QA remains unavailable.');
+const sidebarRoutes=['m1','m2','leaders','techniques','visuals','diseases','quiz'];
+for(const role of ['managers','supervisors']){
+ const dashboard=boot({audience:role,hash:'#m1',width:1440,display:'class'});
+ assert.equal(dashboard.q('#workshopSidebar').tagName,'aside');
+ assert.equal(dashboard.q('#workshopSidebar').parent,dashboard.q('#main').parent,'sidebar and content share a dashboard layout');
+ assert.equal(dashboard.q('#workshopSidebar').hidden,false);assert.equal(dashboard.q('#workshopLayout').classList.contains('has-sidebar'),true);
+ assert.equal(dashboard.all('#workshopNavigation a').length,7,'seven vertical destinations');
+ assert.ok(dashboard.q('#sidebarAudience').textContent.includes(role==='managers'?'مدیران':'سرپرستان'));
+ const beforeNav=JSON.stringify(dashboard.test.getState());
+ for(const id of sidebarRoutes){
+  dashboard.q('.site-nav [data-open="'+id+'"]').click();
+  assert.equal(dashboard.active(),id);assert.equal(dashboard.q('.site-nav [aria-current="page"]').dataset.open,id);
+  assert.equal(dashboard.all('.site-nav [aria-current="page"]').length,1);
+  const labelWord={m1:'سبک',m2:'گفت‌وگو',leaders:'رهبران',techniques:'فنون',visuals:'تصاویر',diseases:'بیماری',quiz:'کوییز'}[id];
+  assert.ok(dashboard.q('#sidebarCurrent').textContent.includes(labelWord),'mobile caption identifies the current section');
+  assert.equal(dashboard.doc.body.classList.contains('in-workshop'),true);
+  assert.equal(dashboard.q('#sidebarBackdrop').hidden,true);assert.equal(dashboard.q('#main').getAttribute('inert'),undefined);
+ }
+ assert.equal(JSON.stringify(dashboard.test.getState()),beforeNav,'navigation does not alter learning answers');
+ dashboard.q('#sidebarHome').click();assert.equal(dashboard.active(),'home');assert.equal(dashboard.q('#workshopSidebar').hidden,true);
+ assert.equal(dashboard.q('#sidebarMobileBar').hidden,true);assert.equal(dashboard.q('#workshopLayout').classList.contains('has-sidebar'),false);
+ assert.equal(dashboard.doc.body.classList.contains('in-workshop'),false);assert.equal(dashboard.doc.activeElement,dashboard.q('#home h1'));
+
+ const mobile=boot({audience:role,hash:'#m2',width:390});
+ assert.equal(mobile.q('#sidebarToggle').getAttribute('aria-expanded'),'false');
+ mobile.q('#sidebarToggle').click();
+ assert.equal(mobile.doc.body.classList.contains('sidebar-open'),true);assert.equal(mobile.q('#sidebarToggle').getAttribute('aria-expanded'),'true');
+ assert.equal(mobile.q('#sidebarBackdrop').hidden,false);assert.equal(mobile.doc.activeElement,mobile.q('#sidebarClose'));
+ for(const el of mobile.all('[data-sidebar-background]'))assert.equal(el.getAttribute('inert'),'','background is not keyboard-interactive while drawer is open');
+ let prevented=0;
+ mobile.events.keydown({key:'Tab',shiftKey:true,preventDefault:()=>prevented++});assert.equal(mobile.doc.activeElement,mobile.q('#sidebarHome'));
+ mobile.events.keydown({key:'Tab',shiftKey:false,preventDefault:()=>prevented++});assert.equal(mobile.doc.activeElement,mobile.q('#sidebarClose'));assert.equal(prevented,2,'keyboard focus stays in the drawer');
+ mobile.events.keydown({key:'Escape',preventDefault:()=>prevented++});
+ assert.equal(mobile.doc.body.classList.contains('sidebar-open'),false);assert.equal(mobile.doc.activeElement,mobile.q('#sidebarToggle'));
+ assert.equal(mobile.q('#sidebarBackdrop').hidden,true);assert.ok(mobile.all('[data-sidebar-background]').every(el=>el.getAttribute('inert')===undefined));
+ for(const close of ['sidebarClose','sidebarBackdrop']){
+  mobile.q('#sidebarToggle').click();mobile.q('#'+close).click();assert.equal(mobile.q('#sidebarToggle').getAttribute('aria-expanded'),'false');assert.equal(mobile.doc.activeElement,mobile.q('#sidebarToggle'));
+ }
+ mobile.q('#sidebarToggle').click();mobile.q('.site-nav [data-open="techniques"]').click();
+ assert.equal(mobile.active(),'techniques');assert.equal(mobile.doc.body.classList.contains('sidebar-open'),false);
+ assert.equal(mobile.doc.activeElement,mobile.q('#techniques h2'));assert.equal(mobile.q('#sidebarCurrent').textContent,'فنون رهبری اثربخش');
+ mobile.q('[data-question="tech_credibility"][data-value="own"]').click();
+ mobile.q('#sidebarToggle').click();mobile.viewport.innerWidth=1280;mobile.events.resize();
+ assert.equal(mobile.q('#sidebarBackdrop').hidden,true);assert.equal(mobile.doc.body.classList.contains('sidebar-open'),false);
+ assert.equal(mobile.doc.activeElement,mobile.q('.site-nav [aria-current="page"]'),'focus survives desktop breakpoint');
+ mobile.q('#sidebarToggle').click();assert.equal(mobile.q('#sidebarToggle').getAttribute('aria-expanded'),'false','desktop navigation remains nonmodal');
+ mobile.viewport.innerWidth=390;mobile.events.resize();mobile.q('#sidebarToggle').click();mobile.q('.site-nav [data-open="m2"]').click();
+ const restoredMobile=boot({audience:role,width:390,hash:'#techniques',data:mobile.data});
+ assert.equal(restoredMobile.q('[data-question="tech_credibility"][data-value="own"]').getAttribute('aria-pressed'),'true','drawer navigation preserves saved answers');
+ assert.equal(restoredMobile.q('#sidebarToggle').getAttribute('aria-expanded'),'false','drawer always starts closed');
+}
+const guardedSidebar=boot({audience:null,width:390,hash:'#leaders'});assert.equal(guardedSidebar.active(),'home');assert.equal(guardedSidebar.q('#workshopSidebar').hidden,true);assert.equal(guardedSidebar.q('#sidebarMobileBar').hidden,true);
+console.log('PASS: right dashboard sidebar with seven destinations for both roles; active section and home transitions; compact mobile drawer, Escape/close/backdrop behavior, inert background, focus loop/restoration, responsive resize, classroom mode and preserved learning state.');

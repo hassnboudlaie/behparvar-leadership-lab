@@ -20,9 +20,9 @@ class Element{
  }
 }
 function parse(markup,root=new Element('document')){let cur=root;const tokens=markup.match(/<!--[\s\S]*?-->|<![^>]*>|<[^>]*>|[^<]+/g)||[];for(const t of tokens){if(t.startsWith('<!--')||t.startsWith('<!'))continue;if(t.startsWith('</')){if(cur.parent)cur=cur.parent;continue}if(t.startsWith('<')){const m=t.match(/^<([\w-]+)([\s\S]*?)\/?\s*>$/);if(!m)continue;const attrs={};for(const a of m[2].matchAll(/([^\s=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/g))attrs[a[1]]=a[2]??a[3]??a[4]??'';const n=cur.appendChild(new Element(m[1],attrs));if(!voids.has(m[1])&&!t.endsWith('/>'))cur=n;}else cur._text+=t;}return root;}
-function boot({hash='',data={},blocked=false,audience='managers'}={}){
+function boot({hash='',data={},blocked=false,audience='managers',display=''}={}){
  const doc=parse(html.replace(/<style>[\s\S]*?<\/style>/g,'').replace(/<script>[\s\S]*?<\/script>/g,''));doc.createElement=t=>new Element(t);doc.getElementById=id=>doc.querySelector('#'+id);doc.body=doc.querySelector('body');
- const events={},alerts=[];let reloaded=false;const initialUrl=new URL('https://example.test/?'+(audience?'audience='+audience:'')+hash);const location={hash,href:initialUrl.href,search:initialUrl.search,reload:()=>reloaded=true,assign:h=>{const u=new URL(h,location.href);location.href=u.href;location.hash=u.hash;location.search=u.search;reloaded=true}};
+ const events={},alerts=[];let reloaded=false;const initialUrl=new URL('https://example.test/?'+(audience?'audience='+audience:'')+(display?'&display='+display:'')+hash);const location={hash,href:initialUrl.href,search:initialUrl.search,reload:()=>reloaded=true,assign:h=>{const u=new URL(h,location.href);location.href=u.href;location.hash=u.hash;location.search=u.search;reloaded=true}};
  const storage={getItem:k=>{if(blocked)throw Error('blocked');return data[k]||null},setItem:(k,v)=>{if(blocked)throw Error('blocked');data[k]=v},removeItem:k=>{if(blocked)throw Error('blocked');delete data[k]}};
  const context={URL,document:doc,localStorage:storage,location,history:{replaceState:(a,b,h)=>{location.hash=new URL(h,location.href).hash;location.href=new URL(h,location.href).href},pushState:(a,b,h)=>{location.hash=new URL(h,location.href).hash;location.href=new URL(h,location.href).href}},window:{scrollTo:()=>{},addEventListener:(n,f)=>events[n]=f},alert:t=>alerts.push(t),confirm:()=>true,console};
  vm.runInNewContext(fs.readFileSync(__dirname+'/audience-content.js','utf8'),context,{timeout:2000});
@@ -283,7 +283,7 @@ const authored=JSON.parse(fs.readFileSync(__dirname+'/quiz-questions.json','utf8
 const learningKeys=['conversation','conversation_coordination','conversation_change','conversation_workload','nadella','mulally','tech_credibility','tech_charisma','tech_reward','tech_recognition','nitpicker'];
 for(const role of ['managers','supervisors']){
  const a=boot({audience:role});
- assert.equal(a.q('.site-nav').hidden,false);assert.equal(a.q('#workshopOverview').hidden,false);assert.equal(a.q('[data-audience-entry="'+role+'"]').getAttribute('aria-pressed'),'true');
+ assert.equal(a.q('.site-nav').hidden,true);assert.equal(a.q('#workshopOverview').hidden,false);assert.equal(a.q('#workshopOverview').open,false);a.q('[data-open="m1"]').click();assert.equal(a.q('.site-nav').hidden,false);assert.equal(a.q('[data-audience-entry="'+role+'"]').getAttribute('aria-pressed'),'true');
  assert.equal(a.all('[data-audience-copy]').length,Object.keys(a.test.audienceData.copy).length,'all authored role applications are present');
  for(const node of a.all('[data-audience-copy]'))assert.ok(node.textContent.trim().length>10,'role content is nonempty');
  assert.equal(a.test.audienceData.gridStatements.length,12);assert.equal(a.test.triCases.length,8);
@@ -341,3 +341,21 @@ function bootHandout(role=null,data={}){
 const emptyHandout=bootHandout();assert.equal(emptyHandout.q('#handoutContent').hidden,true);assert.equal(emptyHandout.q('#handoutRolePicker').hidden,false);assert.equal(emptyHandout.q('#printHandout').disabled,true);
 for(const role of ['managers','supervisors']){const h=bootHandout(role);assert.equal(h.q('#handoutContent').hidden,false);assert.equal(h.q('#handoutRolePicker').hidden,true);assert.ok(h.q('#handoutAudienceLabel').textContent.includes(role==='managers'?'مدیران':'سرپرستان'));assert.equal(h.all('[data-handout-copy]').length,12);assert.ok(h.all('a').some(a=>a.getAttribute('href')==='./?audience='+role+'#m2'));h.q('#printHandout').click();assert.equal(h.prints,1)}
 console.log('PASS: two audience entry routes; substantive adaptation in all seven sections, 20 quiz items, 8 conversation and 8 technique role-plays, 24 grid statements and 16 optional cases; URL/stored/deep-link selection; independent answers, notes, grid, quiz and triangle; scoped reset; one-time legacy migration and archived generic quiz; blocked-storage entry; two printable handouts.');
+
+const homeDesign=boot({audience:null});
+assert.equal(homeDesign.q('#home h1').textContent,'توسعه مهارت‌های رهبری');
+assert.ok(homeDesign.q('.home-message').textContent.includes('کارکنان و کسب‌وکار'));
+assert.ok(homeDesign.q('.home-description').textContent.includes('یک نسخه ثابت ندارد'));
+assert.equal(homeDesign.q('#home h1').focused,true,'home focuses the course title');
+assert.equal(homeDesign.doc.body.classList.contains('at-home'),true);
+assert.equal(homeDesign.q('#workshopOverview').tagName,'details');assert.equal(homeDesign.q('#workshopOverview').open,false);
+assert.equal(homeDesign.q('.home-scene source').getAttribute('media'),'(min-width: 900px)');assert.equal(homeDesign.q('.home-scene source').getAttribute('srcset'),'assets/behparvar-campus.webp');assert.ok(homeDesign.q('.home-scene img').getAttribute('src').startsWith('data:image/svg+xml,'),'mobile picture fallback does not select the campus image');
+const homeStateBefore=JSON.stringify(homeDesign.test.getState());
+homeDesign.q('#homeDisplayMode').click();assert.equal(homeDesign.doc.body.classList.contains('presenting'),true);assert.equal(homeDesign.q('#displayMode').getAttribute('aria-pressed'),'true');assert.equal(homeDesign.q('#homeDisplayMode').getAttribute('aria-pressed'),'true');assert.equal(new URL(homeDesign.location.href).searchParams.get('display'),'class');assert.equal(JSON.stringify(homeDesign.test.getState()),homeStateBefore,'display choice does not alter learning data');
+homeDesign.q('[data-audience-entry="managers"]').click();assert.equal(new URL(homeDesign.location.href).searchParams.get('display'),'class');assert.equal(new URL(homeDesign.location.href).searchParams.get('audience'),'managers');
+const classroomEntry=boot({audience:'managers',display:'class',hash:'#m1',data:homeDesign.data});assert.equal(classroomEntry.doc.body.classList.contains('presenting'),true);assert.equal(classroomEntry.q('.site-nav').hidden,false);assert.equal(classroomEntry.q('#audienceStatus').hidden,false);
+classroomEntry.q('[data-open="home"]').click();assert.equal(classroomEntry.q('.site-nav').hidden,true);assert.equal(classroomEntry.q('#audienceStatus').hidden,true);assert.equal(classroomEntry.q('#workshopOverview').hidden,false);assert.equal(classroomEntry.q('#workshopOverview').open,false);assert.equal(classroomEntry.q('#home h1').focused,true);
+classroomEntry.q('#displayMode').click();assert.equal(classroomEntry.doc.body.classList.contains('presenting'),false);assert.equal(classroomEntry.q('#homeDisplayMode').getAttribute('aria-pressed'),'false');assert.equal(new URL(classroomEntry.location.href).searchParams.has('display'),false);
+const classroomDeep=boot({audience:null,display:'class',hash:'#m2'});classroomDeep.q('[data-audience-entry="supervisors"]').click();assert.equal(classroomDeep.location.hash,'#m2');assert.equal(new URL(classroomDeep.location.href).searchParams.get('display'),'class','pending lesson and classroom flag both survive entry');
+assert.ok(handout.includes('<h1>توسعه مهارت‌های رهبری</h1>'));
+console.log('PASS: redesigned learning-journey home, development title, two route cards, desktop-only campus source, collapsed overview, home/lesson navigation, title focus, synchronized classroom controls, URL persistence and unchanged learning data. Visual browser QA remains unavailable.');

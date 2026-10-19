@@ -37,9 +37,9 @@ for(const role of ['managers','supervisors']){
  const a=boot({audience:role});assert.equal(a.active(),'course');assert.equal(a.all('[data-course-session]').length,6);assert.equal(a.all('#home .module-card').length,7);
  const untouched=JSON.stringify(a.test.getState());
  for(let n=2;n<=6;n++){
-  a.q('[data-course-session="'+n+'"]').click();assert.equal(a.active(),'session'+n);assert.equal(a.all('#session'+n+' [data-session-section]').length,7);assert.equal(a.q('#workshopSidebar').hidden,true);
+  a.q('[data-course-session="'+n+'"]').click();assert.equal(a.active(),'session'+n);assert.equal(a.all('#workshopNavigation a').length,7);assert.equal(a.q('#workshopSidebar').hidden,false);
   for(const part of parts){
-   a.q('#session'+n+' [data-open="session'+n+'-'+part+'"]').click();assert.equal(a.active(),'session'+n+'-'+part);assert.equal(a.q('#workshopSidebar').hidden,false);assert.equal(a.all('#workshopNavigation a').length,7);assert.ok(a.q('#sidebarSessionTitle').textContent.includes(words[n-1]));assert.ok(a.doc.title.includes('جلسه '+words[n-1]));assert.equal(a.q('#sidebarHome').dataset.open,'session'+n);assert.equal(a.q('#reset').hidden,true);assert.ok(a.all('[data-first-session-resource]').every(x=>x.hidden));assert.equal(a.q('.site-nav [aria-current="page"]').dataset.open,'session'+n+'-'+part);assert.ok(a.q('#session'+n+'-'+part).textContent.includes('هنوز اضافه نشده'));
+   a.q('.site-nav [data-open="session'+n+'-'+part+'"]').click();assert.equal(a.active(),'session'+n+'-'+part);assert.equal(a.q('#workshopSidebar').hidden,false);assert.equal(a.all('#workshopNavigation a').length,7);assert.ok(a.q('#sidebarSessionTitle').textContent.includes(words[n-1]));assert.ok(a.doc.title.includes('جلسه '+words[n-1]));assert.equal(a.q('#sidebarHome').dataset.open,'session'+n);assert.equal(a.q('#reset').hidden,true);assert.ok(a.all('[data-first-session-resource]').every(x=>x.hidden));assert.equal(a.q('.site-nav [aria-current="page"]').dataset.open,'session'+n+'-'+part);assert.ok(a.q('#session'+n+'-'+part).textContent.includes('هنوز اضافه نشده'));
    for(const link of a.all('#workshopNavigation a'))assert.ok(link.dataset.open.startsWith('session'+n+'-'));
    a.q('#sidebarHome').click();assert.equal(a.active(),'session'+n);
   }
@@ -52,7 +52,7 @@ const seed={schema:5,audience:'managers',legacyClaimed:true,legacyState:{},roleS
 const data={[firstKey]:JSON.stringify(seed)},snapshot=data[firstKey];
 const a=boot({audience:'managers',hash:'#session2-m1',data});
 const note2=a.q('#future-note-2-m1');note2.value='یادداشت مدیران جلسه دوم';note2.fire('input');assert.equal(data[firstKey],snapshot);
-a.q('[data-course-session="3"]').click();a.q('#session3 [data-open="session3-m1"]').click();const note3=a.q('#future-note-3-m1');assert.equal(note3.value,'');note3.value='یادداشت جلسه سوم';note3.fire('input');assert.equal(data[firstKey],snapshot);
+a.q('[data-course-session="3"]').click();a.q('.site-nav [data-open="session3-m1"]').click();const note3=a.q('#future-note-3-m1');assert.equal(note3.value,'');note3.value='یادداشت جلسه سوم';note3.fire('input');assert.equal(data[firstKey],snapshot);
 assert.equal(JSON.parse(data.behparvar_session2_v1).roleStates.managers.notes.m1,note2.value);assert.equal(JSON.parse(data.behparvar_session3_v1).roleStates.managers.notes.m1,note3.value);
 const role2=boot({audience:'supervisors',hash:'#session2-m1',data});assert.equal(role2.q('#future-note-2-m1').value,'');role2.q('#future-note-2-m1').value='یادداشت سرپرستان جلسه دوم';role2.q('#future-note-2-m1').fire('input');assert.equal(data[firstKey],snapshot);
 const resumed=boot({audience:'managers',hash:'#session2-m1',data});assert.equal(resumed.q('#future-note-2-m1').value,note2.value);assert.equal(resumed.q('#future-note-3-m1').value,note3.value);assert.equal(resumed.q('#future-note-2-m2').value,'');

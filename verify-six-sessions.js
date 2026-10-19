@@ -34,7 +34,7 @@ for(const role of [null,'managers','supervisors']){
  const a=boot({audience:role});assert.equal(a.active(),'course');assert.equal(a.all('#course [data-course-session]').length,6);assert.equal(a.q('#workshopSidebar').hidden,true);assert.equal(a.q('#audienceStatus').hidden,true);
  const before=JSON.stringify(a.test.getState());
  for(let n=2;n<=6;n++){
-  a.q('[data-course-session="'+n+'"]').click();assert.equal(a.active(),'session'+n);assert.equal(a.q('#workshopSidebar').hidden,true);assert.equal(a.q('#sidebarMobileBar').hidden,true);assert.equal(a.q('#audienceStatus').hidden,true);assert.equal(a.doc.body.classList.contains('in-workshop'),false);assert.ok(a.q('#session'+n).textContent.includes('هنوز اضافه نشده'));
+  a.q('[data-course-session="'+n+'"]').click();assert.equal(a.active(),'session'+n);assert.equal(a.q('#workshopSidebar').hidden,false);assert.equal(a.q('#sidebarMobileBar').hidden,false);assert.equal(a.q('#audienceStatus').hidden,true);assert.equal(a.doc.body.classList.contains('in-workshop'),true);assert.ok(a.q('#session'+n).textContent.includes('هنوز اضافه نشده'));
   a.q('#session'+n+' [data-open="course"]').click();assert.equal(a.active(),'course');
  }
  assert.equal(JSON.stringify(a.test.getState()),before,'course/placeholder navigation never alters session-one data');

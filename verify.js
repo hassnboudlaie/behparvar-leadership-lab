@@ -343,7 +343,7 @@ console.log('PASS: four conversation choices; closed initial list; one case at a
 
 // Audience entry is a local learning-route choice, with independent progress.
 const entry=boot({audience:null,hash:'#quiz'});
-assert.equal(entry.active(),'home');assert.equal(entry.q('.site-nav').hidden,true);assert.equal(entry.q('#workshopOverview').hidden,true);assert.equal(entry.all('[data-audience-entry]').length,2);
+assert.equal(entry.active(),'home');assert.equal(entry.q('.site-nav').hidden,false);assert.equal(entry.q('#workshopOverview').hidden,true);assert.equal(entry.all('[data-audience-entry]').length,2);
 assert.ok(entry.q('#audiencePrompt').textContent.includes('ابتدا'));
 entry.q('[data-audience-entry="supervisors"]').click();assert.ok(entry.reloaded);
 assert.equal(new URL(entry.location.href).searchParams.get('audience'),'supervisors');assert.equal(entry.location.hash,'#quiz','deep-link target survives route selection');
@@ -423,7 +423,7 @@ const homeStateBefore=JSON.stringify(homeDesign.test.getState());
 homeDesign.q('#homeDisplayMode').click();assert.equal(homeDesign.doc.body.classList.contains('presenting'),true);assert.equal(homeDesign.q('#displayMode').getAttribute('aria-pressed'),'true');assert.equal(homeDesign.q('#homeDisplayMode').getAttribute('aria-pressed'),'true');assert.equal(new URL(homeDesign.location.href).searchParams.get('display'),'class');assert.equal(JSON.stringify(homeDesign.test.getState()),homeStateBefore,'display choice does not alter learning data');
 homeDesign.q('[data-audience-entry="managers"]').click();assert.equal(new URL(homeDesign.location.href).searchParams.get('display'),'class');assert.equal(new URL(homeDesign.location.href).searchParams.get('audience'),'managers');
 const classroomEntry=boot({audience:'managers',display:'class',hash:'#m1',data:homeDesign.data});assert.equal(classroomEntry.doc.body.classList.contains('presenting'),true);assert.equal(classroomEntry.q('.site-nav').hidden,false);assert.equal(classroomEntry.q('#audienceStatus').hidden,false);
-classroomEntry.q('[data-open="home"]').click();assert.equal(classroomEntry.q('.site-nav').hidden,true);assert.equal(classroomEntry.q('#audienceStatus').hidden,true);assert.equal(classroomEntry.q('#workshopOverview').hidden,false);assert.equal(classroomEntry.q('#workshopOverview').open,false);assert.equal(classroomEntry.q('#home h1').focused,true);
+classroomEntry.q('[data-open="home"]').click();assert.equal(classroomEntry.q('.site-nav').hidden,false);assert.equal(classroomEntry.q('#audienceStatus').hidden,true);assert.equal(classroomEntry.q('#workshopOverview').hidden,false);assert.equal(classroomEntry.q('#workshopOverview').open,false);assert.equal(classroomEntry.q('#home h1').focused,true);
 classroomEntry.q('#displayMode').click();assert.equal(classroomEntry.doc.body.classList.contains('presenting'),false);assert.equal(classroomEntry.q('#homeDisplayMode').getAttribute('aria-pressed'),'false');assert.equal(new URL(classroomEntry.location.href).searchParams.has('display'),false);
 const classroomDeep=boot({audience:null,display:'class',hash:'#m2'});classroomDeep.q('[data-audience-entry="supervisors"]').click();assert.equal(classroomDeep.location.hash,'#m2');assert.equal(new URL(classroomDeep.location.href).searchParams.get('display'),'class','pending lesson and classroom flag both survive entry');
 assert.ok(handout.includes('<h1>توسعه مهارت‌های رهبری</h1>'));
@@ -447,9 +447,9 @@ for(const role of ['managers','supervisors']){
   assert.equal(dashboard.q('#sidebarBackdrop').hidden,true);assert.equal(dashboard.q('#main').getAttribute('inert'),undefined);
  }
  assert.equal(JSON.stringify(dashboard.test.getState()),beforeNav,'navigation does not alter learning answers');
- dashboard.q('#sidebarHome').click();assert.equal(dashboard.active(),'home');assert.equal(dashboard.q('#workshopSidebar').hidden,true);
- assert.equal(dashboard.q('#sidebarMobileBar').hidden,true);assert.equal(dashboard.q('#workshopLayout').classList.contains('has-sidebar'),false);
- assert.equal(dashboard.doc.body.classList.contains('in-workshop'),false);assert.equal(dashboard.doc.activeElement,dashboard.q('#home h1'));
+ dashboard.q('#sidebarHome').click();assert.equal(dashboard.active(),'home');assert.equal(dashboard.q('#workshopSidebar').hidden,false);
+ assert.equal(dashboard.q('#sidebarMobileBar').hidden,false);assert.equal(dashboard.q('#workshopLayout').classList.contains('has-sidebar'),true);
+ assert.equal(dashboard.doc.body.classList.contains('in-workshop'),true);assert.equal(dashboard.doc.activeElement,dashboard.q('#home h1'));
 
  const mobile=boot({audience:role,hash:'#m2',width:390});
  assert.equal(mobile.q('#sidebarToggle').getAttribute('aria-expanded'),'false');
@@ -458,7 +458,7 @@ for(const role of ['managers','supervisors']){
  assert.equal(mobile.q('#sidebarBackdrop').hidden,false);assert.equal(mobile.doc.activeElement,mobile.q('#sidebarClose'));
  for(const el of mobile.all('[data-sidebar-background]'))assert.equal(el.getAttribute('inert'),'','background is not keyboard-interactive while drawer is open');
  let prevented=0;
- mobile.events.keydown({key:'Tab',shiftKey:true,preventDefault:()=>prevented++});assert.equal(mobile.doc.activeElement,mobile.q('#sidebarHome'));
+ mobile.events.keydown({key:'Tab',shiftKey:true,preventDefault:()=>prevented++});assert.equal(mobile.doc.activeElement,mobile.q('#sidebarCourse'));
  mobile.events.keydown({key:'Tab',shiftKey:false,preventDefault:()=>prevented++});assert.equal(mobile.doc.activeElement,mobile.q('#sidebarClose'));assert.equal(prevented,2,'keyboard focus stays in the drawer');
  mobile.events.keydown({key:'Escape',preventDefault:()=>prevented++});
  assert.equal(mobile.doc.body.classList.contains('sidebar-open'),false);assert.equal(mobile.doc.activeElement,mobile.q('#sidebarToggle'));
@@ -479,6 +479,6 @@ for(const role of ['managers','supervisors']){
  assert.equal(restoredMobile.q('[data-question="tech_credibility"][data-value="own"]').getAttribute('aria-pressed'),'true','drawer navigation preserves saved answers');
  assert.equal(restoredMobile.q('#sidebarToggle').getAttribute('aria-expanded'),'false','drawer always starts closed');
 }
-const guardedSidebar=boot({audience:null,width:390,hash:'#leaders'});assert.equal(guardedSidebar.active(),'home');assert.equal(guardedSidebar.q('#workshopSidebar').hidden,true);assert.equal(guardedSidebar.q('#sidebarMobileBar').hidden,true);
+const guardedSidebar=boot({audience:null,width:390,hash:'#leaders'});assert.equal(guardedSidebar.active(),'home');assert.equal(guardedSidebar.q('#workshopSidebar').hidden,false);assert.equal(guardedSidebar.q('#sidebarMobileBar').hidden,false);
 console.log('PASS: right dashboard sidebar with seven destinations for both roles; active section and home transitions; compact mobile drawer, Escape/close/backdrop behavior, inert background, focus loop/restoration, responsive resize, classroom mode and preserved learning state.');
 

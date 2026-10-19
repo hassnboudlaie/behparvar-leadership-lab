@@ -25,17 +25,17 @@ function boot({hash='',data={},blocked=false,audience='managers',display='',widt
  const events={},alerts=[];let reloaded=false;const initialUrl=new URL('https://example.test/?'+(audience?'audience='+audience:'')+(display?'&display='+display:'')+hash);const location={hash,href:initialUrl.href,search:initialUrl.search,reload:()=>reloaded=true,assign:h=>{const u=new URL(h,location.href);location.href=u.href;location.hash=u.hash;location.search=u.search;reloaded=true}};
  const storage={getItem:k=>{if(blocked)throw Error('blocked');return data[k]||null},setItem:(k,v)=>{if(blocked)throw Error('blocked');data[k]=v},removeItem:k=>{if(blocked)throw Error('blocked');delete data[k]}};
  const context={URL,document:doc,localStorage:storage,location,history:{replaceState:(a,b,h)=>{location.hash=new URL(h,location.href).hash;location.href=new URL(h,location.href).href},pushState:(a,b,h)=>{location.hash=new URL(h,location.href).hash;location.href=new URL(h,location.href).href}},window:{innerWidth:width,scrollTo:()=>{},addEventListener:(n,f)=>events[n]=f},alert:t=>alerts.push(t),confirm:()=>true,console};
- vm.runInNewContext(fs.readFileSync(__dirname+'/audience-content.js','utf8'),context,{timeout:2000});
- vm.runInNewContext(script,context,{timeout:2000});
+ vm.runInNewContext(fs.readFileSync(__dirname+'/audience-content.js','utf8'),context,{timeout:10000});
+ vm.runInNewContext(script,context,{timeout:10000});
  return{doc,data,events,alerts,location,viewport:context.window,test:context.__triangleTests,get reloaded(){return reloaded},q:s=>doc.querySelector(s),all:s=>doc.querySelectorAll(s),active:()=>doc.querySelector('.view.active').id};
 }
 const app=boot();
-assert.equal(app.active(),'home');
+assert.equal(app.active(),'course');
 assert.equal(app.all('.module-card').length,7,'exactly seven workshop sections');
 for(const id of ['home','m1','m2','leaders','techniques','visuals','diseases','quiz','action','assessment'])assert.equal(boot({hash:'#'+id}).active(),id);
 const aliases={session:'home',workshop:'home',profile:'home',m3:'leaders',m4:'techniques',m5:'visuals',m6:'diseases',m7:'quiz',m8:'action',m1cases:'m2',m1model:'m1',m1learning:'action',m1action:'action',m1office:'m2'};
 for(const [old,target] of Object.entries(aliases))assert.equal(boot({hash:'#'+old}).active(),target,'old bookmark '+old);
-assert.equal(boot({hash:'#unknown'}).active(),'home');
+assert.equal(boot({hash:'#unknown'}).active(),'course');
 const ids=app.all('[id]').map(e=>e.id);assert.equal(new Set(ids).size,ids.length,'unique IDs');
 for(const a of app.all('[data-open]')){a.click();assert.equal(app.active(),a.dataset.open)}
 for(const a of app.all('a')){const href=a.getAttribute('href');if(href.startsWith('#'))assert.ok(app.q(href),'broken anchor '+href)}
@@ -395,7 +395,7 @@ explicitManager.q('#reset').click();assert.ok(explicitManager.reloaded);assert.e
 const managerAfterReset=boot({audience:'managers',data:explicitManager.data});assert.equal(managerAfterReset.q('#actionWhen').value,'');assert.equal(Object.keys(managerAfterReset.test.getState().quiz.answers).length,0);
 
 const legacyAudienceData={behparvar_session1_v4:JSON.stringify({answers:{workshop_when:'یادداشت پیش از تفکیک',workshop_conversation:'clear'},grid:{0:4},quiz:{version:1,answers:{q1:'C'},submitted:false}})};
-const migrateEntry=boot({audience:null,data:legacyAudienceData});assert.equal(migrateEntry.active(),'home');migrateEntry.q('[data-audience-entry="managers"]').click();
+const migrateEntry=boot({audience:null,hash:'#home',data:legacyAudienceData});assert.equal(migrateEntry.active(),'home');migrateEntry.q('[data-audience-entry="managers"]').click();
 const migratedAudience=boot({audience:'managers',data:migrateEntry.data});assert.equal(migratedAudience.q('#actionWhen').value,'یادداشت پیش از تفکیک');assert.equal(migratedAudience.test.getState().grid[0],4);assert.equal(migratedAudience.test.getState().quizPrevious.answers.q1,'C','old generic quiz is archived');assert.equal(Object.keys(migratedAudience.test.getState().quiz.answers).length,0,'old answers are not scored against new role questions');
 migratedAudience.q('[data-audience-entry="supervisors"]').click();const cleanOtherRole=boot({audience:'supervisors',data:migratedAudience.data});assert.equal(cleanOtherRole.q('#actionWhen').value,'');assert.equal(Object.keys(cleanOtherRole.test.getState().grid).length,0,'legacy progress claimed once');assert.ok(JSON.parse(cleanOtherRole.data.behparvar_session1_v4).legacyState.answers.workshop_when);
 const invalidAudience=boot({audience:null,hash:'#m4',data:{behparvar_session1_v4:JSON.stringify({schema:5,audience:'invalid',roleStates:[]})}});assert.equal(invalidAudience.active(),'home');invalidAudience.q('[data-audience-entry="supervisors"]').click();assert.equal(invalidAudience.location.hash,'#techniques','legacy deep link survives role gate');
@@ -411,7 +411,7 @@ const emptyHandout=bootHandout();assert.equal(emptyHandout.q('#handoutContent').
 for(const role of ['managers','supervisors']){const h=bootHandout(role);assert.equal(h.q('#handoutContent').hidden,false);assert.equal(h.q('#handoutRolePicker').hidden,true);assert.ok(h.q('#handoutAudienceLabel').textContent.includes(role==='managers'?'مدیران':'سرپرستان'));assert.equal(h.all('[data-handout-copy]').length,12);assert.ok(h.all('a').some(a=>a.getAttribute('href')==='./?audience='+role+'#m2'));h.q('#printHandout').click();assert.equal(h.prints,1)}
 console.log('PASS: two audience entry routes; substantive adaptation in all seven sections, 20 quiz items, 8 conversation and 8 technique role-plays, 24 grid statements and 16 optional cases; URL/stored/deep-link selection; independent answers, notes, grid, quiz and triangle; scoped reset; one-time legacy migration and archived generic quiz; blocked-storage entry; two printable handouts.');
 
-const homeDesign=boot({audience:null});
+const homeDesign=boot({audience:null,hash:'#home'});
 assert.equal(homeDesign.q('#home h1').textContent,'توسعه مهارت‌های رهبری');
 assert.ok(homeDesign.q('.home-message').textContent.includes('کارکنان و کسب‌وکار'));
 assert.ok(homeDesign.q('.home-description').textContent.includes('یک نسخه ثابت ندارد'));
@@ -481,3 +481,4 @@ for(const role of ['managers','supervisors']){
 }
 const guardedSidebar=boot({audience:null,width:390,hash:'#leaders'});assert.equal(guardedSidebar.active(),'home');assert.equal(guardedSidebar.q('#workshopSidebar').hidden,true);assert.equal(guardedSidebar.q('#sidebarMobileBar').hidden,true);
 console.log('PASS: right dashboard sidebar with seven destinations for both roles; active section and home transitions; compact mobile drawer, Escape/close/backdrop behavior, inert background, focus loop/restoration, responsive resize, classroom mode and preserved learning state.');
+

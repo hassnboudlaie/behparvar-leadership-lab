@@ -28,7 +28,7 @@ The triangle assessment is optional after-class practice, outside these 120 minu
 - The conversation covers observed behavior, impact, inquiry, ownership, support and an agreed follow-up time.
 - The leadership section shows one leader at a time. Historical source summaries are distinguished from invented teaching examples.
 - The conclusion asks for one behavior and one time/context, with a copy button.
-- Role selection and progress dashboard are removed. Nonlinear access remains.
+- The former complex role dashboard remains removed. The home now offers two simple learning-route choices, managers and supervisors, with nonlinear access after selection.
 - Fourteen former routes resolve to relevant new sections. Previous notes remain readable; no automatic deletion.
 - The short handout follows the same seven sections and links to the live tools.
 
@@ -71,7 +71,7 @@ Book source identification:
 
 ## Seventh and final section: conceptual quiz
 
-Ten scenario-based questions, four plausible options each, with one best answer grounded in the existing six sections. Coverage: Blake–Mouton (1), conversation (1), leader lessons (2), techniques (3, with credibility and charisma integrated), pictures (2, combining support, shared action and downstream effects), managerial habits (1). The authoring bank in `quiz-questions.json` is embedded verbatim as data in the buildless page; runtime does not fetch a separate file. Each item records its source section, taught basis, concept, nonspoiling authoring hint, key and feedback for all four options. Hints and source concepts are not shown during the attempt.
+Ten scenario-based questions, four plausible options each, with one best answer grounded in the existing six sections. Coverage: Blake–Mouton (1), conversation (1), leader lessons (2), techniques (3, with credibility and charisma integrated), pictures (2, combining support, shared action and downstream effects), managerial habits (1). The authoring banks in `quiz-questions.json` are mirrored in the self-hosted `audience-content.js` role-content asset; the selected route uses its own bank. Each item records its source section, taught basis, concept, nonspoiling authoring hint, key and feedback for all four options. Hints and source concepts are not shown during the attempt.
 
 One question appears at a time. Responses can be changed before submission, previous/next controls preserve choices, and no score, key or explanation is rendered until all ten valid responses have been submitted. The final report contains a score, clickable answer sheet, ten expandable analyses, explanations for every distractor, and links to the relevant lesson or exact subpanel. The score describes performance on these ten questions; it is not a leadership assessment or diagnosis.
 
@@ -87,3 +87,24 @@ Each case has one short scene, a bold practical lesson, named two-person roles, 
 The original report exercise keeps its existing question/value IDs, so saved responses remain compatible. New exercises have distinct keys. Opening or changing a case does not change or clear any responses. Reload starts at the list while each exercise response still restores locally. The final quiz bank and keys are unchanged; its section-two source link opens the retained report case directly.
 
 Verification covers the default closed list, every open/back path, one-case visibility, matching ARIA state, per-case roles/lesson/agreement/exercise, nine new distinct feedback messages, reloaded and legacy responses, blocked storage, navigation out and back, and the quiz-to-report-case link. Existing grid, triangle and quiz regression checks still pass. Browser visual inspection remains unavailable in the managed environment.
+
+
+## Two audience routes — 19 October 2026
+
+The home hero offers one-click entry for managers or supervisors. Each choice opens the lesson requested by a deep link, or section one by default. No identity fields or account flow are introduced. The overview and lesson navigation appear after selection; a visible route label and home link allow changing groups. URL `audience=managers` or `audience=supervisors` overrides the browser's last choice and still works when local storage is blocked.
+
+| Section | Managers | Supervisors |
+| --- | --- | --- |
+| Style / Blake–Mouton | Leading and developing supervisors; resources and cross-unit coordination | Guiding people in a shift; skills, tools and daily follow-up |
+| Four conversations | Unit report, managers' coordination, shared reporting change, team workload | Shift report, shift handover, approved form change, individual workload |
+| Leader lessons | Learning from supervisors; early unit-risk reports with manager support | Hearing frontline experience; early problems through the authorized response path |
+| Four techniques | Reliable coordination, shared priorities, aligned recognition criteria, supervisor appreciation | Reliable shift follow-up, clear daily direction, evidence-based nominations, timely colleague appreciation |
+| Four pictures | Delegation, cross-unit barriers, resource criteria, downstream unit effects | Initiative within scope, escalation, learning opportunities, next-shift effects |
+| Managerial habits | Purposeful review of supervisors' reports | Purposeful review of shift reports |
+| Final quiz | Ten manager scenarios | Ten supervisor scenarios |
+
+There are 37 role-copy blocks per route, twelve role-specific grid statements, eight optional triangle scenarios, ten four-option quiz items with per-option explanations, and a matching printable handout. Shared leadership principles, historical accounts, source links, diagrams, scoring dimensions and the 120-minute plan stay common. Context changes do not imply broader authority: supervisors seek the necessary approval, route quality decisions to the authorized person, and nominate recognition without promising formal rewards.
+
+`audience-content.js` is the shared static authoring asset for role applications; it loads before event binding on the app and handout. Quiz banks have version 2 and are checked against `quiz-questions.json`. Storage schema 5 keeps separate state for each role while retaining the previous generic snapshot. Previous notes, grid and exercises carry into the first selected route only; generic quiz answers are archived and never scored against the new questions. Switching routes preserves each route's notes, exercise answers, grid, triangle and quiz; resetting clears only the active route. Data remains browser-local. This is route selection, not authentication or access control.
+
+Verification covers both routes, all content-copy targets, all feedback paths, delayed quiz disclosure and source navigation, independent progress, one-time migration, old quiz archives, scoped reset, invalid and explicit URL choices, deep-link retention, blocked-storage entry and both printable handouts. Existing regressions pass. Browser visual inspection remains unavailable.

@@ -1,6 +1,6 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const html=fs.readFileSync(__dirname+'/index.html','utf8');
-const script=html.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/\}\)\(\);\s*$/,'globalThis.__triangleTests={triCases,triCalculate,triPoint,triNormalize,triCurrent,triClassify,triProfiles,quizBank,quizQuestions,quizNormalize,quizScore,getState:()=>state};})();');
+const script=html.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/\}\)\(\);\s*$/,'globalThis.__triangleTests={triCases,triCalculate,triPoint,triNormalize,triCurrent,triClassify,triProfiles,quizBank,quizQuestions,quizNormalize,quizScore,audience,audienceData,getState:()=>state};})();');
 const voids=new Set(['meta','link','img','input','br','hr','source']);
 class Element{
  constructor(tag,attrs={}){this.tagName=tag;this.attrs=attrs;this.children=[];this.parent=null;this.listeners={};this.style={};this.hidden='hidden' in attrs;this.value='';this.open='open' in attrs;this._text='';this.dataset={};for(const [k,v]of Object.entries(attrs))if(k.startsWith('data-'))this.dataset[k.slice(5).replace(/-([a-z])/g,(_,c)=>c.toUpperCase())]=v;
@@ -20,11 +20,12 @@ class Element{
  }
 }
 function parse(markup,root=new Element('document')){let cur=root;const tokens=markup.match(/<!--[\s\S]*?-->|<![^>]*>|<[^>]*>|[^<]+/g)||[];for(const t of tokens){if(t.startsWith('<!--')||t.startsWith('<!'))continue;if(t.startsWith('</')){if(cur.parent)cur=cur.parent;continue}if(t.startsWith('<')){const m=t.match(/^<([\w-]+)([\s\S]*?)\/?\s*>$/);if(!m)continue;const attrs={};for(const a of m[2].matchAll(/([^\s=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/g))attrs[a[1]]=a[2]??a[3]??a[4]??'';const n=cur.appendChild(new Element(m[1],attrs));if(!voids.has(m[1])&&!t.endsWith('/>'))cur=n;}else cur._text+=t;}return root;}
-function boot({hash='',data={},blocked=false}={}){
+function boot({hash='',data={},blocked=false,audience='managers'}={}){
  const doc=parse(html.replace(/<style>[\s\S]*?<\/style>/g,'').replace(/<script>[\s\S]*?<\/script>/g,''));doc.createElement=t=>new Element(t);doc.getElementById=id=>doc.querySelector('#'+id);doc.body=doc.querySelector('body');
- const events={},alerts=[];let reloaded=false;const location={hash,reload:()=>reloaded=true};
+ const events={},alerts=[];let reloaded=false;const initialUrl=new URL('https://example.test/?'+(audience?'audience='+audience:'')+hash);const location={hash,href:initialUrl.href,search:initialUrl.search,reload:()=>reloaded=true,assign:h=>{const u=new URL(h,location.href);location.href=u.href;location.hash=u.hash;location.search=u.search;reloaded=true}};
  const storage={getItem:k=>{if(blocked)throw Error('blocked');return data[k]||null},setItem:(k,v)=>{if(blocked)throw Error('blocked');data[k]=v},removeItem:k=>{if(blocked)throw Error('blocked');delete data[k]}};
- const context={document:doc,localStorage:storage,location,history:{replaceState:(a,b,h)=>location.hash=h,pushState:(a,b,h)=>location.hash=h},window:{scrollTo:()=>{},addEventListener:(n,f)=>events[n]=f},alert:t=>alerts.push(t),confirm:()=>true,console};
+ const context={URL,document:doc,localStorage:storage,location,history:{replaceState:(a,b,h)=>{location.hash=new URL(h,location.href).hash;location.href=new URL(h,location.href).href},pushState:(a,b,h)=>{location.hash=new URL(h,location.href).hash;location.href=new URL(h,location.href).href}},window:{scrollTo:()=>{},addEventListener:(n,f)=>events[n]=f},alert:t=>alerts.push(t),confirm:()=>true,console};
+ vm.runInNewContext(fs.readFileSync(__dirname+'/audience-content.js','utf8'),context,{timeout:2000});
  vm.runInNewContext(script,context,{timeout:2000});
  return{doc,data,events,alerts,location,test:context.__triangleTests,get reloaded(){return reloaded},q:s=>doc.querySelector(s),all:s=>doc.querySelectorAll(s),active:()=>doc.querySelector('.view.active').id};
 }
@@ -55,7 +56,7 @@ const resumed=boot({hash:'#action',data:app.data});assert.equal(resumed.q('#acti
 const legacyNotes=boot({data:{behparvar_session1_v4:JSON.stringify({answers:{m1Situation:'تحویل شیفت',m1Action:'یادداشت قبلی',m1Evidence:'شاهد قبلی'},grid:{0:5}})}});assert.ok(legacyNotes.q('#previousNotes').textContent.includes('یادداشت قبلی'));assert.equal(legacyNotes.q('.scale-options button[data-index="0"][data-value="5"]').getAttribute('aria-pressed'),'true');
 const blockedNotes=boot({blocked:true});blockedNotes.q('#actionWhen').value='متن';blockedNotes.q('#actionWhen').fire('input');assert.ok(blockedNotes.q('#noteStatus').textContent.includes('دسترس نیست'));
 app.q('#displayMode').click();assert.ok(app.doc.body.classList.contains('presenting'));app.q('#displayMode').click();assert.ok(!app.doc.body.classList.contains('presenting'));
-app.q('#reset').click();assert.ok(app.reloaded);assert.equal(Object.keys(app.data).length,0);
+app.q('#reset').click();assert.ok(app.reloaded);assert.equal(Object.keys(JSON.parse(app.data.behparvar_session1_v4).roleStates.managers.answers).length,0);
 assert.ok(!html.includes('یک کیس، سه نگاه'));assert.ok(!html.includes('چه چیزی با خودم می‌برم'));assert.ok(!html.includes('ماژول ۸'));
 const handout=fs.readFileSync(__dirname+'/handout-module-1.html','utf8');for(const file of [html,handout])assert.ok(file.includes('assets/vazirmatn.woff2'));
 assert.ok(handout.includes('./#m1'));assert.ok(handout.includes('./#m2'));assert.ok(handout.includes('./#leaders'));
@@ -149,7 +150,7 @@ console.log('PASS: sixth section, one expandable lesson, five-turn example, bold
 // Quiz keys are asserted independently of the scoring function.
 const expectedKeys=['C','A','D','B','C','D','A','B','C','D'];
 const quiz=boot({hash:'#quiz'}),bank=quiz.test.quizQuestions;
-assert.equal(JSON.stringify(quiz.test.quizBank),JSON.stringify(JSON.parse(fs.readFileSync(__dirname+'/quiz-questions.json','utf8'))),'embedded and authoring banks match');
+assert.equal(JSON.stringify(quiz.test.quizBank),JSON.stringify(JSON.parse(fs.readFileSync(__dirname+'/quiz-questions.json','utf8')).audiences.managers),'active role and authoring banks match');
 assert.equal(bank.length,10);assert.equal(new Set(bank.map(q=>q.id)).size,10);
 assert.equal(JSON.stringify([...new Set(bank.map(q=>q.source))].sort()),JSON.stringify(['m1','m2','leaders','techniques','visuals','diseases'].sort()),'all six learning sections covered');
 bank.forEach((q,i)=>{
@@ -200,23 +201,23 @@ const retainedBefore=JSON.stringify({answers:reportReload.test.getState().answer
 reportReload.q('#quizRestart').click();assert.equal(reportReload.q('#quizReport').hidden,true);assert.equal(reportReload.all('.quiz-review').length,0);assert.equal(reportReload.all('#quizKeyBody tr').length,0);assert.equal(reportReload.q('#quizScoreTitle').textContent,'');assert.equal(reportReload.test.getState().quiz.current,0);assert.equal(Object.keys(reportReload.test.getState().quiz.answers).length,0);
 assert.equal(JSON.stringify({answers:reportReload.test.getState().answers,grid:reportReload.test.getState().grid,triangle:reportReload.test.getState().triangle}),retainedBefore,'restart preserves all other exercises and notes');
 const withQuizState=q=>({behparvar_session1_v4:JSON.stringify({answers:{workshop_when:'قبلی'},quiz:q})});
-const quizInvalid=boot({hash:'#quiz',data:withQuizState({version:1,current:100,submitted:true,answers:{q1:'fake',q2:'A',unknown:'D'}})});
+const quizInvalid=boot({hash:'#quiz',data:withQuizState({version:2,current:100,submitted:true,answers:{q1:'fake',q2:'A',unknown:'D'}})});
 assert.equal(quizInvalid.test.getState().quiz.current,0);assert.equal(quizInvalid.test.getState().quiz.submitted,false);assert.equal(Object.keys(quizInvalid.test.getState().quiz.answers).length,1);
 assert.equal(quizInvalid.q('#quizReport').hidden,true);assert.equal(quizInvalid.all('.quiz-review').length,0);
 const obsoleteQuiz=boot({hash:'#quiz',data:withQuizState({version:0,current:5,answers:{q1:'C'},submitted:true})});assert.equal(Object.keys(obsoleteQuiz.test.getState().quiz.answers).length,0);assert.equal(obsoleteQuiz.q('#actionWhen').value,'قبلی');
 const nineAnswers=Object.fromEntries(bank.slice(1).map((q,i)=>[q.id,expectedKeys[i+1]]));
-const incompleteQuiz=boot({hash:'#quiz',data:withQuizState({version:1,current:9,answers:nineAnswers,submitted:true})});assert.equal(incompleteQuiz.q('#quizReport').hidden,true);incompleteQuiz.q('#quizNext').click();assert.equal(incompleteQuiz.test.getState().quiz.current,0,'final submission finds earlier unanswered question');assert.equal(incompleteQuiz.all('.quiz-review').length,0);
+const incompleteQuiz=boot({hash:'#quiz',data:withQuizState({version:2,current:9,answers:nineAnswers,submitted:true})});assert.equal(incompleteQuiz.q('#quizReport').hidden,true);incompleteQuiz.q('#quizNext').click();assert.equal(incompleteQuiz.test.getState().quiz.current,0,'final submission finds earlier unanswered question');assert.equal(incompleteQuiz.all('.quiz-review').length,0);
 incompleteQuiz.q('[data-quiz-option="C"]').click();for(let i=0;i<10;i++)incompleteQuiz.q('#quizNext').click();assert.equal(incompleteQuiz.q('#quizReport').hidden,false);
 const keyScores={A:2,B:2,C:3,D:3};
 for(const [value,expected] of Object.entries(keyScores)){
- const answers=Object.fromEntries(bank.map(q=>[q.id,value]));const fixture=boot({hash:'#quiz',data:withQuizState({version:1,current:9,answers,submitted:true})});assert.equal(fixture.test.quizScore(answers),expected);assert.equal(fixture.q('#quizScoreTitle').textContent,expected.toLocaleString('fa-IR')+' از ۱۰');
+ const answers=Object.fromEntries(bank.map(q=>[q.id,value]));const fixture=boot({hash:'#quiz',data:withQuizState({version:2,current:9,answers,submitted:true})});assert.equal(fixture.test.quizScore(answers),expected);assert.equal(fixture.q('#quizScoreTitle').textContent,expected.toLocaleString('fa-IR')+' از ۱۰');
 }
 const wrongAnswers=Object.fromEntries(bank.map((q,i)=>[q.id,expectedKeys[i]==='A'?'B':'A']));
 for(let score=0;score<=10;score++){
  const answers=Object.fromEntries(bank.map((q,i)=>[q.id,i<score?expectedKeys[i]:wrongAnswers[q.id]]));
  assert.equal(quiz.test.quizScore(answers),score,'independent fixture for score '+score);
 }
-const wrongQuiz=boot({hash:'#quiz',data:withQuizState({version:1,current:9,answers:wrongAnswers,submitted:true})});assert.equal(wrongQuiz.q('#quizScoreTitle').textContent,'۰ از ۱۰');assert.equal(wrongQuiz.all('#quizKeyBody td').filter(e=>e.textContent==='نیاز به مرور').length,10);
+const wrongQuiz=boot({hash:'#quiz',data:withQuizState({version:2,current:9,answers:wrongAnswers,submitted:true})});assert.equal(wrongQuiz.q('#quizScoreTitle').textContent,'۰ از ۱۰');assert.equal(wrongQuiz.all('#quizKeyBody td').filter(e=>e.textContent==='نیاز به مرور').length,10);
 const blockedQuiz=boot({hash:'#quiz',blocked:true});for(const value of expectedKeys){blockedQuiz.q('[data-quiz-option="'+value+'"]').click();blockedQuiz.q('#quizNext').click()}assert.equal(blockedQuiz.q('#quizScoreTitle').textContent,'۱۰ از ۱۰');assert.ok(blockedQuiz.q('#quizStatus').textContent.includes('در دسترس نیست'));
 assert.ok(handout.includes('./#quiz'));assert.equal(boot({hash:'#action'}).q('.site-nav [data-open="quiz"]').getAttribute('aria-current'),'page');
 console.log('PASS: final quiz; 10 conceptual items across all six sections; 4 options each; delayed key and 40 option analyses; navigation, editing, source links, scores 0–10, report/partial persistence, blocked storage, invalid/premature state, version reset, and quiz-only restart.');
@@ -261,7 +262,7 @@ for(const [id,key] of conversationCases){
 }
 conversationResume.q('.site-nav [data-open="leaders"]').click();assert.equal(conversationResume.active(),'leaders');
 conversationResume.q('.site-nav [data-open="m2"]').click();assert.equal(conversationResume.active(),'m2');assert.equal(conversationResume.q('#conversation-workload').hidden,false,'navigation retains current conversation until returned to list');
-const oldConversation=boot({hash:'#m2',data:{behparvar_session1_v4:JSON.stringify({answers:{workshop_conversation:'clear',workshop_when:'فردا ساعت ۹'},grid:{0:5},quiz:{version:1,current:0,answers:{q1:'C'},submitted:false}})}});
+const oldConversation=boot({hash:'#m2',data:{behparvar_session1_v4:JSON.stringify({answers:{workshop_conversation:'clear',workshop_when:'فردا ساعت ۹'},grid:{0:5},quiz:{version:2,current:0,answers:{q1:'C'},submitted:false}})}});
 const beforeCaseChanges=JSON.stringify(oldConversation.test.getState());
 for(const [id] of conversationCases)oldConversation.q('[data-conversation-open="'+id+'"]').click();oldConversation.q('[data-conversation-back]').click();
 assert.equal(JSON.stringify(oldConversation.test.getState()),beforeCaseChanges,'view selection does not alter any saved responses, notes, grid or quiz');
@@ -270,3 +271,73 @@ const conversationsBlocked=boot({hash:'#m2',blocked:true});for(const [id,key] of
 assert.ok(conversationsBlocked.q('#noteStatus').textContent.includes('در دسترس نیست'));
 assert.ok(handout.includes('فهرست چهار گفت‌وگو'));
 console.log('PASS: four conversation choices; closed initial list; one case at a time; both return controls and focus targets; 27 dialogue turns, distinct roles, lessons and agreements; optional exercises; legacy and new saved responses; navigation, unchanged other state and blocked storage.');
+
+// Audience entry is a local learning-route choice, with independent progress.
+const entry=boot({audience:null,hash:'#quiz'});
+assert.equal(entry.active(),'home');assert.equal(entry.q('.site-nav').hidden,true);assert.equal(entry.q('#workshopOverview').hidden,true);assert.equal(entry.all('[data-audience-entry]').length,2);
+assert.ok(entry.q('#audiencePrompt').textContent.includes('ابتدا'));
+entry.q('[data-audience-entry="supervisors"]').click();assert.ok(entry.reloaded);
+assert.equal(new URL(entry.location.href).searchParams.get('audience'),'supervisors');assert.equal(entry.location.hash,'#quiz','deep-link target survives route selection');
+const supervisor=boot({audience:'supervisors',hash:'#quiz',data:entry.data});assert.equal(supervisor.active(),'quiz');assert.equal(supervisor.test.audience,'supervisors');assert.equal(supervisor.q('#audienceStatus').hidden,false);assert.ok(supervisor.q('#audienceLabel').textContent.includes('سرپرستان'));
+const authored=JSON.parse(fs.readFileSync(__dirname+'/quiz-questions.json','utf8')).audiences;
+const learningKeys=['conversation','conversation_coordination','conversation_change','conversation_workload','nadella','mulally','tech_credibility','tech_charisma','tech_reward','tech_recognition','nitpicker'];
+for(const role of ['managers','supervisors']){
+ const a=boot({audience:role});
+ assert.equal(a.q('.site-nav').hidden,false);assert.equal(a.q('#workshopOverview').hidden,false);assert.equal(a.q('[data-audience-entry="'+role+'"]').getAttribute('aria-pressed'),'true');
+ assert.equal(a.all('[data-audience-copy]').length,Object.keys(a.test.audienceData.copy).length,'all authored role applications are present');
+ for(const node of a.all('[data-audience-copy]'))assert.ok(node.textContent.trim().length>10,'role content is nonempty');
+ assert.equal(a.test.audienceData.gridStatements.length,12);assert.equal(a.test.triCases.length,8);
+ assert.equal(JSON.stringify(a.test.quizBank),JSON.stringify(authored[role]),'quiz bank matches role authoring');
+ for(const [id,key] of conversationCases){
+  a.q('[data-conversation-open="'+id+'"]').click();assert.equal(a.q('#conversation-'+id).hidden,false);
+  assert.equal(a.all('#conversation-'+id+' .conversation-dialogue p').length,id==='coordination'?6:7);
+  assert.equal(a.all('[data-question="'+key+'"]').length,3);
+ }
+ for(const id of techniqueIds){assert.ok(a.all('#technique-'+id+' .roleplay-dialogue p').length>=6);assert.ok(a.q('#technique-'+id+' .roleplay-observe').textContent.includes('تکنیک را کجا دیدیم'))}
+ for(const key of learningKeys){const feedbacks=new Set();for(const b of a.all('[data-question="'+key+'"]')){b.click();feedbacks.add(a.q('#'+key+'Feedback').textContent)}assert.equal(feedbacks.size,3,'all role feedback paths work: '+role+'/'+key)}
+ a.q('.site-nav [data-open="quiz"]').click();assert.equal(a.q('#quizReport').hidden,true);
+ for(let i=0;i<10;i++){
+  const q=a.test.quizQuestions[i];assert.equal(q.options.length,4);assert.equal(q.correct,expectedKeys[i]);assert.ok(q.basis.length>30);
+  assert.equal(new Set(q.options.map(o=>o.label)).size,4);assert.ok(q.options.every(o=>o.feedback.length>30));
+  a.q('[data-quiz-option="'+expectedKeys[i]+'"]').click();assert.equal(a.all('.quiz-review').length,0);a.q('#quizNext').click();
+ }
+ assert.equal(a.q('#quizScoreTitle').textContent,'۱۰ از ۱۰');assert.equal(a.all('.quiz-review-option').length,40);
+ a.q('[data-quiz-source="q2"]').click();assert.equal(a.active(),'m2');assert.equal(a.q('#conversation-report').hidden,false);
+ assert.ok(a.all('a').some(link=>link.getAttribute('href')==='handout-module-1.html?audience='+role));
+}
+const managerContent=boot().test.audienceData,supervisorContent=supervisor.test.audienceData;
+for(const key of Object.keys(managerContent.copy))assert.notEqual(managerContent.copy[key],supervisorContent.copy[key],'substantive role variation: '+key);
+for(let i=0;i<10;i++)assert.notEqual(authored.managers.questions[i].question,authored.supervisors.questions[i].question,'each quiz scenario is adapted');
+assert.ok(supervisor.q('#technique-reward').textContent.includes('قول قطعی نمی‌دهم'),'supervisor does not promise formal reward authority');
+assert.ok(supervisor.q('#conversation-change').textContent.includes('تأیید شود'),'approval boundary retained in supervisor conversation');
+
+supervisor.q('[data-open="action"]').click();supervisor.q('#actionWhen').value='اقدام سرپرست در شروع شیفت';supervisor.q('#actionWhen').fire('input');
+supervisor.q('[data-open="m1"]').click();supervisor.q('.scale-options button[data-index="0"][data-value="2"]').click();
+supervisor.q('[data-open="assessment"]').click();supervisor.q('[data-tri-option="support"]').click();
+supervisor.q('[data-open="quiz"]').click();supervisor.q('[data-quiz-option="A"]').click();
+supervisor.q('[data-open="home"]').click();supervisor.q('[data-audience-entry="managers"]').click();
+const managerRoute=boot({audience:'managers',hash:'#m1',data:supervisor.data});assert.equal(managerRoute.q('#actionWhen').value,'');assert.equal(Object.keys(managerRoute.test.getState().grid).length,0);assert.equal(Object.keys(managerRoute.test.getState().quiz.answers).length,0);assert.equal(Object.keys(managerRoute.test.getState().triangle.answers).length,0);
+managerRoute.q('[data-open="action"]').click();managerRoute.q('#actionWhen').value='اقدام مدیر در جلسه سرپرستان';managerRoute.q('#actionWhen').fire('input');managerRoute.q('[data-open="m1"]').click();managerRoute.q('.scale-options button[data-index="0"][data-value="5"]').click();managerRoute.q('[data-open="quiz"]').click();managerRoute.q('[data-quiz-option="C"]').click();
+managerRoute.q('[data-open="home"]').click();managerRoute.q('[data-audience-entry="supervisors"]').click();
+const supervisorAgain=boot({audience:null,hash:'#action',data:managerRoute.data});assert.equal(supervisorAgain.test.audience,'supervisors','stored selection restores without a URL role');assert.equal(supervisorAgain.q('#actionWhen').value,'اقدام سرپرست در شروع شیفت');assert.equal(supervisorAgain.test.getState().grid[0],2);assert.equal(supervisorAgain.test.getState().quiz.answers.q1,'A');assert.equal(supervisorAgain.test.getState().triangle.answers.shift,'support');
+const explicitManager=boot({audience:'managers',hash:'#action',data:supervisorAgain.data});assert.equal(explicitManager.q('#actionWhen').value,'اقدام مدیر در جلسه سرپرستان','explicit URL role chooses its own prior state');assert.equal(explicitManager.test.getState().grid[0],5);assert.equal(explicitManager.test.getState().quiz.answers.q1,'C');
+const supervisorSnapshot=JSON.stringify(JSON.parse(explicitManager.data.behparvar_session1_v4).roleStates.supervisors);
+explicitManager.q('#reset').click();assert.ok(explicitManager.reloaded);assert.equal(JSON.stringify(JSON.parse(explicitManager.data.behparvar_session1_v4).roleStates.supervisors),supervisorSnapshot,'reset only clears the active route');
+const managerAfterReset=boot({audience:'managers',data:explicitManager.data});assert.equal(managerAfterReset.q('#actionWhen').value,'');assert.equal(Object.keys(managerAfterReset.test.getState().quiz.answers).length,0);
+
+const legacyAudienceData={behparvar_session1_v4:JSON.stringify({answers:{workshop_when:'یادداشت پیش از تفکیک',workshop_conversation:'clear'},grid:{0:4},quiz:{version:1,answers:{q1:'C'},submitted:false}})};
+const migrateEntry=boot({audience:null,data:legacyAudienceData});assert.equal(migrateEntry.active(),'home');migrateEntry.q('[data-audience-entry="managers"]').click();
+const migratedAudience=boot({audience:'managers',data:migrateEntry.data});assert.equal(migratedAudience.q('#actionWhen').value,'یادداشت پیش از تفکیک');assert.equal(migratedAudience.test.getState().grid[0],4);assert.equal(migratedAudience.test.getState().quizPrevious.answers.q1,'C','old generic quiz is archived');assert.equal(Object.keys(migratedAudience.test.getState().quiz.answers).length,0,'old answers are not scored against new role questions');
+migratedAudience.q('[data-audience-entry="supervisors"]').click();const cleanOtherRole=boot({audience:'supervisors',data:migratedAudience.data});assert.equal(cleanOtherRole.q('#actionWhen').value,'');assert.equal(Object.keys(cleanOtherRole.test.getState().grid).length,0,'legacy progress claimed once');assert.ok(JSON.parse(cleanOtherRole.data.behparvar_session1_v4).legacyState.answers.workshop_when);
+const invalidAudience=boot({audience:null,hash:'#m4',data:{behparvar_session1_v4:JSON.stringify({schema:5,audience:'invalid',roleStates:[]})}});assert.equal(invalidAudience.active(),'home');invalidAudience.q('[data-audience-entry="supervisors"]').click();assert.equal(invalidAudience.location.hash,'#techniques','legacy deep link survives role gate');
+const blockedEntry=boot({audience:null,blocked:true});blockedEntry.q('[data-audience-entry="supervisors"]').click();assert.equal(new URL(blockedEntry.location.href).searchParams.get('audience'),'supervisors');const blockedRole=boot({audience:'supervisors',hash:'#m2',blocked:true});assert.equal(blockedRole.active(),'m2');blockedRole.q('[data-conversation-open="report"]').click();blockedRole.q('[data-question="conversation"][data-value="clear"]').click();assert.equal(blockedRole.q('#conversationFeedback').hidden,false);
+
+function bootHandout(role=null,data={}){
+ const doc=parse(handout.replace(/<style>[\s\S]*?<\/style>/g,'').replace(/<script(?:[^>]*)>[\s\S]*?<\/script>/g,''));doc.getElementById=id=>doc.querySelector('#'+id);let prints=0;
+ const context={URL,document:doc,location:{href:'https://example.test/handout-module-1.html'+(role?'?audience='+role:'')},localStorage:{getItem:k=>data[k]||null},window:{print:()=>prints++}};
+ vm.runInNewContext(fs.readFileSync(__dirname+'/audience-content.js','utf8'),context);vm.runInNewContext(handout.match(/<script>([\s\S]*?)<\/script>/)[1],context);
+ return {q:s=>doc.querySelector(s),all:s=>doc.querySelectorAll(s),get prints(){return prints}};
+}
+const emptyHandout=bootHandout();assert.equal(emptyHandout.q('#handoutContent').hidden,true);assert.equal(emptyHandout.q('#handoutRolePicker').hidden,false);assert.equal(emptyHandout.q('#printHandout').disabled,true);
+for(const role of ['managers','supervisors']){const h=bootHandout(role);assert.equal(h.q('#handoutContent').hidden,false);assert.equal(h.q('#handoutRolePicker').hidden,true);assert.ok(h.q('#handoutAudienceLabel').textContent.includes(role==='managers'?'مدیران':'سرپرستان'));assert.equal(h.all('[data-handout-copy]').length,12);assert.ok(h.all('a').some(a=>a.getAttribute('href')==='./?audience='+role+'#m2'));h.q('#printHandout').click();assert.equal(h.prints,1)}
+console.log('PASS: two audience entry routes; substantive adaptation in all seven sections, 20 quiz items, 8 conversation and 8 technique role-plays, 24 grid statements and 16 optional cases; URL/stored/deep-link selection; independent answers, notes, grid, quiz and triangle; scoped reset; one-time legacy migration and archived generic quiz; blocked-storage entry; two printable handouts.');

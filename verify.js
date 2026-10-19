@@ -132,7 +132,7 @@ console.log('PASS: four picture selectors, one picture visible, separate existin
 
 const illnesses=boot({hash:'#diseases'});
 assert.equal(illnesses.active(),'diseases');
-assert.equal(illnesses.all('.illness-card').length,1,'one first sample');
+assert.equal(illnesses.all('.illness-card').length,4,'four selectable diseases');
 assert.equal(illnesses.q('#nitpickerLesson').hidden,true,'lesson starts collapsed');
 illnesses.q('#nitpickerToggle').click();assert.equal(illnesses.q('#nitpickerLesson').hidden,false);assert.equal(illnesses.q('#nitpickerToggle').getAttribute('aria-expanded'),'true');
 assert.ok(illnesses.q('#nitpickerLesson .key-message strong').textContent.includes('چه چیزی را بهتر'));
@@ -145,7 +145,40 @@ illnesses.q('[data-question="nitpicker"][data-value="decision"]').click();assert
 const illnessReload=boot({hash:'#diseases',data:illnesses.data});assert.equal(illnessReload.q('#nitpickerLesson').hidden,false);assert.equal(illnessReload.q('[data-question="nitpicker"][data-value="decision"]').getAttribute('aria-pressed'),'true');
 illnessReload.q('#nitpickerToggle').click();assert.equal(illnessReload.q('#nitpickerLesson').hidden,true);assert.equal(illnessReload.q('#nitpickerToggle').getAttribute('aria-expanded'),'false');
 assert.ok(handout.includes('./#diseases'));
-console.log('PASS: sixth section, one expandable lesson, five-turn example, bold lesson, source links, exercise feedback and open/choice persistence.');
+for(const role of ['managers','supervisors']){
+ const diseases=boot({hash:'#diseases',audience:role});
+ assert.equal(diseases.q('#diseaseList').hidden,false);assert.equal(diseases.q('#diseaseDetail').hidden,true);
+ for(const id of ['nitpicker','urgency','takeover','status']){
+  diseases.q('[data-disease-open="'+id+'"]').click();
+  assert.equal(diseases.q('#diseaseList').hidden,true);assert.equal(diseases.q('#diseaseDetail').hidden,false);
+  assert.equal(diseases.all('.illness-lesson').filter(e=>!e.hidden).length,1,'only one lesson is visible');
+  assert.equal(diseases.q('#'+id+'Lesson').hidden,false);assert.equal(diseases.q('#'+id+'Lesson h3').focused,true);
+  assert.equal(diseases.q('#'+id+'Toggle').getAttribute('aria-expanded'),'true');
+  assert.equal(diseases.all('#'+id+'Lesson .disease-pattern h4').length,3,'definition, symptoms and treatment');
+  assert.equal(diseases.all('#'+id+'Lesson .disease-pattern li').length,6,'three symptoms and three corrective actions');
+  assert.equal(diseases.all('#'+id+'Lesson .dialogue p').length,5,'a complete role-play');
+  const key=id==='nitpicker'?id:'disease_'+id;
+  const messages=new Set();
+  for(const option of diseases.all('[data-question="'+key+'"]')){option.click();messages.add(diseases.q('#'+key+'Feedback').textContent)}
+  assert.equal(messages.size,3,'all exercise choices have distinct feedback');
+  const again=boot({hash:'#diseases',audience:role,data:diseases.data});
+  assert.equal(again.q('#'+id+'Lesson').hidden,false);assert.equal(again.q('#'+key+'Feedback').hidden,false);
+  diseases.q('[data-disease-back]').click();assert.equal(diseases.q('#diseaseList').hidden,false);
+  assert.equal(diseases.q('#'+id+'Toggle').focused,true,'return focus to the selected card');
+  assert.ok(diseases.all('.illness-lesson').every(e=>e.hidden));
+ }
+ for(const leader of ['nadella','mulally']){
+  const story=diseases.q('[data-leader-story="'+leader+'"]');assert.ok(story);
+  assert.equal(diseases.all('[data-leader-story="'+leader+'"] p').length,3,'short connected narrative');
+  const card=diseases.q('[data-audience-copy="leader-'+leader+'-card"]');
+  assert.ok(card.querySelector('.mini-key').textContent.includes('فرضی'),'fictional application clearly separated');
+  const links=card.querySelectorAll('.source a').map(e=>e.getAttribute('href'));
+  assert.ok(links.some(h=>h.includes(leader==='nadella'?'empathy-innovation-accessibility':'ethix.org/2010/07/15/')),'direct source for actual story');
+ }
+}
+const legacyDisease=boot({hash:'#diseases',data:{behparvar_session1_v4:JSON.stringify({answers:{workshop_nitpickerOpen:true}})}});
+assert.equal(legacyDisease.q('#nitpickerLesson').hidden,false,'legacy open lesson retained');
+console.log('PASS: four diseases for both roles; one lesson at a time; definition/symptoms/treatment; five-turn role-plays; feedback and state persistence; legacy migration; documented leader narratives.');
 
 // Quiz keys are asserted independently of the scoring function.
 const expectedKeys=['C','A','D','B','C','D','A','B','C','D'];

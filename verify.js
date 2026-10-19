@@ -110,6 +110,42 @@ const minutes=[...timing.matchAll(/([۰-۹]+) دقیقه/g)].map(m=>Number(m[1].
 assert.equal(minutes.reduce((a,b)=>a+b,0),120,'seven-section plan fits two hours');
 assert.equal(techniquesTest.all('.technique-switch button').length,4);
 console.log('PASS: 4 clickable techniques; one panel visible; 4 role-plays with 25 turns; key messages; all responses and last panel persist; total workshop time 120 minutes.');
+for(const role of ['managers','supervisors']){
+ const folded=boot({hash:'#techniques',audience:role});
+ assert.ok(folded.q('#techniques h2').textContent.includes('فنون رهبری اثربخش'));
+ assert.equal(folded.all('.technique-disclosure').length,8,'dialogue and exercise have separate disclosure controls');
+ for(const id of techniqueIds){
+  folded.q('.technique-switch [data-technique="'+id+'"]').click();
+  const prefix='#technique-'+id;
+  assert.equal(folded.all(prefix+' .technique-essentials li').length,4,'four practical bullets');
+  assert.ok(folded.q(prefix+' .technique-heading p').textContent.length>50,'short plain-language explanation');
+  assert.ok(folded.q(prefix+' .key-message strong').textContent.length>20,'bold takeaway');
+  assert.equal(folded.all(prefix+' details').length,2,'no nested disclosure overload');
+  const dialogue=folded.q(prefix+'-dialogue'),practice=folded.q(prefix+'-practice');
+  for(const panel of [dialogue,practice]){
+   assert.equal(panel.tagName,'details');assert.equal(panel.open,false,'starts collapsed');
+   assert.ok(panel.querySelector('summary').textContent.length>15,'native keyboard-accessible toggle has a clear label');
+   assert.equal(panel.getAttribute('open'),undefined);
+  }
+  assert.ok(dialogue.querySelector('.roleplay-dialogue'));
+  assert.equal(dialogue.querySelector('.technique-exercise'),null,'choice exercise has its own control');
+  assert.equal(practice.querySelectorAll('[data-question="tech_'+id+'"]').length,3);
+  assert.ok(practice.querySelector('.technique-action-practice p').textContent.length>60,'applied practice is available on request');
+  dialogue.open=true;practice.open=true;
+  const answer=practice.querySelector('[data-question="tech_'+id+'"]');answer.click();
+  const value=answer.dataset.value;
+  const next=techniqueIds[(techniqueIds.indexOf(id)+1)%4];
+  folded.q('.technique-switch [data-technique="'+next+'"]').click();
+  assert.equal(dialogue.open,false);assert.equal(practice.open,false,'switching techniques collapses the preceding content');
+  folded.q('.technique-switch [data-technique="'+id+'"]').click();
+  assert.equal(practice.open,false,'returning to a technique shows the short lesson first');
+  assert.equal(folded.q('[data-question="tech_'+id+'"][data-value="'+value+'"]').getAttribute('aria-pressed'),'true','collapsing preserves response');
+ }
+ const restored=boot({hash:'#techniques',audience:role,data:folded.data});
+ assert.ok(restored.all('.technique-disclosure').every(e=>!e.open),'reload keeps examples and exercises collapsed');
+ for(const id of techniqueIds)assert.equal(restored.q('#tech_'+id+'Feedback').hidden,false,'saved exercise feedback remains available inside its closed panel');
+}
+console.log('PASS: both audiences have short technique definitions, four practical bullets, bold takeaways and eight initially collapsed native disclosure panels; dialogue and practice are separate; switching/reloading stays compact and preserves responses.');
 
 const gallery=boot({hash:'#visuals'});
 const pictureIds=['support','together','fairness','impact'];

@@ -1,4 +1,4 @@
-# Workshop simplification audit — 18 October 2026
+# Workshop simplification audit — updated 19 October 2026
 
 The first session now has seven primary sections: six learning sections and the requested final conceptual quiz. The home page and navigation use plain Persian task names. Ambiguous labels have been removed.
 
@@ -8,7 +8,7 @@ The first session now has seven primary sections: six learning sections and the 
 | --- | ---: |
 | Welcome and purpose | 5 |
 | My leadership style: Blake–Mouton and paired reflection | 15 |
-| A real conversation: delayed handover report and role play | 20 |
+| Choose one of four work conversations and role play | 20 |
 | Break | 5 |
 | Two leadership examples and interactive discussion | 10 |
 | Four leadership techniques, one visible at a time | 25 |
@@ -23,8 +23,8 @@ The triangle assessment is optional after-class practice, outside these 120 minu
 ## Learning design
 
 - Each learning section starts with a visible bold key message and concrete example; the final quiz uses application scenarios.
-- One familiar work scenario replaces conceptual subpages.
-- All three response options in each of eight questions have distinct feedback.
+- The conversation section opens with four familiar work scenarios; one selected case replaces the list.
+- All three response options in each of eleven learning questions have distinct feedback.
 - The conversation covers observed behavior, impact, inquiry, ownership, support and an agreed follow-up time.
 - The leadership section shows one leader at a time. Historical source summaries are distinguished from invented teaching examples.
 - The conclusion asks for one behavior and one time/context, with a copy button.
@@ -76,3 +76,14 @@ Ten scenario-based questions, four plausible options each, with one best answer 
 One question appears at a time. Responses can be changed before submission, previous/next controls preserve choices, and no score, key or explanation is rendered until all ten valid responses have been submitted. The final report contains a score, clickable answer sheet, ten expandable analyses, explanations for every distractor, and links to the relevant lesson or exact subpanel. The score describes performance on these ten questions; it is not a leadership assessment or diagnosis.
 
 Attempt and report state persist only in the same browser. Normalization rejects unknown answers, invalid versions/positions and premature submitted states. Restart clears only quiz data, preserving earlier notes, exercises, grid and triangle results. The m7 alias opens the quiz. The 120-minute plan includes 15 minutes for the quiz, with shorter style, leader and picture discussions.
+
+
+## Conversation section update — 19 October 2026
+
+Section two now starts with a four-item clickable list and no open case. Selecting a case displays only that conversation, with a return-to-list control above and below. Returning focuses the previously selected card. The four scenarios cover the retained delayed handover report, production/distribution coordination, an experienced employee challenging a new reporting form, and dissatisfaction with workload allocation. The lesson title, home card and short handout reflect this selection flow.
+
+Each case has one short scene, a bold practical lesson, named two-person roles, six or seven natural dialogue turns, and a concrete end agreement identifying owners and follow-up times. One optional three-choice exercise has option-specific feedback. A shared eight-minute paired practice asks participants to switch roles and give feedback on listening and the final agreement. Only one case is required within the existing 20-minute allocation; the other cases are available for later review. The whole session remains 120 minutes. All scenarios are identified as invented teaching applications.
+
+The original report exercise keeps its existing question/value IDs, so saved responses remain compatible. New exercises have distinct keys. Opening or changing a case does not change or clear any responses. Reload starts at the list while each exercise response still restores locally. The final quiz bank and keys are unchanged; its section-two source link opens the retained report case directly.
+
+Verification covers the default closed list, every open/back path, one-case visibility, matching ARIA state, per-case roles/lesson/agreement/exercise, nine new distinct feedback messages, reloaded and legacy responses, blocked storage, navigation out and back, and the quiz-to-report-case link. Existing grid, triangle and quiz regression checks still pass. Browser visual inspection remains unavailable in the managed environment.

@@ -13,7 +13,7 @@ class Element{
  get textContent(){return this._text+this.children.map(x=>x.textContent).join('')}set textContent(t){this._text=String(t);this.children=[]}
  set innerHTML(t){this._html=t;this.children=[];parse(t,this)}get innerHTML(){return this._html||''}
  addEventListener(name,fn){(this.listeners[name]??=[]).push(fn)}
- click(){if(!this.disabled)this.fire('click')}fire(name){for(const fn of this.listeners[name]||[])fn({target:this,preventDefault(){}})}focus(){}scrollIntoView(){}
+ click(){if(!this.disabled)this.fire('click')}fire(name){for(const fn of this.listeners[name]||[])fn({target:this,preventDefault(){}})}focus(){this.focused=true}scrollIntoView(){}
  querySelector(s){return this.querySelectorAll(s)[0]||null}
  querySelectorAll(sel){const parts=sel.trim().split(/\s+/);const out=[];const test=(e,p)=>{const attrs=[...p.matchAll(/\[([^=\]]+)(?:="([^"]*)")?\]/g)];for(const[,k,v]of attrs)if(!(k in e.attrs)||(v!==undefined&&e.attrs[k]!==v))return false;p=p.replace(/\[[^\]]*\]/g,'');const id=p.match(/#([^.#]+)/);if(id&&e.id!==id[1])return false;for(const[,c]of p.matchAll(/\.([^.#]+)/g))if(!e.classList.contains(c))return false;const tag=p.match(/^[\w-]+/);return !tag||e.tagName===tag[0]};
  const walk=e=>{for(const c of e.children){if(test(c,parts.at(-1))){let n=c.parent,ix=parts.length-2;while(ix>=0&&n){if(test(n,parts[ix]))ix--;n=n.parent}if(ix<0)out.push(c)}walk(c)}};walk(this);return out;
@@ -38,11 +38,11 @@ assert.equal(boot({hash:'#unknown'}).active(),'home');
 const ids=app.all('[id]').map(e=>e.id);assert.equal(new Set(ids).size,ids.length,'unique IDs');
 for(const a of app.all('[data-open]')){a.click();assert.equal(app.active(),a.dataset.open)}
 for(const a of app.all('a')){const href=a.getAttribute('href');if(href.startsWith('#'))assert.ok(app.q(href),'broken anchor '+href)}
-for(const key of ['conversation','nadella','mulally','tech_credibility','tech_charisma','tech_reward','tech_recognition','nitpicker']){
+for(const key of ['conversation','conversation_coordination','conversation_change','conversation_workload','nadella','mulally','tech_credibility','tech_charisma','tech_reward','tech_recognition','nitpicker']){
  const options=app.all('[data-question="'+key+'"]');assert.equal(options.length,3);
  const messages=new Set();for(const b of options){b.click();assert.equal(app.q('#'+key+'Feedback').hidden,false);messages.add(app.q('#'+key+'Feedback').textContent);assert.equal(app.all('[data-question="'+key+'"][aria-pressed="true"]').length,1)}assert.equal(messages.size,3,'distinct feedback for '+key);
 }
-const returned=boot({data:app.data});for(const key of ['conversation','nadella','mulally','tech_credibility','tech_charisma','tech_reward','tech_recognition','nitpicker'])assert.equal(returned.q('#'+key+'Feedback').hidden,false,'answer restored');
+const returned=boot({data:app.data});for(const key of ['conversation','conversation_coordination','conversation_change','conversation_workload','nadella','mulally','tech_credibility','tech_charisma','tech_reward','tech_recognition','nitpicker'])assert.equal(returned.q('#'+key+'Feedback').hidden,false,'answer restored');
 app.q('[data-leader="mulally"]').click();assert.equal(app.q('#leader-nadella').hidden,true);assert.equal(app.q('#leader-mulally').hidden,false);app.q('[data-leader="nadella"]').click();assert.equal(app.q('#leader-mulally').hidden,true);
 app.q('#calcGrid').click();assert.equal(app.alerts.length,1,'missing answers');
 for(let i=0;i<12;i++)app.q('.scale-options button[data-index="'+i+'"][data-value="5"]').click();
@@ -59,7 +59,7 @@ app.q('#reset').click();assert.ok(app.reloaded);assert.equal(Object.keys(app.dat
 assert.ok(!html.includes('یک کیس، سه نگاه'));assert.ok(!html.includes('چه چیزی با خودم می‌برم'));assert.ok(!html.includes('ماژول ۸'));
 const handout=fs.readFileSync(__dirname+'/handout-module-1.html','utf8');for(const file of [html,handout])assert.ok(file.includes('assets/vazirmatn.woff2'));
 assert.ok(handout.includes('./#m1'));assert.ok(handout.includes('./#m2'));assert.ok(handout.includes('./#leaders'));
-console.log('PASS: 7 sections; 10 views; 14 legacy bookmarks; 24 option-specific feedbacks; saved answers, notes and prior notes; grid scores and stale-result invalidation; class mode; blocked storage; reset; anchors and handout.');
+console.log('PASS: 7 sections; 10 views; 14 legacy bookmarks; 33 option-specific feedbacks; saved answers, notes and prior notes; grid scores and stale-result invalidation; class mode; blocked storage; reset; anchors and handout.');
 const tri=boot({hash:'#assessment'}),core=tri.test;
 assert.equal(tri.all('[data-tri-plot]').length,1);assert.equal(tri.q('[data-tri-dot]').getAttribute('visibility'),'hidden');assert.equal(tri.all('[data-tri-option]').length,3);assert.equal(tri.all('[data-tri-case]').length,8);
 core.triCases.forEach(c=>{assert.equal(c.options.length,3);assert.equal(new Set(c.options.map(o=>o.focus)).size,3);c.options.forEach(o=>{assert.equal(o.w.reduce((a,b)=>a+b,0),1);assert.equal(o.w[o.focus],1)})});
@@ -187,6 +187,7 @@ for(const q of bank){
  for(const o of q.options)assert.ok(review.textContent.includes(o.feedback),'all options explained');
  reportReload.q('[data-quiz-source="'+q.id+'"]').click();assert.equal(reportReload.active(),q.source,'source route');
  if(q.leader)assert.equal(reportReload.q('#leader-'+q.leader).hidden,false);
+ if(q.source==='m2')assert.equal(reportReload.q('#conversation-report').hidden,false,'quiz source opens the original report case');
  if(q.technique)assert.equal(reportReload.q('#technique-'+q.technique).hidden,false);
  if(q.picture)assert.equal(reportReload.q('#picture-'+q.picture).hidden,false);
  if(q.source==='diseases')assert.equal(reportReload.q('#nitpickerLesson').hidden,false);
@@ -219,3 +220,53 @@ const wrongQuiz=boot({hash:'#quiz',data:withQuizState({version:1,current:9,answe
 const blockedQuiz=boot({hash:'#quiz',blocked:true});for(const value of expectedKeys){blockedQuiz.q('[data-quiz-option="'+value+'"]').click();blockedQuiz.q('#quizNext').click()}assert.equal(blockedQuiz.q('#quizScoreTitle').textContent,'۱۰ از ۱۰');assert.ok(blockedQuiz.q('#quizStatus').textContent.includes('در دسترس نیست'));
 assert.ok(handout.includes('./#quiz'));assert.equal(boot({hash:'#action'}).q('.site-nav [data-open="quiz"]').getAttribute('aria-current'),'page');
 console.log('PASS: final quiz; 10 conceptual items across all six sections; 4 options each; delayed key and 40 option analyses; navigation, editing, source links, scores 0–10, report/partial persistence, blocked storage, invalid/premature state, version reset, and quiz-only restart.');
+
+const conversations=boot({hash:'#m2'});
+const conversationCases=[['report','conversation'],['coordination','conversation_coordination'],['change','conversation_change'],['workload','conversation_workload']];
+assert.equal(conversations.q('#conversationList').hidden,false,'list is the initial view');
+assert.equal(conversations.q('#conversationDetail').hidden,true);
+assert.equal(conversations.all('[data-conversation-open]').length,4);
+assert.equal(conversations.all('.conversation-page').length,4);
+assert.equal(conversations.all('.conversation-page').filter(p=>!p.hidden).length,0,'no case opens before selection');
+for(const [id,key] of conversationCases){
+ const card=conversations.q('[data-conversation-open="'+id+'"]');card.click();
+ assert.equal(conversations.q('#conversationList').hidden,true);assert.equal(conversations.q('#conversationDetail').hidden,false);
+ assert.equal(conversations.all('.conversation-page').filter(p=>!p.hidden).length,1,'only the selected case is visible');
+ const panel=conversations.q('#conversation-'+id);assert.equal(panel.hidden,false);
+ assert.equal(conversations.all('[data-conversation-open][aria-expanded="true"]').length,1);
+ assert.equal(card.getAttribute('aria-controls'),panel.id);assert.equal(card.getAttribute('aria-expanded'),'true');
+ assert.equal(panel.querySelector('h3').focused,true,'focus moves to the opened conversation');
+ assert.ok(panel.querySelector('.key-message strong').textContent.length>20);
+ assert.ok(panel.querySelector('.conversation-heading p').textContent.length>50);
+ assert.ok(panel.querySelector('.roleplay-roles').textContent.includes('نفر اول'));
+ assert.ok(panel.querySelector('.roleplay-roles').textContent.includes('نفر دوم'));
+ const turns=panel.querySelectorAll('.conversation-dialogue p');assert.ok(turns.length>=6&&turns.length<=7,'short usable two-person dialogue');
+ assert.equal(new Set(turns.map(p=>p.querySelector('b').textContent)).size,2,'two named speakers');
+ assert.ok(panel.querySelector('.conversation-agreement p').textContent.includes('·'),'explicit owners and follow-up');
+ assert.ok(/[۰-۹]/.test(panel.querySelector('.conversation-agreement p').textContent),'specific time');
+ const exercise=panel.querySelector('.conversation-exercise');assert.equal(exercise.open,false,'exercise stays optional until opened');exercise.open=true;
+ const options=panel.querySelectorAll('[data-question="'+key+'"]');assert.equal(options.length,3);
+ const feedbacks=new Set();for(const option of options){option.click();feedbacks.add(conversations.q('#'+key+'Feedback').textContent)}assert.equal(feedbacks.size,3);
+ assert.equal(conversations.all('[data-question="'+key+'"][aria-pressed="true"]').length,1);
+ conversations.all('[data-conversation-back]')[id==='report'||id==='change'?0:1].click();
+ assert.equal(conversations.q('#conversationList').hidden,false);assert.equal(conversations.q('#conversationDetail').hidden,true);
+ assert.equal(conversations.all('.conversation-page').filter(p=>!p.hidden).length,0);assert.equal(conversations.all('[data-conversation-open][aria-expanded="true"]').length,0);
+ assert.equal(card.focused,true,'return restores focus to the selected list card');
+}
+const conversationResume=boot({hash:'#m2',data:conversations.data});
+assert.equal(conversationResume.q('#conversationList').hidden,false,'reload returns to the list');
+for(const [id,key] of conversationCases){
+ conversationResume.q('[data-conversation-open="'+id+'"]').click();assert.equal(conversationResume.all('[data-question="'+key+'"][aria-pressed="true"]').length,1,'each case response restores independently');
+ assert.equal(conversationResume.q('#'+key+'Feedback').hidden,false);
+}
+conversationResume.q('.site-nav [data-open="leaders"]').click();assert.equal(conversationResume.active(),'leaders');
+conversationResume.q('.site-nav [data-open="m2"]').click();assert.equal(conversationResume.active(),'m2');assert.equal(conversationResume.q('#conversation-workload').hidden,false,'navigation retains current conversation until returned to list');
+const oldConversation=boot({hash:'#m2',data:{behparvar_session1_v4:JSON.stringify({answers:{workshop_conversation:'clear',workshop_when:'فردا ساعت ۹'},grid:{0:5},quiz:{version:1,current:0,answers:{q1:'C'},submitted:false}})}});
+const beforeCaseChanges=JSON.stringify(oldConversation.test.getState());
+for(const [id] of conversationCases)oldConversation.q('[data-conversation-open="'+id+'"]').click();oldConversation.q('[data-conversation-back]').click();
+assert.equal(JSON.stringify(oldConversation.test.getState()),beforeCaseChanges,'view selection does not alter any saved responses, notes, grid or quiz');
+oldConversation.q('[data-conversation-open="report"]').click();assert.equal(oldConversation.q('[data-question="conversation"][data-value="clear"]').getAttribute('aria-pressed'),'true','legacy report response is preserved');assert.equal(oldConversation.q('#actionWhen').value,'فردا ساعت ۹');
+const conversationsBlocked=boot({hash:'#m2',blocked:true});for(const [id,key] of conversationCases){conversationsBlocked.q('[data-conversation-open="'+id+'"]').click();conversationsBlocked.q('[data-question="'+key+'"]').click();assert.equal(conversationsBlocked.q('#'+key+'Feedback').hidden,false);conversationsBlocked.q('[data-conversation-back]').click()}
+assert.ok(conversationsBlocked.q('#noteStatus').textContent.includes('در دسترس نیست'));
+assert.ok(handout.includes('فهرست چهار گفت‌وگو'));
+console.log('PASS: four conversation choices; closed initial list; one case at a time; both return controls and focus targets; 27 dialogue turns, distinct roles, lessons and agreements; optional exercises; legacy and new saved responses; navigation, unchanged other state and blocked storage.');

@@ -1,0 +1,33 @@
+
+/* Session 2 scoped experiential learning layer — other sessions unaffected */
+.bp2{direction:rtl;color:#162747;max-width:1080px;margin:auto;font-size:18px;line-height:1.85}
+.bp2 *{box-sizing:border-box}.bp2-hero{border-radius:20px;padding:24px;background:linear-gradient(115deg,#142c68,#295494);color:white;margin-bottom:18px}
+.bp2-hero h3{margin:3px 0 9px;color:white;font-size:clamp(22px,3vw,30px)}.bp2-hero p{color:#eff4ff;margin:0}
+.bp2-eyebrow{display:block;font-size:14px;letter-spacing:.01em;color:#d9e8ff;font-weight:750}
+.bp2-kpis{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.bp2-kpis span{background:#ffffff1c;border:1px solid #ffffff44;padding:4px 12px;border-radius:99px;font-size:14px}
+.bp2-intro{margin:12px 0 20px;color:#536580;font-size:17px}.bp2-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.bp2-panel{border:1px solid #d5e0f0;background:#fff;border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 3px 18px #192f5910}
+.bp2-panel h4{color:#142c68;font-size:21px;margin:0 0 10px}.bp2-panel h5{color:#142c68;margin:12px 0 6px;font-size:18px}
+.bp2-small{font-size:15px;color:#586983}.bp2-callout{border-right:4px solid #b62a49;background:#f5f7fd;padding:12px 17px;border-radius:10px;margin:13px 0}
+.bp2-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.bp2-mini{background:#f2f6fc;padding:13px;border-radius:12px}
+.bp2-mini strong{display:block;color:#15336b}.bp2-muted{color:#53657e}.bp2-pills{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.bp2 button{font:inherit;touch-action:manipulation;cursor:pointer}.bp2-btn{border:1px solid #c9d5e9;background:white;color:#16366d;padding:10px 15px;border-radius:12px;min-height:45px;text-align:right}
+.bp2-btn:hover,.bp2-btn:focus-visible{border-color:#274b93;background:#eef3fc}.bp2-btn[aria-pressed=true],.bp2-btn.active{background:#183b7f;color:white;border-color:#183b7f}
+.bp2-btn-primary{background:#183b7f;color:white}.bp2-tabs{display:flex;gap:8px;overflow-x:auto;padding:5px 0 12px}
+.bp2-tabs .bp2-btn{flex-shrink:0;white-space:nowrap}.bp2-feedback{border-radius:12px;background:#eff5ff;border:1px solid #b7cbea;padding:14px;margin:13px 0}
+.bp2-feedback.warn{background:#fff8ed;border-color:#f1d7ab}.bp2-feedback strong{display:block;color:#173b77}
+.bp2-progress{height:9px;border-radius:99px;background:#e6ecf5;overflow:hidden;margin:9px 0 13px}
+.bp2-progress>span{display:block;height:100%;background:#3765ad;transition:width .2s}
+.bp2-bars{display:grid;gap:12px}.bp2-bar-track{height:11px;background:#e9edf5;border-radius:99px;overflow:hidden}.bp2-bar-track>span{display:block;height:100%;background:linear-gradient(90deg,#2b5da0,#48a4ab)}
+.bp2-q{border-top:1px solid #e1e8f2;padding-top:14px;margin-top:14px}.bp2-q-title{font-weight:750;color:#182f59;margin-bottom:9px}
+.bp2-story{background:#f3f6fc;border-radius:13px;padding:18px;border-right:4px solid #2b598a}.bp2-story p:last-child{margin-bottom:0}
+.bp2-choice{display:block;width:100%;margin:8px 0;text-align:right;min-height:50px}
+.bp2-tag{font-size:13px;display:inline-block;background:#e6eefa;border-radius:99px;color:#294878;padding:3px 9px;margin:0 0 8px}
+.bp2-illustration{margin:10px 0;background:#f1f5fc;border-radius:16px;padding:16px;overflow:hidden}
+.bp2-illustration svg{display:block;width:100%;height:auto;max-height:180px}.bp2 textarea{width:100%;min-height:86px;border:1px solid #afc0da;border-radius:12px;padding:13px;resize:vertical;background:white;color:#142747}
+.bp2 summary{cursor:pointer;color:#153e7c;font-weight:750}.bp2 details{border-top:1px solid #e0e8f3;margin-top:12px;padding-top:12px}
+.bp2-score{font-size:30px;font-weight:850;color:#174482}.bp2-session-outline{display:flex;gap:8px;flex-wrap:wrap}
+.bp2-session-outline a{font-size:15px;background:#f0f4fa;border:1px solid #d8e3f1;border-radius:9px;padding:5px 10px;text-decoration:none}
+.bp2 .bp2-panel,.bp2 .bp2-hero{overflow-wrap:break-word}
+@media(max-width:680px){.bp2{font-size:17px}.bp2-hero{padding:18px}.bp2-grid{grid-template-columns:1fr}.bp2-panel{padding:16px}.bp2-btn{padding:9px 11px}.bp2-tabs{margin-left:-5px}.bp2-intro{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.bp2-progress>span{transition:none}}

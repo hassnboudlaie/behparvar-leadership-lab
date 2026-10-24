@@ -11,8 +11,10 @@
 const $=s=>document.querySelector(s);
 const role=new URLSearchParams(location.search).get('audience')==='supervisors'?'supervisors':'managers';
 const supervisor=role==='supervisors',roleName=supervisor?'سرپرستان':'مدیران';
-const KEY='behparvar_session2_empowering_v3_'+role;
+const KEY='behparvar_session2_experiential_v4_'+role;
 let stored={};try{stored=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+/* Preserve transferable notes and assessment if this browser used v3. Old version data remains untouched. */
+if(!Object.keys(stored).length){try{const prev=JSON.parse(localStorage.getItem('behparvar_session2_empowering_v3_'+role)||'{}')||{};stored={assess:prev.assess||{},contract:prev.contract||{},exercise:prev.exercise||{},tabs:{},cases:{},quiz:{},caseFacts:{},quizDone:false};}catch(e){}}
 const st={assess:stored.assess||{},cases:stored.cases||{},caseFacts:stored.caseFacts||{},tabs:stored.tabs||{},quiz:stored.quiz||{},quizDone:!!stored.quizDone,contract:stored.contract||{},exercise:stored.exercise||{}};
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
 const esc=x=>String(x==null?'':x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

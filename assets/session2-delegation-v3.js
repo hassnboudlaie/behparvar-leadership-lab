@@ -192,6 +192,9 @@ if(intro){
  const h=intro.querySelector('h2');if(h)h.textContent='رابطه حرفه‌ای، تفویض اختیار و توانمندسازی';
  const p=intro.querySelector('.page-heading p');if(p)p.textContent='اعتماد و رابطه حرفه‌ای، نقطه شروع واگذاری اختیار است؛ مسئولیت، حمایت، پاسخگویی و پرورش نفر دوم مسیر تداوم رهبری را می‌سازند.';
  const t=intro.querySelector('.session-dashboard-hint');if(t)t.innerHTML='مسیر '+roleName+' · هر هفت بخش در منوی سمت راست مستقل و بدون ترتیب اجباری در دسترس‌اند.';
+ const picker=intro.querySelector('.session-audience-picker');
+ if(picker&&!intro.querySelector('#bp3-roadmap'))picker.insertAdjacentHTML('beforebegin','<details id="bp3-roadmap" class="bp2 bp3 bp2-panel"><summary>راهنمای اجرای کارگاه دوساعته · بدون ترتیب اجباری</summary><p class="bp2-small">۵ دقیقه شروع · سبک من ۱۲ · گفت‌وگوها ۲۸ · درس رهبران ۸ · فنون تفویض ۳۴ · تصاویر ۱۰ · بیماری‌های مدیریتی ۱۰ · کوییز ۱۰ · جمع‌بندی ۳ دقیقه. <b>جمع: ۱۲۰ دقیقه.</b></p><p class="bp2-small">در کلاس دو کیس از شش کیس و دو تکنیک را عمیق تمرین کنید؛ سایر کیس‌ها، ابزارها و تصاویر برای Self-paced Learning در دسترس‌اند. این زمان‌بندی پیشنهادی است، نه محدودیت Navigation.</p></details>');
+
 }
 const link=$('[data-course-session="2"]');if(link){link.classList.add('ready');const s=link.querySelector('small');if(s)s.textContent='تفویض اختیار، توانمندسازی و جانشین‌پروری · ۷ بخش';}
 document.querySelectorAll('[id^="session2-"] .page-heading').forEach(h=>{let p=h.querySelector('p');if(!p){p=document.createElement('p');h.appendChild(p)}p.textContent='آزمایشگاه رهبری · تصمیم، اختیار، حمایت و تداوم · موقعیت‌های '+area;});

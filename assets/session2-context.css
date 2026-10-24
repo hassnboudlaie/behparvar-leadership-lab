@@ -53,3 +53,19 @@
 .bp3 .bp2-tabs{scrollbar-width:thin}
 .bp3 .bp2-choice{white-space:normal}
 @media(max-width:650px){.bp3 .bp2-picture img{max-height:240px}.bp3 .bp2-hero h3{font-size:23px}.bp3 .bp2-kpis{gap:5px}.bp3 .bp2-kpis span{font-size:12px;padding:2px 8px}}
+
+
+/* Session 2 v4 advanced facilitation layer */
+.bp3 .bp2-facts{border:1px solid #afbedc;background:#f1f6ff;padding:14px 17px;border-radius:13px;margin:13px 0}
+.bp3 .bp2-facts ul{padding-right:23px;margin:8px 0 0}
+.bp3 .bp2-facts li{margin:5px 0}
+.bp3 .bp2-choice{display:block;margin:9px 0;width:100%;line-height:1.75;padding:13px 16px;text-align:right;white-space:normal}
+.bp3 .bp2-choice.active{border-right:5px solid #155e8c;box-shadow:0 0 0 1px #a3cbe6}
+.bp3 .bp2-choice strong,.bp3 .bp2-choice b{font-family:system-ui,Tahoma,sans-serif;direction:ltr;display:inline-block;margin-left:7px}
+.bp3 .bp2-story{line-height:1.9}
+.bp3 .bp2-feedback{padding:17px;line-height:1.8}
+.bp3 .bp2-mini strong{line-height:1.6}
+.bp3 .bp2-panel details[open]{background:#f7f9fd;border-radius:12px;padding:10px 14px;border:1px solid #dde7f5;margin:12px 0}
+.bp3 .bp2-panel h5{line-height:1.7}
+.bp3 .bp2-panel textarea{min-height:90px;margin-top:8px}
+@media(max-width:650px){.bp3 .bp2-choice{font-size:16px;padding:12px 13px}.bp3 .bp2-feedback .bp2-grid{grid-template-columns:1fr}}

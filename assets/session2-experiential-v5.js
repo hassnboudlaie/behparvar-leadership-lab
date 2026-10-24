@@ -348,24 +348,37 @@ const quiz=[
 ];
 
 
+
 function renderQuiz(){
  const done=Object.keys(st.quiz).filter(k=>[0,1,2,3].includes(st.quiz[k])).length;
- const score=quiz.reduce((n,q,i)=>n+(st.quiz[i]===q.correct?1:0),0);
- const needs=quiz.filter((q,i)=>st.quiz[i]!==q.correct).map(q=>q.focus);
- return hero('کوییز پایانی','قضاوت مدیریتی در شرایط خاکستری','ده موقعیت که در هرکدام چند راه عملی قابل بحث وجود دارد. هدف، دفاع از تصمیم است نه حفظ کردن یک پاسخ.')
- +'<p class="bp2-small">پاسخ پیشنهادی، با فرض شرایطِ خود سؤال انتخاب شده است. اگر فرض‌ها تغییر کنند، تصمیم هم ممکن است تغییر کند.</p>'
- +'<div class="bp2-progress"><span style="width:'+(done*10)+'%"></span></div><p class="bp2-small">'+done+' از ۱۰ پاسخ</p>'
- +quiz.map((q,i)=>box('تصمیم '+(i+1),' <div class="bp2-q-title">'+q.q+'</div>'
- +q.o.map((opt,j)=>'<button type="button" class="bp2-btn bp2-choice'+(st.quiz[i]===j?' active':'')+'" data-d3-quiz="'+i+':'+j+'" aria-pressed="'+(st.quiz[i]===j)+'"><b>'+String.fromCharCode(65+j)+'.</b> '+esc(opt)+'</button>').join('')
- +(st.quizDone?'<div class="bp2-feedback'+(st.quiz[i]===q.correct?'':' warn')+'"><strong>'+(st.quiz[i]===q.correct?'انتخاب متناسب با فرض‌های سؤال':'این انتخاب نیازمند بررسی شرایط و ریسک است')+'</strong><p><b>تحلیل:</b> '+q.why+'</p><p><b>چه زمانی پاسخ متفاوت می‌شود؟</b> '+q.nuance+'</p><p><b>پیشنهاد در این موقعیت:</b> '+q.o[q.correct]+'</p></div>':''))).join('')
- +box('Leadership Debrief · آموخته قابل انتقال',
- '<div class="bp2-row">'+btn('تحلیل تصمیم‌ها','data-d3-grade="1"'+(done<10?' disabled':''))+btn('شروع دوباره کوییز','data-d3-reset="1"')+'</div>'
- +(st.quizDone?'<p class="bp2-score">'+score+' / ۱۰</p><p>'+(score>=8?'در اغلب موقعیت‌های این تمرین، تصمیم شما با ملاحظات کلیدیِ اختیار و ریسک سازگار بوده است.':'چند تصمیم شما نیازمند بازبینیِ اطلاعات، حدود اختیار یا سازوکار پیگیری است.')+'</p>'
- +hint(needs.length?'برای مرور عمیق‌تر این سه محور را انتخاب کنید: '+[...new Set(needs)].slice(0,3).join('، '):'گام بعدی: یکی از تصمیم‌ها را با شرایط واقعی واحد خودتان امتحان کنید.')
- +'<p><b>پرسش منتور:</b> در کدام سؤال، با تغییر فقط یک واقعیت، انتخاب شما عوض می‌شد؟ چرا؟</p>'
- :'<p class="bp2-small">بعد از پاسخ به همه ده موقعیت، تحلیل اختصاصی و شرط‌های تغییر تصمیم نمایش داده می‌شود.</p>')
- +textArea('action','یک تصمیم واقعی که از فردا متفاوت می‌گیرم','موقعیت، اطلاعات لازم، سطح اختیار، گزینه انتخابی، شرط توقف و معیار بررسی')
- +'<p class="bp2-small">امتیاز فقط بازخورد آموزشی است؛ ارزیابی رسمی صلاحیت یا شخصیت نیست.</p>');
+ const n=Math.max(0,Math.min(quiz.length-1,Number(st.tabs.quizPage||0)));
+ const q=quiz[n],selected=st.quiz[n],score=quiz.reduce((v,x,i)=>v+(st.quiz[i]===x.correct?1:0),0);
+ const needs=quiz.filter((x,i)=>st.quiz[i]!==x.correct).map(x=>x.focus);
+ const answered=selected!==undefined;
+ const tabs='<div class="bp2-quiz-numbers" role="group" aria-label="انتخاب آزاد سؤال">'+quiz.map((x,i)=>btn((i+1)+(st.quiz[i]!==undefined?' ✓':''),'data-d5-quiz-page="'+i+'"',i===n)).join('')+'</div>';
+ const feedback=st.quizDone?'<div class="bp2-feedback'+(selected===q.correct?'':' warn')+'"><strong>'+(selected===q.correct?'تصمیم متناسب با این موقعیت':'دوباره شرایط تصمیم را بررسی کنید')+'</strong><p>'+q.why+'</p><p><b>چه زمانی تصمیم دیگری مناسب می‌شود؟</b> '+q.nuance+'</p><p><b>در این شرایط:</b> '+q.o[q.correct]+'</p></div>':answered?'<p class="bp2-small">پاسخ ثبت شد. می‌توانید آن را تغییر دهید یا به سؤال بعدی بروید.</p>':'';
+ const question=box('سؤال '+(n+1)+' از ۱۰',
+ '<div class="bp2-q-title">'+q.q+'</div>'
+ +q.o.map((opt,j)=>'<button type="button" class="bp2-btn bp2-choice'+(selected===j?' active':'')+'" aria-pressed="'+(selected===j)+'" data-d3-quiz="'+n+':'+j+'">'+esc(opt)+'</button>').join('')
+ +feedback
+ +'<div class="bp2-row bp2-question-nav">'+btn('→ سؤال قبل','data-d5-quiz-page="'+(n-1)+'"'+(n===0?' disabled':''))+
+ btn(n===9?'بازگشت به سؤال اول':'سؤال بعد ←','data-d5-quiz-page="'+(n===9?0:n+1)+'"')+'</div>');
+ const summary=box('نتیجه و اقدام هفته آینده',
+ '<div class="bp2-row">'+btn('دیدن تحلیل ده پاسخ','data-d3-grade="1"'+(done<10?' disabled':''))+
+ btn('شروع دوباره فقط کوییز','data-d3-reset="1"')+'</div>'
+ +(st.quizDone?'<p class="bp2-score">'+score+' / ۱۰</p>'
+ +hint(needs.length?'برای مرور عملی: '+[...new Set(needs)].slice(0,2).join(' و '):'یک تفویض واقعی را با حمایت و بازبینی اجرا کنید.')
+ +'<p class="bp2-small">امتیاز نشان‌دهنده پاسخ در این سناریوهاست، نه ارزیابی شایستگی شغلی.</p>'
+ :'<p class="bp2-small">'+(done<10?'پس از ثبت ده پاسخ، تحلیل را باز کنید.':'ده پاسخ کامل است؛ تحلیل را مشاهده کنید.')+'</p>')
+ +'<details open class="bp2-week"><summary>برنامه ساده هفت‌روزه من</summary>'
+ +'<p>فقط <b>یک مسئولیت واقعی</b> انتخاب کنید. لازم نیست همه چیز را یک‌باره تغییر دهید.</p>'
+ +textArea('week-start','روز اول · چه کاری را به چه کسی می‌سپارم؟','کار مشخص + حق تصمیم + حمایتی که می‌دهم')
+ +textArea('week-mid','روز سوم · چه چیزی جلو رفت یا گیر کرد؟','یک شاهد پیشرفت + یک مانع + کمک من')
+ +textArea('week-end','روز هفتم · نتیجه چه شد؟','نتیجه واقعی + چه چیزی را دفعه بعد اصلاح می‌کنم؟')
+ +'<p class="bp2-small"><b>کاربرگ تفویض</b> در بخش فنون رهبری در دسترس است؛ می‌توانید همان مسئولیت را آنجا دقیق‌تر ثبت کنید.</p></details>');
+ return hero('کوییز پایانی','ده تصمیم؛ هر بار یک سؤال','پاسخ کوتاه بدهید؛ اگر فرض‌های مسئله تغییر کنند، تصمیم شما هم ممکن است تغییر کند.')
+ +'<div class="bp2-progress"><span style="width:'+(done*10)+'%"></span></div><p class="bp2-small">'+done+' سؤال از ۱۰ سؤال پاسخ داده شده</p>'
+ +tabs+question+summary;
 }
 
 const map={m1:assess,m2:renderCase,leaders:leaders,techniques:technique,visuals:visuals,diseases:disease,quiz:renderQuiz};
@@ -393,13 +406,14 @@ function clipboard(){
  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(content).then(()=>{const q=$('#d3-copy-status');if(q)q.textContent='قرارداد در کلیپ‌بورد کپی شد.'}).catch(()=>{const q=$('#d3-copy-status');if(q)q.textContent='کپی خودکار در دسترس نیست؛ محتوای فرم را انتخاب و کپی کنید.'})}
 }
 document.addEventListener('click',e=>{
- const b=e.target.closest('[data-d5-second],[data-d4-facts],[data-d3-rate],[data-d3-case],[data-d3-quiz],[data-d3-tab],[data-d3-grade],[data-d3-reset],[data-d3-copy]');if(!b)return;
+ const b=e.target.closest('[data-d5-quiz-page],[data-d5-second],[data-d4-facts],[data-d3-rate],[data-d3-case],[data-d3-quiz],[data-d3-tab],[data-d3-grade],[data-d3-reset],[data-d3-copy]');if(!b)return;
  const d=b.dataset;
  if(d.d3Rate){const [i,v]=d.d3Rate.split(':').map(Number);st.assess[i]=v;save();render('m1');}
  if(d.d3Case){const [i,v]=d.d3Case.split(':').map(Number);st.cases[i]=v;delete st.caseSecond[i];save();render('m2');}
  if(d.d5Second){const [i,v]=d.d5Second.split(':').map(Number);st.caseSecond[i]=v;save();render('m2');}
  if(d.d4Facts!==undefined){const i=Number(d.d4Facts);st.caseFacts[i]=!st.caseFacts[i];save();render('m2');}
  if(d.d3Quiz){const [i,v]=d.d3Quiz.split(':').map(Number);st.quiz[i]=v;st.quizDone=false;save();render('quiz');}
+ if(d.d5QuizPage!==undefined){st.tabs.quizPage=Math.max(0,Math.min(9,Number(d.d5QuizPage)));save();render('quiz');}
  if(d.d3Tab){const [key,n]=d.d3Tab.split(':');st.tabs[key]=Number(n);save();render(({case:'m2',leader:'leaders',tech:'techniques',visual:'visuals',disease:'diseases'})[key]);}
  if(d.d3Grade&&Object.keys(st.quiz).filter(k=>st.quiz[k]!==undefined).length===quiz.length){st.quizDone=true;save();render('quiz');}
  if(d.d3Reset&&confirm('فقط پاسخ‌های کوییز جلسه دوم در مسیر '+roleName+' حذف شوند؟ سایر یادداشت‌ها باقی می‌مانند.')){st.quiz={};st.quizDone=false;save();render('quiz');}

@@ -27,7 +27,7 @@ function hero(topic,title,description){return '<header class="bp2-hero"><span cl
 const area=supervisor?'برنامه شیفت، هماهنگی اپراتورها و سرگروه‌ها، تحویل کار و محدودیت‌های ایمنی و کیفیت':'هماهنگی واحدهای تولید، کیفیت و پشتیبانی، توسعه سرپرستان و تصمیم‌های میان‌واحدی';
 const safe='در موضوعات ایمنی، کیفیت، توقف خط، امور مالی یا منابع انسانی، فقط در حدود اختیار مصوب و صلاحیت تأییدشده اقدام کنید؛ اختیار رسمی و مسیر Escalation را دور نزنید.';
 const axes=[
- {id:'choice',title:'اعتماد و واگذاری تصمیم',q:[supervisor?'در مسائل مجاز شیفت، به فرد مسئول اجازه انتخاب روش انجام کار می‌دهم.':'برای تصمیم‌های قابل بازگشت، به سرپرست امکان انتخاب در محدوده مصوب می‌دهم.','به‌جای درخواست تأیید برای جزئیات کم‌ریسک، حدود اختیار را از ابتدا روشن می‌کنم.'],step:'برای یک تصمیم تکراری و کم‌ریسک، سقف اختیار و نقطه گزارش را مشخص کنید.'},
+ {id:'choice',title:'اعتماد و واگذاری تصمیم',q:[supervisor?'در مسائل مجاز شیفت، به فرد مسئول اجازه انتخاب روش انجام کار می‌دهم.':'برای تصمیم‌های قابل بازگشت، به سرپرست امکان انتخاب در محدوده مصوب می‌دهم.','اگر فرد در تصمیمِ مجاز اشتباه کند، ابتدا علت و راه اصلاح را بررسی می‌کنم، نه اینکه او را تحقیر کنم.'],step:'برای یک تصمیم تکراری و کم‌ریسک، سقف اختیار و نقطه گزارش را مشخص کنید.'},
  {id:'support',title:'حمایت و توسعه قابلیت',q:['قبل از واگذاری کار تازه، مهارت، ابزار و زمان یادگیری فرد را بررسی می‌کنم.','هنگام بروز مانع، به‌جای پس‌گرفتن فوری کار، حمایت یا راهنمایی مناسب ارائه می‌دهم.'],step:'برای مسئولیت واگذارشده یک منبع یا حمایت واقعی تعیین کنید.'},
  {id:'follow',title:'پاسخگویی بدون ریزمدیریت',q:['نتیجه، معیار کیفیت و موعد را قبل از واگذاری به‌وضوح توافق می‌کنم.','در نقاط کنترل از وضعیت و موانع می‌پرسم؛ روش انجام را بی‌دلیل تحمیل نمی‌کنم.'],step:'برای یک فعالیت، یک Checkpoint با معیار نتیجه نه گزارش لحظه‌ای تعیین کنید.'},
  {id:'continuity',title:'پرورش نفر دوم و تداوم',q:['برای یک مسئولیت کلیدی، فردی را برای یادگیری تدریجی در نظر گرفته‌ام.','حداقل یک مسئولیت قابل تمرین را با نظارت مناسب به نیروی جانشین احتمالی می‌سپارم.'],step:'یک مسئولیت کلیدی را مشخص کنید که باید فرد دوم آموزش‌دیده داشته باشد.'}
@@ -267,7 +267,7 @@ function technique(){
  +'<h5>تمرین «دو روز بدون من»</h5><p>پیش از مرخصی فرضی، سه تصمیم خود را بنویسید؛ برای هرکدام مشخص کنید «تصمیم با چه نقشی؟ با چه اختیار مصوب؟ در چه وضعیتی باید ارجاع شود؟»</p>'
  +hint('فردِ مستعد یا جانشین موقت به‌معنای دارا بودن اختیار قانونی یا انتصاب رسمی نیست.')
  +textArea('succession','نقشه جانشین‌پروری در محیط کار','نقش بحرانی + دانش حیاتی + نفر دوم + شواهد آمادگی + آزمون تجربه'));
- return hero('فنون رهبری','از دانستن تا سپردن یک کار واقعی','یک کار قابل واگذاری را انتخاب کنید و مرحله‌به‌مرحله در محل کار اجرا کنید.')
+ return hero('فنون رهبری','یک کار واقعی را واگذار کن','یک کار قابل واگذاری را انتخاب کنید و مرحله‌به‌مرحله در محل کار اجرا کنید.')
  +nav(techniqueTitles,'tech',i)+c+hint(safe);
 }
 
@@ -294,7 +294,7 @@ function visuals(){
   real:supervisor?'برنامه غیبت سرپرست، نشان می‌دهد کدام تصمیم با سرگروه و کدام با مسئول ذی‌صلاح است.':'در نقشه اختیارات، تصمیم تکراریِ قابل تفویض را از تصمیم‌های راهبردی یا حساس جدا می‌کنید.',
   cost:'تمرکز بیش از حد موجب تأخیر؛ تمرکززدایی بی‌قاعده موجب ریسک و ابهام پاسخگویی می‌شود.',measure:'در دو روز غیبت، چند تصمیم مجاز معطل مانده و چند تصمیم حساس درست ارجاع شده است؟'}
  ][i];
- return hero('تصاویر مدیریتی','چهار تصویر، چهار تصمیم دشوار','تصاویر قبلی به‌پرور حفظ شده‌اند؛ از آن‌ها به‌عنوان محرک تحلیل و گفت‌وگوی مدیریتی استفاده می‌کنیم، نه تزئین صفحه.')
+ return hero('تصاویر مدیریتی','چهار تصویر، چهار سؤال مدیریتی','تصاویر قبلی به‌پرور حفظ شده‌اند؛ از آن‌ها به‌عنوان محرک تحلیل و گفت‌وگوی مدیریتی استفاده می‌کنیم، نه تزئین صفحه.')
  +nav(images.map((x,j)=>'تصویر '+(j+1)),'visual',i)
  +box(x.title,'<figure class="bp2-picture"><a href="'+x.file+'" target="_blank" rel="noopener"><img src="'+x.file+'" alt="'+esc(x.alt)+'" loading="lazy"></a><figcaption>تصویر موجود در کتابخانه آموزشی به‌پرور؛ لمس تصویر برای دیدن نسخه کامل.</figcaption></figure>'
  +'<div class="bp2-grid"><div class="bp2-mini"><strong>برداشت سطح اول</strong>'+x.lens+'</div><div class="bp2-mini"><strong>اشتباه در برداشت</strong>'+coaching.misread+'</div><div class="bp2-mini"><strong>در واقعیت کاری</strong>'+coaching.real+'</div><div class="bp2-mini"><strong>ریسک پنهان</strong>'+coaching.cost+'</div></div>'
@@ -399,7 +399,7 @@ if(intro){
 
 }
 const link=$('[data-course-session="2"]');if(link){link.classList.add('ready');const s=link.querySelector('small');if(s)s.textContent='تفویض اختیار، توانمندسازی و جانشین‌پروری · ۷ بخش';}
-document.querySelectorAll('[id^="session2-"] .page-heading').forEach(h=>{let p=h.querySelector('p');if(!p){p=document.createElement('p');h.appendChild(p)}p.textContent='آزمایشگاه رهبری · تصمیم، اختیار، حمایت و تداوم · موقعیت‌های '+area;});
+document.querySelectorAll('[id^="session2-"] .page-heading').forEach(h=>{let p=h.querySelector('p');if(!p){p=document.createElement('p');h.appendChild(p)}p.textContent=supervisor?'مثال‌های نزدیک به شیفت، سرگروه و تصمیم‌های مجازِ سرپرستی.':'مثال‌های نزدیک به هماهنگی واحدها، رشد سرپرستان و اختیار مدیریتی.';});
 function clipboard(){
  const keys=[['task','مسئولیت'],['owner','مالک'],['outcome','خروجی و معیار'],['limit','حدود اختیار'],['resources','منابع و حمایت'],['checkpoint','نقطه پیگیری'],['escalate','مسیر ارجاع/جانشین']];
  const content='قرارداد آموزشی تفویض اختیار | به‌پرور\n'+keys.map(([k,label])=>label+': '+(st.contract[k]||'—')).join('\n');
@@ -412,8 +412,8 @@ document.addEventListener('click',e=>{
  if(d.d3Case){const [i,v]=d.d3Case.split(':').map(Number);st.cases[i]=v;delete st.caseSecond[i];save();render('m2');}
  if(d.d5Second){const [i,v]=d.d5Second.split(':').map(Number);st.caseSecond[i]=v;save();render('m2');}
  if(d.d4Facts!==undefined){const i=Number(d.d4Facts);st.caseFacts[i]=!st.caseFacts[i];save();render('m2');}
- if(d.d3Quiz){const [i,v]=d.d3Quiz.split(':').map(Number);st.quiz[i]=v;st.quizDone=false;save();render('quiz');}
- if(d.d5QuizPage!==undefined){st.tabs.quizPage=Math.max(0,Math.min(9,Number(d.d5QuizPage)));save();render('quiz');}
+ if(d.d3Quiz){const [i,v]=d.d3Quiz.split(':').map(Number);st.quiz[i]=v;st.quizDone=false;save();render('quiz');const fresh=document.querySelector('[data-d3-quiz="'+i+':'+v+'"]');if(fresh&&fresh.focus)fresh.focus({preventScroll:true});}
+ if(d.d5QuizPage!==undefined){st.tabs.quizPage=Math.max(0,Math.min(9,Number(d.d5QuizPage)));save();render('quiz');const fresh=document.querySelector('[data-d5-quiz-page="'+st.tabs.quizPage+'"]');if(fresh&&fresh.focus)fresh.focus({preventScroll:true});}
  if(d.d3Tab){const [key,n]=d.d3Tab.split(':');st.tabs[key]=Number(n);save();render(({case:'m2',leader:'leaders',tech:'techniques',visual:'visuals',disease:'diseases'})[key]);}
  if(d.d3Grade&&Object.keys(st.quiz).filter(k=>st.quiz[k]!==undefined).length===quiz.length){st.quizDone=true;save();render('quiz');}
  if(d.d3Reset&&confirm('فقط پاسخ‌های کوییز جلسه دوم در مسیر '+roleName+' حذف شوند؟ سایر یادداشت‌ها باقی می‌مانند.')){st.quiz={};st.quizDone=false;save();render('quiz');}

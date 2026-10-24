@@ -375,7 +375,7 @@ function renderQuiz(){
  +textArea('week-start','روز اول · چه کاری را به چه کسی می‌سپارم؟','کار مشخص + حق تصمیم + حمایتی که می‌دهم')
  +textArea('week-mid','روز سوم · چه چیزی جلو رفت یا گیر کرد؟','یک شاهد پیشرفت + یک مانع + کمک من')
  +textArea('week-end','روز هفتم · نتیجه چه شد؟','نتیجه واقعی + چه چیزی را دفعه بعد اصلاح می‌کنم؟')
- +'<p class="bp2-small"><b>کاربرگ تفویض</b> در بخش فنون رهبری در دسترس است؛ می‌توانید همان مسئولیت را آنجا دقیق‌تر ثبت کنید.</p></details>');
+ +'<p class="bp2-small"><b>کاربرگ تفویض</b> در بخش فنون رهبری در دسترس است؛ می‌توانید همان مسئولیت را آنجا دقیق‌تر ثبت کنید.</p>'+btn('کپی برنامه هفته','data-d5-copy-week="1"')+'<p class="bp2-small" id="d5-week-status" aria-live="polite"></p></details>');
  return hero('کوییز پایانی','ده تصمیم؛ هر بار یک سؤال','پاسخ کوتاه بدهید؛ اگر فرض‌های مسئله تغییر کنند، تصمیم شما هم ممکن است تغییر کند.')
  +'<div class="bp2-progress"><span style="width:'+(done*10)+'%"></span></div><p class="bp2-small">'+done+' سؤال از ۱۰ سؤال پاسخ داده شده</p>'
  +tabs+question+summary;
@@ -406,7 +406,7 @@ function clipboard(){
  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(content).then(()=>{const q=$('#d3-copy-status');if(q)q.textContent='قرارداد در کلیپ‌بورد کپی شد.'}).catch(()=>{const q=$('#d3-copy-status');if(q)q.textContent='کپی خودکار در دسترس نیست؛ محتوای فرم را انتخاب و کپی کنید.'})}
 }
 document.addEventListener('click',e=>{
- const b=e.target.closest('[data-d5-quiz-page],[data-d5-second],[data-d4-facts],[data-d3-rate],[data-d3-case],[data-d3-quiz],[data-d3-tab],[data-d3-grade],[data-d3-reset],[data-d3-copy]');if(!b)return;
+ const b=e.target.closest('[data-d5-copy-week],[data-d5-quiz-page],[data-d5-second],[data-d4-facts],[data-d3-rate],[data-d3-case],[data-d3-quiz],[data-d3-tab],[data-d3-grade],[data-d3-reset],[data-d3-copy]');if(!b)return;
  const d=b.dataset;
  if(d.d3Rate){const [i,v]=d.d3Rate.split(':').map(Number);st.assess[i]=v;save();render('m1');}
  if(d.d3Case){const [i,v]=d.d3Case.split(':').map(Number);st.cases[i]=v;delete st.caseSecond[i];save();render('m2');}
@@ -417,6 +417,7 @@ document.addEventListener('click',e=>{
  if(d.d3Tab){const [key,n]=d.d3Tab.split(':');st.tabs[key]=Number(n);save();render(({case:'m2',leader:'leaders',tech:'techniques',visual:'visuals',disease:'diseases'})[key]);}
  if(d.d3Grade&&Object.keys(st.quiz).filter(k=>st.quiz[k]!==undefined).length===quiz.length){st.quizDone=true;save();render('quiz');}
  if(d.d3Reset&&confirm('فقط پاسخ‌های کوییز جلسه دوم در مسیر '+roleName+' حذف شوند؟ سایر یادداشت‌ها باقی می‌مانند.')){st.quiz={};st.quizDone=false;save();render('quiz');}
+ if(d.d5CopyWeek){const items=[['روز اول',st.exercise['week-start']],['روز سوم',st.exercise['week-mid']],['روز هفتم',st.exercise['week-end']]];const status=$('#d5-week-status');if(!items.some(x=>(x[1]||'').trim())){if(status)status.textContent='ابتدا یک اقدام برای روز اول بنویسید.';}else if(navigator.clipboard&&navigator.clipboard.writeText){const content='برنامه هفت‌روزه تفویض اختیار | به‌پرور\n'+items.map(x=>x[0]+': '+(x[1]||'هنوز ثبت نشده')).join('\n');navigator.clipboard.writeText(content).then(()=>{if(status)status.textContent='برنامه کپی شد.'}).catch(()=>{if(status)status.textContent='کپی خودکار در این مرورگر مجاز نیست.'});}}
  if(d.d3Copy)clipboard();
 });
 document.addEventListener('input',e=>{

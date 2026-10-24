@@ -18,7 +18,7 @@ function chrome(name,headline,lead){
 }
 function note(message){return '<div class="bp2-callout">'+message+'</div>'}
 function panel(title,content){return '<div class="bp2-panel"><h4>'+title+'</h4>'+content+'</div>'}
-function button(text,attrs='',active=false){return '<button type="button" class="bp2-btn'+(active?' active':'')+'" '+attrs+' aria-pressed="'+active+'">'+text+'</button>'}
+function button(text,attrs='',active=false){const extra=/class="([^"]+)"/.exec(attrs);if(extra)attrs=attrs.replace(extra[0],'');return '<button type="button" class="bp2-btn'+(extra?' '+extra[1]:'')+(active?' active':'')+'" '+attrs+' aria-pressed="'+active+'">'+text+'</button>'}
 const context=isSupervisor?
  'در فضای شیفت، تحویل کار، هماهنگی با اپراتورهای باتجربه و فشار تحویل به‌موقع':
  'در تعامل میان مدیر، سرپرستان، واحدهای تولید، منابع انسانی و کیفیت';

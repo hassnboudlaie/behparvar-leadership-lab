@@ -180,3 +180,100 @@ const training={
  measure:'سرعت یافتن صاحب تصمیم و کاهش ارجاعات نامشخص در بحران.'}
  ]}
 };
+
+const tabs=['m1','m2','leaders','techniques','visuals','diseases','quiz'];
+const labels=['🧭 سبک من','💬 گفت‌وگوها','🌟 رهبران','🧰 فنون رهبری','🖼️ تصاویر مدیریتی','⚠️ تله‌های مدیریتی','🎯 کوییز'];
+const $=q=>document.querySelector(q);
+const esc=x=>String(x??'').replace(/[&<>"']/g,a=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[a]));
+let memo={};try{memo=JSON.parse(localStorage.getItem('bp-book-2026-'+role)||'{}')||{}}catch(e){}
+const get=(a,b,d)=>memo[a+'-'+b]??d;
+const put=(a,b,v)=>{memo[a+'-'+b]=v;try{localStorage.setItem('bp-book-2026-'+role,JSON.stringify(memo))}catch(e){}};
+const button=(label,attr,active)=>'<button type="button" class="bp6-btn'+(active?' active':'')+'" aria-pressed="'+!!active+'" '+attr+'>'+label+'</button>';
+const card=(title,body)=>'<article class="bp6-card"><h4>'+title+'</h4>'+body+'</article>';
+const hero=(n,idx,title,sub)=>'<header class="bp6-hero"><small>'+training[n].icon+' جلسه '+n+' · '+rolesName+' · '+labels[idx]+'</small><h3>'+title+'</h3><p>'+sub+'</p></header>';
+const menu=(n,key,len,current)=>'<div class="bp6-tabs">'+Array.from({length:len},(_,i)=>button('گزینه '+(i+1),'data-bp6-tab="'+n+':'+key+':'+i+'"',i===current)).join('')+'</div>';
+const journal=(n,key)=>'<label class="bp6-label" for="bp6-j-'+n+'-'+key+'">✍️ اقدام من برای محل کار</label><textarea id="bp6-j-'+n+'-'+key+'" rows="3" data-bp6-note="'+n+':'+key+'" placeholder="یک اقدام، یک مسئول و یک موعد یا شاخص بنویسید">'+esc(get(n,'note'+key,''))+'</textarea>';
+const source=c=>'<details class="bp6-sourced"><summary>📖 تجربه کتاب در اصل درباره چه بود؟</summary><p>'+c.from+'</p><p class="bp6-small">داستان '+c.book+'، «'+c.source+'»، کتاب «حقایق تلخ درباره مدیریت منابع انسانی»، ترجمه حسن بودلایی و نرگس قلی‌زاده. محیط کار به‌پرور بازآفرینی آموزشی است؛ ادعای وقوع این رویداد در شرکت نمی‌شود.</p></details>';
+function roleplay(c,n,key){
+ const opened=get('roleplay',n+':'+key,false);
+ return '<section class="bp6-rp"><header>🎭 <b>رول‌پلی حرفه‌ای</b><small>۸ دقیقه · مدیر، کارمند، مشاهده‌گر</small></header><p class="bp6-small">یک دقیقه مطالعه نقش، سه دقیقه گفت‌وگو، دو دقیقه بازنگری و دو دقیقه بازخورد.</p>'
+ +'<div class="bp6-rolegrid"><details><summary>👔 نقش مدیر / سرپرست</summary><p>'+c.leader+'</p><p>از سؤال شروع کنید، نه نسخه‌پیچی.</p></details><details><summary>👤 نقش فرد مقابل (اطلاعات اختصاصی)</summary><p>'+c.employee+'</p><p>تا سؤال دقیق نشنیدید همه واقعیت را آشکار نکنید.</p></details></div>'
+ +button(opened?'اتفاق تازه نمایش داده شد':'⚡ اتفاق تازه؛ دقیقه چهارم','data-bp6-twist="'+n+':'+key+'"',opened)
+ +(opened?'<div class="bp6-twist"><b>⚡ اتفاق تازه</b><p>'+c.twist+'</p><p>حالا تصمیم یا توافق را بازبینی کنید.</p></div>':'')
+ +'<details><summary>🔎 معیارهای مشاهده‌گر</summary><ol><li>کشف دغدغه پنهان با سؤال.</li><li>تفکیک شواهد و فرض‌های مدیر.</li><li>روشن‌کردن مرز اختیار، حمایت و ریسک.</li><li>توافق نهایی با اقدام، مسئول و موعد.</li></ol><p><b>شاخص نتیجه:</b> '+c.measure+'</p></details></section>';
+}
+const toolsMap={
+3:[['تناسب فرد و کار','برای یک وظیفه خاص، مهارت و تمایل فرد را جداگانه بسنجید.'],['تجربه آزمایشی','یک مسئولیت مجاز همراه مربی و معیار نتیجه تعریف کنید.'],['انصاف فرصت رشد','معیار انتخاب برای تجربه مسئولیت را شفاف کنید.']],
+4:[['بازخورد سه مرحله‌ای','رفتار قابل مشاهده، اثر بر کار، درخواست روشن و شنیدن پاسخ.'],['مربیگری مسئله','از فرد بپرسید «کدام مانع را خودت رفع می‌کنی و من در چه چیزی کمک کنم؟»'],['رشد از مسیر تجربه','مسئولیت محدود، مربی، زمان پیگیری و شواهد یادگیری.']],
+5:[['واقعیت یا برداشت','مشاهدات، حدس‌ها و داده‌های لازم را جدا کنید.'],['گفت‌وگوی سخت','رفتار، اثر، مرز و توافق بعدی را محترمانه روشن کنید.'],['رسیدگی منصفانه','در موارد حساس طبق دستورالعمل و مرجع صلاحیت‌دار پیش بروید.']],
+6:[['نقشه تصمیم در غیبت','کار مجاز، کار نیازمند تأیید و موضوعِ ارجاع فوری را تفکیک کنید.'],['آزمایش جانشین','یک غیبت کوتاه را شبیه‌سازی و گلوگاه‌های تصمیم را ثبت کنید.'],['قرار میان واحدها','صاحب داده، صاحب تصمیم، موعد و مرجع حل اختلاف را تعیین کنید.']]
+};
+const trapsMap={
+3:[['همه کارکنان یکسان‌اند','آمادگی متفاوت، حمایت متفاوت می‌خواهد.'],['سابقه همان شایستگی است','تجربه بدون ارزیابی، آمادگی نقش جدید را اثبات نمی‌کند.']],
+4:[['کارمند ذهن مدیر را می‌خواند','یکی از افسانه‌های مدیریت در کتاب، تصور آگاهی خودکار کارکنان از انتظار مدیر است.'],['یک آموزش کافی است','رشد واقعی به تمرین، بازخورد و فرصت تجربه نیاز دارد.']],
+5:[['عملکرد خوب هر رفتاری را مجاز می‌کند','رفتار حرفه‌ای و نتیجه دو معیار مستقل‌اند.'],['اولین روایت حقیقت است','در تعارض، شواهد ظاهری می‌توانند گمراه‌کننده باشند.']],
+6:[['هیچ‌کس جایگزین ندارد','افسانه جایگزین‌ناپذیری در کتاب نقد شده است.'],['دو جانشین بهتر از یک نفرند','مرجع تصمیم مبهم می‌تواند به سردرگمی بینجامد.']]
+};
+function render(n,k){
+ const node=$('#bp6-'+n+'-'+k);if(!node)return;
+ const c=training[n],index=tabs.indexOf(k),i=get(n,k+'Index',0),cases=c.cases;
+ let output='';
+ if(k==='m1'){
+ const answers=get(n,'self',{});
+ output=hero(n,index,'سه پرسش درباره رفتار من','خودبازبینی کوتاه، نه تست شخصیت.')+card('🧭 آینه رهبری',c.principles.map((p,j)=>'<div class="bp6-q"><b>'+p[0]+'</b><p>'+p[1]+'</p>'+['کم','متوسط','زیاد'].map((x,v)=>button(x,'data-bp6-self="'+n+':'+j+':'+v+'"',answers[j]===v)).join('')+'</div>').join('')+'<p class="bp6-hint">💡 کدام رفتار را این هفته تغییر می‌دهید؟</p>'+journal(n,'self'));
+ }
+ if(k==='m2'){
+ const x=cases[i],chosen=get(n,'case'+i,-1),selected=x.options[chosen];
+ output=hero(n,index,'کیس‌های مدیریتی و رول‌پلی','چهار کیس. در کلاس فقط یک یا دو کیس را عمیق تمرین کنید.')+menu(n,k,4,i)
+ +card(x.title,'<div class="bp6-story">'+(sup?x.supervisor:x.manager)+'</div>'+source(x)+'<h5>⚖️ '+x.question+'</h5>'
+ +x.options.map((o,j)=>button(String.fromCharCode(65+j)+'. '+o[0],'data-bp6-choice="'+n+':'+i+':'+j+'"',j===chosen)).join('')
+ +(selected?'<div class="bp6-analysis"><b>✅ مزیت</b><p>'+selected[1]+'</p><b>⚠️ هزینه یا ریسک</b><p>'+selected[2]+'</p></div>':'')
+ +roleplay(x,n,'case'+i)+'<details><summary>✍️ اقدام بعد از نقش‌آفرینی</summary>'+journal(n,'case'+i)+'</details>');
+ }
+ if(k==='leaders'){
+ const x=cases[i%2];output=hero(n,index,'داستانی از تجربه مدیران','روایت واقعی کوتاه؛ استفاده در کار.')
+ +menu(n,k,2,i%2)+card('📖 '+x.source,'<p>'+x.from+'</p>'+source(x)+'<p><b>در به‌پرور:</b> '+(sup?x.supervisor:x.manager)+'</p><p><b>پرسش منتور:</b> '+x.question+'</p>'+journal(n,'leader'+i));
+ }
+ if(k==='techniques'){
+ const t=toolsMap[n][i%3];output=hero(n,index,'ابزارهایی که فردا استفاده می‌شوند','سه ابزار عملی با متن کوتاه.')+menu(n,k,3,i%3)
+ +card('🧰 '+t[0],'<p>'+t[1]+'</p><div class="bp6-hint"><b>نمونه:</b> '+(sup?cases[0].supervisor:cases[0].manager)+'</div>'+journal(n,'tool'+i));
+ }
+ if(k==='visuals'){
+ const x=cases[i%2],pic=i%2?'management-fairness.svg':'management-boss-leader.jpg';
+ output=hero(n,index,'یک تصویر، یک سؤال','تصویر برای بازاندیشی است، نه تزئین.')+menu(n,k,2,i%2)
+ +card('🖼️ تحلیل مدیریتی','<figure class="bp6-figure"><img src="assets/'+pic+'" alt="تصویر مدیریتی از منابع موجود به‌پرور" loading="lazy"><figcaption>تصویر موجود در منابع به‌پرور</figcaption></figure><p><b>'+x.question+'</b></p><p>'+x.measure+'</p>'+journal(n,'visual'+i));
+ }
+ if(k==='diseases'){
+ const t=trapsMap[n][i%2];
+ output=hero(n,index,'تله‌های رفتاری مدیر','رفتار را اصلاح کنید، نه اینکه به افراد برچسب بزنید.')+menu(n,k,2,i%2)
+ +card('⚠️ '+t[0],'<p>'+t[1]+'</p><div class="bp6-hint">🔧 '+c.principles[i%2][1]+'</div><details><summary>منبع و توضیح</summary><p>تفسیر آموزشی بر مبنای داستان‌ها و فصل «هفت افسانه معروف درباره مدیریت» کتاب. نقل مستقیم یا تشخیص بالینی نیست.</p></details>'+journal(n,'trap'+i));
+ }
+ if(k==='quiz'){
+ const x=cases[i],chosen=get(n,'quiz'+i,-1),opt=x.options[chosen],count=cases.filter((x,j)=>get(n,'quiz'+j,-1)>=0).length;
+ output=hero(n,index,'چهار تصمیم حرفه‌ای','هر بار یک سؤال؛ هر گزینه مزیت و ریسک دارد.')
+ +'<div class="bp6-progress"><span style="width:'+(count*25)+'%"></span></div><p class="bp6-small">'+count+' از ۴</p>'+menu(n,k,4,i)
+ +card('🎯 '+x.title,'<p>'+x.question+'</p>'+x.options.map((o,j)=>button(o[0],'data-bp6-quiz="'+n+':'+i+':'+j+'"',j===chosen)).join('')
+ +(opt?'<div class="bp6-analysis"><b>✅ مزیت</b><p>'+opt[1]+'</p><b>⚠️ محدودیت</b><p>'+opt[2]+'</p></div>':'')
+ +'<p class="bp6-hint">شرایط که عوض شود، تصمیم مناسب هم ممکن است عوض شود.</p>'+journal(n,'quiz'+i));
+ }
+ node.innerHTML=output;
+}
+for(const n of [3,4,5,6]){
+ const base=$('#session'+n),t=training[n];
+ if(base){const h=base.querySelector('h2'),p=base.querySelector('.page-heading p');if(h)h.textContent=t.title;if(p)p.textContent=t.subtitle+' هفت بخش مستقل در مسیر '+rolesName+'.'}
+ const nav=$('[data-course-session="'+n+'"]');if(nav){nav.classList.add('ready');const x=nav.querySelector('small');if(x)x.textContent=t.title+' · ۷ بخش فعال';}
+ for(const k of tabs){const sec=$('#session'+n+'-'+k),shell=sec?.querySelector('.future-content-shell');if(!shell)continue;
+ const placeholder=Array.from(shell.children).find(e=>e.tagName==='P'&&e.textContent.includes('هنوز اضافه نشده'));if(placeholder)placeholder.remove();
+ const root=document.createElement('div');root.id='bp6-'+n+'-'+k;root.className='bp6';shell.insertBefore(root,shell.firstChild);
+ const h=sec.querySelector('h2');if(h)h.textContent=labels[tabs.indexOf(k)];render(n,k);}
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-bp6-tab],[data-bp6-self],[data-bp6-choice],[data-bp6-quiz],[data-bp6-twist]');
+ if(!b)return;const d=b.dataset;
+ if(d.bp6Tab){const[n,k,i]=d.bp6Tab.split(':');put(n,k+'Index',+i);render(+n,k)}
+ if(d.bp6Self){const[n,i,v]=d.bp6Self.split(':'),answers={...get(n,'self',{})};answers[i]=+v;put(n,'self',answers);render(+n,'m1')}
+ if(d.bp6Choice){const[n,i,j]=d.bp6Choice.split(':');put(n,'case'+i,+j);render(+n,'m2')}
+ if(d.bp6Quiz){const[n,i,j]=d.bp6Quiz.split(':');put(n,'quiz'+i,+j);render(+n,'quiz')}
+ if(d.bp6Twist){const[n,...parts]=d.bp6Twist.split(':'),key=parts.join(':');put('roleplay',n+':'+key,!get('roleplay',n+':'+key,false));if(+n>=3)render(+n,'m2')}
+});
+document.addEventListener('input',e=>{const t=e.target.closest('[data-bp6-note]');if(!t)return;const[n,key]=t.dataset.bp6Note.split(':');put(n,'note'+key,t.value)});

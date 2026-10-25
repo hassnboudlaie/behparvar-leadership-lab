@@ -277,3 +277,55 @@ document.addEventListener('click',e=>{
  if(d.bp6Twist){const[n,...parts]=d.bp6Twist.split(':'),key=parts.join(':');put('roleplay',n+':'+key,!get('roleplay',n+':'+key,false));if(+n>=3)render(+n,'m2')}
 });
 document.addEventListener('input',e=>{const t=e.target.closest('[data-bp6-note]');if(!t)return;const[n,key]=t.dataset.bp6Note.split(':');put(n,'note'+key,t.value)});
+
+
+/* Add advanced role-play to all four original Session 1 conversations and all six
+   Session 2 delegation scenarios. Original contents and modules stay unchanged. */
+const firstPlay={
+ report:{book:13,source:'نمی‌دانستم رئیسم چه چیزی می‌خواهد',leader:'گزارش عقب افتاده است؛ هم موعد مهم است هم سهم ابهام دستور شما.',employee:'اطلاعات شیفت قبل ناقص بوده؛ قبلاً از ترس قضاوت منفی موضوع را دقیق گزارش نداده‌ام.',twist:'مشخص می‌شود «گزارش کامل» در دو شیفت تعریف یکسانی نداشته است.',measure:'آیا مالک داده، کیفیت گزارش و موعد بعدی روشن شد؟'},
+ coordination:{book:22,source:'گزارش‌های مستقیم من چالش‌برانگیز بودند',leader:'بین دو واحد اختلاف جدی است؛ فقط یافتن مقصر خروجی ایجاد نمی‌کند.',employee:'دو بار درخواست اطلاعات داده‌ایم و پاسخی نگرفتیم؛ نگرانیم مسئولیت خطای واحد دیگر به ما نسبت داده شود.',twist:'هیچ‌کس مالک مرحله انتقال داده بین دو واحد نیست.',measure:'یک مالک روشن، یک تحویل استاندارد و موعد مشخص.'},
+ change:{book:5,source:'مدیریت رفتارهای بچه‌گانه',leader:'روش جدید باید اجرا شود ولی اطلاعاتی از مشکلات واقعی آن ندارید.',employee:'فرم جدید ثبت اطلاعات واقعاً تکراری دارد؛ نگرانم اعتراضم نافرمانی تلقی شود.',twist:'یک نمونه مستند نشان می‌دهد همان داده در سیستم دیگری هم ثبت می‌شود.',measure:'اصلاح جزئیات زائد بدون حذف استاندارد ضروری.'},
+ workload:{book:3,source:'رئیس خود را نفرین کردم',leader:'کارمند از تقسیم نامنصفانه کار شکایت دارد؛ هنوز شواهد واقعی ندارید.',employee:'کارهای پنهانی مثل رفع خطای دیگران مرتب بر دوش من می‌افتد و قبلاً چند بار کمک خواسته‌ام.',twist:'در ثبت ساعت‌ها عدم توازن دیده می‌شود اما یکی از وظایف حیاتی هم بدون صاحب مانده است.',measure:'تقسیم کار شفاف همراه با معیار نتیجه، نه قول کلی.'}
+};
+const secondPlay=[
+ {book:13,source:'نمی‌دانستم رئیسم چه چیزی می‌خواهد',leader:'تصمیم روتین با ظرفیت فرد قابل واگذاری است؛ اما مرز اختیار مبهم مانده.',employee:'قبلاً بابت یک تصمیم مجاز که نتیجه بدی داشت توبیخ شده‌ام؛ از قضاوت مدیر می‌ترسم.',twist:'فرد نشان می‌دهد که پیش‌تر برای تصمیم کم‌ریسک مستقلی در جمع سرزنش شده است.',measure:'اختیار مصوب، معیار نتیجه و برخورد با خطای قابل یادگیری روشن شد؟'},
+ {book:36,source:'درخواست از مالک یک کسب‌وکار خانوادگی برای برنامه‌ریزی جانشین‌پروری',leader:'کار کلیدی به دانش یک نفر وابسته است؛ باید نفر دوم را آماده کنید.',employee:'می‌ترسم بعد از انتقال دانسته‌هایم، نقش من بی‌ارزش شود و برایم فرصتی باقی نماند.',twist:'فرد می‌گوید همکار قبلی پس از آموزش جانشین فرصت ارتقای خود را از دست داده بود.',measure:'مربیگری، فرصت رشد فرد اول و صلاحیت فرد دوم تعریف شده؟'},
+ {book:10,source:'مدیریت در بحران',leader:'همکار می‌خواهد مسئولیت به شما برگردد؛ موعد تحویل نزدیک است.',employee:'به یک داده از واحد دیگر دسترسی ندارم؛ نگرانم مدیر آن را بهانه‌گیری تلقی کند.',twist:'فرد نشان می‌دهد مانع اصلی خارج از حدود اختیار واگذارشده است.',measure:'رفع مانع مدیریتی بدون پس‌گرفتن مسئولیت اجرا.'},
+ {book:13,source:'نمی‌دانستم رئیسم چه چیزی می‌خواهد',leader:'کار واگذار شده اما منابع و دسترسی فراهم نیست؛ باید دلیل تأخیر روشن شود.',employee:'از من نتیجه خواسته‌اند ولی داده اصلی و اختیار هماهنگی در واحد دیگر است.',twist:'واحد دوم می‌گوید دسترسی ممکن است، اما فقط از مسیر رسمیِ تأییدشده.',measure:'توافق واقعی درباره منابع، مالک داده و معیار نتیجه.'},
+ {book:10,source:'مدیریت در بحران',leader:'دو روز غایب خواهید بود؛ باید تصمیم‌های مجاز و حساس تداوم یابند.',employee:'توان هماهنگی تیم دارم اما اختیار امضا یا تأیید موضوع حساس را ندارم.',twist:'در تمرین غیبت یک تصمیم خارج از اختیارات جانشین مطرح می‌شود.',measure:'مرجع رسمی برای تصمیم حساس و مسئول کار روزمره جدا شدند؟'},
+ {book:7,source:'آنچه ارتش درباره مدیریت به من آموخت',leader:'فشار تحویل بالا است و نباید استاندارد کیفیت یا ایمنی کنار برود.',employee:'ایده‌ای برای تسریع کار دارم اما نمی‌دانم کدام تغییر به تأیید مسئول کیفیت نیاز دارد.',twist:'مسئول کیفیت بخشی از تغییر توالی را مجاز، و حذف کنترل الزامی را غیرمجاز اعلام می‌کند.',measure:'تفویض کار مجاز همراه با مرز کیفیت و مسیر ارجاع.'}
+];
+function appendRoleToFirst(){
+ Object.entries(firstPlay).forEach(([id,data])=>{
+  const p=$('#conversation-'+id);if(!p||p.querySelector('.bp6-rp'))return;
+  p.insertAdjacentHTML('beforeend','<div class="bp6 bp6-added">'+roleplay(data,1,id)+'<p class="bp6-small">📖 الهام از داستان '+data.book+'، «'+data.source+'»؛ بازآفرینی برای به‌پرور.</p></div>');
+ });
+}
+function selectedSecond(){
+ const button=$('#bp3-m2 .bp2-tabs [data-d3-tab][aria-pressed="true"]');
+ return button?Math.min(5,Math.max(0,Number(button.getAttribute('data-d3-tab').split(':')[1])||0)):0;
+}
+function appendRoleToSecond(){
+ const host=$('#bp3-m2 .bp2-panel');if(!host||host.querySelector('.bp6-rp'))return;
+ const i=selectedSecond(),data=secondPlay[i];
+ if(data)host.insertAdjacentHTML('beforeend','<div class="bp6 bp6-added">'+roleplay(data,2,'case'+i)+'<p class="bp6-small">📖 الهام از داستان '+data.book+'، «'+data.source+'»؛ گفت‌وگوی به‌پرور بازآفرینی آموزشی است.</p></div>');
+}
+appendRoleToFirst();appendRoleToSecond();
+document.addEventListener('click',e=>{
+ const action=e.target.closest('[data-d3-tab],[data-d3-case],[data-d5-second],[data-d4-facts],[data-bp6-twist]');
+ if(!action)return;
+ const d=action.dataset;
+ if(d.d3Tab||d.d3Case||d.d5Second||d.d4Facts)appendRoleToSecond();
+ if(d.bp6Twist){
+  const [n,...rest]=d.bp6Twist.split(':'),key=rest.join(':');
+  if(+n===1){
+   const p=$('#conversation-'+key+' .bp6-rp'),data=firstPlay[key];
+   if(p&&data)p.outerHTML=roleplay(data,1,key);
+  }
+  if(+n===2){
+   const p=$('#bp3-m2 .bp6-rp'),data=secondPlay[selectedSecond()];
+   if(p&&data)p.outerHTML=roleplay(data,2,key);
+  }
+ }
+});
+})();

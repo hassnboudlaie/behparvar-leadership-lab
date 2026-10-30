@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "مهارت‌های رهبری من | به‌پرور",
+  "short_name": "رهبری به‌پرور",
+  "description": "اپ مهارت‌های رهبری مدیران و سرپرستان به‌پرور",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#122d60",
+  "icons": [
+    {
+      "src": "https://behparvar.com/wp-content/uploads/2025/06/logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

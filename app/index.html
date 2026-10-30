@@ -22,6 +22,24 @@
 @media(min-width:800px){.navbar{width:430px;left:50%;right:auto;transform:translateX(-50%);border-radius:18px 18px 0 0;border-right:1px solid var(--line);border-left:1px solid var(--line)}}
 @media(max-width:650px){.shell{padding:0 13px 104px}.top{height:73px}.brand{gap:7px}.brand img{height:40px;width:90px}.brand-txt{padding-right:8px}.brand-txt strong{font-size:13px}.brand-txt small{font-size:9px}.audience{max-width:97px;padding:8px 5px;font-size:11px}.hero{grid-template-columns:1fr;margin-top:15px}.hero img{height:143px;min-height:0;grid-row:1}.hero-text{padding:20px 22px 23px}.hero h1{font-size:26px}.hero p{font-size:13px}.stat{padding:10px}.stat b{font-size:20px}.stat small{font-size:10px}.duo{grid-template-columns:1fr}.course-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.course-card img{height:83px}.course-body{padding:11px}.course-body strong{font-size:14px}.course-body p{font-size:11px}.reader-head{margin:13px 0 10px}.reader-title strong{font-size:15px}.frame{height:calc(100dvh - 267px);min-height:385px}.chip{padding:7px 10px}.headline{margin:24px 0 12px}.pass-card{padding:19px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+.coach-preview{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;padding:17px 19px;text-align:right;border-radius:19px;border:1px solid #cbd8eb;background:linear-gradient(112deg,#edf3fb,#f7faff);color:var(--ink);transition:transform .15s,border-color .15s}
+.coach-preview:hover{transform:translateY(-2px);border-color:#a5bedc}
+.coach-preview-icon{font-size:29px;display:grid;place-items:center;width:52px;height:52px;flex:none;border-radius:16px;background:var(--navy);color:#fff}
+.coach-preview-body{flex:1;min-width:0}.coach-preview-body strong{display:block;font-size:17px}.coach-preview-body small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.coach-preview .arrow{width:36px;height:36px;flex:0 0 36px;font-size:18px}
+.coach-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:22px 0}
+.coach-card{background:#fff;border:1px solid var(--line);border-radius:23px;overflow:hidden;box-shadow:0 3px 20px #142d6010}
+.coach-cover{height:195px;position:relative;overflow:hidden;background:#e7eef6}
+.coach-cover img{display:block;width:100%;height:100%;object-fit:cover}
+.coach-cover:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,#112e6199,transparent 65%);pointer-events:none}
+.coach-badge{position:absolute;bottom:15px;right:15px;z-index:1;background:#fff;color:var(--navy);border-radius:99px;padding:4px 14px;font-weight:850;font-size:12px;box-shadow:0 2px 9px #132d6019}
+.coach-info{padding:22px}.coach-info .eyebrow{display:block;margin-bottom:8px}
+.coach-info h2{font-size:22px;margin:0 0 8px}
+.coach-info p{font-size:14px;color:var(--muted);margin:0;line-height:1.95}
+.coach-notice{padding:15px 19px;border-radius:15px;border:1px solid #cfdbe9;background:#f0f5fa;font-size:13px;color:#46617f}
+.nav-button{max-width:25%}
+@media(max-width:650px){.coach-grid{grid-template-columns:1fr;gap:13px}.coach-cover{height:168px}.coach-info{padding:17px}.coach-info h2{font-size:20px}.coach-preview{padding:13px 14px}.coach-preview-body strong{font-size:15px}.coach-preview-body small{font-size:11px}.navbar .nav-button small{font-size:10px}}
 </style>
 </head>
 <body><div class="shell">
@@ -41,8 +59,28 @@
  </div>
  <div class="headline"><div><span class="eyebrow">ONE SMALL ACTION</span><h2>یک تمرین برای فردا</h2></div></div>
  <div class="tip"><span class="emoji">💬</span><div><strong>به‌جای پاسخ آماده، یک سؤال خوب بپرسید.</strong><p>«چه مانعی وجود دارد و برای پیش‌رفتن چه حمایتی لازم است؟»</p></div></div>
+ <div class="headline"><div><span class="eyebrow">COACHING SPACE</span><h2>مربیان من</h2></div><button type="button" data-nav="coaches">مشاهده ←</button></div>
+ <button type="button" id="coachEntry" class="coach-preview" aria-label="مشاهده مربی رهبری من و مربی هوش مصنوعی من؛ به‌زودی">
+  <span class="coach-preview-icon" aria-hidden="true">✦</span>
+  <span class="coach-preview-body"><strong>مربی رهبری من · مربی هوش مصنوعی من</strong><small>هر دو بخش در حال آماده‌سازی هستند · به‌زودی</small></span>
+  <span class="arrow" aria-hidden="true">←</span>
+ </button>
 </section>
 <section class="view" id="sessionsView"><div class="page-head"><span class="eyebrow">YOUR LEARNING JOURNEY</span><h1>جلسات رهبری به‌پرور</h1><p>شش جلسه و هفت بخش مستقل. ترتیب مطالعه را خودتان انتخاب کنید.</p></div><div class="course-grid" id="courseGrid"></div></section>
+<section class="view" id="coachesView" aria-label="مربیان من">
+  <div class="page-head"><span class="eyebrow">YOUR COACHING SPACE · COMING SOON</span><h1>مربیان من</h1><p>دو فضای مکمل برای رشد مهارت‌های رهبری و بازاندیشی حرفه‌ای؛ در نسخه‌های بعدی فعال می‌شوند.</p></div>
+  <div class="coach-grid">
+    <article class="coach-card">
+      <div class="coach-cover"><img src="../assets/management-boss-leader.jpg" alt="تصویر آموزشی درباره تفاوت رهبری و مدیریت" loading="lazy"><span class="coach-badge">به‌زودی</span></div>
+      <div class="coach-info"><span class="eyebrow">MY LEADERSHIP COACH</span><h2>مربی رهبری من</h2><p>فضایی برای تأمل در چالش‌های واقعی رهبری، روشن‌کردن موقعیت و تبدیل یادگیری به اقدام حرفه‌ای.</p></div>
+    </article>
+    <article class="coach-card">
+      <div class="coach-cover"><img src="../assets/behparvar-campus.webp" alt="محیط واقعی کسب‌وکار به‌پرور" loading="lazy"><span class="coach-badge">به‌زودی</span></div>
+      <div class="coach-info"><span class="eyebrow">MY AI COACH</span><h2>مربی هوش مصنوعی من</h2><p>فضای گفت‌وگوی تعاملی و راهنمایی متناسب با نیازهای مدیریتی شما؛ قابلیت هوش مصنوعی هنوز متصل نشده است.</p></div>
+    </article>
+  </div>
+  <p class="coach-notice">این دو بخش فعلاً صرفاً معرفی قابلیت‌های آینده‌اند و امکان گفت‌وگو یا Coaching فعال ندارند.</p>
+</section>
 <section class="view" id="passportView"><div class="page-head"><span class="eyebrow">MY LEADERSHIP PASSPORT</span><h1>پاسپورت یادگیری من</h1><p>مسیر شما، بخش‌های مرورشده و مطالب نشان‌شده روی همین دستگاه.</p></div><div class="pass-card"><div><b id="count">۰ بخش از ۴۲</b><p>علامت تکمیل انتخاب شخصی شماست، نه نمره یا گواهینامه رسمی.</p></div><div class="ring" id="ring"><span id="percent">۰٪</span></div></div><div class="headline"><h2>نشان‌شده‌های من</h2></div><div class="bookmarks" id="bookmarkList"></div><p class="caption">داده‌ها فقط در مرورگر دستگاه ذخیره می‌شوند و با پاک‌شدن داده مرورگر قابل بازیابی نیستند.</p></section>
 <section class="view" id="readerView">
  <div class="reader-head"><button type="button" class="circle-btn" id="back" aria-label="بازگشت به جلسات">→</button><div class="reader-title"><strong id="readerTitle">مهارت رهبری</strong><small id="readerSubtitle">جلسه اول</small></div><button type="button" class="circle-btn" id="star" aria-label="نشان‌کردن">☆</button></div>
@@ -52,7 +90,7 @@
  <p class="caption">محتوای این بخش از وب‌سایت اصلی دوره نمایش داده می‌شود. برای درس‌ها و تمرین‌های تعاملی اتصال اینترنت لازم است.</p>
 </section>
 </main></div>
-<nav class="navbar" aria-label="ناوبری اپ"><button type="button" class="nav-button" data-nav="home"><span class="icon">⌂</span><small>خانه</small></button><button type="button" class="nav-button" data-nav="sessions"><span class="icon">▦</span><small>جلسات</small></button><button type="button" class="nav-button" data-nav="passport"><span class="icon">✧</span><small>یادگیری من</small></button></nav>
+<nav class="navbar" aria-label="ناوبری اپ"><button type="button" class="nav-button" data-nav="home"><span class="icon">⌂</span><small>خانه</small></button><button type="button" class="nav-button" data-nav="sessions"><span class="icon">▦</span><small>جلسات</small></button><button type="button" class="nav-button" data-nav="coaches"><span class="icon">✦</span><small>مربیان</small></button><button type="button" class="nav-button" data-nav="passport"><span class="icon">✧</span><small>یادگیری من</small></button></nav>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script>
 (function(){
@@ -72,7 +110,7 @@ function fa(v){return String(v).replace(/[0-9]/g,function(x){return "۰۱۲۳۴�
 function save(){try{localStorage.setItem("behparvar_app_v1",JSON.stringify(data))}catch(e){}}
 function notice(v){el("toast").textContent=v;el("toast").classList.add("visible");clearTimeout(notice.t);notice.t=setTimeout(function(){el("toast").classList.remove("visible")},2300)}
 function key(s,p){return data.role+":"+s+":"+p}
-function getRoute(){var a=location.hash.replace(/^#\/?/,"").split("/"),n=Number(a[1]);if(a[0]==="read"&&n>=1&&n<=6&&parts.some(function(p){return p[0]===a[2]}))return {page:"reader",session:n,part:a[2]};return {page:["home","sessions","passport"].indexOf(a[0])>=0?a[0]:"home"}}
+function getRoute(){var a=location.hash.replace(/^#\/?/,"").split("/"),n=Number(a[1]);if(a[0]==="read"&&n>=1&&n<=6&&parts.some(function(p){return p[0]===a[2]}))return {page:"reader",session:n,part:a[2]};return {page:["home","sessions","coaches","passport"].indexOf(a[0])>=0?a[0]:"home"}}
 function navigate(x){if(location.hash==="#/"+x){render();return}location.hash="/"+x}
 function openPart(s,p){navigate("read/"+s+"/"+p)}
 function partHash(s,p){return s===1?p:"session"+s+"-"+p}
@@ -94,6 +132,7 @@ el("audience").addEventListener("change",function(){data.role=this.value;save();
 document.querySelectorAll("[data-nav]").forEach(function(b){b.addEventListener("click",function(){navigate(b.dataset.nav)})});
 document.body.addEventListener("click",function(e){var b=e.target.closest("[data-session]");if(b)openPart(Number(b.dataset.session),"m1")});
 el("start").addEventListener("click",function(){navigate("sessions")});
+el("coachEntry").addEventListener("click",function(){navigate("coaches")});
 el("continue").addEventListener("click",function(){var x=data.last;data.role=x.role||data.role;el("audience").value=data.role;openPart(x.session,x.part)});
 el("back").addEventListener("click",function(){navigate("sessions")});
 el("chips").addEventListener("click",function(e){var b=e.target.closest("[data-part]");if(b)openPart(getRoute().session,b.dataset.part)});

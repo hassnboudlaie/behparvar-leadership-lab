@@ -12,6 +12,12 @@
   "theme_color": "#122d60",
   "icons": [
     {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
       "src": "https://behparvar.com/wp-content/uploads/2025/06/logo.png",
       "sizes": "any",
       "type": "image/png",

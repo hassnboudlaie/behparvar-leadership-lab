@@ -46,10 +46,14 @@ const assert=require('node:assert/strict');
    }
    await page.evaluate(()=>{location.hash='#session4-visuals'});
    await page.waitForTimeout(150);
+   // The guided practice is intentionally a separate learner mode.
+   await page.locator('#session4-visuals [data-mode="guided"]').click();
    const practice=await page.evaluate(()=>({count:document.querySelectorAll('#session4-visuals .mml-practice-options button').length,feedbackHidden:document.querySelector('#session4-visuals .mml-practice-feedback')?.hidden}));
    if(practice.count===3){await page.locator('#session4-visuals .mml-practice-options button').nth(1).click();await page.waitForTimeout(50);practice.feedbackAfter=await page.locator('#session4-visuals .mml-practice-feedback').textContent();} 
    await page.evaluate(()=>{location.hash='#session4-quiz'});
    await page.waitForTimeout(130);
+   // The final section defaults to the original quiz; open the action-plan mode explicitly.
+   await page.locator('#session4-quiz [data-mode="guided"]').click();
    const textarea=page.locator('#session4-quiz [data-mml-action="4"]');
    await textarea.fill('QA mobile saved plan');
    await page.reload({waitUntil:'domcontentloaded'});

@@ -49,3 +49,11 @@
 4. Check previous quiz results and saved notes before/after refresh (do not reset).
 5. Open session-specific quiz, verify there is no answer leakage, and confirm that Back returns to the previous view.
 6. Validate PWA update, offline fallback, loading on 320/360/390px and a desktop classroom display.
+
+## UX benchmark and automated acceptance — 31 October 2026 (later update)
+- **Reference:** 360Learning Mobile LMS (https://360learning.com/solution/mobile-learning/) for a compact ongoing-course dashboard, contextual resume, visible course review status and a distraction-free lesson player. TalentLMS (https://www.talentlms.com/blog/talentlms-mobile-app/) is a secondary reference for simplified mobile course consumption. We adapted principles, **not** their proprietary artwork, branding, or source code.
+- `assets/mml-learning-home-v1.js` and `assets/mml-learning-home-v1.css` add: six editorial session tiles, per-session manually-reviewed count (zero to seven), resume hint and Learn → Practice → Apply pathway. This never labels section views as a validated competency.
+- Added reusable `verify-mml-experience.js`, `qa-mml-browser.cjs` and `.github/workflows/mml-ux-check.yml`.
+- **Confirmed automated testing:** GitHub Actions runs for Chromium UI smoke, five responsive viewports (360/390/393/768/1440px), WebKit Safari-engine layout, saved plan persistence, local PWA offline behavior, route navigation and no horizontal overflow all reported **success**. Browser QA run: https://github.com/hassnboudlaie/behparvar-leadership-lab/actions/runs/41214690932 . Expanded mobile/WebKit run: https://github.com/hassnboudlaie/behparvar-leadership-lab/actions/runs/41214706308 .
+- The tests exercise a local same-origin copy of the committed app and report no runtime page errors. Their artifacts include screenshots and compact report JSON. **Physical Android/iOS device testing, subjective visual design sign-off and measurement of learning outcomes remain distinct and unverified**.
+- An accessibility follow-up increased header link touch targets; a Persian feedback copy fix removed doubled «» around already-quoted coaching language.

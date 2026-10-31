@@ -34,7 +34,7 @@ jobs:
         if: always()
         run: |
           grep -E 'MML_SUMMARY|MML_RUN_REPORT|FAIL|Error|ERROR' /tmp/audit-verbose.log | cut -c 1-9000 || true
-          grep '^MML_SCREENSHOT_' /tmp/audit-verbose.log | cut -c 1-10 || true
+          grep '^MML_SCREENSHOT_' /tmp/audit-verbose.log || true
       - name: Upload screenshots and metrics
         if: always()
         uses: actions/upload-artifact@v4

@@ -4,7 +4,7 @@
 (function () {
   "use strict";
   var PARTS=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
-  var TITLES=["خودارزیابی و شناخت شایستگی","گفت‌وگوی حرفه‌ای و Role-play","یادگیری از رفتار مدیران","فنون و دستورالعمل رفتاری","تحلیل Case و تصمیم","نقاط کور و خطاهای مدیریتی","کاربست، تعهد و ارزیابی"];
+  var TITLES=["وضعیت من","گفت‌وگوی کاری","نکته و مثال","راهنمای اجرا","تمرین تصمیم","خطاهای رایج","برنامه اقدام من"];
   var SKILLS=[
     {id:"planning",fa:"برنامه‌ریزی و سازماندهی",en:"Planning & Organizing",group:"مدیریتی",s:3,m:4,behavior:"هدف را به فعالیت، مسئول، منابع، موعد و شاخص تبدیل می‌کند.",evidence:"برنامه اجرایی با مالک اقدام و پایش پیشرفت"},
     {id:"coordination",fa:"هماهنگی بین‌واحدی",en:"Cross-functional Coordination",group:"سازمانی",s:3,m:4,behavior:"وابستگی‌های واحدها را قبل از تصمیم شناسایی و برای تحویل مشترک توافق ایجاد می‌کند.",evidence:"توافق بین‌واحدی با موعد و تعهدات روشن"},
@@ -79,6 +79,41 @@
       feedback:"رفتار مطلوب: دیدن زنجیره ارزش، تعریف مشترک داده، بررسی Trade-off، محافظت از استانداردها، تعیین مالک فرایند و Pilot قابل سنجش."
     }
   };
+
+  var GUIDE=window.MML_GUIDE_V2;
+  var ZONES=[
+    {name:"خودم",en:"Develop Self",ids:["self","problem","judgment"],desc:"آگاهی از رفتار خود، حل مسئله و تصمیم درست.",image:""},
+    {name:"دیگران",en:"Enable Others",ids:["communication","conflict","delegation","coaching"],desc:"گفت‌وگو، همکاری، هدایت و رشد کارکنان.",image:""},
+    {name:"کسب‌وکار",en:"Improve the Business",ids:["planning","coordination","performance","business","change"],desc:"برنامه‌ریزی، هماهنگی، عملکرد و بهبود زنجیره.",image:""}
+  ];
+  function guide(n){return GUIDE.lessons[n-1][role==="managers"?"m":"s"]}
+  function roleTerm(){return role==="managers"?"مدیر":"سرپرست"}
+  function zoneCards(){
+    return '<div class="mml-zone-grid">'+ZONES.map(function(z,i){
+      var img=[["◎","خودم"],["♧","دیگران"],["◈","کسب‌وکار"]][i];
+      return '<div class="mml-zone mml-zone-'+i+'"><span class="mml-zone-icon" aria-hidden="true">'+img[0]+'</span><b>'+z.name+'</b><small dir="ltr">'+z.en+'</small><p>'+z.desc+'</p><details><summary>شایستگی‌های این دسته</summary><ul>'+z.ids.map(function(id){return '<li>'+esc(item(id).fa)+'</li>'}).join("")+'</ul></details></div>';
+    }).join("")+'</div>';
+  }
+  function sources(n){
+    return '<details class="mml-evidence"><summary>پشتوانه علمی این جلسه</summary><ul>'+GUIDE.sources[n-1].map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+'</ul><p>مثال‌ها و تمرین‌ها برای به‌پرور تألیف شده‌اند؛ آزمون استاندارد یا محتوای اختصاصی ناشر نیستند.</p></details>';
+  }
+  function practice(n){
+    var g=guide(n),saved=lab.choices&&lab.choices[role+":"+n],chosen=(saved===0||saved===1||saved===2)?saved:null;
+    return '<div class="mml-practice" data-mml-practice="'+n+'"><h3>اگر جای او بودی، چه می‌کردی؟</h3><p>'+esc(g.question)+'</p><div class="mml-practice-options">'+g.options.map(function(o,i){return '<button type="button" data-mml-choice="'+n+':'+i+'" aria-pressed="'+(chosen===i)+'"><span>'+["الف","ب","ج"][i]+'</span>'+esc(o)+'</button>'}).join("")+'</div><div class="mml-practice-feedback" aria-live="polite"'+(chosen===null?' hidden':'')+'>'+(chosen===null?"":esc(g.feedback[chosen]))+'</div></div>';
+  }
+  function miniDialogue(n){
+    var g=guide(n);
+    return '<div class="mml-mini-dialogue"><h3>گفت‌وگوی کوتاه در محل کار</h3>'+g.role.map(function(d){return '<div class="mml-dialogue-line"><strong>'+esc(d[0])+'</strong><span>'+esc(d[1])+'</span><p>«'+esc(d[2])+'»</p></div>'}).join("")+'</div>';
+  }
+  function visual(n){
+    if(n===1)return '<div class="mml-flow"><span>انجام کار با تخصص خودم</span><b>←</b><span>ممکن‌کردن کار درست توسط تیم</span></div>';
+    if(n===2)return '<div class="mml-visual-card"><h3>برگه برنامه یک‌دقیقه‌ای</h3><div class="mml-table-wrap"><table><thead><tr><th>کار</th><th>محدودیت</th><th>مسئول</th><th>زمان بازبینی</th></tr></thead><tbody><tr><td>آماده‌سازی محموله</td><td>تأیید کیفیت</td><td>تولید و کیفیت</td><td>پیش از اعلام تحویل</td></tr></tbody></table></div></div>';
+    if(n===3)return '<div class="mml-visual-card"><h3>مثال عددی فرضی: عملکرد خط</h3><div class="mml-bar"><label>هدف تمرینی: ۸ ساعت آماده‌به‌کاری</label><div><span style="width:100%"></span></div></div><div class="mml-bar"><label>عملکرد فرضی: ۶ ساعت</label><div><span style="width:75%"></span></div></div><p>اختلاف: ۲ ساعت. عدد به‌تنهایی علت را نشان نمی‌دهد؛ توقف‌ها را بررسی کن.</p></div>';
+    if(n===4)return '<div class="mml-contrast"><div><small>پیش از اصلاح</small><p>«تو همیشه بی‌دقتی!»</p></div><div><small>بعد از اصلاح</small><p>«مغایرت امروز در گزارش ثبت شد. چه چیزی پیش آمد؟»</p></div></div>';
+    if(n===5)return '<div class="mml-flow"><span>نتیجه روشن</span><b>←</b><span>اختیار کافی</span><b>←</b><span>زمان بازبینی</span></div>';
+    return '<div class="mml-visual-card"><h3>نمونه ساده زنجیره ارزش</h3><div class="mml-flow"><span>نهاده و تأمین</span><b>←</b><span>تولید و پرورش</span><b>←</b><span>کنترل کیفیت</span><b>←</b><span>تحویل و مشتری</span></div><p>نقشه آموزشی وابستگی‌هاست، نه چارت رسمی شرکت. هر تصمیم واحد بر مرحله بعد اثر دارد.</p></div>';
+  }
+
   function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
   function readJSON(k){try{return JSON.parse(localStorage.getItem(k)||"null")}catch(e){return null}}
   function writeJSON(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
@@ -112,8 +147,8 @@
   }
   function levels(n){
     return PROGRAM[n-1].ids.map(function(id){
-      var s=item(id),v=lab.levels[levelKey(id)]||"",expected=role==="managers"?s.m:s.s;
-      return '<label class="mml-level-row"><span><b>'+esc(s.fa)+'</b><small>سطح مورد انتظار آموزشی: '+expected+' از ۴ · خودارزیابی، نه تشخیص قطعی</small></span><select data-mml-level="'+esc(id)+'"><option value="">سطح فعلی من...</option>'+[1,2,3,4].map(function(i){return '<option value="'+i+'"'+(String(i)===String(v)?" selected":"")+'>'+i+' — '+["","آشنایی","کاربرد با راهنمایی","کاربرد مستقل","تسلط و توسعه دیگران"][i]+'</option>'}).join("")+'</select></label>';
+      var sk=item(id),v=lab.levels[levelKey(id)]||"";
+      return '<label class="mml-level-row"><span><b>'+esc(sk.fa)+'</b><small>'+esc(sk.behavior)+'</small></span><select aria-label="میزان تجربه من در '+esc(sk.fa)+'" data-mml-level="'+esc(id)+'"><option value="">انتخاب من...</option>'+[1,2,3,4].map(function(i){return '<option value="'+i+'"'+(String(i)===String(v)?" selected":"")+'>'+["","۱ · تازه شروع کرده‌ام","۲ · با راهنمایی انجام می‌دهم","۳ · مستقل انجام می‌دهم","۴ · به دیگران هم یاد می‌دهم"][i]+'</option>'}).join("")+'</select></label>';
     }).join("");
   }
   function caseHTML(){
@@ -121,35 +156,40 @@
     return '<div class="mml-case"><p class="mml-note">Case-based Simulation · همه اعداد و اشخاص آموزشی و فرضی هستند</p><h3>'+esc(c.name)+'</h3><p>'+esc(c.context)+'</p><div class="mml-people">'+c.people.map(function(p){return '<span>'+esc(p[0])+' · '+esc(p[1])+'</span>'}).join("")+'</div><ol class="mml-dialogues">'+c.lines.map(function(line){return '<li><strong>'+esc(line[0])+'</strong><small>لحن / Body language: '+esc(line[1])+'</small><p>'+esc(line[2])+'</p></li>'}).join("")+'</ol><div class="mml-key"><strong>پرسش تسهیلگر</strong><p>'+esc(c.question)+'</p><p>'+esc(c.feedback)+'</p></div></div>';
   }
   function renderSection(n,partIndex){
-    var cfg=PROGRAM[n-1], t=track(n), p=PARTS[partIndex],k=actionKey(n), text="",sources='';
+    var cfg=PROGRAM[n-1],g=guide(n),t=track(n),p=PARTS[partIndex],k=actionKey(n),text="";
     if(partIndex===0){
-      text='<p>ابتدا شواهد رفتار واقعی خود را مرور کنید. مقیاس چهارسطحی، Educational Rubric است؛ آزمون استاندارد یا Psychometric Test نیست.</p>'+levels(n)+'<p class="mml-note">برای ارزیابی معتبرتر، این خوداظهاری را با مشاهده Role-play، نمونه کار واقعی و بازخورد مدیر مستقیم Triangulate کنید.</p>';
-    } else if(partIndex===1){
-      text= n===1?caseHTML():'<div class="mml-case"><strong>Conversation Lab — '+esc(cfg.name)+'</strong><p>'+esc(t.case)+'</p><p><b>نقش ۱، مسئول اجرا:</b> محدودیت و نیاز عملیاتی را بیان کند.</p><p><b>نقش ۲، واحد همکار:</b> اثر تصمیم بر کیفیت/مشتری را بازتاب دهد.</p><p><b>نقش ۳، مسئول منابع:</b> درباره ظرفیت و پیامد سؤال کند.</p><p><b>نقش ۴، ناظر:</b> عبارت‌های قضاوتی، سؤال‌های باز و رفتار قابل مشاهده را ثبت کند.</p><p><b>نقش ۵، تسهیلگر:</b> توافق، مالک تصمیم و موعد را مطالبه کند.</p><p class="mml-note">در اجرای کلاسی، لحن، مکث، زبان بدن و واکنش طرف مقابل نیز توسط ناظر ثبت می‌شود. این تمرین جایگزین سناریوی کامل جلسه اول نیست.</p></div>';
-    } else if(partIndex===2){
-      text='<p><b>Managerial Lens:</b> صرفاً دانستن یک مدل، معادل اجرای حرفه‌ای آن نیست. در تحلیل رفتار، بین دانش، تجربه، ویژگی‌های فردی و شایستگی قابل مشاهده تفاوت بگذارید.</p><div class="mml-duo"><div><strong>پرسش بازتابی</strong><p>'+esc(t.question)+'</p></div><div><strong>نتیجه مورد انتظار</strong><p>'+esc(t.outcome)+'</p></div></div><p class="mml-note">بر مبنای تمایز Success Profile در DDI (2015، صص ۱۲–۱۷) و مبنای رفتاری مهارت‌ها در Whetten & Cameron (2011، Introduction).</p>';
-    } else if(partIndex===3){
-      text='<p><b>Behavioral Guidelines:</b> رفتار حرفه‌ای را به اقدام قابل مشاهده تبدیل کنید. در این جلسه از ابزار زیر استفاده کنید:</p><div class="mml-key"><strong>'+esc(t.tool)+'</strong><p>'+esc(t.outcome)+'</p></div><ol><li>موقعیت و استاندارد مورد انتظار را روشن کنید.</li><li>داده، محدودیت، فرد مسئول و طرف‌های درگیر را مشخص کنید.</li><li>دست‌کم دو گزینه قابل اجرا را از نظر کیفیت، منابع و پیامد مقایسه کنید.</li><li>گام بعدی، مسئول و زمان بازبینی را ثبت کنید.</li></ol>';
-    } else if(partIndex===4){
-      text='<div class="mml-key"><strong>Case Analysis — مورد آموزشی</strong><p>'+esc(t.case)+'</p></div><p>در گروه، به ترتیب مسئله اصلی، اطلاعات گمشده، دو تفسیر رقیب و یک اقدام کم‌ریسک را تعیین کنید. بدون شواهد، درباره «مقصر» یا علت قطعی نتیجه‌گیری نکنید.</p><p class="mml-note">از منطق Skill Analysis و Practice کتاب Developing Management Skills الهام گرفته شده است؛ این Caseها محتوای اختصاصی و فرضی به‌پرور هستند.</p>';
-    } else if(partIndex===5){
-      text='<p><b>Blind Spot:</b> '+esc(t.blind)+'</p><p><b>Reframe:</b> به‌جای این‌که بپرسیم «چه کسی کوتاهی کرد؟» بپرسیم «کدام رفتار، اطلاعات یا وابستگی از دید ما پنهان ماند؟»</p><p>هر گروه یک عامل فردی و یک عامل فرایندی را بررسی کند. امکان دارد مسئله از هر دو ناشی شود.</p>';
-    } else {
-      text='<p>مرحله Skill Application: از کلاس به محیط کار. یک آزمایش رفتاری کوچک، همراه با زمان و شواهد موفقیت تعریف کنید. نتیجه آزمون‌های قبلی این بخش نیز حفظ شده است.</p><label class="mml-action-label">Action / رفتار مشخص<textarea rows="3" data-mml-action="'+n+'" placeholder="'+esc(t.action)+'">'+esc(lab.actions[k]||"")+'</textarea></label><p class="mml-note">یادداشت در مرورگر همین دستگاه ذخیره می‌شود؛ سامانه مرکزی یا ارسال برای مدرس فعال نیست.</p>';
+      text='<p class="mml-lead">آخرین بار که در چنین موقعیتی بودی را به یاد بیاور؛ نه آنچه دوست داری انجام بدهی.</p>'+levels(n)+
+      '<div class="mml-hint"><b>راهنما</b><p>اگر هنوز در این کار تجربه نداری، «تازه شروع کرده‌ام» را انتخاب کن. این ابزار برای شناخت نیاز یادگیری است، نه نمره دادن به افراد.</p></div>';
+    }else if(partIndex===1){
+      text=(n===1?'<details class="mml-script"><summary>گفت‌وگوی کامل پنج '+(role==="managers"?"مدیر":"سرپرست")+' را باز کن</summary>'+caseHTML()+'</details>':miniDialogue(n))+
+      '<div class="mml-hint"><b>تمرین دونفره · ۵ دقیقه</b><p>نفر اول نقش '+roleTerm()+' را اجرا می‌کند؛ نفر دوم لحن، گوش‌دادن و مشخص‌بودن قدم بعدی را مشاهده می‌کند. سپس نقش‌ها عوض شود.</p></div>';
+    }else if(partIndex===2){
+      text='<div class="mml-mini-lesson"><h3>یک نکته کاربردی</h3><p>'+esc(g.lesson)+'</p><h3>یک مثال از محیط کار</h3><p>'+esc(g.example)+'</p></div>'+sources(n);
+    }else if(partIndex===3){
+      text='<div class="mml-steps"><h3>سه گام قابل اجرا</h3>'+g.steps.map(function(x,i){return '<div class="mml-step"><span>'+(i+1)+'</span><p>'+esc(x)+'</p></div>'}).join("")+'</div><div class="mml-contrast"><div><small>بهتر است نگوییم</small><p>«'+esc(g.poor)+'»</p></div><div><small>بهتر است بگوییم</small><p>«'+esc(g.better)+'»</p></div></div>';
+    }else if(partIndex===4){
+      text=visual(n)+practice(n);
+    }else if(partIndex===5){
+      text='<div class="mml-contrast"><div><small>خطای رایج</small><p>'+esc(t.blind)+'</p></div><div><small>بهتر است</small><p>'+esc(g.better)+'</p></div></div><div class="mml-hint"><b>یک سؤال برای خودم</b><p>در آخرین تجربه مشابه، کدام اطلاعات یا نظر یک واحد دیگر را جدی نگرفتم؟</p></div>';
+    }else{
+      var when=(lab.when||{})[k]||"",proof=(lab.proof||{})[k]||"";
+      text='<p class="mml-lead">برای هفته آینده فقط یک کار کوچک انتخاب کن. لازم نیست پروژه بزرگ تعریف کنی.</p>'+
+      '<label class="mml-action-label">۱. چه کاری انجام می‌دهم؟<textarea rows="2" data-mml-action="'+n+'" placeholder="'+esc(t.action)+'">'+esc(lab.actions[k]||"")+'</textarea></label>'+
+      '<label class="mml-action-label">۲. کی انجام می‌دهم؟<input data-mml-when="'+n+'" placeholder="مثلاً شیفت شنبه یا جلسه هفتگی" value="'+esc(when)+'"></label>'+
+      '<label class="mml-action-label">۳. از کجا می‌فهمم بهتر شده؟<input data-mml-proof="'+n+'" placeholder="مثلاً ثبت یک توافق روشن یا کاهش یک خطای تکراری" value="'+esc(proof)+'"></label>'+
+      '<p class="mml-save-status" role="status">یادداشت به‌صورت محلی در همین مرورگر ذخیره می‌شود.</p>';
     }
-    return '<div class="mml-layer mml-module" data-mml-section="'+n+'-'+p+'"><div class="mml-layer-head"><small>MY MANAGEMENT LAB · جلسه '+n+' · '+esc(roleName())+'</small><h2>'+esc(TITLES[partIndex])+'</h2><p>'+esc(t.question)+'</p></div><div class="mml-body">'+text+'</div><div class="mml-layer-footer"><span>تمرکز شایستگی: '+cfg.ids.map(function(id){return esc(item(id).fa)}).join(' · ')+'</span><button type="button" data-mml-complete="'+n+':'+p+'">✓ مرور شد</button></div></div>';
+    return '<div class="mml-layer mml-module" data-mml-section="'+n+'-'+p+'"><div class="mml-layer-head"><small>جلسه '+n+' · '+esc(roleName())+'</small><h2>'+esc(TITLES[partIndex])+'</h2><p>'+esc(g.lesson)+'</p></div><div class="mml-body">'+text+'</div><div class="mml-layer-footer"><span>'+cfg.ids.map(function(id){return esc(item(id).fa)}).join(' · ')+'</span><button type="button" data-mml-complete="'+n+':'+p+'">✓ مرور شد</button></div></div>';
   }
   function courseOverview(){
-    var html='<section class="mml-hub" aria-label="معرفی My Management Lab"><div class="mml-hub-head"><span class="mml-kicker">BEHPARVAR · COMPETENCY-BASED DEVELOPMENT</span><h2>My Management Lab</h2><p>آزمایشگاه توسعه شایستگی‌های حرفه‌ای مدیران و سرپرستان</p><strong>Develop Yourself. Enable Others. Improve the Business.</strong></div>'+roleSwitcher()+
-    '<div class="mml-stats"><span><b>۶</b> جلسه</span><span><b>۷</b> بخش مستقل</span><span><b>۲</b> مسیر تخصصی</span></div><details class="mml-family-details"><summary>نقشه شش خانواده شایستگی (BMCF Draft 1.1)</summary><div class="mml-family-grid">'+renderFamilies()+'</div></details>'+
-    '<div class="mml-session-grid">'+PROGRAM.map(function(o,i){var t=track(i+1);return '<a class="mml-session" href="#'+(i===0?"home":"session"+(i+1))+'"><small>جلسه '+(i+1)+'</small><strong>'+esc(o.name)+'</strong><span>'+esc(t.question)+'</span></a>'}).join("")+'</div>'+
-    '<details><summary>۱۲ شایستگی اولویت‌دار و شاخص رفتاری آنها</summary><div class="mml-skills-grid">'+renderSkills(SKILLS.map(function(x){return x.id}))+'</div><p class="mml-note">شایستگی‌های تخصصی باید برای هر Job Family با کارشناسان همان حوزه تعیین و اعتبارسنجی شوند؛ این فهرست جایگزین تحلیل شغل نیست.</p></details>'+
-    '<p class="mml-source">منابع طراحی: Whetten & Cameron, Developing Management Skills, 8th ed. (2011)؛ DDI, Learning and Assessment Links (2015). مدل و Caseهای به‌پرور اقتباسی و آموزشی‌اند و ابزار اختصاصی DDI بازتولید نشده است.</p></section>';
-    return html;
+    return '<section class="mml-hub" aria-label="My Management Lab"><div class="mml-hub-head"><div><small>BEHPARVAR · LEARN BY DOING</small><h2>My Management Lab</h2><p>یادگیری مدیریت، از دل کار واقعی</p><span>خودم · دیگران · کسب‌وکار</span></div><img src="assets/behparvar-campus.webp" alt="نمای مجموعه به‌پرور" loading="lazy"></div>'+
+    roleSwitcher()+zoneCards()+
+    '<details class="mml-more"><summary>نقشه کامل ۱۲ شایستگی</summary><div class="mml-skills-grid">'+renderSkills(SKILLS.map(function(x){return x.id}))+'</div></details>'+
+    '<details class="mml-more"><summary>درباره مبنای آموزشی</summary><p>مبنای توسعه مهارت‌ها Whetten & Cameron و چارچوب تعریف شایستگی DDI است. از روش آموزش مرحله‌ای OpenLearn و تمرین همراه با بازخورد در Pearson MyLab Management نیز الهام گرفته‌ایم. مثال‌ها اصیل و متناسب با فضای به‌پرورند.</p><p>این مدل آموزشی است؛ برای ارزیابی رسمی سازمانی به تحلیل شغل و اعتبارسنجی نیاز دارد.</p></details></section>';
   }
   function sessionIntro(n){
-    var c=PROGRAM[n-1],t=track(n);
-    return '<section class="mml-intro"><span class="mml-kicker">MY MANAGEMENT LAB · SESSION '+n+'</span><h2>'+esc(c.name)+'</h2>'+roleSwitcher()+'<p><b>Business Challenge:</b> '+esc(t.case)+'</p><p><b>Expected Outcomes:</b> '+esc(t.outcome)+'</p><div class="mml-skills-grid">'+renderSkills(c.ids)+'</div><p class="mml-note">یادگیری با چرخه Skill Assessment → Learning → Analysis → Practice → Application؛ این چرخه در هفت بخش موجود ادغام شده است.</p></section>';
+    var c=PROGRAM[n-1],g=guide(n),img=n===2||n===3?"assets/feed-official.webp":n===6?"assets/production-official.webp":null;
+    return '<section class="mml-intro"><div class="mml-intro-text"><small>جلسه '+n+' · مسیر '+esc(roleName())+'</small><h2>'+esc(c.name)+'</h2><p>'+esc(g.lesson)+'</p><div class="mml-competency-tags">'+c.ids.map(function(id){return '<span>'+esc(item(id).fa)+'</span>'}).join("")+'</div></div>'+(img?'<img src="'+img+'" alt="فضای تولید و عملیات مرتبط با زنجیره فعالیت به‌پرور" loading="lazy">':"")+'</section>';
   }
   function renderPassport(){
     var done=previous.done.filter(function(x){return x.indexOf(role+":")===0}),stars=previous.starred.filter(function(x){return x.indexOf(role+":")===0});
@@ -191,18 +231,25 @@
     document.addEventListener("click",function(e){
       var b=e.target.closest("[data-mml-role]");if(b){changeRole(b.getAttribute("data-mml-role"));return}
       b=e.target.closest("[data-mml-complete]");if(b){updateCompletion(b);return}
+      b=e.target.closest("[data-mml-choice]");if(b){
+        var a=b.dataset.mmlChoice.split(":"),n=Number(a[0]),choice=Number(a[1]);
+        if(!lab.choices)lab.choices={};lab.choices[role+":"+n]=choice;saveLab();
+        var container=b.closest("[data-mml-practice]");container.querySelectorAll("[data-mml-choice]").forEach(function(el){el.setAttribute("aria-pressed",String(el===b))});
+        var f=container.querySelector(".mml-practice-feedback");f.hidden=false;f.textContent=guide(n).feedback[choice];return;
+      }
     });
     document.addEventListener("change",function(e){
-      var s=e.target.closest("[data-mml-level]");if(s){lab.levels[levelKey(s.dataset.mmlLevel)]=Number(s.value)||null;saveLab()}
+      var x=e.target.closest("[data-mml-level]");if(x){lab.levels[levelKey(x.dataset.mmlLevel)]=Number(x.value)||null;saveLab()}
     });
     document.addEventListener("input",function(e){
-      var a=e.target.closest("[data-mml-action]");if(a){lab.actions[actionKey(Number(a.dataset.mmlAction))]=a.value;saveLab()}
+      var x=e.target.closest("[data-mml-action]");if(x){lab.actions[actionKey(Number(x.dataset.mmlAction))]=x.value;saveLab()}
+      x=e.target.closest("[data-mml-when]");if(x){if(!lab.when)lab.when={};lab.when[actionKey(Number(x.dataset.mmlWhen))]=x.value;saveLab()}
+      x=e.target.closest("[data-mml-proof]");if(x){if(!lab.proof)lab.proof={};lab.proof[actionKey(Number(x.dataset.mmlProof))]=x.value;saveLab()}
     });
     window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();promptEvent=e});
     window.addEventListener("appinstalled",function(){installed=true;promptEvent=null;var b=document.getElementById("mmlInstall");if(b)b.textContent="نصب شده"});
     window.addEventListener("hashchange",function(){
-      var hash=location.hash.replace(/^#/,""),m=/^session([2-6])-(m1|m2|leaders|techniques|visuals|diseases|quiz)$/.exec(hash);
-      var n=m?Number(m[1]):PARTS.includes(hash)?1:null,p=m?m[2]:hash;
+      var hash=location.hash.replace(/^#/,""),m=/^session([2-6])-(m1|m2|leaders|techniques|visuals|diseases|quiz)$/.exec(hash),n=m?Number(m[1]):PARTS.includes(hash)?1:null,p=m?m[2]:hash;
       if(n){previous.last={session:n,part:p,role:role};previous.role=role;savePassport()}
     });
     if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){})})}
@@ -210,21 +257,38 @@
   function init(){
     var c=document.getElementById("course");
     if(!c)return;
+    document.body.classList.add("mml-refreshed");
     document.title="My Management Lab | به‌پرور";
     var h=c.querySelector(".course-heading h1");if(h)h.textContent="My Management Lab | به‌پرور";
-    var d=document.createElement("div");d.innerHTML=courseOverview();var head=c.querySelector(".course-heading");head.insertAdjacentElement("afterend",d.firstElementChild);
+    var d=document.createElement("div");d.innerHTML=courseOverview();
+    c.querySelector(".course-heading").insertAdjacentElement("afterend",d.firstElementChild);
     for(var n=1;n<=6;n++){
       var entry=document.getElementById(n===1?"home":"session"+n);
-      if(entry){var x=document.createElement("div");x.innerHTML=sessionIntro(n);var hd=entry.querySelector(".page-heading, .course-heading");if(hd)hd.insertAdjacentElement("afterend",x.firstElementChild);else entry.insertBefore(x.firstElementChild,entry.firstChild)}
+      if(entry){
+        var x=document.createElement("div");x.innerHTML=sessionIntro(n);
+        var hd=entry.querySelector(".page-heading, .course-heading");
+        if(hd)hd.insertAdjacentElement("afterend",x.firstElementChild);else entry.insertBefore(x.firstElementChild,entry.firstChild);
+      }
       PARTS.forEach(function(p,i){
         var view=document.getElementById(n===1?p:"session"+n+"-"+p);
         if(!view)return;
         var node=document.createElement("div");node.innerHTML=renderSection(n,i);
-        var hd=view.querySelector(".page-heading, header");if(hd)hd.insertAdjacentElement("afterend",node.firstElementChild);else view.insertBefore(node.firstElementChild,view.firstChild);
+        var hd=view.querySelector(".page-heading, header");
+        if(hd)hd.insertAdjacentElement("afterend",node.firstElementChild);else view.insertBefore(node.firstElementChild,view.firstChild);
+        view.classList.add("mml-refreshed-view");
+        var content=[...view.children].filter(function(e){return e!==hd&&!e.classList.contains("mml-layer")});
+        if(content.length){
+          var details=document.createElement("details");details.className="mml-legacy";
+          var summary=document.createElement("summary");summary.textContent=n===1?"مطالب و تمرین‌های تکمیلی جلسه":"یادداشت‌ها و مطالب قبلی";details.appendChild(summary);
+          var inner=document.createElement("div");inner.className="mml-legacy-body";
+          content.forEach(function(e){inner.appendChild(e)});
+          details.appendChild(inner);view.appendChild(details);
+        }
       });
     }
     buildToolbar();wire();
     if(installed){var b=document.getElementById("mmlInstall");if(b)b.textContent="نصب شده"}
   }
+  
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })();

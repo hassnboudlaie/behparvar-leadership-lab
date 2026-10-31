@@ -15,6 +15,15 @@ check("six sessions, seven chapters",()=>{
  assert.equal(lib.DATA.length,6);assert.deepEqual(Array.from(lib.PARTS),PARTS);
  lib.DATA.forEach((x,i)=>{assert.equal(x.chapters.length,7,"Session "+(i+1));assert.ok(x.name&&x.goals.length===2)});
 });
+check("course card labels are canonical session topics",()=>{
+ for(let n=1;n<=6;n++){
+  const at=html.indexOf('data-course-session="'+n+'"');
+  assert.ok(at>=0);
+  const nearby=html.slice(at,at+260);
+  assert.ok(nearby.includes(lib.DATA[n-1].name),"Card "+n+" differs from course");
+ }
+ assert.ok(homeJS.includes("library.DATA[n-1].name"));
+});
 check("42 routes remain in HTML",()=>{
  for(let n=1;n<=6;n++)for(let p of PARTS){
   const route=n===1?p:"session"+n+"-"+p;

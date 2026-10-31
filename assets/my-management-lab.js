@@ -162,7 +162,7 @@
       '<div class="mml-hint"><b>راهنما</b><p>اگر هنوز در این کار تجربه نداری، «تازه شروع کرده‌ام» را انتخاب کن. این ابزار برای شناخت نیاز یادگیری است، نه نمره دادن به افراد.</p></div>';
     }else if(partIndex===1){
       text=(n===1?'<details class="mml-script"><summary>گفت‌وگوی کامل پنج '+(role==="managers"?"مدیر":"سرپرست")+' را باز کن</summary>'+caseHTML()+'</details>':miniDialogue(n))+
-      '<div class="mml-hint"><b>تمرین دونفره · ۵ دقیقه</b><p>نفر اول نقش '+roleTerm()+' را اجرا می‌کند؛ نفر دوم لحن، گوش‌دادن و مشخص‌بودن قدم بعدی را مشاهده می‌کند. سپس نقش‌ها عوض شود.</p></div>';
+      '<div class="mml-hint"><b>تمرین دونفره · ۵ دقیقه</b><p>نفر اول نقش '+roleTerm()+' را اجرا می‌کند؛ نفر دوم لحن، گوش‌دادن و مشخص‌بودن قدم بعدی را مشاهده می‌کند. سپس نقش‌ها عوض شود.</p></div>'+'<details class="mml-observer"><summary>چک‌لیست ناظر · سه نکته</summary><label><input type="checkbox"> مسئله و رفتار مشخص بیان شد.</label><label><input type="checkbox"> طرف مقابل شنیده شد، بدون برچسب‌زنی.</label><label><input type="checkbox"> اقدام، مسئول و زمان بعدی روشن است.</label></details>';
     }else if(partIndex===2){
       text='<div class="mml-mini-lesson"><h3>یک نکته کاربردی</h3><p>'+esc(g.lesson)+'</p><h3>یک مثال از محیط کار</h3><p>'+esc(g.example)+'</p></div>'+sources(n);
     }else if(partIndex===3){
@@ -236,7 +236,7 @@
         var a=b.dataset.mmlChoice.split(":"),n=Number(a[0]),choice=Number(a[1]);
         if(!lab.choices)lab.choices={};lab.choices[role+":"+n]=choice;saveLab();
         var container=b.closest("[data-mml-practice]");container.querySelectorAll("[data-mml-choice]").forEach(function(el){el.setAttribute("aria-pressed",String(el===b))});
-        var f=container.querySelector(".mml-practice-feedback");f.hidden=false;f.textContent=guide(n).feedback[choice];return;
+        var f=container.querySelector(".mml-practice-feedback");f.hidden=false;f.innerHTML="<p>"+esc(guide(n).feedback[choice])+"</p><p><strong>یک جمله کاربردی:</strong> «"+esc(guide(n).better)+"»</p>";return;
       }
     });
     document.addEventListener("change",function(e){

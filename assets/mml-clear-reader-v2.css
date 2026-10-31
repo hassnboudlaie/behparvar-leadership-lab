@@ -352,3 +352,13 @@ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll table
   clip-path:inset(50%)!important;
  }
 }
+
+/* On a six-session landing page the user first chooses a route or starts learning.
+   There is no value in showing the seven-section drawer before entry. */
+body.mml-refreshed.mml-beginner-mode.mml-session-entry-screen #sidebarMobileBar,
+body.mml-refreshed.mml-beginner-mode.mml-session-entry-screen #workshopSidebar{
+ display:none!important
+}
+body.mml-refreshed.mml-beginner-mode.mml-session-entry-screen #workshopLayout{
+ display:block!important;grid-template-columns:1fr!important
+}

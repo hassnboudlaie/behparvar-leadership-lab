@@ -123,3 +123,21 @@
  .mml-refreshed .masthead .brand img{max-width:135px}
  .mml-refreshed .masthead .session-label{font-size:.9rem}
 }
+
+/* One visible session title, not two stacked introductions. */
+.mml-refreshed #session2>.page-heading,
+.mml-refreshed #session3>.page-heading,
+.mml-refreshed #session4>.page-heading,
+.mml-refreshed #session5>.page-heading,
+.mml-refreshed #session6>.page-heading{display:none}
+.mml-refreshed #session2>.mml-intro,
+.mml-refreshed #session3>.mml-intro,
+.mml-refreshed #session4>.mml-intro,
+.mml-refreshed #session5>.mml-intro,
+.mml-refreshed #session6>.mml-intro{margin-top:0;margin-bottom:13px}
+.mml-refreshed .mml-intro-text{padding-block:12px}
+.mml-refreshed .mml-intro-text h2{margin:2px 0 0;line-height:1.45}
+.mml-refreshed .mml-edu-goal{padding-top:9px}
+.mml-refreshed .mml-edu-goal h4{font-size:1.05rem;margin-bottom:3px}
+.mml-refreshed .mml-edu-goal p{margin-bottom:4px}
+.mml-refreshed .mml-edu-chapter>h4{margin-bottom:8px}

@@ -15,7 +15,7 @@ const assert=require('node:assert/strict');
    {name:'desktop',width:1440,height:900,isMobile:false,deviceScaleFactor:1,hasTouch:false}
  ];
  for(const cfg of configs){
-   const context=await browser.newContext({...cfg,locale:'fa-IR',colorScheme:'light'});
+   const context=await browser.newContext({viewport:{width:cfg.width,height:cfg.height},isMobile:cfg.isMobile,deviceScaleFactor:cfg.deviceScaleFactor,hasTouch:cfg.hasTouch,locale:'fa-IR',colorScheme:'light'});
    const page=await context.newPage();
    const errors=[];page.on('pageerror',e=>errors.push(String(e)));page.on('console',e=>{if(e.type()==='error')errors.push('console '+e.text())});
    const url=new URL(base);url.searchParams.set('audience','supervisors');url.hash='course';

@@ -52,7 +52,7 @@
 <link rel="icon" href="./app/icon.svg" type="image/svg+xml">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="My Management Lab">
-<link rel="stylesheet" href="assets/my-management-lab.css?v=20261031b">
+<link rel="stylesheet" href="assets/my-management-lab.css?v=20261031c">
 </head>
 <body>
 <a class="skip-link" href="#main">رفتن به محتوای اصلی</a>
@@ -482,10 +482,10 @@ function openView(requested,options={}){
  qs('#sidebarCurrent').textContent=viewNames[id];setSidebarOpen(false);
  const navId=id==='assessment'?'m1':id==='action'?'quiz':id;
  qsa('.site-nav [data-open]').forEach(a=>{if(a.dataset.open===navId)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
- document.title=(isLessonView(id)?'جلسه '+sessionName+' · ':'')+viewNames[id]+(audience&&!courseViews.has(id)?' · '+audienceData.label:'')+' | توسعه مهارت‌های رهبری بهپرور';
+ document.title=(isLessonView(id)?'جلسه '+sessionName+' · ':'')+viewNames[id]+(audience&&!courseViews.has(id)?' · '+audienceData.label:'')+' | My Management Lab · به‌پرور';
  if(!options.fromHash&&location.hash!=='#'+id){try{history.pushState(null,'','#'+id)}catch(e){}}
  window.scrollTo({top:0,behavior:'auto'});
- const h=(id==='home'||id==='course')?qs('#'+id+' h1'):(qs('#'+id+' h2')||qs('#'+id+' h1'));if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}
+ const h=id==='course'?(qs('#course .mml-hub h1')||qs('#course h1')):id==='home'?qs('#home h1'):(qs('#'+id+' .mml-layer h2')||qs('#'+id+' h2')||qs('#'+id+' h1'));if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}
  if(gatedEntry){const prompt=qs(number>1?'#session'+number+'Prompt':'#audiencePrompt');prompt.setAttribute('tabindex','-1');prompt.focus({preventScroll:true});prompt.scrollIntoView({block:'center',behavior:'smooth'})}
 }
 qsa('[data-open]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openView(a.dataset.open)}));
@@ -852,5 +852,5 @@ restoreSelections();updateNoteStatus();openView(location.hash.slice(1)||'course'
 <script defer src="assets/behparvar-case-studio-v1.js?v=1"></script>
 <script defer src="assets/beparvar-book-lab-2026.js?v=1"></script>
 <script defer src="assets/mml-guided-lessons.js?v=20261031b"></script>
-<script defer src="assets/my-management-lab.js?v=20261031b"></script>
+<script defer src="assets/my-management-lab.js?v=20261031c"></script>
 </body></html>

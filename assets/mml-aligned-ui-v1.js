@@ -15,6 +15,7 @@ function read(n,role){
 }
 function save(n,role,st){try{localStorage.setItem(storageKey(n,role),JSON.stringify(st))}catch(e){}}
 function prose(v){return esc(v).replace(/KPI/g,"شاخص عملکرد").replace(/Checkpoint/g,"زمان بازبینی").replace(/Guardrail/g,"حد ایمنی و کیفیت")}
+function faNum(n){return String(n).replace(/\d/g,function(x){return "۰۱۲۳۴۵۶۷۸۹"[Number(x)]})}
 function question(n,role){
  var doc=library.DATA[n-1];
  return role==="supervisors"?doc.supervisor:doc.manager;
@@ -48,7 +49,7 @@ function renderQuiz(n,role){
  var q=items[page],selected=(st.answers||{})[page],has=selected!==undefined&&selected!==null;
  var count=items.filter(function(_q,i){return st.answers&&st.answers[i]!==undefined}).length;
  var display='<div class="mml-align-quiz" data-mml-align-quiz="'+n+':'+role+'">'+
-  '<div class="mml-align-quiz-bar"><strong>سؤال '+(page+1)+' از '+items.length+'</strong></div>'+
+  '<div class="mml-align-quiz-bar"><strong>سؤال '+faNum(page+1)+' از '+faNum(items.length)+'</strong></div>'+
   '<h4>'+esc(q.q)+'</h4>'+
   '<div class="mml-align-options" role="group" aria-label="پاسخ‌های سؤال '+(page+1)+'">'+
   q.o.map(function(opt,i){var active=has&&Number(selected)===i;
@@ -68,7 +69,7 @@ function renderQuiz(n,role){
   '</div>';
  if(count===items.length){
   var correct=items.reduce(function(v,q,i){return v+((q.o[Number(st.answers[i])]||[])[2]?1:0)},0);
-  display+='<p class="mml-align-result">نتیجه این تمرین: '+correct+' پاسخ مناسب از '+items.length+' سؤال. این عدد نمره شایستگی شغلی نیست.</p>';
+  display+='<p class="mml-align-result">نتیجه این تمرین: '+faNum(correct)+' پاسخ مناسب از '+faNum(items.length)+' سؤال. این عدد نمره شایستگی شغلی نیست.</p>';
  }
  return display+"</div>";
 }

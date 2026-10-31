@@ -22,7 +22,7 @@ check("course card labels are canonical session topics",()=>{
   const nearby=html.slice(at,at+260);
   assert.ok(nearby.includes(lib.DATA[n-1].name),"Card "+n+" differs from course");
  }
- assert.ok(homeJS.includes("library.DATA[n-1].name"));
+ assert.ok(homeJS.includes("SHORT[n-1]"));
 });
 check("42 routes remain in HTML",()=>{
  for(let n=1;n<=6;n++)for(let p of PARTS){
@@ -51,7 +51,7 @@ check("learning modes and reading defaults intact",()=>{
  assert.ok(readerJS.includes('data-mode="lesson"'));
  assert.ok(readerJS.includes('data-mode="main"'));
  assert.ok(readerJS.includes('data-mode="guided"'));
- assert.ok(readerJS.includes('show(i===6?"main"'));
+ assert.ok(readerJS.includes('mml-simple-view'));
 });
 check("minimal home and seven concise navigation labels",()=>{
  const mml=read("assets/my-management-lab.js");
@@ -60,8 +60,17 @@ check("minimal home and seven concise navigation labels",()=>{
  assert.ok(!mml.includes('    buildToolbar();wire();'));
  assert.ok(!mml.includes('roleSwitcher()+zoneCards()'));
  assert.ok(!read("assets/mml-learning-home-v1.js").includes('sessionCards();guide();sessionGuide();'));
- for(const label of ["شناخت خود","گفت‌وگو و تمرین","نکته و مثال","روش کار","جدول و تصمیم","اشتباه‌های رایج","مرور و آزمون"])
+ for(const label of ["شروع","گفت‌وگوی کاری","نکته مهم","راه‌حل","مقایسه دو روش","اشتباه رایج","آزمون و اقدام"])
   assert.ok(reader.includes(label));
+});
+check("one clear learning view, optional textbook and large type",()=>{
+ const css=read("assets/mml-clear-reader-v2.css");
+ assert.ok(readerJS.includes("buildSimpleSessionHomes"));
+ assert.ok(readerJS.includes("mml-reader-more"));
+ assert.ok(readerJS.includes("mml-reader-navigation"));
+ assert.ok(css.includes("font-size:21px!important"));
+ assert.ok(css.includes("grid-template-columns:minmax(0,1fr)!important"));
+ assert.ok(!readerJS.includes("buildModesIntoOrdinaryView"));
 });
 check("learning progress never claims competency",()=>{
  assert.ok(homeJS.includes("مرور"));
@@ -85,7 +94,7 @@ check("core learner records retained",()=>{
 check("loaded asset order and offline scope",()=>{
  const assets=["assets/mml-lesson-library-v1.js","assets/mml-visual-refresh-20261031.js","assets/mml-learning-home-v1.js"];
  let last=0;for(const p of assets){const i=html.indexOf('src="'+p);assert.ok(i>last,"Script order: "+p);last=i;assert.ok(sw.includes("./"+p),"PWA precache: "+p)}
- for(const p of ["assets/mml-teaching-ui-v1.css","assets/mml-learning-home-v1.css"]){
+ for(const p of ["assets/mml-teaching-ui-v1.css","assets/mml-learning-home-v1.css","assets/mml-clear-reader-v2.css"]){
   assert.ok(html.includes('href="'+p));assert.ok(sw.includes("./"+p));
  }
 });

@@ -130,3 +130,10 @@
  .mml-refreshed .mml-zone-grid{gap:9px}
  .mml-refreshed .mml-zone{padding:12px}
 }
+
+.mml-refreshed .mml-observer{border:1px solid #e1e8ee;border-radius:12px;background:#fafcfd;padding:0 14px;margin:13px 0}
+.mml-refreshed .mml-observer summary{cursor:pointer;font-size:1rem;min-height:48px;font-weight:750;color:#286b70;display:list-item;align-content:center}
+.mml-refreshed .mml-observer label{display:flex;gap:10px;align-items:center;padding:11px 2px;line-height:1.65;font-size:1.0625rem}
+.mml-refreshed .mml-observer input{width:23px;height:23px;flex:none;accent-color:#207a79}
+.mml-refreshed .mml-observer label+label{border-top:1px solid #edf0f3}
+.mml-refreshed .mml-practice-feedback p{font-size:1.0625rem!important;margin:4px 0}

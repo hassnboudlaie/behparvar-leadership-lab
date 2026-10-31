@@ -5,6 +5,7 @@
 var PARTS=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
 var WORDS=["اول","دوم","سوم","چهارم","پنجم","ششم"];
 var ICONS=["◈","▦","▤","◉","◇","↻"];
+var SHORT=["شناخت نقش","برنامه‌ریزی","حل مسئله","گفت‌وگو و تعارض","تفویض و رشد افراد","بهبود و تغییر"];
 var KEY="behparvar_app_v1";
 function readState(){try{return JSON.parse(localStorage.getItem(KEY)||"null")||{}}catch(e){return {}}}
 function roleOf(st){
@@ -25,7 +26,7 @@ function sessionCards(){
   // Course cards, session introductions and reader use one canonical topic name.
   var library=window.MMLLessonLibrary;
   var subtitle=card.querySelector("small");
-  if(library&&library.DATA&&library.DATA[n-1]&&subtitle)subtitle.textContent=library.DATA[n-1].name;
+  if(library&&library.DATA&&library.DATA[n-1]&&subtitle)subtitle.textContent=SHORT[n-1];
   var count=progressBySession(n,role,st),rate=Math.round(count*100/7);
   card.classList.add("mml-course-tile");
   card.setAttribute("aria-label","جلسه "+WORDS[n-1]+"؛ "+count+" از ۷ بخش به‌صورت دستی مرور شده");

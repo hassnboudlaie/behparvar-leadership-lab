@@ -111,7 +111,7 @@
     if(n===3)return '<div class="mml-visual-card"><h3>مثال عددی فرضی: عملکرد خط</h3><div class="mml-bar"><label>هدف تمرینی: ۸ ساعت آماده‌به‌کاری</label><div><span style="width:100%"></span></div></div><div class="mml-bar"><label>عملکرد فرضی: ۶ ساعت</label><div><span style="width:75%"></span></div></div><p>اختلاف: ۲ ساعت. عدد به‌تنهایی علت را نشان نمی‌دهد؛ توقف‌ها را بررسی کن.</p></div>';
     if(n===4)return '<div class="mml-contrast"><div><small>پیش از اصلاح</small><p>«تو همیشه بی‌دقتی!»</p></div><div><small>بعد از اصلاح</small><p>«مغایرت امروز در گزارش ثبت شد. چه چیزی پیش آمد؟»</p></div></div>';
     if(n===5)return '<div class="mml-flow"><span>نتیجه روشن</span><b>←</b><span>اختیار کافی</span><b>←</b><span>زمان بازبینی</span></div>';
-    return '<div class="mml-visual-card"><h3>نمونه ساده زنجیره ارزش</h3><div class="mml-flow"><span>نهاده و تأمین</span><b>←</b><span>تولید و پرورش</span><b>←</b><span>کنترل کیفیت</span><b>←</b><span>تحویل و مشتری</span></div><p>نقشه آموزشی وابستگی‌هاست، نه چارت رسمی شرکت. هر تصمیم واحد بر مرحله بعد اثر دارد.</p></div>';
+    return '<div class="mml-visual-card"><h3>زنجیره ارزش به‌پرور، در یک نگاه</h3><div class="mml-flow"><span>تأمین نهاده</span><b>←</b><span>مرغ مادر و تخم‌مرغ نطفه‌دار</span><b>←</b><span>جوجه‌کشی و جوجه یک‌روزه</span><b>←</b><span>پرورش گوشتی</span><b>←</b><span>کشتار و بسته‌بندی</span><b>←</b><span>توزیع و مشتری</span></div><p>نمای آموزشیِ ساده‌شده بر اساس حوزه‌های فعالیت عمومی گروه؛ نه چارت رسمی یا مسیر الزامی همه محصولات. کیفیت و ایمنی در تمام مراحل جریان دارند.</p></div>';
   }
 
   function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}

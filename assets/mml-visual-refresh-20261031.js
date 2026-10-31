@@ -20,32 +20,45 @@
      var part=m?m[2]:view.id;
      var i=sections.indexOf(part);
      if(i<0)return;
+     var library=window.MMLLessonLibrary;
+     var roleButton=document.querySelector('[data-mml-role][aria-pressed="true"]');
+     var selectedRole=roleButton?roleButton.getAttribute("data-mml-role"):"managers";
+     var lessonMarkup=library&&typeof library.render==="function"?library.render(n,part,selectedRole):"";
+     var lesson=null;
+     if(lessonMarkup){
+       lesson=document.createElement("div");
+       lesson.className="mml-edu-panel";
+       lesson.innerHTML=lessonMarkup;
+       guided.parentNode.insertBefore(lesson,guided);
+     }
      var wrapper=document.createElement("div");
      wrapper.className="mml-view-switcher";
      wrapper.innerHTML='<h2 tabindex="-1">'+sectionNames[i]+'</h2>'+
        '<p>جلسه '+sessionNames[n-1]+' · هر بخش را مستقل باز کنید؛ پاسخ‌ها و یادداشت‌های قبلی حفظ می‌شوند.</p>'+
        '<div class="mml-mode-controls" role="group" aria-label="انتخاب نوع محتوا">'+
+       (lesson?'<button type="button" data-mode="lesson" aria-pressed="false">📘 درسنامه، جدول و نمودار</button>':"")+
        '<button type="button" data-mode="main" aria-pressed="false">'+modeName(i,"main")+'</button>'+
        '<button type="button" data-mode="guided" aria-pressed="false">'+modeName(i,"guided")+'</button></div>';
-     guided.parentNode.insertBefore(wrapper,guided);
+     guided.parentNode.insertBefore(wrapper,lesson||guided);
      view.classList.add("mml-tabbed");
      primary.open=true;
      var buttons=wrapper.querySelectorAll("[data-mode]");
      function show(which,focus){
        guided.hidden=which!=="guided";
+       if(lesson)lesson.hidden=which!=="lesson";
        primary.hidden=which!=="main";
        primary.open=true;
        buttons.forEach(function(button){button.setAttribute("aria-pressed",String(button.dataset.mode===which))});
        if(focus){
-         var target=which==="main"?primary:guided;
+         var target=which==="main"?primary:which==="lesson"&&lesson?lesson:guided;
          var heading=target.querySelector("h2,h3,[tabindex='-1']");
          if(heading){heading.setAttribute("tabindex","-1");heading.focus({preventScroll:true})}
        }
      }
      buttons.forEach(function(button){button.addEventListener("click",function(){show(button.dataset.mode,true)})});
      // The existing, deeply authored first-session content must be primary by default.
-     // In later sessions the guided layer is primary, with all original content one tap away.
-     show(n===1?"main":"guided",false);
+     // In later sessions, authored lessons are the primary view; original content and guided practice remain available.
+     show(i===6?"main":n===1?"main":lesson?"lesson":"guided",false);
    });
  }
  function cleanNavigation(){

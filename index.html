@@ -424,6 +424,9 @@ qsa('[data-future-note]').forEach(field=>{
 });
 const viewNames={course:'فهرست جلسات دوره',session2:'جلسه دوم',session3:'جلسه سوم',session4:'جلسه چهارم',session5:'جلسه پنجم',session6:'جلسه ششم',home:'جلسه اول',m1:'سبک رهبری من',m2:'گفت‌وگوهای کاری',leaders:'درس‌های رهبران',techniques:'فنون رهبری اثربخش',visuals:'تصاویر مدیریتی',diseases:'بیماری‌های مدیریتی',quiz:'کوییز پایانی',action:'اقدام من برای فردا',assessment:'تمرین اختیاری مثلث توجه'};
 Object.assign(viewNames,{"session2-m1":"سبک رهبری من","session2-m2":"گفت‌وگوهای کاری","session2-leaders":"درس‌های رهبران","session2-techniques":"فنون رهبری اثربخش","session2-visuals":"تصاویر مدیریتی","session2-diseases":"بیماری‌های مدیریتی","session2-quiz":"کوییز پایانی","session3-m1":"سبک رهبری من","session3-m2":"گفت‌وگوهای کاری","session3-leaders":"درس‌های رهبران","session3-techniques":"فنون رهبری اثربخش","session3-visuals":"تصاویر مدیریتی","session3-diseases":"بیماری‌های مدیریتی","session3-quiz":"کوییز پایانی","session4-m1":"سبک رهبری من","session4-m2":"گفت‌وگوهای کاری","session4-leaders":"درس‌های رهبران","session4-techniques":"فنون رهبری اثربخش","session4-visuals":"تصاویر مدیریتی","session4-diseases":"بیماری‌های مدیریتی","session4-quiz":"کوییز پایانی","session5-m1":"سبک رهبری من","session5-m2":"گفت‌وگوهای کاری","session5-leaders":"درس‌های رهبران","session5-techniques":"فنون رهبری اثربخش","session5-visuals":"تصاویر مدیریتی","session5-diseases":"بیماری‌های مدیریتی","session5-quiz":"کوییز پایانی","session6-m1":"سبک رهبری من","session6-m2":"گفت‌وگوهای کاری","session6-leaders":"درس‌های رهبران","session6-techniques":"فنون رهبری اثربخش","session6-visuals":"تصاویر مدیریتی","session6-diseases":"بیماری‌های مدیریتی","session6-quiz":"کوییز پایانی"});
+const mmlPartNames={m1:'وضعیت من',m2:'گفت‌وگوی کاری',leaders:'نکته و مثال',techniques:'راهنمای اجرا',visuals:'تمرین تصمیم',diseases:'خطاهای رایج',quiz:'برنامه اقدام من'};
+for(const [key,label] of Object.entries(mmlPartNames)){viewNames[key]=label;for(let num=2;num<=6;num++)viewNames['session'+num+'-'+key]=label;}
+qsa('#workshopNavigation .sidebar-link-label').forEach((el,index)=>el.textContent=Object.values(mmlPartNames)[index]);
 const routeAliases={session1:'home',session:'home',workshop:'home',profile:'home',m3:'leaders',m4:'techniques',m5:'visuals',m6:'diseases',m7:'quiz',m8:'action',m1cases:'m2',m1model:'m1',m1learning:'action',m1action:'action',m1office:'m2'};
 const courseViews=new Set(['course','session2','session3','session4','session5','session6']);
 const isLessonView=id=>id!=='home'&&!courseViews.has(id);
@@ -473,6 +476,8 @@ function openView(requested,options={}){
  qs('.site-nav').hidden=!inWorkshop;qs('#workshopSidebar').hidden=!inWorkshop;qs('#sidebarMobileBar').hidden=!inWorkshop;qs('#audienceStatus').hidden=!(audience&&isLessonView(id));
  const number=sessionFor(id),sessionName=sessionWords[Math.max(1,number)-1],entry=number>1?'session'+number:'home';
  qs('#sidebarSessionTitle').textContent='بخش‌های جلسه '+sessionName;
+ qs('#sidebarToggle small').textContent='بخش‌های جلسه '+sessionName;
+ qs('#workshopNavigation').setAttribute('aria-label','بخش‌های جلسه '+sessionName);
  qs('.sidebar-eyebrow').textContent='جلسه '+sessionName+' · بهپرور';
  qs('#sidebarHome').setAttribute('href','#'+entry);qs('#sidebarHome').dataset.open=entry;qs('#sidebarHome').innerHTML='<span aria-hidden="true">⌂</span> جلسه '+sessionName+' و انتخاب مسیر';
  if(id===entry)qs('#sidebarHome').setAttribute('aria-current','page');else qs('#sidebarHome').removeAttribute('aria-current');

@@ -2,8 +2,24 @@ name: My Management Lab — Mobile visual and PWA audit
 on:
   push:
     branches: [fix/mml-deep-mobile-audit-20261031, main]
+    paths:
+      - 'assets/**'
+      - 'app/**'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'tests/**'
+      - '.github/workflows/mml-mobile-audit.yml'
   pull_request:
     branches: [main]
+    paths:
+      - 'assets/**'
+      - 'app/**'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'tests/**'
+      - '.github/workflows/mml-mobile-audit.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -30,8 +46,6 @@ jobs:
         id: audit
         continue-on-error: true
         run: node tests/mobile-live-audit.cjs > /tmp/audit-verbose.log 2>&1
-      - name: Export official PWA icon in PNG sizes
-        run: node tests/mml-icon-export.cjs
       - name: WebKit Safari-engine layout audit
         run: node tests/mml-webkit-audit.cjs
       - name: Show compact audit and screenshots for review

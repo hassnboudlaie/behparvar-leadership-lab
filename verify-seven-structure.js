@@ -39,13 +39,13 @@ for(const role of ['managers','supervisors']){
  for(let n=2;n<=6;n++){
   a.q('[data-course-session="'+n+'"]').click();assert.equal(a.active(),'session'+n);assert.equal(a.all('#workshopNavigation a').length,7);assert.equal(a.q('#workshopSidebar').hidden,false);
   for(const part of parts){
-   a.q('.site-nav [data-open="session'+n+'-'+part+'"]').click();assert.equal(a.active(),'session'+n+'-'+part);assert.equal(a.q('#workshopSidebar').hidden,false);assert.equal(a.all('#workshopNavigation a').length,7);assert.ok(a.q('#sidebarSessionTitle').textContent.includes(words[n-1]));assert.ok(a.doc.title.includes('جلسه '+words[n-1]));assert.equal(a.q('#sidebarHome').dataset.open,'session'+n);assert.equal(a.q('#reset').hidden,true);assert.ok(a.all('[data-first-session-resource]').every(x=>x.hidden));assert.equal(a.q('.site-nav [aria-current="page"]').dataset.open,'session'+n+'-'+part);assert.ok(a.q('#session'+n+'-'+part).textContent.includes('یادداشت من برای این بخش'));
+   a.q('.site-nav [data-open="session'+n+'-'+part+'"]').click();assert.equal(a.active(),'session'+n+'-'+part);assert.equal(a.q('#workshopSidebar').hidden,false);assert.equal(a.all('#workshopNavigation a').length,7);assert.ok(a.q('.sidebar-eyebrow').textContent.includes(words[n-1]));assert.ok(a.doc.title.includes('جلسه '+words[n-1]));assert.equal(a.q('#sidebarHome').dataset.open,'session'+n);assert.equal(a.q('#reset').hidden,true);assert.ok(a.all('[data-first-session-resource]').every(x=>x.hidden));assert.equal(a.q('.site-nav [aria-current="page"]').dataset.open,'session'+n+'-'+part);assert.ok(a.q('#session'+n+'-'+part).textContent.includes('یادداشت من برای این بخش'));
    for(const link of a.all('#workshopNavigation a'))assert.ok(link.dataset.open.startsWith('session'+n+'-'));
    a.q('#sidebarHome').click();assert.equal(a.active(),'session'+n);
   }
  }
  assert.equal(JSON.stringify(a.test.getState()),untouched,'visiting all future sections leaves first-session learning state intact');
- a.q('[data-course-session="1"]').click();a.q('.site-nav [data-open="m1"]').click();assert.equal(a.active(),'m1');assert.equal(a.q('#sidebarHome').dataset.open,'home');assert.ok(a.q('#sidebarSessionTitle').textContent.includes('اول'));assert.equal(a.q('#reset').hidden,false);assert.ok(a.all('[data-first-session-resource]').every(x=>!x.hidden));
+ a.q('[data-course-session="1"]').click();a.q('.site-nav [data-open="m1"]').click();assert.equal(a.active(),'m1');assert.equal(a.q('#sidebarHome').dataset.open,'home');assert.ok(a.q('.sidebar-eyebrow').textContent.includes('اول'));assert.equal(a.q('#reset').hidden,false);assert.ok(a.all('[data-first-session-resource]').every(x=>!x.hidden));
 }
 // Independent notes for each future session, part and audience; never write through session one's key.
 const seed={schema:5,audience:'managers',legacyClaimed:true,legacyState:{},roleStates:{managers:{answers:{workshop_when:'یادداشت جلسه اول',workshop_conversation:'clear'},grid:{0:5},visited:{}}}};

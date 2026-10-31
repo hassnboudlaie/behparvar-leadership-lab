@@ -149,8 +149,46 @@
      }
    }
  }
+
+ function buildSimpleSessionHomes(){
+   var course=window.MMLAlignedData&&window.MMLAlignedData.sessions;
+   if(!course||course.length!==6)return;
+   var role=new URLSearchParams(location.search).get("audience");
+   var chosen=role==="managers"||role==="supervisors";
+   for(var n=1;n<=6;n++){
+     var root=document.getElementById(n===1?"home":"session"+n);
+     if(!root||root.classList.contains("mml-clean-landing"))continue;
+     var landing=document.createElement("section");
+     landing.className="mml-simple-session-home";
+     var title=course[n-1].title,goal=course[n-1].skill;
+     var start=n===1?"m1":"session"+n+"-m1";
+     landing.innerHTML='<p class="mml-reader-where">جلسه '+sessionNames[n-1]+' از ۶</p>'+
+       '<h1 tabindex="-1">'+title+'</h1>'+
+       '<p class="mml-simple-goal"><strong>در این جلسه یاد می‌گیری:</strong> '+goal+'</p>'+
+       '<div class="mml-simple-entry-actions"></div>';
+     var actions=landing.querySelector(".mml-simple-entry-actions");
+     if(chosen){
+       actions.innerHTML='<a class="mml-reader-next" href="#'+start+'">شروع جلسه ←</a>'+
+       '<a href="#course">همه جلسات</a>';
+     }else{
+       var existing=n===1?root.querySelector(".audience-grid"):root.querySelector(".session-role-buttons");
+       var titleEl=document.createElement("h2");
+       titleEl.textContent="مسیر خود را انتخاب کن";
+       actions.appendChild(titleEl);
+       if(existing){
+         existing.classList.add("mml-simple-role-options");
+         existing.querySelectorAll("button").forEach(function(b){
+           b.innerHTML=b.getAttribute("data-audience-entry")==="supervisors"||b.getAttribute("data-session-audience")==="supervisors"?"سرپرستان":"مدیران";
+         });
+         actions.appendChild(existing);
+       }
+     }
+     root.insertBefore(landing,root.firstChild);
+     root.classList.add("mml-clean-landing");
+   }
+ }
  function restoreHeadingFocus(){
-   var title=document.querySelector(".view.active .mml-view-switcher h2");
+   var title=document.querySelector(".view.active .mml-reader-heading h2, .view.active .mml-simple-session-home h1, .view.active .mml-view-switcher h2");
    if(title){title.focus({preventScroll:true})}
  }
  function init(){
@@ -158,6 +196,7 @@
    buildHome();
    cleanNavigation();
    buildLessonSwitchers();
+   buildSimpleSessionHomes();
    window.addEventListener("hashchange",function(){requestAnimationFrame(restoreHeadingFocus)});
    document.addEventListener("click",function(event){
      if(event.target.closest("[data-open],.mml-resume"))requestAnimationFrame(restoreHeadingFocus);

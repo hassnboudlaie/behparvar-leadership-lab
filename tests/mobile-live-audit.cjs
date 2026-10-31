@@ -18,7 +18,7 @@ const assert=require('node:assert/strict');
    const context=await browser.newContext({viewport:{width:cfg.width,height:cfg.height},isMobile:cfg.isMobile,deviceScaleFactor:cfg.deviceScaleFactor,hasTouch:cfg.hasTouch,locale:'fa-IR',colorScheme:'light'});
    const page=await context.newPage();
    const errors=[];page.on('pageerror',e=>errors.push(String(e)));page.on('console',e=>{if(e.type()==='error')errors.push('console '+e.text())});
-   const url=new URL(base);url.searchParams.set('audience','supervisors');url.hash='course';
+   const url=new URL(base);url.searchParams.set('audience','supervisors');url.hash='';
    const response=await page.goto(url.toString(),{waitUntil:'domcontentloaded',timeout:50000});
    await page.waitForTimeout(900);
    const metrics=await page.evaluate(()=>{

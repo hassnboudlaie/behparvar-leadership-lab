@@ -22,6 +22,10 @@ function sessionCards(){
  grid.querySelectorAll(".course-session[data-course-session]").forEach(function(card){
   var n=Number(card.dataset.courseSession);
   if(n<1||n>6)return;
+  // Course cards, session introductions and reader use one canonical topic name.
+  var library=window.MMLLessonLibrary;
+  var subtitle=card.querySelector("small");
+  if(library&&library.DATA&&library.DATA[n-1]&&subtitle)subtitle.textContent=library.DATA[n-1].name;
   var count=progressBySession(n,role,st),rate=Math.round(count*100/7);
   card.classList.add("mml-course-tile");
   card.setAttribute("aria-label","جلسه "+WORDS[n-1]+"؛ "+count+" از ۷ بخش به‌صورت دستی مرور شده");

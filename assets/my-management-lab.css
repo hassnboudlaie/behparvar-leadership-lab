@@ -188,3 +188,5 @@ body.mml-refreshed .mml-hub{border:0;box-shadow:none;background:transparent;padd
  .mml-flow span{font-size:12px;padding:7px 9px}
  .mml-practice-options button{font-size:13px}
 }
+.mml-refreshed #course>.course-heading{display:none}
+.mml-hub-head h1{font-size:clamp(27px,4vw,39px);color:#fff;line-height:1.35;letter-spacing:-.02em;margin:7px 0}

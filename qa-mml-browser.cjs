@@ -45,11 +45,22 @@ async function run(){
  await measure("session landing is one purpose and two clear role choices",async()=>{
   const landing=page.locator("#session4 .mml-simple-session-home");
   assert.ok(await landing.isVisible());
+  await page.waitForFunction(()=>document.body.classList.contains("mml-session-entry-screen"));
+  assert.ok(!await page.locator("#sidebarMobileBar").isVisible());
   assert.equal(await landing.locator("h1").count(),1);
   assert.equal(await landing.locator("[data-session-audience]").count(),2);
   assert.ok(!await page.locator("#session4 .session-audience-picker").isVisible());
  });
  await page.screenshot({path:path.join(artifact,"mobile-session4-entry.png"),fullPage:false});
+ await measure("manager route opens one clear main lesson",async()=>{
+  await page.locator('#session4 [data-session-audience="managers"]').click();
+  await page.waitForSelector("#session4-m1.view.active",{timeout:10000});
+  await page.waitForFunction(()=>!document.body.classList.contains("mml-session-entry-screen"));
+  assert.equal(await page.locator("#session4-m1 .mml-mode-controls button").count(),0);
+  assert.ok(await page.locator("#session4-m1 .mml-aligned-panel").isVisible());
+  assert.equal((await page.locator("#session4-m1 .mml-reader-heading h2").textContent()).trim(),"شروع");
+  assert.ok(await page.locator("#session4-m1 .mml-reader-navigation .mml-reader-next").isVisible());
+ });
  await measure("mobile drawer is uncluttered and keyboard-accessible",async()=>{
   await page.locator("#sidebarToggle").click();
   assert.ok(await page.locator("body").evaluate(el=>el.classList.contains("sidebar-open")));
@@ -64,14 +75,6 @@ async function run(){
   assert.ok(!await page.locator("body").evaluate(el=>el.classList.contains("sidebar-open")));
  });
 
- await measure("manager route opens one clear main lesson",async()=>{
-  await page.locator('#session4 [data-session-audience="managers"]').click();
-  await page.waitForSelector("#session4-m1.view.active",{timeout:10000});
-  assert.equal(await page.locator("#session4-m1 .mml-mode-controls button").count(),0);
-  assert.ok(await page.locator("#session4-m1 .mml-aligned-panel").isVisible());
-  assert.equal((await page.locator("#session4-m1 .mml-reader-heading h2").textContent()).trim(),"شروع");
-  assert.ok(await page.locator("#session4-m1 .mml-reader-navigation .mml-reader-next").isVisible());
- });
  await measure("mobile text is at least 20 CSS px in core reading and choices",async()=>{
   const size=await page.locator("#session4-m1 .mml-align-main p").first().evaluate(x=>parseFloat(getComputedStyle(x).fontSize));
   assert.ok(size>=20,"Main reading was only "+size+"px");

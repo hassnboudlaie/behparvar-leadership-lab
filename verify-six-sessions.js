@@ -34,7 +34,7 @@ for(const role of [null,'managers','supervisors']){
  const a=boot({audience:role});assert.equal(a.active(),'course');assert.equal(a.all('#course [data-course-session]').length,6);assert.equal(a.q('#workshopSidebar').hidden,true);assert.equal(a.q('#audienceStatus').hidden,true);
  const before=JSON.stringify(a.test.getState());
  for(let n=2;n<=6;n++){
-  a.q('[data-course-session="'+n+'"]').click();assert.equal(a.active(),'session'+n);assert.equal(a.q('#workshopSidebar').hidden,false);assert.equal(a.q('#sidebarMobileBar').hidden,false);assert.equal(a.q('#audienceStatus').hidden,true);assert.equal(a.doc.body.classList.contains('in-workshop'),true);assert.ok(a.q('#session'+n).textContent.includes('هنوز اضافه نشده'));
+  a.q('[data-course-session="'+n+'"]').click();assert.equal(a.active(),'session'+n);assert.equal(a.q('#workshopSidebar').hidden,false);assert.equal(a.q('#sidebarMobileBar').hidden,false);assert.equal(a.q('#audienceStatus').hidden,true);assert.equal(a.doc.body.classList.contains('in-workshop'),true);assert.ok(a.q('#session'+n+' [data-open="course"]'));
   a.q('#session'+n+' [data-open="course"]').click();assert.equal(a.active(),'course');
  }
  assert.equal(JSON.stringify(a.test.getState()),before,'course/placeholder navigation never alters session-one data');
@@ -46,4 +46,4 @@ assert.equal(boot({hash:'#session1'}).active(),'home');assert.equal(boot({hash:'
 for(let n=2;n<=6;n++)assert.equal(boot({audience:null,hash:'#session'+n}).active(),'session'+n);
 const gate=boot({audience:null,hash:'#quiz'});assert.equal(gate.active(),'home');gate.q('[data-audience-entry="supervisors"]').click();assert.equal(gate.location.hash,'#quiz');
 const small=boot({width:390,hash:'#m2'});small.q('#sidebarToggle').click();assert.equal(small.doc.body.classList.contains('sidebar-open'),true);small.q('.masthead [data-open="course"]').click();assert.equal(small.active(),'course');assert.equal(small.doc.body.classList.contains('sidebar-open'),false);assert.equal(small.q('#sidebarBackdrop').hidden,true);assert.equal(small.q('#main').getAttribute('inert'),undefined);
-console.log('PASS: six session cards, five honest empty sessions, first-session audiences and seven sections, direct routes, role gate, mobile drawer exit and unchanged learning data.');
+console.log('PASS: six session cards, five preserved session entry views, first-session audiences and seven sections, direct routes, role gate, mobile drawer exit and unchanged learning data.');

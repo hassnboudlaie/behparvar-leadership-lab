@@ -1,0 +1,27 @@
+name: My Management Lab — guided curriculum checks
+on:
+  push:
+    branches: [main, feat/mml-guided-content-refresh]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check assets/my-management-lab.js
+          node --check assets/mml-guided-lessons.js
+      - name: Check content and data compatibility
+        run: node tests/mml-guided-regression.cjs
+      - name: Existing six-session navigation regressions
+        run: |
+          node verify-six-sessions.js
+          node verify-seven-structure.js
+          node verify-session-core.js

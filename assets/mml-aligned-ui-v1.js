@@ -23,7 +23,7 @@ function reviewInput(n,part,role,title){
  var state=read(n,role),text=((state.notes||{})[part]||"");
  return '<div class="mml-align-write"><label for="mml-align-note-'+n+'-'+part+'">'+esc(title||"یادداشت من")+'</label>'+
    '<textarea id="mml-align-note-'+n+'-'+part+'" data-mml-align-note="'+n+':'+part+':'+role+'" rows="2" placeholder="یک کار مشخص در محل کار خودتان بنویسید">'+esc(text)+'</textarea>'+
-   '<small>فقط روی همین دستگاه ذخیره می‌شود.</small></div>';
+   '</div>';
 }
 /* Book-based examples are optional, selected by topic rather than old session number. */
 var BOOK_CASES={1:[1,0],2:[1,1],3:[3,2],4:[4,0],5:[2,0],6:[6,2]};
@@ -48,7 +48,7 @@ function renderQuiz(n,role){
  var q=items[page],selected=(st.answers||{})[page],has=selected!==undefined&&selected!==null;
  var count=items.filter(function(_q,i){return st.answers&&st.answers[i]!==undefined}).length;
  var display='<div class="mml-align-quiz" data-mml-align-quiz="'+n+':'+role+'">'+
-  '<div class="mml-align-quiz-bar"><strong>سؤال '+(page+1)+' از '+items.length+'</strong><small>'+count+' پاسخ ثبت شده</small></div>'+
+  '<div class="mml-align-quiz-bar"><strong>سؤال '+(page+1)+' از '+items.length+'</strong></div>'+
   '<h4>'+esc(q.q)+'</h4>'+
   '<div class="mml-align-options" role="group" aria-label="پاسخ‌های سؤال '+(page+1)+'">'+
   q.o.map(function(opt,i){var active=has&&Number(selected)===i;
@@ -78,8 +78,8 @@ function render(n,part,role){
  role=role==="supervisors"?"supervisors":"managers";
  var data=sources[n-1],d=library.DATA[n-1],i=PARTS.indexOf(part),h="";
  var intro='<section class="mml-align-main" data-mml-scene-id="session-'+n+'" data-mml-aligned-part="'+part+'">'+
-  '<p class="mml-align-overline">جلسه '+NUM[n-1]+' · '+(role==="managers"?"مدیران":"سرپرستان")+'</p>'+
-  '<div class="mml-align-skill"><strong>مهارت این بخش</strong><span>'+prose(data.skill)+'</span></div>';
+  
+  '<div class="mml-align-skill"><strong>موضوع تمرین:</strong><span>'+prose(data.skill)+'</span></div>';
  if(i===0){
    h=context(n,role)+
     '<section><h3>چه چیزی می‌دانیم؟</h3>'+bullets(data.facts)+'</section>'+
@@ -120,7 +120,7 @@ function render(n,part,role){
     reviewInput(n,part,role,"چطور از تکرار این اشتباه جلوگیری کنم؟");
  }else{
    h=context(n,role)+
-    '<section><h3>سه تصمیم؛ هر سؤال یک موقعیت</h3><p>پس از انتخاب هر پاسخ، دلیل درست یا نادرست‌بودن <b>هر سه گزینه</b> جداگانه نمایش داده می‌شود.</p>'+
+    '<section><h3>کدام تصمیم بهتر است؟</h3>'+
     '<div class="mml-align-quiz-mount" data-mml-align-quiz-mount="'+n+':'+role+'">'+renderQuiz(n,role)+'</div></section>'+
     '<section><h3>اقدام من</h3><p>'+prose(data.transfer)+'</p>'+
     reviewInput(n,part,role,"این هفته دقیقاً چه کاری انجام می‌دهم؟")+'</section>';

@@ -236,7 +236,7 @@
         var a=b.dataset.mmlChoice.split(":"),n=Number(a[0]),choice=Number(a[1]);
         if(!lab.choices)lab.choices={};lab.choices[role+":"+n]=choice;saveLab();
         var container=b.closest("[data-mml-practice]");container.querySelectorAll("[data-mml-choice]").forEach(function(el){el.setAttribute("aria-pressed",String(el===b))});
-        var f=container.querySelector(".mml-practice-feedback");f.hidden=false;f.innerHTML="<p>"+esc(guide(n).feedback[choice])+"</p><p><strong>یک جمله کاربردی:</strong> «"+esc(guide(n).better)+"»</p>";return;
+        var f=container.querySelector(".mml-practice-feedback");f.hidden=false;f.innerHTML="<p>"+esc(guide(n).feedback[choice])+"</p><p><strong>یک جمله کاربردی:</strong> "+esc(guide(n).better)+"</p>";return;
       }
     });
     document.addEventListener("change",function(e){

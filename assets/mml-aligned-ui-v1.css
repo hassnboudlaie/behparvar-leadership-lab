@@ -113,3 +113,13 @@
  .mml-refreshed .mml-align-context{padding:13px}
  .mml-refreshed .mml-align-options button{font-size:15px}
 }
+
+/* Mobile shows the current section name in the navigation bar and reader; no third visible copy. */
+@media(max-width:999px){
+ .mml-refreshed .mml-view-switcher{position:relative}
+ .mml-refreshed .mml-view-switcher h2{
+  position:absolute!important;width:1px!important;height:1px!important;
+  padding:0!important;margin:-1px!important;overflow:hidden!important;
+  clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;
+ }
+}

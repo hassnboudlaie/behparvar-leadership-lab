@@ -34,9 +34,9 @@ check("84 authored page renders with accessible tables",()=>{
  for(let n=1;n<=6;n++)for(let p of PARTS)for(let role of ["managers","supervisors"]){
   const output=lib.render(n,p,role);
   assert.ok(output.includes("<h3")&&output.includes("<h4"),"Headings "+n+p+role);
-  assert.ok(output.includes("هدف یادگیری")&&output.includes("تمرین بازتابی"));
+  assert.ok(output.includes("هدف یادگیری")&&output.includes("تمرین کوتاه"));
   assert.ok(output.includes("<table")&&output.includes('<th scope="col">'));
-  assert.ok(output.includes("مبانی علمی"));
+  assert.ok(output.includes("منابع این درس"));
  }
 });
 check("12 staged role-plays include nonverbal instructions",()=>{
@@ -52,6 +52,16 @@ check("learning modes and reading defaults intact",()=>{
  assert.ok(readerJS.includes('data-mode="main"'));
  assert.ok(readerJS.includes('data-mode="guided"'));
  assert.ok(readerJS.includes('show(i===6?"main"'));
+});
+check("minimal home and seven concise navigation labels",()=>{
+ const mml=read("assets/my-management-lab.js");
+ const reader=read("assets/mml-visual-refresh-20261031.js");
+ assert.ok(mml.includes('آموزش کاربردی مدیریت'));
+ assert.ok(!mml.includes('    buildToolbar();wire();'));
+ assert.ok(!mml.includes('roleSwitcher()+zoneCards()'));
+ assert.ok(!read("assets/mml-learning-home-v1.js").includes('sessionCards();guide();sessionGuide();'));
+ for(const label of ["شناخت خود","گفت‌وگو و تمرین","نکته و مثال","روش کار","جدول و تصمیم","اشتباه‌های رایج","مرور و آزمون"])
+  assert.ok(reader.includes(label));
 });
 check("learning progress never claims competency",()=>{
  assert.ok(homeJS.includes("مرور"));

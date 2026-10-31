@@ -71,7 +71,7 @@ const assert=require('node:assert/strict');
      await context.setOffline(true);
      await page.reload({waitUntil:'domcontentloaded',timeout:20000});
      await page.waitForTimeout(120);
-     offline={tested:true,appShell:await page.locator('.mml-toolbar').count()>0,lesson:await page.locator('#session2-m1 .mml-layer').count()>0,origin:page.url()};
+     offline={tested:true,appShell:await page.locator('.masthead').count()>0,lesson:await page.locator('#session2-m1 .mml-layer').count()>0,origin:page.url()};
    }catch(e){offline={tested:true,error:String(e)}}finally{await context.setOffline(false)}
    const manifest=await page.evaluate(async()=>{const a=document.querySelector('link[rel="manifest"]');if(!a)return null;let r=await fetch(a.href);return {href:a.href,status:r.status,manifest:await r.json().catch(()=>null),serviceWorker:'serviceWorker' in navigator,controller:!!navigator.serviceWorker.controller,displayStandalone:matchMedia('(display-mode:standalone)').matches}});
    const run={name:cfg.name,http:response?.status(),...metrics,routeCount,missingRoutes,routeFont,practice,persisted,managerDistinct,offline,manifest:{status:manifest?.status,href:manifest?.href,serviceWorker:manifest?.serviceWorker,controller:manifest?.controller,displayStandalone:manifest?.displayStandalone},errors};

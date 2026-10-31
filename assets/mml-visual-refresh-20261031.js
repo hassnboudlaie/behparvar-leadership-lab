@@ -31,6 +31,26 @@
        lesson.innerHTML=lessonMarkup;
        guided.parentNode.insertBefore(lesson,guided);
      }
+     // Canonical classroom practice replaces mismatched archived session content.
+     // Old exercises and their stored answers remain in DOM, readable only in instructor audit mode.
+     var aligned=window.MMLAlignedUI;
+     if(aligned&&typeof aligned.render==="function"&&(n>=2||i===6)){
+       var oldBody=primary.querySelector(":scope > .mml-legacy-body");
+       if(oldBody){
+         var main=document.createElement("div");
+         main.className="mml-aligned-panel";
+         main.innerHTML=aligned.render(n,part,selectedRole);
+         oldBody.parentNode.insertBefore(main,oldBody);
+         var archive=document.createElement("details");
+         archive.className="mml-instructor-archive";
+         archive.hidden=!new URLSearchParams(location.search).has("instructor");
+         var label=document.createElement("summary");
+         label.textContent="محتوا و تمرین‌های قبلی (فقط برای بازبینی مدرس)";
+         archive.appendChild(label);
+         archive.appendChild(oldBody);
+         primary.appendChild(archive);
+       }
+     }
      var wrapper=document.createElement("div");
      wrapper.className="mml-view-switcher";
      wrapper.innerHTML='<h2 tabindex="-1">'+sectionNames[i]+'</h2>'+

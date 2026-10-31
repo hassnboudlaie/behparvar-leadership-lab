@@ -32,7 +32,7 @@ function question(n,role){
 function reviewInput(n,part,role,title){
  var state=read(n,role),text=((state.notes||{})[part]||"");
  return '<div class="mml-align-write"><label for="mml-align-note-'+n+'-'+part+'">'+esc(title||"یادداشت من")+'</label>'+
-   '<textarea id="mml-align-note-'+n+'-'+part+'" data-mml-align-note="'+n+':'+part+':'+role+'" rows="2" placeholder="یک کار مشخص در محل کار خودتان بنویسید">'+esc(text)+'</textarea>'+
+   '<textarea id="mml-align-note-'+n+'-'+part+'" data-mml-align-note="'+n+':'+part+':'+role+'" rows="2" placeholder="پاسخ کوتاه خود را اینجا بنویسید">'+esc(text)+'</textarea>'+
    '</div>';
 }
 /* Book-based examples are optional, selected by topic rather than old session number. */

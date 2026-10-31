@@ -339,3 +339,16 @@ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll table
 @media(prefers-reduced-motion:reduce){
  body.mml-refreshed.mml-beginner-mode *{scroll-behavior:auto!important;transition:none!important}
 }
+/* In a mobile lesson the navy drawer bar already names the current section.
+   Keep the semantic h2 for assistive tech, but don't repeat that visible label. */
+@media(max-width:650px){
+ body.mml-refreshed.mml-beginner-mode .mml-reader-heading{
+  padding-bottom:9px!important;margin-bottom:13px!important;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-reader-heading h2{
+  position:absolute!important;width:1px!important;height:1px!important;
+  padding:0!important;margin:-1px!important;border:0!important;
+  overflow:hidden!important;white-space:nowrap!important;
+  clip-path:inset(50%)!important;
+ }
+}

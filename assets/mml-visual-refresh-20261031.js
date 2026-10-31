@@ -3,7 +3,7 @@
 (function(){
  "use strict";
  var sections=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
- var sectionNames=["شناخت خود","گفت‌وگو و تمرین","نکته و مثال","روش کار","جدول و تصمیم","اشتباه‌های رایج","مرور و آزمون"];
+ var sectionNames=["شروع","گفت‌وگوی کاری","نکته مهم","راه‌حل","مقایسه دو روش","اشتباه رایج","آزمون و اقدام"];
  var sessionNames=["اول","دوم","سوم","چهارم","پنجم","ششم"];
  function modeName(partIndex,mode){
    if(partIndex===6)return mode==="main"?"آزمون و مرور":"اقدام من";
@@ -34,7 +34,7 @@
      // Canonical classroom practice replaces mismatched archived session content.
      // Old exercises and their stored answers remain in DOM, readable only in instructor audit mode.
      var aligned=window.MMLAlignedUI;
-     if(aligned&&typeof aligned.render==="function"&&(n>=2||i===6)){
+     if(aligned&&typeof aligned.render==="function"){
        var oldBody=primary.querySelector(":scope > .mml-legacy-body");
        if(oldBody){
          var main=document.createElement("div");
@@ -50,6 +50,40 @@
          archive.appendChild(oldBody);
          primary.appendChild(archive);
        }
+     }
+
+     // Beginner-first reader: ONE visible teaching flow. Instructor retains the archived modes.
+     if(!new URLSearchParams(location.search).has("instructor")){
+       view.classList.add("mml-tabbed","mml-simple-view");
+       var header=document.createElement("header");
+       header.className="mml-reader-heading";
+       header.innerHTML='<p class="mml-reader-where">جلسه '+sessionNames[n-1]+' · بخش '+(i+1)+' از ۷</p>'+
+         '<h2 tabindex="-1">'+sectionNames[i]+'</h2>';
+       guided.hidden=true;
+       primary.hidden=false;primary.open=true;
+       if(lesson){
+         if(i!==6){
+           lesson.hidden=false;
+           var more=document.createElement("details");
+           more.className="mml-reader-more";
+           var summary=document.createElement("summary");
+           summary.textContent="مطالعه بیشتر";
+           more.appendChild(summary);
+           more.appendChild(lesson);
+           var alignedNode=primary.querySelector(".mml-aligned-panel");
+           if(alignedNode)alignedNode.appendChild(more);
+         }else lesson.hidden=true;
+       }
+       primary.parentNode.insertBefore(header,primary);
+       var before=i>0?(n===1?sections[i-1]:"session"+n+"-"+sections[i-1]):"";
+       var after=i<6?(n===1?sections[i+1]:"session"+n+"-"+sections[i+1]):"";
+       var arrows=document.createElement("nav");
+       arrows.className="mml-reader-navigation";
+       arrows.setAttribute("aria-label","حرکت بین بخش‌های جلسه");
+       arrows.innerHTML=(before?'<a href="#'+before+'">بخش قبل</a>':'<a href="#course">همه جلسات</a>')+
+        (after?'<a class="mml-reader-next" href="#'+after+'">بخش بعدی ←</a>':'<a class="mml-reader-next" href="#course">پایان جلسه · همه جلسات</a>');
+       primary.insertAdjacentElement("afterend",arrows);
+       return;
      }
      var wrapper=document.createElement("div");
      wrapper.className="mml-view-switcher";

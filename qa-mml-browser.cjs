@@ -1,4 +1,4 @@
-/* Isolated Chromium UI smoke test for My Management Lab.
+/* Isolated beginner-first mobile Chromium UI QA for My Management Lab.
    Run in CI with Playwright. Tests mobile homepage, session navigation, 3 learning modes, RTL.
    Uses a fresh local-only browser profile; test quiz choices write only to that profile. */
 "use strict";
@@ -48,38 +48,40 @@ async function run(){
   const sidebar=page.locator("#workshopSidebar");
   assert.equal(await sidebar.locator(".site-nav a").count(),7);
   assert.equal(await sidebar.locator(".sidebar-link-label").allTextContents().then(x=>x.join("|")),
-   "شناخت خود|گفت‌وگو و تمرین|نکته و مثال|روش کار|جدول و تصمیم|اشتباه‌های رایج|مرور و آزمون");
+   "شروع|گفت‌وگوی کاری|نکته مهم|راه‌حل|مقایسه دو روش|اشتباه رایج|آزمون و اقدام");
   assert.ok(await sidebar.locator("#sidebarHome").isVisible());
   assert.ok(await sidebar.locator("#sidebarCourse").isVisible());
   await page.screenshot({path:path.join(artifact,"mobile-sidebar-open-390.png"),fullPage:false});
   await page.locator("#sidebarClose").click();
   assert.ok(!await page.locator("body").evaluate(el=>el.classList.contains("sidebar-open")));
  });
- await measure("managers route and seven-part learning",async()=>{
+
+ await measure("manager route opens one clear main lesson",async()=>{
   await page.locator('#session4 [data-session-audience="managers"]').click();
   await page.waitForSelector("#session4-m1.view.active",{timeout:10000});
-  assert.equal(await page.locator("#session4-m1 .mml-mode-controls button").count(),3);
+  assert.equal(await page.locator("#session4-m1 .mml-mode-controls button").count(),0);
+  assert.ok(await page.locator("#session4-m1 .mml-aligned-panel").isVisible());
+  assert.equal((await page.locator("#session4-m1 .mml-reader-heading h2").textContent()).trim(),"شروع");
+  assert.ok(await page.locator("#session4-m1 .mml-reader-navigation .mml-reader-next").isVisible());
  });
- await measure("lesson table and figure visible",async()=>{
-  const lesson=page.locator("#session4-m1 .mml-edu-panel");
-  await lesson.locator(".mml-edu-lesson h3").waitFor({state:"visible"});
-  assert.ok(await lesson.locator("table").isVisible());
-  assert.ok(await lesson.locator(".mml-edu-figure").isVisible());
+ await measure("mobile text is at least 20 CSS px in core reading and choices",async()=>{
+  const size=await page.locator("#session4-m1 .mml-align-main p").first().evaluate(x=>parseFloat(getComputedStyle(x).fontSize));
+  assert.ok(size>=20,"Main reading was only "+size+"px");
  });
- await page.screenshot({path:path.join(artifact,"mobile-session4-lesson.png"),fullPage:true});
- await measure("mode switching without replacing original training",async()=>{
-  await page.locator('#session4-m1 [data-mode="main"]').click();
-  assert.ok(await page.locator("#session4-m1 .mml-legacy").isVisible());
-  assert.ok(!await page.locator("#session4-m1 .mml-edu-panel").isVisible());
-  await page.locator('#session4-m1 [data-mode="guided"]').click();
-  assert.ok(await page.locator("#session4-m1 .mml-layer").isVisible());
-  await page.locator('#session4-m1 [data-mode="lesson"]').click();
-  assert.ok(await page.locator("#session4-m1 .mml-edu-panel").isVisible());
+ await page.screenshot({path:path.join(artifact,"mobile-session4-first-lesson.png"),fullPage:true});
+ await measure("deeper reading is optional, not an extra tab",async()=>{
+  const more=page.locator("#session4-m1 .mml-reader-more");
+  assert.ok(await more.isVisible());
+  assert.ok(!await more.locator(".mml-edu-panel").isVisible());
+  await more.locator("summary").click();
+  assert.ok(await more.locator(".mml-edu-panel").isVisible());
+  assert.ok(await more.locator("table").isVisible());
+  await more.locator("summary").click();
+  assert.equal(await page.locator("#session4-m1 .mml-mode-controls").count(),0);
  });
- await measure("session-specific role-play continues the same case",async()=>{
-  await page.evaluate(()=>document.querySelector('.site-nav [data-open="session4-m2"]').click());
+ await measure("role play stays within the same work case",async()=>{
+  await page.locator("#session4-m1 .mml-reader-navigation .mml-reader-next").click();
   await page.waitForSelector("#session4-m2.view.active");
-  await page.locator('#session4-m2 [data-mode="main"]').click();
   const reader=page.locator("#session4-m2 .mml-aligned-panel");
   assert.ok(await reader.isVisible());
   assert.ok(await reader.getByText("اتفاق تازه").isVisible());
@@ -88,10 +90,13 @@ async function run(){
   assert.ok(!await page.locator("#session4-m2 .mml-instructor-archive").isVisible());
  });
  await page.screenshot({path:path.join(artifact,"mobile-session4-roleplay.png"),fullPage:false});
- await measure("quiz explains each wrong option individually and saves it",async()=>{
+ await measure("quiz explains each choice and keeps the answer",async()=>{
   await page.evaluate(()=>document.querySelector('.site-nav [data-open="session4-quiz"]').click());
   await page.waitForSelector("#session4-quiz.view.active");
   const quiz=page.locator("#session4-quiz .mml-align-quiz");
+  assert.ok(await quiz.isVisible());
+  const optionFont=await quiz.locator(".mml-align-options button").first().evaluate(x=>parseFloat(getComputedStyle(x).fontSize));
+  assert.ok(optionFont>=20,"Choices were only "+optionFont+"px");
   await quiz.locator('[data-mml-align-choice="4:0:1:managers"]').click();
   assert.equal(await quiz.locator(".mml-align-feedback li").count(),3);
   assert.equal(await quiz.locator(".mml-align-feedback .is-incorrect").count(),2);
@@ -100,7 +105,7 @@ async function run(){
   const stored=await page.evaluate(()=>localStorage.getItem("mml_aligned_v1_managers_4"));
   assert.ok(stored&&JSON.parse(stored).answers[0]===1);
  });
- await page.screenshot({path:path.join(artifact,"mobile-session4-quiz-feedback.png"),fullPage:false});
+ await page.screenshot({path:path.join(artifact,"mobile-session4-quiz-large-type.png"),fullPage:false});
  await measure("mobile horizontal overflow",async()=>{
   const bounds=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:window.innerWidth}));
   assert.ok(bounds.scroll<=bounds.width+5,JSON.stringify(bounds));

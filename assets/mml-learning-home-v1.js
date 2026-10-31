@@ -32,16 +32,11 @@ function sessionCards(){
   var icon=card.querySelector(".mml-course-tile-icon");
   if(!icon){icon=document.createElement("span");icon.className="mml-course-tile-icon";icon.setAttribute("aria-hidden","true");icon.textContent=ICONS[n-1];card.insertBefore(icon,card.firstChild)}
   var prog=card.querySelector(".mml-course-progress");
+  if(!count){if(prog)prog.remove();return;}
   if(!prog){prog=document.createElement("div");prog.className="mml-course-progress";card.appendChild(prog)}
-  prog.innerHTML='<span class="mml-course-progress-caption">'+(count?count+" از ۷ بخش مرورشده":"آماده یادگیری")+'</span><span class="mml-course-progress-track" aria-hidden="true"><i style="width:'+rate+'%"></i></span>';
+  prog.innerHTML='<span class="mml-course-progress-caption">'+count+" از ۷ بخش مرورشده"+'</span><span class="mml-course-progress-track" aria-hidden="true"><i style="width:'+rate+'%"></i></span>';
  });
- var resume=document.querySelector("#course .mml-resume");
- if(resume){
-   var text=resume.querySelector("small");
-   if(text&& !resume.querySelector(".mml-resume-hint")){
-     var hint=document.createElement("span");hint.className="mml-resume-hint";hint.textContent="بازگشت به آخرین بخش مطالعه‌شده";resume.appendChild(hint)
-   }
- }
+
 }
 function guide(){
  var course=document.getElementById("course"),hub=course&&course.querySelector(".mml-hub");

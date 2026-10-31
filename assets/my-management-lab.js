@@ -179,10 +179,10 @@
       '<label class="mml-action-label">۳. از کجا می‌فهمم بهتر شده؟<input data-mml-proof="'+n+'" placeholder="مثلاً ثبت یک توافق روشن یا کاهش یک خطای تکراری" value="'+esc(proof)+'"></label>'+
       '<p class="mml-save-status" role="status">یادداشت به‌صورت محلی در همین مرورگر ذخیره می‌شود.</p>';
     }
-    return '<div class="mml-layer mml-module" data-mml-section="'+n+'-'+p+'"><div class="mml-layer-head"><small>جلسه '+n+' · '+esc(roleName())+'</small><h2>'+esc(TITLES[partIndex])+'</h2><p>'+esc(g.lesson)+'</p></div><div class="mml-body">'+text+'</div><div class="mml-layer-footer"><span>'+cfg.ids.map(function(id){return esc(item(id).fa)}).join(' · ')+'</span><button type="button" data-mml-complete="'+n+':'+p+'">✓ مرور شد</button></div></div>';
+    return '<div class="mml-layer mml-module" data-mml-section="'+n+'-'+p+'"><div class="mml-layer-head"><small>جلسه '+n+' · '+esc(roleName())+'</small><h2>'+esc(TITLES[partIndex])+'</h2></div><div class="mml-body">'+text+'</div><div class="mml-layer-footer"><span>'+cfg.ids.map(function(id){return esc(item(id).fa)}).join(' · ')+'</span><button type="button" data-mml-complete="'+n+':'+p+'">✓ مرور شد</button></div></div>';
   }
   function courseOverview(){
-    return '<section class="mml-hub" aria-label="My Management Lab"><div class="mml-hub-head"><div><small>BEHPARVAR · LEARN BY DOING</small><h2>My Management Lab</h2><p>یادگیری مدیریت، از دل کار واقعی</p><span>خودم · دیگران · کسب‌وکار</span></div><img src="assets/behparvar-campus.webp" alt="نمای مجموعه به‌پرور" loading="lazy"></div>'+
+    return '<section class="mml-hub" aria-label="My Management Lab"><div class="mml-hub-head"><div><small>BEHPARVAR · LEARN BY DOING</small><h1>My Management Lab</h1><p>یادگیری مدیریت، از دل کار واقعی</p><span>خودم · دیگران · کسب‌وکار</span></div><img src="assets/behparvar-campus.webp" alt="نمای مجموعه به‌پرور" loading="lazy"></div>'+
     roleSwitcher()+zoneCards()+
     '<details class="mml-more"><summary>نقشه کامل ۱۲ شایستگی</summary><div class="mml-skills-grid">'+renderSkills(SKILLS.map(function(x){return x.id}))+'</div></details>'+
     '<details class="mml-more"><summary>درباره مبنای آموزشی</summary><p>مبنای توسعه مهارت‌ها Whetten & Cameron و چارچوب تعریف شایستگی DDI است. از روش آموزش مرحله‌ای OpenLearn و تمرین همراه با بازخورد در Pearson MyLab Management نیز الهام گرفته‌ایم. مثال‌ها اصیل و متناسب با فضای به‌پرورند.</p><p>این مدل آموزشی است؛ برای ارزیابی رسمی سازمانی به تحلیل شغل و اعتبارسنجی نیاز دارد.</p></details></section>';

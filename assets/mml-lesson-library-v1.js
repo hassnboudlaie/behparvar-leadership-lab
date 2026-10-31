@@ -341,5 +341,5 @@ function render(n,part,role){
  '<p>مثال‌ها برای تمرین طراحی شده‌اند. منابع بالا، پایه مفهومی درس هستند.</p></details></section>';
  return out;
 }
-global.MMLLessonLibrary={render:render,DATA:DATA,PARTS:PARTS,LABELS:LABELS};
+global.MMLLessonLibrary={render:render,renderRoleplay:renderRoleplay,DATA:DATA,PARTS:PARTS,LABELS:LABELS};
 })(window);

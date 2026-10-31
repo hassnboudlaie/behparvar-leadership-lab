@@ -93,3 +93,18 @@
  .mml-refreshed .mml-view-switcher .mml-mode-controls button{min-height:46px}
 }
 @media(prefers-reduced-motion:reduce){.mml-edu-lesson *{scroll-behavior:auto!important;transition:none!important}}
+
+/* Scripted classroom role plays: speaker, delivery, utterance, facilitator feedback. */
+.mml-edu-drama{margin:17px 0 23px;border:1px solid #c8d8e9;border-radius:17px;padding:18px;background:#f8fbff}
+.mml-edu-drama-title{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.mml-edu-drama-title>span{display:grid;place-items:center;background:#e9eefb;border-radius:12px;width:46px;height:46px;flex:none;font-size:24px}
+.mml-edu-drama-title h4{margin:0;color:#132c68}
+.mml-edu-drama-title p{margin:3px 0;color:#60738b;font-size:15px!important}
+.mml-edu-drama ol{list-style:none;padding:0;margin:0;display:grid;gap:9px}
+.mml-edu-drama li{border:1px solid #d9e3ee;background:#fff;border-right:4px solid #132c68;border-radius:11px;padding:12px 15px}
+.mml-edu-drama li.mml-edu-turn-alt{background:#f0f7f5;border-right-color:#137c79}
+.mml-edu-drama li strong{display:block;color:#173a70;font-size:16px;line-height:1.55}
+.mml-edu-drama li small{display:block;color:#52697f;font-size:15px;line-height:1.7;margin-top:2px}
+.mml-edu-drama li p{margin:7px 0 0;font-size:17px!important;line-height:1.9}
+.mml-edu-drama aside{margin-top:16px}
+@media(max-width:750px){.mml-edu-drama{padding:12px}.mml-edu-drama li{padding:11px}.mml-edu-drama li p{font-size:16px!important}}

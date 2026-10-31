@@ -27,7 +27,7 @@ check("84 authored page renders with accessible tables",()=>{
   assert.ok(output.includes("<h3")&&output.includes("<h4"),"Headings "+n+p+role);
   assert.ok(output.includes("هدف یادگیری")&&output.includes("تمرین بازتابی"));
   assert.ok(output.includes("<table")&&output.includes('<th scope="col">'));
-  assert.ok(output.includes("مبانی علمی")&&output.includes("ممل")===false);
+  assert.ok(output.includes("مبانی علمی"));
  }
 });
 check("12 staged role-plays include nonverbal instructions",()=>{

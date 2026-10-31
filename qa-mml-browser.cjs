@@ -36,10 +36,24 @@ async function run(){
   assert.equal(await page.locator("#course .mml-more").count(),0);
   assert.ok(await page.locator("#course .mml-session-area").isVisible());
  });
+ await measure("empty progress indicators are absent",async()=>assert.equal(await page.locator("#course .mml-course-progress").count(),0));
  await page.screenshot({path:path.join(artifact,"mobile-home-390.png"),fullPage:true});
  await measure("session four route",async()=>{
   await page.locator('#course .course-session[data-course-session="4"]').click();
   await page.waitForSelector("#session4.view.active",{timeout:10000});
+ });
+ await measure("mobile drawer is uncluttered and keyboard-accessible",async()=>{
+  await page.locator("#sidebarToggle").click();
+  assert.ok(await page.locator("body").evaluate(el=>el.classList.contains("sidebar-open")));
+  const sidebar=page.locator("#workshopSidebar");
+  assert.equal(await sidebar.locator(".site-nav a").count(),7);
+  assert.equal(await sidebar.locator(".sidebar-link-label").allTextContents().then(x=>x.join("|")),
+   "شناخت خود|گفت‌وگو و تمرین|نکته و مثال|روش کار|جدول و تصمیم|اشتباه‌های رایج|مرور و آزمون");
+  assert.ok(await sidebar.locator("#sidebarHome").isVisible());
+  assert.ok(await sidebar.locator("#sidebarCourse").isVisible());
+  await page.screenshot({path:path.join(artifact,"mobile-sidebar-open-390.png"),fullPage:false});
+  await page.locator("#sidebarClose").click();
+  assert.ok(!await page.locator("body").evaluate(el=>el.classList.contains("sidebar-open")));
  });
  await measure("managers route and seven-part learning",async()=>{
   await page.locator('#session4 [data-session-audience="managers"]').click();

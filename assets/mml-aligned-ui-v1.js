@@ -25,6 +25,18 @@ function reviewInput(n,part,role,title){
    '<textarea id="mml-align-note-'+n+'-'+part+'" data-mml-align-note="'+n+':'+part+':'+role+'" rows="2" placeholder="یک کار مشخص در محل کار خودتان بنویسید">'+esc(text)+'</textarea>'+
    '<small>فقط روی همین دستگاه ذخیره می‌شود.</small></div>';
 }
+/* Book-based examples are optional, selected by topic rather than old session number. */
+var BOOK_CASES={1:[1,0],2:[1,1],3:[3,2],4:[4,0],5:[2,0],6:[6,2]};
+function bookExample(n){
+ var map=BOOK_CASES[n],all=global.BP_CASE_DATA||{},entry=map&&all[map[0]];
+ var c=entry&&entry.cases&&entry.cases[map[1]];
+ if(!c||!c.story||!c.source)return "";
+ return '<details class="mml-align-book"><summary>نمونه مرتبط از کتاب «حقایق تلخ»</summary>'+
+  '<div><h4>'+prose(c.title)+'</h4><p>'+prose(c.story)+'</p>'+
+  '<p><strong>سؤال مدیریتی:</strong> '+prose(c.decision||"در این موقعیت چه تصمیمی می‌گیرید؟")+'</p>'+
+  '<small>برگرفته از '+prose(c.source)+'؛ بازآفرینی آموزشی، نه گزارش یک رویداد در به‌پرور.</small>'+
+  '</div></details>';
+}
 function context(n,role){
  var m=sources[n-1];
  return '<div class="mml-align-context"><strong>اتفاق آشنا</strong><p>'+prose(question(n,role))+'</p></div>';
@@ -85,7 +97,7 @@ function render(n,part,role){
    h=context(n,role)+
     '<section><h3>درس از این موقعیت</h3><p>'+prose(d.chapters[2][1])+'</p></section>'+
     '<section><h3>اگر مدیر بودی چه می‌دیدی؟</h3><p>'+prose(data.facts[1])+'</p>'+
-    '<p>در تصمیم اخیر خودتان کدام نگرانی یا محدودیت را دیر متوجه شدید؟</p></section>'+
+    '<p>در تصمیم اخیر خودتان کدام نگرانی یا محدودیت را دیر متوجه شدید؟</p></section>'+bookExample(n)+
     reviewInput(n,part,role,"یک نکته که می‌خواهم در کارم امتحان کنم");
  }else if(i===3){
    h=context(n,role)+

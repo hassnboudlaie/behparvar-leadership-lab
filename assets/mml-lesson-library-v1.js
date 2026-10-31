@@ -5,7 +5,7 @@
 (function(global){
 "use strict";
 var PARTS=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
-var LABELS=["شناخت و خودارزیابی","گفت‌وگو و تعامل","درس از تجربه رهبران","فنون اجرایی","مدل‌ها و نمودارها","خطاهای مدیریتی","مرور و انتقال یادگیری"];
+var LABELS=["شناخت خود","گفت‌وگو و تمرین","نکته و مثال","روش کار","جدول و تصمیم","اشتباه‌های رایج","مرور و آزمون"];
 var DATA=[
 {
  name:"شناخت نقش و شایستگی", theme:"از انجام کار به ممکن‌کردن عملکرد دیگران",
@@ -162,7 +162,7 @@ s:[
 ["اپراتور باتجربه","با اعتماد بیشتر","اگر آموزش و مسیر ارجاع معلوم باشد، کارهای عادی را می‌توانیم انجام دهیم."],
 ["سرپرست جدید","با تأکید روشن بر ایمنی","تا پایان شیفت فهرست را با مسئول فنی مرور می‌کنیم؛ هیچ اقدام خارج از مجوز انجام نمی‌شود."]
 ],
-note:"در دور دوم تمرین، مشاهده‌گر بررسی کند آیا مرز تصمیم با تکیه بر ضابطه روشن شد یا فقط قول شفاهی داده شد."
+note:"در اجرای دوم تمرین، مشاهده‌گر بررسی کند آیا مرز تصمیم با تکیه بر ضابطه روشن شد یا فقط قول شفاهی داده شد."
 },
 {
 m:[
@@ -252,7 +252,7 @@ note:"در دور دوم، مخاطب باید یک ریسک واقعی تازه
 ];
 function renderRoleplay(n,role){
  var x=ROLEPLAYS[n-1],a=role==="managers"?x.m:x.s;
- return '<div class="mml-edu-drama"><div class="mml-edu-drama-title"><span aria-hidden="true">🎭</span><div><h4>Role Play · اسکریپت اجرایی</h4><p>زمان پیشنهادی: ۶ دقیقه اجرا + ۳ دقیقه Feedback؛ سناریو آموزشی و فرضی است.</p></div></div><ol>'+a.map(function(t,i){return '<li class="'+(i%2?"mml-edu-turn-alt":"")+'"><strong>'+esc(t[0])+'</strong><small>لحن، حالت چهره و زبان بدن: '+esc(t[1])+'</small><p>«'+esc(t[2])+'»</p></li>'}).join("")+'</ol><aside class="mml-edu-question"><strong>راهنمای تسهیلگر</strong><p>'+esc(x.note)+'</p><p>نقش‌ها را جابه‌جا کنید و درباره رفتار مشاهده‌شده، کیفیت شنیدن، وضوح توافق و محدودیت‌های حرفه‌ای بازخورد بدهید.</p></aside></div>';
+ return '<div class="mml-edu-drama"><div class="mml-edu-drama-title"><span aria-hidden="true">🎭</span><div><h4>نقش‌آفرینی · گفت‌وگوی تمرینی</h4><p>۶ دقیقه بازی نقش + ۳ دقیقه بازخورد. این گفت‌وگو برای تمرین ساخته شده است.</p></div></div><ol>'+a.map(function(t,i){return '<li class="'+(i%2?"mml-edu-turn-alt":"")+'"><strong>'+esc(t[0])+'</strong><small>لحن، حالت چهره و زبان بدن: '+esc(t[1])+'</small><p>«'+esc(t[2])+'»</p></li>'}).join("")+'</ol><aside class="mml-edu-question"><strong>راهنمای تسهیلگر</strong><p>'+esc(x.note)+'</p><p>نقش‌ها را جابه‌جا کنید و درباره رفتار مشاهده‌شده، کیفیت شنیدن، وضوح توافق و محدودیت‌های حرفه‌ای بازخورد بدهید.</p></aside></div>';
 }
 
 function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(x){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]})}
@@ -262,40 +262,84 @@ function diagram(n,d){
   return '<figure class="mml-edu-figure"><figcaption>شکل ۱ — دو محور توجه در رهبری (مدل مفهومی)</figcaption><div class="mml-edu-axis"><span>توجه به افراد ↑</span><div class="mml-edu-quadrants"><div>حمایت بالا<br>تمرکز نتیجه پایین</div><div>توجه هم‌زمان<br>به کار و افراد</div><div>توجه محدود<br>به هر دو محور</div><div>تمرکز نتیجه بالا<br>حمایت پایین</div></div><span>توجه به کار ←</span></div><p>این شکل، نمای آموزشی است و هیچ‌یک از خانه‌ها نتیجه خودارزیابی شما محسوب نمی‌شود.</p></figure>';
  }
  if(n===3){
-  return '<figure class="mml-edu-figure"><figcaption>نمودار نمونه — آمادگی خط در یک شیفت فرضی</figcaption><div class="mml-edu-bars" role="img" aria-label="هدف ۸ ساعت، عملکرد واقعی فرضی ۶ ساعت، اختلاف ۲ ساعت"><div class="mml-edu-bar"><span>Target · هدف: ۸ ساعت</span><div><i style="width:100%"></i></div></div><div class="mml-edu-bar actual"><span>Actual · تحقق: ۶ ساعت</span><div><i style="width:75%"></i></div></div></div><p><b>Gap = ۲ ساعت</b>؛ اعداد صرفاً آموزشی‌اند و داده واقعی به‌پرور نیستند. نمودار علت را مشخص نمی‌کند.</p></figure>';
+  return '<figure class="mml-edu-figure"><figcaption>نمودار نمونه — آمادگی خط در یک شیفت فرضی</figcaption><div class="mml-edu-bars" role="img" aria-label="هدف ۸ ساعت، عملکرد واقعی فرضی ۶ ساعت، اختلاف ۲ ساعت"><div class="mml-edu-bar"><span>هدف: ۸ ساعت</span><div><i style="width:100%"></i></div></div><div class="mml-edu-bar actual"><span>انجام‌شده: ۶ ساعت</span><div><i style="width:75%"></i></div></div></div><p><b>فاصله تا هدف: ۲ ساعت</b>؛ اعداد صرفاً آموزشی‌اند و داده واقعی به‌پرور نیستند. نمودار علت را مشخص نمی‌کند.</p></figure>';
  }
  if(n===5){
   return '<figure class="mml-edu-figure"><figcaption>شکل ۵ — نردبان اختیار در تفویض</figcaption><ol class="mml-edu-ladder"><li><b>سطح ۱</b><span>مسئله را گزارش کن</span></li><li><b>سطح ۲</b><span>گزینه پیشنهاد بده</span></li><li><b>سطح ۳</b><span>در چارچوب مجاز تصمیم بگیر و اطلاع بده</span></li><li><b>سطح ۴</b><span>مستقل در مرز مصوب اجرا کن و بازبینی بده</span></li></ol><p>سطح مناسب تابع صلاحیت، ریسک و ضوابط سازمان است؛ این شکل نردبان عمومی است، نه مجوز عملیاتی.</p></figure>';
  }
- return '<figure class="mml-edu-figure"><figcaption>نقشه مفهومی — '+esc(d.name)+'</figcaption><ol class="mml-edu-process">'+d.flow.map(function(s,i){return '<li><span>'+digit(i+1)+'</span><strong>'+esc(s)+'</strong></li>'}).join("")+'</ol><p>شکل، ترتیب تحلیل و گفت‌وگو را نشان می‌دهد؛ اجرای واقعی باید متناسب با موقعیت و حدود اختیار باشد.</p></figure>';
+ return '<figure class="mml-edu-figure"><figcaption>شکل ساده — '+esc(d.name)+'</figcaption><ol class="mml-edu-process">'+d.flow.map(function(s,i){return '<li><span>'+digit(i+1)+'</span><strong>'+esc(s)+'</strong></li>'}).join("")+'</ol><p>شکل، ترتیب تحلیل و گفت‌وگو را نشان می‌دهد؛ اجرای واقعی باید متناسب با موقعیت و حدود اختیار باشد.</p></figure>';
+}
+/* Simple reading language for first-time managers, while keeping the managerial substance. */
+function plain(v){
+ var t=String(v==null?"":v);
+ [
+  ["Guardrail","حد ایمنی و کیفیت"],
+  ["Escalation","ارجاع به مسئول بالاتر"],
+  ["Pilot","آزمایش محدود"],
+  ["Baseline","وضعیت پیش از تغییر"],
+  ["Target","هدف"],
+  ["Actual","مقدار واقعی"],
+  ["Gap","فاصله"],
+  ["KPI","شاخص عملکرد"],
+  ["Outcome","نتیجه"],
+  ["Coaching","گفت‌وگوی راهنمایی"],
+  ["Feedback","بازخورد"],
+  ["Role Play","نقش‌آفرینی"],
+  ["میکرومنیجمنت","دخالت زیاد در جزئیات"],
+  ["خودگزارش","پاسخ خود فرد"],
+  ["کنشگری","اقدام و مسئولیت‌پذیری"],
+  ["پایش","پیگیری"],
+  ["مرزهای اختیار","حدود اختیار"],
+  ["مرزبندی تصمیم","مشخص‌کردن حدود تصمیم"],
+  ["مالک تصمیم","مسئول تصمیم"],
+  ["مالک اقدام","مسئول کار"],
+  ["ذی‌نفعان","افراد و واحدهای مرتبط"],
+  ["ذی‌نفع","فرد یا واحد مرتبط"],
+  ["دپارتمان","واحد"],
+  ["تسهیل","کمک به"],
+  ["علّی","مربوط به علت"],
+  ["تبیین","توضیح"],
+  ["نقطه کنترل","زمان بررسی"],
+  ["خط پایه","وضعیت شروع"]
+ ].forEach(function(p){t=t.split(p[0]).join(p[1])});
+ return esc(t);
 }
 function render(n,part,role){
  n=Number(n);
  var d=DATA[n-1],i=PARTS.indexOf(part);
  if(!d||i<0)return "";
- var p=d.chapters[i],isManager=role==="managers",scenario=isManager?d.manager:d.supervisor,roleLabel=isManager?"مدیران":"سرپرستان";
- var title=i===6?"مرور مفاهیم و انتقال یادگیری":LABELS[i];
- var tableRows=d.matrix.map(function(row){return '<tr><th scope="row">'+esc(row[0])+'</th><td>'+esc(row[1])+'</td><td>'+esc(row[2])+'</td></tr>'}).join("");
- var block='<section class="mml-edu-lesson" aria-label="درسنامه '+digit(n)+' · '+esc(LABELS[i])+'">'+
- '<header class="mml-edu-header"><span class="mml-edu-overline">📘 درسنامه آموزشی · جلسه '+digit(n)+' از ۶ · مسیر '+roleLabel+'</span>'+
- '<h3 tabindex="-1">'+esc(title)+'</h3><p>'+esc(d.theme)+'</p></header>'+
- '<div class="mml-edu-takeaway"><strong>پیام کلیدی</strong><p>'+esc(p[1])+'</p></div>'+
- '<div class="mml-edu-two"><section><h4>هدف یادگیری</h4><ul>'+d.goals.map(function(g){return '<li>'+esc(g)+'</li>'}).join("")+'</ul></section><section><h4>نکته این بخش</h4><p>'+esc(p[0])+'</p><p>'+esc(d.thesis)+'</p></section></div>'+
- '<section class="mml-edu-chapter"><h4>۱. توضیح و کاربرد مفهوم</h4><p>'+esc(p[1])+'</p><p>'+esc(p[2])+'</p></section>'+
- '<section class="mml-edu-chapter"><h4>۲. مثال شغلی برای '+roleLabel+'</h4><p>'+esc(scenario)+'</p><div class="mml-edu-question"><strong>سؤال تحلیل موقعیت</strong><p>'+esc(p[3])+'</p></div></section>'+
+ var p=d.chapters[i],isManager=role==="managers";
+ var scenario=isManager?d.manager:d.supervisor;
+ var roleLabel=isManager?"مدیران":"سرپرستان";
+ var tableRows=d.matrix.map(function(row){
+  return '<tr><th scope="row">'+plain(row[0])+'</th><td>'+plain(row[1])+'</td><td>'+plain(row[2])+'</td></tr>';
+ }).join("");
+ var out='<section class="mml-edu-lesson" aria-label="درسنامه '+digit(n)+' · '+esc(LABELS[i])+'">'+
+ '<header class="mml-edu-header"><span class="mml-edu-overline">درسنامه · جلسه '+digit(n)+' · '+roleLabel+'</span>'+
+ '<h3 tabindex="-1">'+esc(LABELS[i])+'</h3></header>'+
+ '<div class="mml-edu-takeaway"><strong>اصل مطلب</strong><p>'+plain(p[1])+'</p></div>'+
+ '<section class="mml-edu-chapter mml-edu-goal"><h4>هدف یادگیری</h4><p>'+plain(d.goals[0])+'</p></section>'+
+ '<section class="mml-edu-chapter"><h4>۱. در کار چه کنیم؟</h4><p>'+plain(p[2])+'</p></section>'+
+ '<section class="mml-edu-chapter"><h4>۲. مثال کاری</h4><p>'+plain(scenario)+'</p></section>'+
  (i===1?renderRoleplay(n,role):'')+
- '<section class="mml-edu-chapter"><h4>۳. جدول مقایسه‌ای تصمیم مدیریتی</h4><div class="mml-edu-table-scroll"><table><caption>از نگاه ساده‌انگارانه تا تحلیل حرفه‌ای</caption><thead><tr><th scope="col">بُعد</th><th scope="col">رویکرد سطحی</th><th scope="col">رویکرد حرفه‌ای</th></tr></thead><tbody>'+tableRows+'</tbody></table></div></section>';
+ '<section class="mml-edu-chapter"><h4>۳. چه کاری بهتر است؟</h4>'+
+ '<div class="mml-edu-table-scroll"><table><caption>مقایسه دو روش</caption>'+
+ '<thead><tr><th scope="col">موضوع</th><th scope="col">روش ضعیف</th><th scope="col">روش بهتر</th></tr></thead>'+
+ '<tbody>'+tableRows+'</tbody></table></div></section>';
  if(i===0||i===3||i===4){
-   block+='<section class="mml-edu-chapter"><h4>۴. نمودار و مدل دیداری</h4>'+diagram(n,d)+'</section>';
+   out+='<section class="mml-edu-chapter"><h4>۴. شکل ساده</h4>'+diagram(n,d)+'</section>';
  }else{
-   block+='<section class="mml-edu-chapter"><h4>۴. مسیر پیشنهادی اجرا</h4><ol class="mml-edu-process">'+d.flow.map(function(x,j){return '<li><span>'+digit(j+1)+'</span><strong>'+esc(x)+'</strong></li>'}).join("")+'</ol></section>';
+   out+='<section class="mml-edu-chapter"><h4>۴. مراحل کار</h4>'+
+    '<ol class="mml-edu-process">'+d.flow.map(function(x,j){
+     return '<li><span>'+digit(j+1)+'</span><strong>'+plain(x)+'</strong></li>';
+    }).join("")+'</ol></section>';
  }
- block+='<section class="mml-edu-chapter"><h4>۵. تمرین بازتابی و انتقال به کار</h4><p>'+esc(p[3])+'</p><aside class="mml-edu-warning"><strong>نقطه احتیاط</strong><p>'+esc(p[4])+'</p></aside>'+
- '<p class="mml-edu-task">در گفت‌وگوی دونفره یا یادداشت فردی، یک تصمیم واقعی و یک شاهد قابل مشاهده برای هفته آینده انتخاب کنید.</p></section>'+
- '<details class="mml-edu-sources"><summary>📚 مبانی علمی و کتابی این درسنامه</summary><ul>'+d.source.map(function(s){return '<li>'+esc(s)+'</li>'}).join("")+'</ul>'+
- '<p>این متن، بازنویسی و کاربردسازی آموزشیِ مفاهیم است؛ نقل‌قول مستقیم یا آزمون روان‌سنجی استاندارد نیست. مثال‌ها برای تمرین ساخته شده‌اند و رویداد واقعی سازمان محسوب نمی‌شوند.</p></details>'+
- '</section>';
- return block;
+ out+='<section class="mml-edu-chapter"><h4>۵. تمرین کوتاه</h4><p>'+plain(p[3])+'</p>'+
+ '<aside class="mml-edu-warning"><strong>حواست باشد</strong><p>'+plain(p[4])+'</p></aside></section>'+
+ '<details class="mml-edu-sources"><summary>منابع این درس</summary>'+
+ '<ul>'+d.source.map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+'</ul>'+
+ '<p>مثال‌ها برای تمرین طراحی شده‌اند. منابع بالا، پایه مفهومی درس هستند.</p></details></section>';
+ return out;
 }
 global.MMLLessonLibrary={render:render,DATA:DATA,PARTS:PARTS,LABELS:LABELS};
 })(window);

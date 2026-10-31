@@ -1,0 +1,104 @@
+/* My Management Lab | Behparvar visual refresh | 2026-10-31
+   Additive, scoped design system. Retains existing routes, content and saved data. */
+:root{
+ --mml-ui-brand:#132c68;
+ --mml-ui-accent:#b91c36;
+ --mml-ui-teal:#137c79;
+ --mml-ui-surface:#fff;
+ --mml-ui-stroke:#dce2ed;
+ --mml-ui-radius:18px;
+ --mml-ui-shadow:0 8px 24px rgba(19,44,104,.055);
+}
+.mml-refreshed #course>.course-heading{display:none}
+.mml-refreshed #course .mml-hub{max-width:1160px;margin:4px auto 24px;padding:0;background:transparent;border:0;box-shadow:none}
+.mml-refreshed #course .mml-hub-head{
+ display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);
+ background:linear-gradient(125deg,#132c68 0%,#183a73 66%,#176677 100%);
+ border:1px solid #314e7c;border-radius:23px;min-height:222px;
+ box-shadow:0 12px 24px rgba(19,44,104,.10);overflow:hidden;margin-bottom:15px;
+}
+.mml-refreshed #course .mml-hub-head>div{padding:28px 30px;align-self:center}
+.mml-refreshed #course .mml-hub-head h1{color:#fff;font-size:clamp(1.9rem,3.8vw,2.65rem);line-height:1.4;margin:6px 0}
+.mml-refreshed #course .mml-hub-head p{color:#f0f4ff;font-size:1.125rem;line-height:1.75}
+.mml-refreshed #course .mml-hub-head small{color:#c9ddfa}
+.mml-refreshed #course .mml-hub-head img{width:100%;height:100%;min-height:222px;object-fit:cover}
+.mml-refreshed #course .mml-role-picker{margin:13px 0 17px;gap:9px}
+.mml-refreshed #course .mml-role-picker button{
+ flex:1 1 185px;min-height:50px;border-radius:13px;background:white;
+ font-size:1.025rem;box-shadow:var(--mml-ui-shadow)
+}
+.mml-refreshed #course .mml-role-picker button[aria-pressed=true]{background:var(--mml-ui-brand);color:#fff}
+.mml-refreshed #course .mml-session-area{margin:18px 0 22px}
+.mml-refreshed #course .mml-session-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 11px}
+.mml-refreshed #course .mml-session-heading h2{color:var(--mml-ui-brand);font-size:1.35rem;line-height:1.5;margin:0}
+.mml-refreshed #course .mml-session-heading p{font-size:.97rem;color:#536781;margin:0}
+.mml-refreshed #course .course-sessions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0}
+.mml-refreshed #course .course-session{
+ display:flex;align-items:center;gap:12px;min-height:110px;padding:15px 14px;
+ background:var(--mml-ui-surface);border:1px solid var(--mml-ui-stroke);
+ border-radius:var(--mml-ui-radius);box-shadow:var(--mml-ui-shadow);
+ transition:transform .16s,border-color .16s,box-shadow .16s;
+}
+.mml-refreshed #course .course-session:hover{border-color:#7c9dce;background:#f9fbff;transform:translateY(-2px)}
+.mml-refreshed #course .course-session.ready{background:#fff;border-color:#a8badd}
+.mml-refreshed #course .course-session-number{height:42px;width:42px;min-width:42px;border-radius:13px;background:#edf2fb;color:var(--mml-ui-brand);font-size:1.22rem}
+.mml-refreshed #course .course-session.ready .course-session-number{background:var(--mml-ui-brand);color:#fff}
+.mml-refreshed #course .course-session>span:nth-child(2){min-width:0;flex:1}
+.mml-refreshed #course .course-session strong{display:block;font-size:1.07rem;line-height:1.6;color:#1e3258}
+.mml-refreshed #course .course-session small{font-size:.91rem;line-height:1.65;color:#596a82}
+.mml-refreshed #course .course-session-arrow{color:#627eaa;font-size:1.2rem;flex:0 0 auto}
+.mml-refreshed #course .mml-zone-grid{gap:12px;margin:15px 0 20px}
+.mml-refreshed #course .mml-zone{box-shadow:var(--mml-ui-shadow);border-color:var(--mml-ui-stroke)}
+.mml-refreshed #course .mml-more{box-shadow:none}
+.mml-resume{display:flex;align-items:center;justify-content:space-between;gap:14px;
+ background:#eef4fc;border:1px solid #cbd8e8;border-right:4px solid var(--mml-ui-brand);
+ color:#15376c;text-decoration:none;border-radius:14px;min-height:59px;
+ padding:11px 17px;margin:13px 0;font-size:1rem;font-weight:750}
+.mml-resume small{font-size:.91rem;color:#536781;font-weight:500}
+.mml-resume:hover{background:#e5eefb}
+.mml-view-switcher{margin:10px 0 16px;padding:18px;background:#fff;
+ border:1px solid var(--mml-ui-stroke);border-radius:var(--mml-ui-radius);box-shadow:var(--mml-ui-shadow)}
+.mml-view-switcher h2{font-size:clamp(1.3rem,2.5vw,1.65rem);color:var(--mml-ui-brand);
+ margin:0 0 5px;line-height:1.5}
+.mml-view-switcher p{font-size:1rem;color:#576984;margin:0 0 13px}
+.mml-view-switcher .mml-mode-controls{display:flex;gap:9px;flex-wrap:wrap}
+.mml-view-switcher button{min-height:48px;flex:1 1 185px;padding:9px 14px;border:1px solid #bdcadc;
+ color:var(--mml-ui-brand);background:#f7f9fd;border-radius:12px;font-size:1rem;font-weight:750}
+.mml-view-switcher button[aria-pressed=true]{background:var(--mml-ui-brand);color:#fff;border-color:var(--mml-ui-brand)}
+.mml-view-switcher button:focus-visible{outline:3px solid var(--mml-ui-accent);outline-offset:3px}
+.mml-refreshed-view.mml-tabbed>.mml-layer{margin:0 0 22px}
+.mml-refreshed-view.mml-tabbed>.mml-legacy{margin:0 0 22px;padding:0;background:transparent;border:0}
+.mml-refreshed-view.mml-tabbed>.mml-legacy>summary{display:none}
+.mml-refreshed-view.mml-tabbed>.mml-legacy>.mml-legacy-body{padding:0}
+.mml-refreshed-view.mml-tabbed>.mml-legacy .key-message:first-child{margin-top:8px}
+.mml-refreshed .site-nav a[aria-current=page]{border-radius:10px}
+.mml-refreshed .mml-intro{border-right-color:var(--mml-ui-brand)}
+.mml-refreshed .mml-refreshed-view>.mml-layer{border-right-color:var(--mml-ui-teal)}
+@media(max-width:900px){
+ .mml-refreshed #course .course-sessions{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .mml-refreshed #course .course-session{min-height:108px}
+}
+@media(max-width:600px){
+ .mml-refreshed #course .mml-hub-head{grid-template-columns:1fr;min-height:0;border-radius:19px}
+ .mml-refreshed #course .mml-hub-head>div{padding:21px 19px}
+ .mml-refreshed #course .mml-hub-head img{height:112px;min-height:0;max-height:112px}
+ .mml-refreshed #course .mml-hub-head h1{font-size:1.9rem}
+ .mml-refreshed #course .course-sessions{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .mml-refreshed #course .course-session{min-height:120px;padding:12px 11px;gap:8px;align-items:flex-start;flex-wrap:wrap}
+ .mml-refreshed #course .course-session-number{height:35px;width:35px;min-width:35px;border-radius:10px;font-size:1.07rem}
+ .mml-refreshed #course .course-session>span:nth-child(2){flex-basis:calc(100% - 50px)}
+ .mml-refreshed #course .course-session-arrow{display:none}
+ .mml-refreshed #course .course-session strong{font-size:1rem}
+ .mml-refreshed #course .course-session small{font-size:.875rem}
+ .mml-refreshed #course .mml-session-heading{display:block}
+ .mml-refreshed #course .mml-session-heading p{margin-top:2px}
+ .mml-view-switcher{padding:13px}
+ .mml-view-switcher .mml-mode-controls{gap:7px}
+ .mml-view-switcher button{min-height:48px;flex-basis:135px;padding:9px}
+ .mml-refreshed .mml-toolbar{overflow:visible}
+}
+@media(max-width:350px){
+ .mml-refreshed #course .course-sessions{grid-template-columns:1fr}
+ .mml-refreshed #course .course-session{min-height:84px}
+}
+@media(prefers-reduced-motion:reduce){.mml-refreshed #course .course-session{transition:none}}

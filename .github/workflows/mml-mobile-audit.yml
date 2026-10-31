@@ -19,7 +19,7 @@ jobs:
       - name: Install Playwright Chromium
         run: |
           npm install --no-save --no-package-lock playwright@1.56.1
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium webkit
       - name: Start local same-origin server
         run: |
           python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/mml-server.log 2>&1 &
@@ -30,6 +30,8 @@ jobs:
         id: audit
         continue-on-error: true
         run: node tests/mobile-live-audit.cjs > /tmp/audit-verbose.log 2>&1
+      - name: WebKit Safari-engine layout audit
+        run: node tests/mml-webkit-audit.cjs
       - name: Show compact audit and screenshots for review
         if: always()
         run: |

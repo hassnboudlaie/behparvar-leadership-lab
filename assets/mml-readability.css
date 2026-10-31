@@ -1,0 +1,113 @@
+/* My Management Lab — readability correction
+   Scales the guided layer without inflating the already-large legacy course.
+   Base reading size 18px, secondary 15–16px, large touch controls. */
+:root{--mml-reading:1.125rem;--mml-support:1rem;--mml-meta:.9375rem;--mml-heading:1.5rem}
+.mml-refreshed .mml-hub,
+.mml-refreshed .mml-intro,
+.mml-refreshed .mml-layer,
+.mml-refreshed .mml-dialog{font-size:var(--mml-reading);line-height:1.85}
+.mml-refreshed .mml-body,
+.mml-refreshed .mml-body p,
+.mml-refreshed .mml-mini-lesson p,
+.mml-refreshed .mml-practice>p,
+.mml-refreshed .mml-visual-card>p,
+.mml-refreshed .mml-case>p,
+.mml-refreshed .mml-hint p,
+.mml-refreshed .mml-step p,
+.mml-refreshed .mml-contrast p,
+.mml-refreshed .mml-dialogue-line p,
+.mml-refreshed .mml-visual-card>p,
+.mml-refreshed .mml-legacy-body p:not(.mml-note){font-size:var(--mml-reading)!important;line-height:1.9}
+.mml-refreshed .mml-lead{font-size:var(--mml-reading)!important}
+.mml-refreshed .mml-hub-head h1{font-size:clamp(1.9rem,3.7vw,2.6rem);line-height:1.35}
+.mml-refreshed .mml-hub-head p{font-size:1.125rem}
+.mml-refreshed .mml-hub-head small,
+.mml-refreshed .mml-hub-head span{font-size:var(--mml-support)}
+.mml-refreshed .mml-zone b{font-size:1.375rem;line-height:1.65}
+.mml-refreshed .mml-zone p{font-size:1.0625rem;line-height:1.85}
+.mml-refreshed .mml-zone>small,
+.mml-refreshed .mml-zone summary,
+.mml-refreshed .mml-zone li{font-size:var(--mml-meta);line-height:1.8}
+.mml-refreshed .mml-zone details{padding-top:10px}
+.mml-refreshed .mml-zone summary{display:flex;align-items:center;min-height:44px;padding:6px 0}
+.mml-refreshed .mml-intro h2,
+.mml-refreshed .mml-layer-head h2{font-size:var(--mml-heading);line-height:1.55}
+.mml-refreshed .mml-intro small,
+.mml-refreshed .mml-layer-head small,
+.mml-refreshed .mml-layer-footer span,
+.mml-refreshed .mml-competency-tags span{font-size:var(--mml-meta);line-height:1.7}
+.mml-refreshed .mml-intro p{font-size:1.0625rem}
+.mml-refreshed .mml-hub details>summary,
+.mml-refreshed .mml-more summary,
+.mml-refreshed .mml-evidence summary,
+.mml-refreshed .mml-script summary,
+.mml-refreshed .mml-legacy>summary{font-size:var(--mml-support)!important;min-height:46px;display:list-item;align-content:center;padding-block:10px!important}
+.mml-refreshed .mml-steps h3,
+.mml-refreshed .mml-mini-lesson h3,
+.mml-refreshed .mml-mini-dialogue h3,
+.mml-refreshed .mml-visual-card h3,
+.mml-refreshed .mml-practice h3{font-size:1.25rem;line-height:1.55}
+.mml-refreshed .mml-hint b,
+.mml-refreshed .mml-dialogue-line strong,
+.mml-refreshed .mml-level-row b{font-size:1.0625rem}
+.mml-refreshed .mml-hint,
+.mml-refreshed .mml-step,
+.mml-refreshed .mml-contrast,
+.mml-refreshed .mml-practice-feedback{font-size:1.0625rem;line-height:1.85}
+.mml-refreshed .mml-dialogue-line span,
+.mml-refreshed .mml-contrast small,
+.mml-refreshed .mml-level-row small,
+.mml-refreshed .mml-note,
+.mml-refreshed .mml-evidence li,
+.mml-refreshed .mml-evidence p,
+.mml-refreshed .mml-save-status,
+.mml-refreshed .mml-source,
+.mml-refreshed .mml-bar label{font-size:var(--mml-meta)!important;line-height:1.8}
+.mml-refreshed .mml-table-wrap table{font-size:1rem}
+.mml-refreshed .mml-table-wrap th,
+.mml-refreshed .mml-table-wrap td{padding:12px;line-height:1.75}
+.mml-refreshed .mml-flow span{font-size:1rem;min-height:46px;padding:9px 12px}
+.mml-refreshed .mml-level-row{padding:15px;gap:12px}
+.mml-refreshed .mml-level-row select{font-size:1rem;min-height:49px;width:min(100%,320px)}
+.mml-refreshed .mml-practice-options button{font-size:1.0625rem;min-height:54px;line-height:1.7;padding:14px;align-items:center}
+.mml-refreshed .mml-action-label{font-size:1.0625rem!important}
+.mml-refreshed .mml-action-label input,
+.mml-refreshed .mml-action-label textarea{font-size:1.0625rem;min-height:50px;line-height:1.75;padding:12px 14px}
+.mml-refreshed .mml-role-picker button,
+.mml-refreshed .mml-layer-footer button,
+.mml-refreshed .mml-toolbar button,
+.mml-refreshed .mml-dialog button{font-size:1rem;min-height:48px;padding:10px 15px}
+.mml-refreshed .mml-toolbar{font-size:1rem;gap:9px}
+.mml-refreshed .mml-toolbar a{font-size:1.0625rem}
+.mml-refreshed .mml-skill strong{font-size:1.0625rem}
+.mml-refreshed .mml-skill p,
+.mml-refreshed .mml-skill span{font-size:1rem}
+.mml-refreshed .mml-skill small{font-size:var(--mml-meta);line-height:1.8}
+.mml-refreshed .mml-people span{font-size:var(--mml-meta);min-height:36px;display:inline-flex;align-items:center}
+.mml-refreshed .mml-dialogues li strong{font-size:1.0625rem}
+.mml-refreshed .mml-dialogues li small{font-size:var(--mml-meta);line-height:1.8}
+.mml-refreshed .mml-dialogues li p{font-size:1.0625rem!important;line-height:1.85}
+.mml-refreshed .course-session small{font-size:var(--mml-meta);line-height:1.8}
+.mml-refreshed .course-session strong{font-size:1.0625rem}
+.mml-refreshed .mml-bar>div{height:16px}
+.mml-refreshed .mml-more{margin:12px 0}
+.mml-refreshed .mml-toolbar,
+.mml-refreshed .mml-hub,
+.mml-refreshed .mml-layer{overflow-wrap:anywhere}
+@media(max-width:740px){
+  .mml-refreshed .mml-hub-head h1{font-size:2rem}
+  .mml-refreshed .mml-intro h2{font-size:1.375rem}
+  .mml-refreshed .mml-zone b{font-size:1.25rem}
+  .mml-refreshed .mml-zone p{font-size:1rem}
+  .mml-refreshed .mml-intro>img{max-width:34%;min-width:85px;max-height:154px}
+  .mml-refreshed .mml-toolbar a{width:auto;margin-inline-end:0;flex-basis:100%}
+  .mml-refreshed .mml-toolbar button{flex:1 1 auto;font-size:var(--mml-meta);min-width:0}
+  .mml-refreshed .mml-refreshed-view>.mml-layer{padding:17px}
+  .mml-refreshed .mml-level-row select{width:100%}
+}
+@media(max-width:380px){
+  .mml-refreshed .mml-zone{grid-template-columns:36px 1fr}
+  .mml-refreshed .mml-zone-icon{width:34px;height:34px}
+  .mml-refreshed .mml-intro>img{display:none}
+  .mml-refreshed .mml-contrast{grid-template-columns:1fr}
+}

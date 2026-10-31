@@ -117,3 +117,20 @@
 @media(prefers-reduced-motion:reduce){
  .mml-refreshed #course .mml-course-progress-track i{transition:none}
 }
+/* QA: minimum 44px interactive target areas on mobile and desktop. */
+.mml-refreshed .masthead .brand,
+.mml-refreshed .masthead .session-label{
+ display:inline-flex;
+ align-items:center;
+ min-height:46px;
+}
+.mml-refreshed .masthead .session-label{
+ padding:8px 12px;
+ border-radius:10px;
+ text-decoration:none;
+}
+.mml-refreshed .masthead .session-label:focus-visible,
+.mml-refreshed .masthead .brand:focus-visible{
+ outline:3px solid #b91c36;
+ outline-offset:3px;
+}

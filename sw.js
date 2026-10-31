@@ -1,30 +1,24 @@
-/* My Management Lab canonical root SW — public educational files only. */
-const CACHE="mml-root-20261031-v1";
+/* Canonical My Management Lab service worker: network-first updates, offline fallback. */
+const CACHE="mml-root-20261031-v2";
 const CORE=["./","./index.html","./manifest.webmanifest","./assets/my-management-lab.css","./assets/my-management-lab.js","./assets/vazirmatn.woff2","./app/icon.svg"];
 self.addEventListener("install",event=>{
-  event.waitUntil(caches.open(CACHE).then(cache=>Promise.all(CORE.map(url=>cache.add(url).catch(()=>null)))).then(()=>self.skipWaiting()));
+ event.waitUntil(caches.open(CACHE).then(cache=>Promise.all(CORE.map(u=>cache.add(u).catch(()=>null)))).then(()=>self.skipWaiting()));
 });
 self.addEventListener("activate",event=>{
-  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith("mml-root-")&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));
+ event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith("mml-root-")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
 });
 self.addEventListener("fetch",event=>{
-  if(event.request.method!=="GET")return;
-  const url=new URL(event.request.url);
-  if(url.origin!==self.location.origin)return;
-  if(event.request.mode==="navigate"){
-    event.respondWith(fetch(event.request).then(response=>{
-      if(response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy)).catch(()=>{});}
-      return response;
-    }).catch(async()=>await caches.match(event.request)||await caches.match("./index.html")));
-    return;
-  }
-  event.respondWith(caches.match(event.request).then(cached=>{
-    if(cached)return cached;
-    return fetch(event.request).then(response=>{
-      if(response.ok&&url.pathname.includes("/behparvar-leadership-lab/")){
-        const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy)).catch(()=>{});
-      }
-      return response;
-    });
-  }));
+ const req=event.request;
+ if(req.method!=="GET")return;
+ const url=new URL(req.url);
+ if(url.origin!==self.location.origin||!url.pathname.startsWith(new URL(self.registration.scope).pathname))return;
+ event.respondWith(fetch(req).then(response=>{
+   if(response.ok){const copy=response.clone();event.waitUntil(caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}));}
+   return response;
+ }).catch(async()=>{
+   const cached=await caches.match(req);
+   if(cached)return cached;
+   if(req.mode==="navigate"){const fallback=await caches.match("./index.html");if(fallback)return fallback;}
+   return Response.error();
+ }));
 });

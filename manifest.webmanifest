@@ -1,0 +1,25 @@
+{
+  "id": "./",
+  "name": "My Management Lab | آزمایشگاه مدیریت به‌پرور",
+  "short_name": "My Management Lab",
+  "description": "برنامه توسعه شایستگی‌های مدیران و سرپرستان به‌پرور؛ شش جلسه، دو مسیر، ارزیابی و تمرین عملی",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./#course",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "background_color": "#f6f7fb",
+  "theme_color": "#132c68",
+  "icons": [
+    {
+      "src": "./app/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

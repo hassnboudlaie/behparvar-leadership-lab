@@ -34,4 +34,18 @@ assert.ok(!html.includes("محتوای این بخش برای جلسه دوم ه
 const oldApp=read("app/index.html");
 assert.match(oldApp,/location\.replace\(url\.href\)/);
 assert.ok(!/<iframe/i.test(oldApp),"legacy app should not contain iframe");
+const manifest=JSON.parse(read("manifest.webmanifest"));
+assert.equal(manifest.display,"standalone");
+assert.equal(manifest.start_url,"./");
+for(const size of [192,512]){
+ const icon=fs.readFileSync(path.join(root,"icons/icon-"+size+".png"));
+ assert.equal(icon.subarray(1,4).toString("ascii"),"PNG");
+ assert.equal(icon.readUInt32BE(16),size);
+ assert.equal(icon.readUInt32BE(20),size);
+ assert.ok(manifest.icons.some(x=>x.src.includes("icon-"+size+".png")&&x.sizes===size+"x"+size),"missing manifest icon "+size);
+}
+assert.ok(html.includes('rel="apple-touch-icon"'),"iOS icon missing");
+assert.ok(html.includes('mml-readability.css'),"readable font stylesheet missing");
+assert.ok(read("assets/mml-readability.css").includes("--mml-reading:1.125rem"),"18px readable base missing");
+
 console.log("PASS: 6 sessions x 2 tracks, 3 capability zones, all saved-state keys, 42 routes, 3 existing photos, guided choices, old-app redirect.");

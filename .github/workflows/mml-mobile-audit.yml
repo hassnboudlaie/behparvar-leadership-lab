@@ -1,0 +1,68 @@
+name: My Management Lab — Mobile visual and PWA audit
+on:
+  push:
+    branches: [fix/mml-deep-mobile-audit-20261031, main]
+    paths:
+      - 'assets/**'
+      - 'app/**'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'tests/**'
+      - '.github/workflows/mml-mobile-audit.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/**'
+      - 'app/**'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'tests/**'
+      - '.github/workflows/mml-mobile-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  visual-mobile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium webkit
+      - name: Start local same-origin server
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/mml-server.log 2>&1 &
+          echo $! > /tmp/mml-server.pid
+          sleep 2
+          curl -fI http://127.0.0.1:8765/
+      - name: Audit mobile, tablet, desktop, local PWA
+        id: audit
+        continue-on-error: true
+        run: node tests/mobile-live-audit.cjs > /tmp/audit-verbose.log 2>&1
+      - name: WebKit Safari-engine layout audit
+        run: node tests/mml-webkit-audit.cjs
+      - name: Show compact audit and screenshots for review
+        if: always()
+        run: |
+          grep -E 'MML_SUMMARY|MML_RUN_REPORT|FAIL|Error|ERROR' /tmp/audit-verbose.log | cut -c 1-9000 || true
+          grep '^MML_SCREENSHOT_' /tmp/audit-verbose.log || true
+      - name: Upload screenshots and metrics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mml-mobile-visual-audit
+          path: |
+            audit-*.jpg
+            mml-audit-report.json
+            /tmp/audit-verbose.log
+          retention-days: 7
+      - name: Enforce audit pass
+        if: steps.audit.outcome != 'success'
+        run: exit 1

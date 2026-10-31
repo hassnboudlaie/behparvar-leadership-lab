@@ -111,7 +111,7 @@
     if(n===3)return '<div class="mml-visual-card"><h3>مثال عددی فرضی: عملکرد خط</h3><div class="mml-bar"><label>هدف تمرینی: ۸ ساعت آماده‌به‌کاری</label><div><span style="width:100%"></span></div></div><div class="mml-bar"><label>عملکرد فرضی: ۶ ساعت</label><div><span style="width:75%"></span></div></div><p>اختلاف: ۲ ساعت. عدد به‌تنهایی علت را نشان نمی‌دهد؛ توقف‌ها را بررسی کن.</p></div>';
     if(n===4)return '<div class="mml-contrast"><div><small>پیش از اصلاح</small><p>«تو همیشه بی‌دقتی!»</p></div><div><small>بعد از اصلاح</small><p>«مغایرت امروز در گزارش ثبت شد. چه چیزی پیش آمد؟»</p></div></div>';
     if(n===5)return '<div class="mml-flow"><span>نتیجه روشن</span><b>←</b><span>اختیار کافی</span><b>←</b><span>زمان بازبینی</span></div>';
-    return '<div class="mml-visual-card"><h3>نمونه ساده زنجیره ارزش</h3><div class="mml-flow"><span>نهاده و تأمین</span><b>←</b><span>تولید و پرورش</span><b>←</b><span>کنترل کیفیت</span><b>←</b><span>تحویل و مشتری</span></div><p>نقشه آموزشی وابستگی‌هاست، نه چارت رسمی شرکت. هر تصمیم واحد بر مرحله بعد اثر دارد.</p></div>';
+    return '<div class="mml-visual-card"><h3>زنجیره ارزش به‌پرور، در یک نگاه</h3><div class="mml-flow"><span>تأمین نهاده</span><b>←</b><span>مرغ مادر و تخم‌مرغ نطفه‌دار</span><b>←</b><span>جوجه‌کشی و جوجه یک‌روزه</span><b>←</b><span>پرورش گوشتی</span><b>←</b><span>کشتار و بسته‌بندی</span><b>←</b><span>توزیع و مشتری</span></div><p>نمای آموزشیِ ساده‌شده بر اساس حوزه‌های فعالیت عمومی گروه؛ نه چارت رسمی یا مسیر الزامی همه محصولات. کیفیت و ایمنی در تمام مراحل جریان دارند.</p></div>';
   }
 
   function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
@@ -162,7 +162,7 @@
       '<div class="mml-hint"><b>راهنما</b><p>اگر هنوز در این کار تجربه نداری، «تازه شروع کرده‌ام» را انتخاب کن. این ابزار برای شناخت نیاز یادگیری است، نه نمره دادن به افراد.</p></div>';
     }else if(partIndex===1){
       text=(n===1?'<details class="mml-script"><summary>گفت‌وگوی کامل پنج '+(role==="managers"?"مدیر":"سرپرست")+' را باز کن</summary>'+caseHTML()+'</details>':miniDialogue(n))+
-      '<div class="mml-hint"><b>تمرین دونفره · ۵ دقیقه</b><p>نفر اول نقش '+roleTerm()+' را اجرا می‌کند؛ نفر دوم لحن، گوش‌دادن و مشخص‌بودن قدم بعدی را مشاهده می‌کند. سپس نقش‌ها عوض شود.</p></div>';
+      '<div class="mml-hint"><b>تمرین دونفره · ۵ دقیقه</b><p>نفر اول نقش '+roleTerm()+' را اجرا می‌کند؛ نفر دوم لحن، گوش‌دادن و مشخص‌بودن قدم بعدی را مشاهده می‌کند. سپس نقش‌ها عوض شود.</p></div>'+'<details class="mml-observer"><summary>چک‌لیست ناظر · سه نکته</summary><label><input type="checkbox"> مسئله و رفتار مشخص بیان شد.</label><label><input type="checkbox"> طرف مقابل شنیده شد، بدون برچسب‌زنی.</label><label><input type="checkbox"> اقدام، مسئول و زمان بعدی روشن است.</label></details>';
     }else if(partIndex===2){
       text='<div class="mml-mini-lesson"><h3>یک نکته کاربردی</h3><p>'+esc(g.lesson)+'</p><h3>یک مثال از محیط کار</h3><p>'+esc(g.example)+'</p></div>'+sources(n);
     }else if(partIndex===3){
@@ -185,11 +185,12 @@
     return '<section class="mml-hub" aria-label="My Management Lab"><div class="mml-hub-head"><div><small>BEHPARVAR · LEARN BY DOING</small><h1>My Management Lab</h1><p>یادگیری مدیریت، از دل کار واقعی</p><span>خودم · دیگران · کسب‌وکار</span></div><img src="assets/behparvar-campus.webp" alt="نمای مجموعه به‌پرور" loading="lazy"></div>'+
     roleSwitcher()+zoneCards()+
     '<details class="mml-more"><summary>نقشه کامل ۱۲ شایستگی</summary><div class="mml-skills-grid">'+renderSkills(SKILLS.map(function(x){return x.id}))+'</div></details>'+
-    '<details class="mml-more"><summary>درباره مبنای آموزشی</summary><p>مبنای توسعه مهارت‌ها Whetten & Cameron و چارچوب تعریف شایستگی DDI است. از روش آموزش مرحله‌ای OpenLearn و تمرین همراه با بازخورد در Pearson MyLab Management نیز الهام گرفته‌ایم. مثال‌ها اصیل و متناسب با فضای به‌پرورند.</p><p>این مدل آموزشی است؛ برای ارزیابی رسمی سازمانی به تحلیل شغل و اعتبارسنجی نیاز دارد.</p></details></section>';
+    '<details class="mml-more"><summary>درباره مبنای آموزشی</summary><p>مبنای توسعه مهارت‌ها Whetten & Cameron و چارچوب تعریف شایستگی DDI است. از روش آموزش مرحله‌ای OpenLearn و تمرین همراه با بازخورد در Pearson MyLab Management نیز الهام گرفته‌ایم. مثال‌ها اصیل و متناسب با فضای به‌پرورند.</p><p>این مدل آموزشی است؛ برای ارزیابی رسمی سازمانی به تحلیل شغل و اعتبارسنجی نیاز دارد.</p></details>'+ 
+    '<details class="mml-more mml-upcoming"><summary>مربی مدیریت من · بزودی</summary><p>My AI Management Coach هنوز فعال نیست؛ در نسخه‌های بعدی می‌تواند برای تمرین گفت‌وگو و بازتاب تجربه به کار رود.</p></details></section>';
   }
   function sessionIntro(n){
     var c=PROGRAM[n-1],g=guide(n),img=n===2||n===3?"assets/feed-official.webp":n===6?"assets/production-official.webp":null;
-    return '<section class="mml-intro"><div class="mml-intro-text"><small>جلسه '+n+' · مسیر '+esc(roleName())+'</small><h2>'+esc(c.name)+'</h2><p>'+esc(g.lesson)+'</p><div class="mml-competency-tags">'+c.ids.map(function(id){return '<span>'+esc(item(id).fa)+'</span>'}).join("")+'</div></div>'+(img?'<img src="'+img+'" alt="فضای تولید و عملیات مرتبط با زنجیره فعالیت به‌پرور" loading="lazy">':"")+'</section>';
+    return '<section class="mml-intro"><div class="mml-intro-text"><small>جلسه '+n+' · مسیر '+esc(roleName())+'</small><h2>'+esc(c.name)+'</h2><p>'+esc(g.lesson)+'</p><div class="mml-competency-tags">'+c.ids.map(function(id){return '<span>'+esc(item(id).fa)+'</span>'}).join("")+'</div><a class="mml-switch" href="#course">تغییر مسیر</a></div>'+(img?'<img src="'+img+'" alt="فضای تولید و عملیات مرتبط با زنجیره فعالیت به‌پرور" loading="lazy">':"")+'</section>';
   }
   function renderPassport(){
     var done=previous.done.filter(function(x){return x.indexOf(role+":")===0}),stars=previous.starred.filter(function(x){return x.indexOf(role+":")===0});
@@ -235,7 +236,7 @@
         var a=b.dataset.mmlChoice.split(":"),n=Number(a[0]),choice=Number(a[1]);
         if(!lab.choices)lab.choices={};lab.choices[role+":"+n]=choice;saveLab();
         var container=b.closest("[data-mml-practice]");container.querySelectorAll("[data-mml-choice]").forEach(function(el){el.setAttribute("aria-pressed",String(el===b))});
-        var f=container.querySelector(".mml-practice-feedback");f.hidden=false;f.textContent=guide(n).feedback[choice];return;
+        var f=container.querySelector(".mml-practice-feedback");f.hidden=false;f.innerHTML="<p>"+esc(guide(n).feedback[choice])+"</p><p><strong>یک جمله کاربردی:</strong> «"+esc(guide(n).better)+"»</p>";return;
       }
     });
     document.addEventListener("change",function(e){
@@ -272,6 +273,7 @@
       PARTS.forEach(function(p,i){
         var view=document.getElementById(n===1?p:"session"+n+"-"+p);
         if(!view)return;
+        view.setAttribute("aria-label",TITLES[i]+" · جلسه "+n);
         var node=document.createElement("div");node.innerHTML=renderSection(n,i);
         var hd=view.querySelector(".page-heading, header");
         if(hd)hd.insertAdjacentElement("afterend",node.firstElementChild);else view.insertBefore(node.firstElementChild,view.firstChild);
@@ -287,6 +289,7 @@
       });
     }
     buildToolbar();wire();
+    if(!location.hash||location.hash==='#course')requestAnimationFrame(function(){window.scrollTo({top:0,behavior:'auto'})});
     if(installed){var b=document.getElementById("mmlInstall");if(b)b.textContent="نصب شده"}
   }
   

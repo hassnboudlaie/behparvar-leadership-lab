@@ -29,9 +29,11 @@ async function run(){
  await page.goto(base,{waitUntil:"load"});
  await page.waitForSelector("#course .course-session.mml-course-tile",{timeout:20000});
  await measure("mobile landing: 6 course cards",async()=>assert.equal(await page.locator("#course .course-session.mml-course-tile").count(),6));
- await measure("mobile RTL and guided learning cycle",async()=>{
+ await measure("mobile RTL, concise course home and no extra toolbar",async()=>{
   assert.equal(await page.locator("html").getAttribute("dir"),"rtl");
-  assert.equal(await page.locator("#course .mml-study-guide .mml-study-step").count(),3);
+  assert.equal(await page.locator("#course .mml-study-guide").count(),0);
+  assert.equal(await page.locator(".mml-toolbar").count(),0);
+  assert.equal(await page.locator("#course .mml-more").count(),0);
   assert.ok(await page.locator("#course .mml-session-area").isVisible());
  });
  await page.screenshot({path:path.join(artifact,"mobile-home-390.png"),fullPage:true});

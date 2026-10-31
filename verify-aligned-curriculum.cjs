@@ -16,6 +16,9 @@ const context={
  localStorage:{getItem:k=>items.get(k)||null,setItem:(k,v)=>items.set(k,v)}
 };
 for(const n of ["lessons","data","ui"])vm.runInNewContext(code[n],context,{filename:n,timeout:4000});
+const cases={};vm.runInNewContext(read("assets/behparvar-cases-1-3.js"),cases,{timeout:4000});
+vm.runInNewContext(read("assets/behparvar-cases-4-6.js"),cases,{timeout:4000});
+context.window.BP_CASE_DATA=cases.BP_CASE_DATA;
 const library=context.window.MMLLessonLibrary,can=context.window.MMLAlignedData,ui=context.window.MMLAlignedUI;
 const PARTS=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
 assert.equal(can.sessions.length,6);
@@ -27,6 +30,9 @@ for(let n=1;n<=6;n++){
  const t=can.sessions[n-1],lesson=library.DATA[n-1];
  assert.equal(t.title,lesson.name,"Mismatch in canonical session "+n);
  assert.equal(t.quiz.length,3,"Quiz length for session "+n);
+ assert.ok(ui.render(n,"leaders","managers").includes("mml-align-book"),"Book illustration not mapped to session "+n);
+ assert.ok(ui.render(n,"leaders","managers").includes("برگرفته از"),"Book provenance not disclosed");
+
  for(const q of t.quiz){
    assert.equal(q.o.length,3);
    assert.equal(q.o.filter(v=>v[2]===1).length,1);

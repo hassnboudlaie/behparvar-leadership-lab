@@ -9,6 +9,7 @@ on:
       - 'assets/mml-*.css'
       - 'verify-mml-experience.js'
       - 'qa-mml-browser.cjs'
+      - 'verify-aligned-curriculum.cjs'
       - '.github/workflows/mml-ux-check.yml'
   workflow_dispatch:
 permissions:
@@ -23,7 +24,9 @@ jobs:
         with:
           node-version: '22'
       - name: Validate teaching library, routing, accessibility and state safety
-        run: node verify-mml-experience.js
+        run: |
+          node verify-mml-experience.js
+          node verify-aligned-curriculum.cjs
   browser-smoke:
     needs: source-regression
     runs-on: ubuntu-24.04

@@ -3,11 +3,11 @@
 (function(){
  "use strict";
  var sections=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
- var sectionNames=["سبک رهبری من","گفت‌وگوهای کاری","درس‌های رهبران","فنون رهبری اثربخش","تصاویر مدیریتی","بیماری‌های مدیریتی","کوییز پایانی"];
+ var sectionNames=["شناخت خود","گفت‌وگو و تمرین","نکته و مثال","روش کار","جدول و تصمیم","اشتباه‌های رایج","مرور و آزمون"];
  var sessionNames=["اول","دوم","سوم","چهارم","پنجم","ششم"];
  function modeName(partIndex,mode){
-   if(partIndex===6)return mode==="main"?"آزمون و محتوای اصلی":"برنامه اقدام من";
-   return mode==="main"?"محتوای اصلی و تمرین‌ها":"مرور سریع و تمرین هدایت‌شده";
+   if(partIndex===6)return mode==="main"?"آزمون و مرور":"اقدام من";
+   return mode==="main"?"محتوا و تمرین":"تمرین کوتاه";
  }
  function buildLessonSwitchers(){
    document.querySelectorAll(".mml-refreshed-view").forEach(function(view){
@@ -34,9 +34,9 @@
      var wrapper=document.createElement("div");
      wrapper.className="mml-view-switcher";
      wrapper.innerHTML='<h2 tabindex="-1">'+sectionNames[i]+'</h2>'+
-       '<p>جلسه '+sessionNames[n-1]+' · هر بخش را مستقل باز کنید؛ پاسخ‌ها و یادداشت‌های قبلی حفظ می‌شوند.</p>'+
+       
        '<div class="mml-mode-controls" role="group" aria-label="انتخاب نوع محتوا">'+
-       (lesson?'<button type="button" data-mode="lesson" aria-pressed="false">📘 درسنامه، جدول و نمودار</button>':"")+
+       (lesson?'<button type="button" data-mode="lesson" aria-pressed="false">درسنامه</button>':"")+
        '<button type="button" data-mode="main" aria-pressed="false">'+modeName(i,"main")+'</button>'+
        '<button type="button" data-mode="guided" aria-pressed="false">'+modeName(i,"guided")+'</button></div>';
      guided.parentNode.insertBefore(wrapper,lesson||guided);
@@ -75,7 +75,7 @@
    var area=document.createElement("section");
    area.className="mml-session-area";
    area.setAttribute("aria-label","شش جلسه دوره");
-   area.innerHTML='<div class="mml-session-heading"><h2>جلسات یادگیری</h2><p>از هر جلسه که نیاز دارید شروع کنید.</p></div>';
+   area.innerHTML='<div class="mml-session-heading"><h2>جلسات یادگیری</h2></div>';
    area.appendChild(grid);
    if(zone)zone.parentNode.insertBefore(area,zone);
    else if(role)role.insertAdjacentElement("afterend",area);

@@ -5,7 +5,7 @@
 var sources=global.MMLAlignedData&&global.MMLAlignedData.sessions;
 var library=global.MMLLessonLibrary;
 var PARTS=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
-var TITLES=["شناخت خود","گفت‌وگو و تمرین","نکته و مثال","روش کار","جدول و تصمیم","اشتباه‌های رایج","مرور و آزمون"];
+var TITLES=["شروع","گفت‌وگوی کاری","نکته مهم","راه‌حل","مقایسه دو روش","اشتباه رایج","آزمون و اقدام"];
 var NUM=["اول","دوم","سوم","چهارم","پنجم","ششم"];
 if(!sources||sources.length!==6||!library)throw Error("Aligned curriculum: missing source modules");
 function esc(x){return String(x==null?"":x).replace(/[&<>"']/g,function(ch){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]})}

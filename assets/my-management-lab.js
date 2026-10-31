@@ -185,11 +185,12 @@
     return '<section class="mml-hub" aria-label="My Management Lab"><div class="mml-hub-head"><div><small>BEHPARVAR · LEARN BY DOING</small><h1>My Management Lab</h1><p>یادگیری مدیریت، از دل کار واقعی</p><span>خودم · دیگران · کسب‌وکار</span></div><img src="assets/behparvar-campus.webp" alt="نمای مجموعه به‌پرور" loading="lazy"></div>'+
     roleSwitcher()+zoneCards()+
     '<details class="mml-more"><summary>نقشه کامل ۱۲ شایستگی</summary><div class="mml-skills-grid">'+renderSkills(SKILLS.map(function(x){return x.id}))+'</div></details>'+
-    '<details class="mml-more"><summary>درباره مبنای آموزشی</summary><p>مبنای توسعه مهارت‌ها Whetten & Cameron و چارچوب تعریف شایستگی DDI است. از روش آموزش مرحله‌ای OpenLearn و تمرین همراه با بازخورد در Pearson MyLab Management نیز الهام گرفته‌ایم. مثال‌ها اصیل و متناسب با فضای به‌پرورند.</p><p>این مدل آموزشی است؛ برای ارزیابی رسمی سازمانی به تحلیل شغل و اعتبارسنجی نیاز دارد.</p></details></section>';
+    '<details class="mml-more"><summary>درباره مبنای آموزشی</summary><p>مبنای توسعه مهارت‌ها Whetten & Cameron و چارچوب تعریف شایستگی DDI است. از روش آموزش مرحله‌ای OpenLearn و تمرین همراه با بازخورد در Pearson MyLab Management نیز الهام گرفته‌ایم. مثال‌ها اصیل و متناسب با فضای به‌پرورند.</p><p>این مدل آموزشی است؛ برای ارزیابی رسمی سازمانی به تحلیل شغل و اعتبارسنجی نیاز دارد.</p></details>'+ 
+    '<details class="mml-more mml-upcoming"><summary>مربی مدیریت من · بزودی</summary><p>My AI Management Coach هنوز فعال نیست؛ در نسخه‌های بعدی می‌تواند برای تمرین گفت‌وگو و بازتاب تجربه به کار رود.</p></details></section>';
   }
   function sessionIntro(n){
     var c=PROGRAM[n-1],g=guide(n),img=n===2||n===3?"assets/feed-official.webp":n===6?"assets/production-official.webp":null;
-    return '<section class="mml-intro"><div class="mml-intro-text"><small>جلسه '+n+' · مسیر '+esc(roleName())+'</small><h2>'+esc(c.name)+'</h2><p>'+esc(g.lesson)+'</p><div class="mml-competency-tags">'+c.ids.map(function(id){return '<span>'+esc(item(id).fa)+'</span>'}).join("")+'</div></div>'+(img?'<img src="'+img+'" alt="فضای تولید و عملیات مرتبط با زنجیره فعالیت به‌پرور" loading="lazy">':"")+'</section>';
+    return '<section class="mml-intro"><div class="mml-intro-text"><small>جلسه '+n+' · مسیر '+esc(roleName())+'</small><h2>'+esc(c.name)+'</h2><p>'+esc(g.lesson)+'</p><div class="mml-competency-tags">'+c.ids.map(function(id){return '<span>'+esc(item(id).fa)+'</span>'}).join("")+'</div><a class="mml-switch" href="#course">تغییر مسیر</a></div>'+(img?'<img src="'+img+'" alt="فضای تولید و عملیات مرتبط با زنجیره فعالیت به‌پرور" loading="lazy">':"")+'</section>';
   }
   function renderPassport(){
     var done=previous.done.filter(function(x){return x.indexOf(role+":")===0}),stars=previous.starred.filter(function(x){return x.indexOf(role+":")===0});
@@ -272,6 +273,7 @@
       PARTS.forEach(function(p,i){
         var view=document.getElementById(n===1?p:"session"+n+"-"+p);
         if(!view)return;
+        view.setAttribute("aria-label",TITLES[i]+" · جلسه "+n);
         var node=document.createElement("div");node.innerHTML=renderSection(n,i);
         var hd=view.querySelector(".page-heading, header");
         if(hd)hd.insertAdjacentElement("afterend",node.firstElementChild);else view.insertBefore(node.firstElementChild,view.firstChild);
@@ -287,6 +289,7 @@
       });
     }
     buildToolbar();wire();
+    if(!location.hash||location.hash==='#course')requestAnimationFrame(function(){window.scrollTo({top:0,behavior:'auto'})});
     if(installed){var b=document.getElementById("mmlInstall");if(b)b.textContent="نصب شده"}
   }
   

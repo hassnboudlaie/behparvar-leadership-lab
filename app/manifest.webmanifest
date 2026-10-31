@@ -1,27 +1,20 @@
 {
-  "id": "./",
-  "name": "مهارت‌های رهبری من | به‌پرور",
-  "short_name": "رهبری به‌پرور",
-  "description": "اپ مهارت‌های رهبری مدیران و سرپرستان به‌پرور",
+  "id": "../",
+  "name": "My Management Lab | به‌پرور",
+  "short_name": "My Management Lab",
+  "start_url": "../#course",
+  "scope": "../",
+  "display": "standalone",
   "lang": "fa",
   "dir": "rtl",
-  "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#f5f7fb",
-  "theme_color": "#122d60",
+  "theme_color": "#132c68",
+  "background_color": "#f6f7fb",
   "icons": [
     {
-      "src": "./icon.svg",
+      "src": "../app/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
-    },
-    {
-      "src": "https://behparvar.com/wp-content/uploads/2025/06/logo.png",
-      "sizes": "any",
-      "type": "image/png",
-      "purpose": "any"
     }
   ]
 }

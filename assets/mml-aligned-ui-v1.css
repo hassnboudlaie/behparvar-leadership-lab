@@ -123,3 +123,18 @@
   clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;
  }
 }
+
+/* Optional book story stays collapsed; supports depth without interface clutter. */
+.mml-refreshed .mml-align-book{
+ margin:14px 0;border:1px solid #dce6ef;border-radius:12px;
+ background:#f8fafd;padding:8px 14px;color:#273f5b;
+}
+.mml-refreshed .mml-align-book summary{
+ cursor:pointer;color:#173c70;font-size:16px;font-weight:750;
+ line-height:1.8;padding:7px 0;min-height:44px;
+}
+.mml-refreshed .mml-align-book summary:focus-visible{
+ outline:3px solid #b91c36;outline-offset:2px;
+}
+.mml-refreshed .mml-align-book>div{border-top:1px solid #e1e8f0;margin-top:7px;padding-top:14px}
+.mml-refreshed .mml-align-book small{display:block;color:#60738a;font-size:14px;line-height:1.8}

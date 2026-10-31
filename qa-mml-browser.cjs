@@ -42,6 +42,14 @@ async function run(){
   await page.locator('#course .course-session[data-course-session="4"]').click();
   await page.waitForSelector("#session4.view.active",{timeout:10000});
  });
+ await measure("session landing is one purpose and two clear role choices",async()=>{
+  const landing=page.locator("#session4 .mml-simple-session-home");
+  assert.ok(await landing.isVisible());
+  assert.equal(await landing.locator("h1").count(),1);
+  assert.equal(await landing.locator("[data-session-audience]").count(),2);
+  assert.ok(!await page.locator("#session4 .session-audience-picker").isVisible());
+ });
+ await page.screenshot({path:path.join(artifact,"mobile-session4-entry.png"),fullPage:false});
  await measure("mobile drawer is uncluttered and keyboard-accessible",async()=>{
   await page.locator("#sidebarToggle").click();
   assert.ok(await page.locator("body").evaluate(el=>el.classList.contains("sidebar-open")));

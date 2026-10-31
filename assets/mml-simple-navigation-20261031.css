@@ -1,0 +1,125 @@
+/* به‌پرور | Minimal Sidebar & Learning Home | October 2026
+   Simple visual hierarchy. Preserve 6×7 routes, focus/keyboard access, saved learner data. */
+.mml-refreshed #course .mml-hub-head{
+ grid-template-columns:1fr;min-height:0;margin-bottom:10px;
+ border-radius:18px;background:linear-gradient(105deg,#132c68,#175979);
+}
+.mml-refreshed #course .mml-hub-head>div{padding:18px 23px}
+.mml-refreshed #course .mml-hub-head h1{
+ margin:0 0 4px;font-size:clamp(1.72rem,4vw,2.22rem);line-height:1.35;
+}
+.mml-refreshed #course .mml-hub-head p{font-size:1rem;line-height:1.6;margin:0;color:#e6ecfa}
+.mml-refreshed #course .mml-role-picker{margin:9px 0 12px;gap:8px}
+.mml-refreshed #course .mml-role-picker button{
+ min-height:48px;box-shadow:none;font-size:1rem;padding:8px 14px;
+ border:1px solid #cfdbea;border-radius:12px;
+}
+.mml-refreshed #course .mml-session-area{margin:12px 0 16px}
+.mml-refreshed #course .mml-session-heading h2{font-size:1.25rem}
+.mml-refreshed #course .mml-resume{margin:9px 0;min-height:56px}
+.mml-refreshed .masthead .brand img{max-width:164px;width:auto;height:auto}
+.mml-refreshed .masthead .brand span{font-size:1rem}
+.mml-refreshed .masthead .session-label{white-space:nowrap}
+.mml-refreshed .audience-status{display:none!important}
+/* Desktop is a quiet study rail; the active item is the only strong accent. */
+.mml-refreshed .workshop-sidebar{
+ background:#fff;border:1px solid #dce5ef;color:#243b60;
+ border-radius:17px;box-shadow:0 6px 18px rgba(19,44,104,.055);
+ min-height:0;gap:9px;padding:12px 10px 12px;
+ scrollbar-color:#d1deef #fff;
+}
+.mml-refreshed .workshop-sidebar .sidebar-heading{
+ margin:0 0 4px;padding:13px 11px;border:0;border-radius:12px;
+ background:#132c68;align-items:center;min-height:85px;
+}
+.mml-refreshed .workshop-sidebar .sidebar-eyebrow{color:#dbe6fd;font-size:.85rem}
+.mml-refreshed .workshop-sidebar .sidebar-heading h2{
+ font-size:1.12rem;line-height:1.5;font-weight:800;color:#fff;margin:3px 0;
+}
+.mml-refreshed .workshop-sidebar .sidebar-audience{
+ color:#e1edff;font-size:.85rem;line-height:1.55;
+}
+.mml-refreshed .workshop-sidebar .site-nav{display:flex;flex-direction:column;gap:3px}
+.mml-refreshed .workshop-sidebar .site-nav a{
+ min-height:46px;background:#fff;color:#304360;
+ border:1px solid transparent;border-radius:10px;
+ padding:8px 9px;gap:10px;font-size:1rem;line-height:1.5;
+}
+.mml-refreshed .workshop-sidebar .site-nav a:hover{
+ background:#f3f6fc;color:#132c68;border-color:#dfe8f4;
+}
+.mml-refreshed .workshop-sidebar .site-nav a[aria-current="page"]{
+ background:#132c68;color:#fff;border-color:#132c68;font-weight:800;
+}
+.mml-refreshed .workshop-sidebar .sidebar-step{
+ background:#f1f5fb;color:#435b7e;border-color:#e0e9f3;
+ flex:0 0 29px;width:29px;height:29px;border-radius:8px;font-size:.88rem;
+}
+.mml-refreshed .workshop-sidebar .site-nav a[aria-current="page"] .sidebar-step{
+ background:#fff;color:#132c68;border-color:#fff;
+}
+.mml-refreshed .workshop-sidebar .sidebar-home{
+ display:flex;align-items:center;justify-content:flex-start;
+ min-height:45px;padding:8px 10px;margin:0;border-top:1px solid #e4eaf3;
+ color:#173866;gap:8px;font-size:.95rem;font-weight:700;border-radius:9px;
+}
+.mml-refreshed .workshop-sidebar .sidebar-home:hover{background:#f1f5fb}
+.mml-refreshed .workshop-sidebar .sidebar-course{border-top:0}
+.mml-refreshed .workshop-sidebar .sidebar-home>span{font-size:1.25rem}
+.mml-refreshed .workshop-sidebar .site-nav a:focus-visible,
+.mml-refreshed .workshop-sidebar .sidebar-home:focus-visible,
+.mml-refreshed .workshop-sidebar .sidebar-close:focus-visible{
+ outline:3px solid #b91c36;outline-offset:2px;
+}
+.mml-refreshed .workshop-sidebar .sidebar-close{
+ background:transparent;color:#fff;border:1px solid #ffffff88;
+ min-height:44px;
+}
+.mml-refreshed #sidebarToggle{
+ background:#132c68;min-height:54px;padding:7px 13px;
+ border-radius:12px;box-shadow:none;
+}
+.mml-refreshed #sidebarToggle small{font-size:.8rem;line-height:1.35;color:#dbe6f8}
+.mml-refreshed #sidebarToggle strong{font-size:1rem;line-height:1.5}
+.mml-refreshed #sidebarToggle .sidebar-menu-icon{font-size:1.3rem}
+.mml-refreshed #sidebarToggle .sidebar-menu-chevron{font-size:1.45rem}
+.mml-refreshed #sidebarToggle:focus-visible{outline:3px solid #b91c36;outline-offset:2px}
+.mml-refreshed .mml-view-switcher{padding:12px 14px;margin:7px 0 12px;box-shadow:none}
+.mml-refreshed .mml-view-switcher h2{font-size:1.2rem;margin:0 0 10px}
+.mml-refreshed .mml-view-switcher .mml-mode-controls button{
+ min-height:46px;padding:8px 10px;font-size:.95rem;
+}
+.mml-refreshed .mml-view-switcher .mml-mode-controls{gap:7px}
+.mml-refreshed #home .home-scene img{
+ max-height:175px;object-fit:cover;object-position:center;
+}
+.mml-refreshed #home .home-scene figcaption{display:none}
+.mml-refreshed #home .home-hero{margin-bottom:10px}
+.mml-refreshed #home .home-topline{margin-bottom:5px}
+.mml-refreshed #home .home-title{font-size:clamp(1.5rem,3vw,2rem)}
+@media(max-width:999px){
+ .mml-refreshed .workshop-sidebar{
+   position:fixed;inset:0 0 0 auto;width:min(315px,86vw);height:100dvh;
+   border-radius:0;border:0;z-index:80;
+   visibility:hidden;transform:translateX(105%);
+   padding:12px 10px max(16px,env(safe-area-inset-bottom));
+   box-shadow:-10px 0 30px rgba(13,28,57,.14);
+ }
+ .mml-refreshed.sidebar-open .workshop-sidebar{visibility:visible;transform:translateX(0)}
+ .mml-refreshed .masthead .brand>span{display:none}
+ .mml-refreshed .masthead .brand img{max-width:158px}
+ .mml-refreshed #home .home-scene img{max-height:130px}
+}
+@media(max-width:600px){
+ .mml-refreshed #course .mml-hub-head{border-radius:15px}
+ .mml-refreshed #course .mml-hub-head>div{padding:17px}
+ .mml-refreshed #course .mml-hub-head h1{font-size:1.65rem}
+ .mml-refreshed #course .mml-role-picker button{min-height:46px}
+ .mml-refreshed #course .course-session.mml-course-tile{min-height:138px}
+ .mml-refreshed #course .course-session.mml-course-tile small{font-size:.88rem}
+ .mml-refreshed #sidebarToggle{min-height:52px}
+}
+@media(max-width:355px){
+ .mml-refreshed .masthead .brand img{max-width:135px}
+ .mml-refreshed .masthead .session-label{font-size:.9rem}
+}

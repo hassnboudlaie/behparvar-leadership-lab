@@ -4,7 +4,7 @@
 (function () {
   "use strict";
   var PARTS=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
-  var TITLES=["وضعیت من","گفت‌وگوی کاری","نکته و مثال","راهنمای اجرا","تمرین تصمیم","خطاهای رایج","برنامه اقدام من"];
+  var TITLES=["شناخت خود","گفت‌وگو و تمرین","نکته و مثال","روش کار","جدول و تصمیم","اشتباه‌های رایج","مرور و آزمون"];
   var SKILLS=[
     {id:"planning",fa:"برنامه‌ریزی و سازماندهی",en:"Planning & Organizing",group:"مدیریتی",s:3,m:4,behavior:"هدف را به فعالیت، مسئول، منابع، موعد و شاخص تبدیل می‌کند.",evidence:"برنامه اجرایی با مالک اقدام و پایش پیشرفت"},
     {id:"coordination",fa:"هماهنگی بین‌واحدی",en:"Cross-functional Coordination",group:"سازمانی",s:3,m:4,behavior:"وابستگی‌های واحدها را قبل از تصمیم شناسایی و برای تحویل مشترک توافق ایجاد می‌کند.",evidence:"توافق بین‌واحدی با موعد و تعهدات روشن"},
@@ -140,7 +140,7 @@
   function renderFamilies(){return FAMILIES.map(function(f){return '<div class="mml-family"><strong>'+f[0]+'</strong><span>'+f[1]+'</span></div>'}).join("")}
   function changeRole(next){if(next===role)return;var u=new URL(location.href);u.searchParams.set("audience",next);location.assign(u.href)}
   function roleSwitcher(){
-    return '<div class="mml-role-picker" role="group" aria-label="مسیر آموزشی"><button type="button" data-mml-role="supervisors" aria-pressed="'+(role==="supervisors")+'">مسیر سرپرستان</button><button type="button" data-mml-role="managers" aria-pressed="'+(role==="managers")+'">مسیر مدیران</button></div>';
+    return '<div class="mml-role-picker" role="group" aria-label="مسیر آموزشی"><button type="button" data-mml-role="supervisors" aria-pressed="'+(role==="supervisors")+'">سرپرستان</button><button type="button" data-mml-role="managers" aria-pressed="'+(role==="managers")+'">مدیران</button></div>';
   }
   function renderSkills(ids){
     return ids.map(function(id){var s=item(id);return '<div class="mml-skill"><strong>'+esc(s.fa)+'</strong><small>'+esc(s.en)+' · '+esc(s.group)+'</small><p>'+esc(s.behavior)+'</p><span>شاهد عملکرد: '+esc(s.evidence)+'</span></div>'}).join("");
@@ -182,15 +182,15 @@
     return '<div class="mml-layer mml-module" data-mml-section="'+n+'-'+p+'"><div class="mml-layer-head"><small>جلسه '+n+' · '+esc(roleName())+'</small><h2>'+esc(TITLES[partIndex])+'</h2></div><div class="mml-body">'+text+'</div><div class="mml-layer-footer"><span>'+cfg.ids.map(function(id){return esc(item(id).fa)}).join(' · ')+'</span><button type="button" data-mml-complete="'+n+':'+p+'">✓ مرور شد</button></div></div>';
   }
   function courseOverview(){
-    return '<section class="mml-hub" aria-label="My Management Lab"><div class="mml-hub-head"><div><small>BEHPARVAR · LEARN BY DOING</small><h1>My Management Lab</h1><p>یادگیری مدیریت، از دل کار واقعی</p><span>خودم · دیگران · کسب‌وکار</span></div><img src="assets/behparvar-campus.webp" alt="نمای مجموعه به‌پرور" loading="lazy"></div>'+
-    roleSwitcher()+zoneCards()+
-    '<details class="mml-more"><summary>نقشه کامل ۱۲ شایستگی</summary><div class="mml-skills-grid">'+renderSkills(SKILLS.map(function(x){return x.id}))+'</div></details>'+
-    '<details class="mml-more"><summary>درباره مبنای آموزشی</summary><p>مبنای توسعه مهارت‌ها Whetten & Cameron و چارچوب تعریف شایستگی DDI است. از روش آموزش مرحله‌ای OpenLearn و تمرین همراه با بازخورد در Pearson MyLab Management نیز الهام گرفته‌ایم. مثال‌ها اصیل و متناسب با فضای به‌پرورند.</p><p>این مدل آموزشی است؛ برای ارزیابی رسمی سازمانی به تحلیل شغل و اعتبارسنجی نیاز دارد.</p></details>'+ 
-    '<details class="mml-more mml-upcoming"><summary>مربی مدیریت من · بزودی</summary><p>My AI Management Coach هنوز فعال نیست؛ در نسخه‌های بعدی می‌تواند برای تمرین گفت‌وگو و بازتاب تجربه به کار رود.</p></details></section>';
+    return '<section class="mml-hub" aria-label="My Management Lab">'+
+      '<div class="mml-hub-head"><div><h1>My Management Lab</h1><p>آموزش کاربردی مدیریت</p></div></div>'+
+      roleSwitcher()+'</section>';
   }
   function sessionIntro(n){
-    var c=PROGRAM[n-1],g=guide(n),img=n===2||n===3?"assets/feed-official.webp":n===6?"assets/production-official.webp":null;
-    return '<section class="mml-intro"><div class="mml-intro-text"><small>جلسه '+n+' · مسیر '+esc(roleName())+'</small><h2>'+esc(c.name)+'</h2><p>'+esc(g.lesson)+'</p><div class="mml-competency-tags">'+c.ids.map(function(id){return '<span>'+esc(item(id).fa)+'</span>'}).join("")+'</div><a class="mml-switch" href="#course">تغییر مسیر</a></div>'+(img?'<img src="'+img+'" alt="فضای تولید و عملیات مرتبط با زنجیره فعالیت به‌پرور" loading="lazy">':"")+'</section>';
+    var c=PROGRAM[n-1];
+    return '<section class="mml-intro"><div class="mml-intro-text">'+
+      '<small>جلسه '+n+' · '+esc(roleName())+'</small><h2>'+esc(c.name)+'</h2>'+
+      '</div></section>';
   }
   function renderPassport(){
     var done=previous.done.filter(function(x){return x.indexOf(role+":")===0}),stars=previous.starred.filter(function(x){return x.indexOf(role+":")===0});
@@ -288,9 +288,9 @@
         }
       });
     }
-    buildToolbar();wire();
+    wire();
     if(!location.hash||location.hash==='#course')requestAnimationFrame(function(){window.scrollTo({top:0,behavior:'auto'})});
-    if(installed){var b=document.getElementById("mmlInstall");if(b)b.textContent="نصب شده"}
+
   }
   
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();

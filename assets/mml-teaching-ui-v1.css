@@ -108,3 +108,9 @@
 .mml-edu-drama li p{margin:7px 0 0;font-size:17px!important;line-height:1.9}
 .mml-edu-drama aside{margin-top:16px}
 @media(max-width:750px){.mml-edu-drama{padding:12px}.mml-edu-drama li{padding:11px}.mml-edu-drama li p{font-size:16px!important}}
+
+/* Heading focus is set programmatically after route navigation; hide its decorative ring.
+   Interactive buttons and links retain visible focus outlines for keyboard navigation. */
+.mml-refreshed .mml-view-switcher h2[tabindex="-1"]:focus-visible{
+ outline:none;
+}

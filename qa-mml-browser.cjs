@@ -73,10 +73,10 @@ async function run(){
   const more=page.locator("#session4-m1 .mml-reader-more");
   assert.ok(await more.isVisible());
   assert.ok(!await more.locator(".mml-edu-panel").isVisible());
-  await more.locator("summary").click();
+  await more.locator(":scope > summary").click();
   assert.ok(await more.locator(".mml-edu-panel").isVisible());
   assert.ok(await more.locator("table").isVisible());
-  await more.locator("summary").click();
+  await more.locator(":scope > summary").click();
   assert.equal(await page.locator("#session4-m1 .mml-mode-controls").count(),0);
  });
  await measure("role play stays within the same work case",async()=>{

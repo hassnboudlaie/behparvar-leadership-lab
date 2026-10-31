@@ -1,6 +1,6 @@
-/* Read-only Chromium UI smoke test for My Management Lab.
+/* Isolated Chromium UI smoke test for My Management Lab.
    Run in CI with Playwright. Tests mobile homepage, session navigation, 3 learning modes, RTL.
-   Does not submit answers, reset learning data, or write app state. */
+   Uses a fresh local-only browser profile; test quiz choices write only to that profile. */
 "use strict";
 const fs=require("node:fs"),path=require("node:path"),http=require("node:http"),assert=require("node:assert/strict");
 const {chromium}=require("playwright");
@@ -76,6 +76,31 @@ async function run(){
   await page.locator('#session4-m1 [data-mode="lesson"]').click();
   assert.ok(await page.locator("#session4-m1 .mml-edu-panel").isVisible());
  });
+ await measure("session-specific role-play continues the same case",async()=>{
+  await page.evaluate(()=>document.querySelector('.site-nav [data-open="session4-m2"]').click());
+  await page.waitForSelector("#session4-m2.view.active");
+  await page.locator('#session4-m2 [data-mode="main"]').click();
+  const reader=page.locator("#session4-m2 .mml-aligned-panel");
+  assert.ok(await reader.isVisible());
+  assert.ok(await reader.getByText("اتفاق تازه").isVisible());
+  assert.ok(await reader.getByText("دور دوم", {exact:false}).first().isVisible());
+  assert.ok(await reader.locator(".mml-edu-drama li").count()>=5);
+  assert.ok(!await page.locator("#session4-m2 .mml-instructor-archive").isVisible());
+ });
+ await page.screenshot({path:path.join(artifact,"mobile-session4-roleplay.png"),fullPage:false});
+ await measure("quiz explains each wrong option individually and saves it",async()=>{
+  await page.evaluate(()=>document.querySelector('.site-nav [data-open="session4-quiz"]').click());
+  await page.waitForSelector("#session4-quiz.view.active");
+  const quiz=page.locator("#session4-quiz .mml-align-quiz");
+  await quiz.locator('[data-mml-align-choice="4:0:1:managers"]').click();
+  assert.equal(await quiz.locator(".mml-align-feedback li").count(),3);
+  assert.equal(await quiz.locator(".mml-align-feedback .is-incorrect").count(),2);
+  const explanations=await quiz.locator(".mml-align-feedback li p").allTextContents();
+  assert.equal(new Set(explanations).size,3);
+  const stored=await page.evaluate(()=>localStorage.getItem("mml_aligned_v1_managers_4"));
+  assert.ok(stored&&JSON.parse(stored).answers[0]===1);
+ });
+ await page.screenshot({path:path.join(artifact,"mobile-session4-quiz-feedback.png"),fullPage:false});
  await measure("mobile horizontal overflow",async()=>{
   const bounds=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:window.innerWidth}));
   assert.ok(bounds.scroll<=bounds.width+5,JSON.stringify(bounds));

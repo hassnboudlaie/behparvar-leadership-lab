@@ -73,6 +73,40 @@ Self-ratings are reflective prompts. They are **not** the DDI assessment, a norm
 
 Learning Passport = manual review history and bookmarks only. After-course development = simple individual action notes; not a centralized tracking system. Installing this PWA does not create accounts or synchronize across devices.
 
+## Beginner-friendly guided learning refresh — 2026-10-31
+
+**UX rule:** "Deep content, light screen." The learner sees one question, one grounded example, one short three-step guide and at most one small practice interaction at a time. Original teaching assets remain available in collapsed supplementary sections; do not remove existing notes or answers. Mobile-first and RTL remain mandatory.
+
+### Three primary user-facing development domains
+1. **خودم / Develop Self**: self-awareness, problem solving and professional judgment.
+2. **دیگران / Enable Others**: supportive communication, conflict management, delegation and developing colleagues.
+3. **کسب‌وکار / Improve the Business**: planning, cross-functional coordination, performance management, business acumen and continuous improvement.
+
+The prior six professional competency families remain available as internal taxonomy for HR/learning design, not as six equal top-level navigation items. Six sessions and seven clickable subsections in each are unchanged.
+
+### Verified Behparvar context, and evidence limits
+Public corporate description: Behparvar Industries Development and Expansion Company operates across the poultry meat production chain and associated investment, organization, management, commerce and services with over three decades of operations. See public company profile: https://www.linkedin.com/company/behparvargroup/ . The original site and repository include `assets/behparvar-campus.webp`, `assets/feed-official.webp` and `assets/production-official.webp` as contextual photographs; reuse these sparingly.
+Do **not** represent any invented product, cost, staffing, delivery, downtime, quality metric or organizational unit as verified Behparvar data. Learning scenarios are transparently fictional but faithful to the cross-functional problems inherent in poultry-chain operations. Quality, food safety, biosecurity and technical approval constraints always take precedence over schedule pressure.
+
+### Supplementary pedagogy sources (not copied content)
+- **Open University / OpenLearn**: `Managing and managing people` for transition into management, basic roles and limitations; `Effective communication in the workplace` and `Leadership and followership` for introductory bite-sized, approachable learning and reflection. https://www.open.edu/openlearn/money-business/leadership-management/managing-and-managing-people/content-section-0
+- **Pearson MyLab Management** (formerly associated with the label MyManagementLab): *Mini Sims*, reflective inventory, instant feedback and personalized study plans as product **pattern inspirations**, not as content/license. Official: https://www.pearson.com/en-gb/higher-education/products-services/mylab/mylab-management.html . No Pearson proprietary test, lesson, simulation, image, scoring rubric or copyrighted text is transplanted. The local name "My Management Lab" could be mistaken for Pearson's similarly named existing product; conduct trademark/branding clearance before commercial distribution, and do not suggest affiliation or endorsement.
+- Primary intellectual foundations remain Whetten & Cameron, *Developing Management Skills*, 8th ed. (2011): assessment → learning → analysis → practice → application; and DDI, *Learning and Assessment Links* (2015): job-relevant success profiles and observable competencies.
+
+### Changes included
+- Original novice-friendly examples: 12 role-sensitive mini lessons (`assets/mml-guided-lessons.js`), each with common mistake, improved example, three steps, a three-option decision and immediate contextual feedback.
+- One short natural dialogue per lesson (12 total) including *tone*, body language and a more professional alternative; Session 1 retains the full five-person scripted roundtable as optional expanded content.
+- **Single entry dashboard** with three domain cards; the duplicate 6-session grid and bulky detail tiles are removed, with additional academic content in accordions.
+- Deliberate visual strategy: one existing corporate image on the dashboard, selected operating-context photos, one simple planning table (Session 2), illustrative performance bar chart clearly labeled **hypothetical** (Session 3), a realistic dialogue before/after (Session 4), a delegation sequence (Session 5), and a conceptual value-chain flow (Session 6).
+- **Guided IDP**: one action, when, evidence. Persist under existing `mml_competency_v1` without clearing previous behavior/action notes or root assessments.
+- Existing learning content moved into explicit, accessible `details` drawers and not deleted; the first-session triangle, the old quizzes, and note keys remain intact.
+- No login or back-end synching; browser-local data cannot be used for organizational certification.
+
+### Release gate
+Run `node tests/mml-guided-regression.cjs`, legacy `verify-six-sessions.js`, `verify-seven-structure.js`, and `verify-session-core.js`. The former expects a full visible view and the latter tests original navigation and data. Verify actual Android Chrome, Safari iOS and desktop manually after deployment. No learner should be told their behavioral competence is validated based solely on the app rating.
+
+---
+
 ## Release and validation checklist
 - [x] Source lessons kept as a canonical single root, app iframe retired via legacy redirect
 - [x] Deepened six-session/two-track content with behavioral statements, cases, scenarios, self-ratings and action notes

@@ -57,7 +57,7 @@
        view.classList.add("mml-tabbed","mml-simple-view");
        var header=document.createElement("header");
        header.className="mml-reader-heading";
-       header.innerHTML='<p class="mml-reader-where">جلسه '+sessionNames[n-1]+' · بخش '+(i+1)+' از ۷</p>'+
+       header.innerHTML='<p class="mml-reader-where">جلسه '+sessionNames[n-1]+' · بخش '+(i+1).toLocaleString("fa-IR")+' از ۷</p>'+
          '<h2 tabindex="-1">'+sectionNames[i]+'</h2>';
        guided.hidden=true;
        primary.hidden=false;primary.open=true;
@@ -151,6 +151,7 @@
  }
 
  function buildSimpleSessionHomes(){
+   if(new URLSearchParams(location.search).has("instructor"))return;
    var course=window.MMLAlignedData&&window.MMLAlignedData.sessions;
    if(!course||course.length!==6)return;
    var role=new URLSearchParams(location.search).get("audience");

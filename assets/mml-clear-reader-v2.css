@@ -1,0 +1,341 @@
+/* My Management Lab: clear first-time learner experience.
+   One learning route, large professional Persian type, a single primary task per screen.
+   Based on the best readable patterns used by the Alborz communication course.
+   Scoped to learner mode; instructor archive and existing data stay intact. */
+body.mml-refreshed.mml-beginner-mode{--mml-r-navy:#132c68;--mml-r-teal:#147c79;--mml-r-ink:#1b2f4d;background:#f5f7fa;color:var(--mml-r-ink)}
+body.mml-refreshed.mml-beginner-mode .wrap{max-width:1130px}
+body.mml-refreshed.mml-beginner-mode .mml-simple-view>.page-heading,
+body.mml-refreshed.mml-beginner-mode .mml-simple-view>.mml-layer,
+body.mml-refreshed.mml-beginner-mode .mml-simple-view>.mml-edu-panel,
+body.mml-refreshed.mml-beginner-mode .mml-simple-view>.mml-view-switcher,
+body.mml-refreshed.mml-beginner-mode .mml-simple-view>.module-nav{display:none!important}
+body.mml-refreshed.mml-beginner-mode .mml-simple-view>.mml-legacy{
+ padding:0!important;margin:0!important;border:none!important;background:transparent!important;
+ box-shadow:none!important;max-width:860px;width:100%;
+}
+body.mml-refreshed.mml-beginner-mode .mml-simple-view>.mml-legacy>summary{display:none!important}
+body.mml-refreshed.mml-beginner-mode .mml-simple-view>.mml-legacy>.mml-aligned-panel{
+ margin:0!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-heading{
+ max-width:860px;width:100%;margin:0 0 15px;padding:5px 3px 11px;
+ border-bottom:2px solid #dee7f0;
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-where{
+ font-size:17px!important;line-height:1.7!important;color:#526783!important;
+ font-weight:650;margin:0 0 5px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-heading h2{
+ font-size:32px!important;line-height:1.38!important;color:#142f68!important;
+ font-weight:850;letter-spacing:0;margin:0;outline:none;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main{
+ max-width:860px;width:100%;border:1px solid #dce5f0;border-radius:17px;
+ box-shadow:0 4px 16px rgba(19,44,104,.045);padding:22px 25px;
+ background:#fff;color:var(--mml-r-ink);font-size:20px!important;line-height:1.83!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main p,
+body.mml-refreshed.mml-beginner-mode .mml-align-context p,
+body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-drama li p,
+body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-align-twist p,
+body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-align-feedback li p{
+ font-size:20px!important;line-height:1.82!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main h3{
+ font-size:25px!important;line-height:1.45!important;color:#132c68!important;
+ margin-bottom:13px!important;font-weight:820;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main h4{
+ font-size:22px!important;line-height:1.5!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-context{
+ border:1px solid #dce5f0;border-right:5px solid #147c79;border-radius:14px;
+ background:#f4f8fc;padding:18px 21px;margin-bottom:22px!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-context>strong{
+ font-size:22px!important;font-weight:800;color:#132c68;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-skill{
+ align-items:start;background:#eaf4f3;border-right:4px solid #147c79;
+ padding:14px 17px;margin:0 0 20px;font-size:19px!important;
+ line-height:1.75!important;gap:3px 10px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-skill strong,
+body.mml-refreshed.mml-beginner-mode .mml-align-skill span{
+ font-size:19px!important;line-height:1.65!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main>section:not(:last-child){
+ border-bottom:1px solid #e9edf3;padding:0 0 20px;margin:0 0 22px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-bullets li{
+ font-size:19px!important;line-height:1.85!important;margin:7px 0;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-drama li strong{
+ font-size:19px!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-drama li small{
+ font-size:17px!important;line-height:1.75!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-quiz-bar{
+ font-size:20px!important;margin-bottom:15px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-quiz-bar strong{
+ font-size:20px!important;color:#16396c;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-quiz h4{
+ font-size:23px!important;font-weight:800;line-height:1.66!important;margin-bottom:16px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-options{gap:12px;margin-bottom:18px}
+body.mml-refreshed.mml-beginner-mode .mml-align-options button{
+ min-height:76px;padding:17px 16px;gap:14px;
+ border:1.6px solid #b8c8da;border-radius:14px;
+ color:#1f3554;font-size:20px!important;line-height:1.73!important;
+ box-shadow:none;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-options button span{
+ font-size:20px!important;line-height:1.75!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-options button>b{
+ height:36px;width:36px;min-width:36px;font-size:19px!important;
+ border-radius:10px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-options button[aria-pressed="true"]{
+ background:#eaf5f3;border:2px solid #137c79;padding:16px 15px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-feedback{
+ background:#f7fafc;border:1px solid #cbd9e9;
+ border-right:5px solid #147c79;padding:17px 18px;margin:16px 0;border-radius:14px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-feedback>strong{
+ font-size:21px!important;font-weight:800;color:#153c74;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-feedback>p{
+ font-size:18px!important;line-height:1.7!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-feedback li{
+ padding:12px 0 12px 12px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-feedback li b{
+ font-size:19px!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-quiz-nav{gap:12px;margin-top:20px}
+body.mml-refreshed.mml-beginner-mode .mml-align-quiz-nav button{
+ min-height:58px;border-radius:13px;font-size:19px!important;
+ background:#f3f6fb;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-write label{
+ font-size:19px!important;line-height:1.6!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-write textarea{
+ min-height:115px;font-size:20px!important;line-height:1.85!important;
+ border-radius:13px;padding:15px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-write small{display:none}
+body.mml-refreshed.mml-beginner-mode .mml-align-process li{
+ min-height:105px;padding:13px 12px;border-radius:12px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-process li span{
+ font-size:19px!important;line-height:1.65!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-twist{
+ background:#fff8ed;border:1px solid #f0dbbc!important;
+ border-right:5px solid #b17c34!important;padding:17px 19px!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-more{
+ border:1px solid #d6e0ed;border-radius:13px;
+ margin:20px 0 0;background:#f9fbfe;padding:6px 14px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-more>summary{
+ cursor:pointer;list-style:revert;
+ font-size:19px!important;color:#173b76;font-weight:800;
+ min-height:56px;display:list-item;align-content:center;
+ padding:10px 6px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-more>.mml-edu-panel{
+ padding-top:12px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-more .mml-edu-lesson{
+ border:0!important;background:transparent!important;
+ padding:10px!important;margin:0!important;box-shadow:none!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-more .mml-edu-lesson p{
+ font-size:19px!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-navigation{
+ max-width:860px;display:flex;gap:12px;margin:19px 0 36px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-navigation a{
+ display:flex;justify-content:center;align-items:center;flex:1;
+ min-height:60px;border-radius:13px;padding:12px 16px;
+ border:1px solid #bacbdc;background:#fff;
+ color:#193e75;font-size:20px!important;font-weight:800;
+ text-align:center;text-decoration:none;
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-navigation .mml-reader-next{
+ background:#132c68;border-color:#132c68;color:#fff;
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-navigation a:focus-visible{
+ outline:3px solid #b91c36;outline-offset:3px;
+}
+/* A clear landing page for each of the six learning sessions. */
+body.mml-refreshed.mml-beginner-mode .mml-clean-landing>.mml-simple-session-home{display:block!important}
+body.mml-refreshed.mml-beginner-mode .mml-clean-landing> :not(.mml-simple-session-home){display:none!important}
+body.mml-refreshed.mml-beginner-mode .mml-simple-session-home{
+ max-width:810px;background:#fff;border:1px solid #dae4ef;
+ box-shadow:0 8px 24px rgba(19,44,104,.06);
+ border-radius:21px;padding:clamp(22px,4vw,36px);margin:24px auto 35px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-simple-session-home h1{
+ font-size:clamp(29px,3.3vw,36px);line-height:1.5;
+ color:#132c68;margin:7px 0 20px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-simple-session-home .mml-simple-goal{
+ font-size:22px!important;line-height:1.85!important;
+ border-right:5px solid #147c79;background:#edf7f6;border-radius:12px;
+ padding:15px 19px;margin:10px 0 26px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-simple-entry-actions{
+ display:grid;gap:12px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-simple-entry-actions>a,
+body.mml-refreshed.mml-beginner-mode .mml-simple-entry-actions .audience-entry,
+body.mml-refreshed.mml-beginner-mode .mml-simple-entry-actions .session-role-buttons button{
+ display:flex;align-items:center;justify-content:center;text-align:center;
+ min-height:65px;border-radius:13px;padding:14px 18px;
+ color:#173c70;border:1px solid #c0d0df;background:#fff;
+ text-decoration:none;font-size:21px!important;font-weight:800;
+}
+body.mml-refreshed.mml-beginner-mode .mml-simple-entry-actions .mml-reader-next,
+body.mml-refreshed.mml-beginner-mode .mml-simple-entry-actions .audience-entry:first-child{
+ background:#132c68;border-color:#132c68;color:#fff;
+}
+body.mml-refreshed.mml-beginner-mode .mml-simple-entry-actions .audience-grid,
+body.mml-refreshed.mml-beginner-mode .mml-simple-entry-actions .session-role-buttons{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;
+}
+body.mml-refreshed.mml-beginner-mode .mml-simple-entry-actions>h2{
+ font-size:22px;color:#132c68;margin-bottom:0;
+}
+/* Course home: readable session names, no tiny double-column cards. */
+body.mml-refreshed.mml-beginner-mode #course .course-sessions{gap:12px}
+body.mml-refreshed.mml-beginner-mode #course .course-session.mml-course-tile{
+ min-height:112px;box-shadow:0 3px 13px rgba(19,44,104,.045);
+}
+body.mml-refreshed.mml-beginner-mode #course .course-session.mml-course-tile strong{
+ font-size:22px!important;line-height:1.4!important;
+}
+body.mml-refreshed.mml-beginner-mode #course .course-session.mml-course-tile small{
+ font-size:19px!important;line-height:1.5!important;
+}
+body.mml-refreshed.mml-beginner-mode #course .mml-session-heading h2{
+ font-size:27px!important;
+}
+body.mml-refreshed.mml-beginner-mode #course .mml-role-picker button{
+ font-size:19px!important;min-height:60px;
+}
+body.mml-refreshed.mml-beginner-mode #sidebarToggle{
+ min-height:68px;gap:13px;
+}
+body.mml-refreshed.mml-beginner-mode #sidebarToggle strong{
+ font-size:21px!important;line-height:1.5!important;
+}
+body.mml-refreshed.mml-beginner-mode #sidebarToggle small{
+ font-size:17px!important;
+}
+body.mml-refreshed.mml-beginner-mode .workshop-sidebar .site-nav a{
+ font-size:20px!important;min-height:62px;
+}
+body.mml-refreshed.mml-beginner-mode .workshop-sidebar .sidebar-heading h2{
+ font-size:23px!important;
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll table{
+ min-width:0;
+}
+@media(max-width:650px){
+ body.mml-refreshed.mml-beginner-mode .wrap{padding-inline:15px!important}
+ body.mml-refreshed.mml-beginner-mode #course .course-sessions{
+  display:grid;grid-template-columns:minmax(0,1fr)!important;gap:11px;
+ }
+ body.mml-refreshed.mml-beginner-mode #course .course-session.mml-course-tile{
+  min-height:100px!important;padding:17px 16px!important;
+  grid-template-columns:42px minmax(0,1fr)!important;
+ }
+ body.mml-refreshed.mml-beginner-mode #course .course-session.mml-course-tile strong{
+  font-size:22px!important;
+ }
+ body.mml-refreshed.mml-beginner-mode #course .course-session.mml-course-tile small{
+  font-size:19px!important;
+ }
+ body.mml-refreshed.mml-beginner-mode #course .mml-course-tile-icon{
+  width:42px;height:42px;font-size:23px;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-reader-heading{
+  margin:0 0 14px;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-reader-heading h2{
+  font-size:31px!important;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-reader-where{font-size:18px!important}
+ body.mml-refreshed.mml-beginner-mode .mml-align-main{
+  font-size:21px!important;padding:18px 16px;border-radius:15px;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-align-main p,
+ body.mml-refreshed.mml-beginner-mode .mml-align-context p,
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-drama li p,
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-align-feedback li p{
+  font-size:21px!important;line-height:1.85!important;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-align-main h3{font-size:25px!important}
+ body.mml-refreshed.mml-beginner-mode .mml-align-context>strong{font-size:23px!important}
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-align-options button,
+ body.mml-refreshed.mml-beginner-mode .mml-align-options button span{
+  font-size:21px!important;line-height:1.82!important;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-align-context{padding:16px 14px}
+ body.mml-refreshed.mml-beginner-mode .mml-align-quiz h4{font-size:23px!important}
+ body.mml-refreshed.mml-beginner-mode .mml-align-process{grid-template-columns:1fr!important}
+ body.mml-refreshed.mml-beginner-mode .mml-align-process li{
+  min-height:58px;display:flex;flex-direction:row;align-items:center;gap:12px;
+  justify-content:flex-start;text-align:right;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll{overflow:visible!important}
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll table{
+  display:block;min-width:0!important;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll thead{display:none}
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll tbody{
+  display:grid;gap:14px;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll tr{
+  display:block;background:#fff;border:1px solid #dce5f0;border-radius:12px;overflow:hidden;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll th,
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll td{
+  display:block;width:100%;min-width:0;white-space:normal;
+  border:0;border-bottom:1px solid #e3eaf2;
+  padding:13px;font-size:19px!important;line-height:1.8!important;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll td::before{
+  display:block;color:#62748b;font-weight:800;font-size:17px;
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll td:nth-of-type(1)::before{
+  content:"روش ضعیف";
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll td:nth-of-type(2)::before{
+  content:"روش بهتر";
+ }
+ body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-table-scroll td:last-child{border-bottom:0}
+ body.mml-refreshed.mml-beginner-mode .mml-simple-session-home{padding:21px 18px}
+ body.mml-refreshed.mml-beginner-mode .mml-simple-session-home h1{font-size:30px!important}
+ body.mml-refreshed.mml-beginner-mode .mml-simple-session-home .mml-simple-goal{font-size:21px!important}
+ body.mml-refreshed.mml-beginner-mode .mml-simple-entry-actions>a{min-height:67px}
+ body.mml-refreshed.mml-beginner-mode .mml-reader-navigation a{
+  min-height:65px;font-size:19px!important;
+ }
+ body.mml-refreshed.mml-beginner-mode #course .mml-hub-head h1{font-size:31px!important}
+ body.mml-refreshed.mml-beginner-mode #course .mml-hub-head p{font-size:19px!important}
+ body.mml-refreshed.mml-beginner-mode footer{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ body.mml-refreshed.mml-beginner-mode *{scroll-behavior:auto!important;transition:none!important}
+}

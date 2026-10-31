@@ -76,7 +76,7 @@ function sessionGuide(){
 }
 function refresh(){
  if(!document.body.classList.contains("mml-refreshed"))return;
- sessionCards();guide();sessionGuide();
+ sessionCards();
 }
 function init(){
  refresh();

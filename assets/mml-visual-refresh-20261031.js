@@ -188,6 +188,11 @@
      root.classList.add("mml-clean-landing");
    }
  }
+ function syncEntryChrome(){
+   var current=document.querySelector(".view.active");
+   document.body.classList.toggle("mml-session-entry-screen",
+     !!current&&current.classList.contains("mml-clean-landing"));
+ }
  function restoreHeadingFocus(){
    var title=document.querySelector(".view.active .mml-reader-heading h2, .view.active .mml-simple-session-home h1, .view.active .mml-view-switcher h2");
    if(title){title.focus({preventScroll:true})}
@@ -199,9 +204,10 @@
    cleanNavigation();
    buildLessonSwitchers();
    buildSimpleSessionHomes();
-   window.addEventListener("hashchange",function(){requestAnimationFrame(restoreHeadingFocus)});
+   syncEntryChrome();
+   window.addEventListener("hashchange",function(){requestAnimationFrame(function(){syncEntryChrome();restoreHeadingFocus()})});
    document.addEventListener("click",function(event){
-     if(event.target.closest("[data-open],.mml-resume"))requestAnimationFrame(restoreHeadingFocus);
+     if(event.target.closest("[data-open],.mml-resume"))requestAnimationFrame(function(){syncEntryChrome();restoreHeadingFocus()});
    });
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);

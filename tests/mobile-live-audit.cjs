@@ -27,7 +27,7 @@ const assert=require('node:assert/strict');
      const els=[...document.querySelectorAll('.mml-hub h1,.mml-zone b,.mml-zone p,.mml-zone small,.mml-toolbar button,.mml-intro p,.mml-layer p,.course-session strong,.course-session small')].filter(visible);
      const missingImages=[...document.querySelectorAll('img')].filter(x=>visible(x)&&!x.complete||visible(x)&&x.naturalWidth===0).map(x=>x.src.slice(-100));
      const smallButtons=[...document.querySelectorAll('button,a,select,summary')].filter(visible).filter(x=>x.getBoundingClientRect().height<44).slice(0,20).map(info);
-     return {viewport:{w:innerWidth,h:innerHeight},scrollWidth:document.documentElement.scrollWidth,bodyWidth:document.body.scrollWidth,overflow:Math.max(0,document.documentElement.scrollWidth-innerWidth),fonts:els.slice(0,26).map(info),smallButtons,missingImages,role:document.querySelector('.mml-role-picker button[aria-pressed="true"]')?.textContent.trim(),zones:[...document.querySelectorAll('.mml-zone b')].map(x=>x.textContent.trim()),sessionTiles:[...document.querySelectorAll('#course [data-course-session]')].length};
+     return {viewport:{w:innerWidth,h:innerHeight},scrollY:Math.round(scrollY),scrollWidth:document.documentElement.scrollWidth,bodyWidth:document.body.scrollWidth,overflow:Math.max(0,document.documentElement.scrollWidth-innerWidth),fonts:els.slice(0,26).map(info),smallButtons,missingImages,role:document.querySelector('.mml-role-picker button[aria-pressed="true"]')?.textContent.trim(),zones:[...document.querySelectorAll('.mml-zone b')].map(x=>x.textContent.trim()),sessionTiles:[...document.querySelectorAll('#course [data-course-session]')].length};
    });
    await page.screenshot({path:'audit-'+cfg.name+'-home.jpg',type:'jpeg',quality:70});
    if(cfg.name==='android-a55')console.log('MML_SCREENSHOT_HOME='+fs.readFileSync('audit-'+cfg.name+'-home.jpg').toString('base64'));
@@ -55,8 +55,22 @@ const assert=require('node:assert/strict');
    await page.reload({waitUntil:'domcontentloaded'});
    await page.waitForTimeout(350);
    const persisted=await page.locator('#session4-quiz [data-mml-action="4"]').inputValue().catch(()=>null);
+   // Check that the responsive role switch produces different manager content.
+   const managerURL=new URL(base);managerURL.searchParams.set('audience','managers');managerURL.hash='session2-m1';
+   await page.goto(managerURL.toString(),{waitUntil:'domcontentloaded'});await page.waitForTimeout(150);
+   const managerContent=await page.locator('#session2-m1 .mml-layer .mml-body').textContent();
+   const managerDistinct=managerContent.includes('مدیر')&&managerContent.includes('شاخص')||managerContent.includes('داده')||managerContent.includes('واحد');
+   // Service Worker should support return visits when the network drops.
+   let offline={tested:false};
+   try{
+     await page.evaluate(()=>navigator.serviceWorker.ready);
+     await context.setOffline(true);
+     await page.reload({waitUntil:'domcontentloaded',timeout:20000});
+     await page.waitForTimeout(120);
+     offline={tested:true,appShell:await page.locator('.mml-toolbar').count()>0,lesson:await page.locator('#session2-m1 .mml-layer').count()>0,origin:page.url()};
+   }catch(e){offline={tested:true,error:String(e)}}finally{await context.setOffline(false)}
    const manifest=await page.evaluate(async()=>{const a=document.querySelector('link[rel="manifest"]');if(!a)return null;let r=await fetch(a.href);return {href:a.href,status:r.status,manifest:await r.json().catch(()=>null),serviceWorker:'serviceWorker' in navigator,controller:!!navigator.serviceWorker.controller,displayStandalone:matchMedia('(display-mode:standalone)').matches}});
-   const run={name:cfg.name,http:response?.status(),...metrics,routeCount,missingRoutes,routeFont,practice,persisted,manifest:{status:manifest?.status,href:manifest?.href,serviceWorker:manifest?.serviceWorker,controller:manifest?.controller,displayStandalone:manifest?.displayStandalone},errors};
+   const run={name:cfg.name,http:response?.status(),...metrics,routeCount,missingRoutes,routeFont,practice,persisted,managerDistinct,offline,manifest:{status:manifest?.status,href:manifest?.href,serviceWorker:manifest?.serviceWorker,controller:manifest?.controller,displayStandalone:manifest?.displayStandalone},errors};
    report.runs.push(run);
    if(cfg.name==='android-a55')report.manifest=manifest;
    console.log('MML_RUN_REPORT '+JSON.stringify({...run,fonts:run.fonts.slice(0,9),smallButtons:run.smallButtons.slice(0,8),errors:run.errors.slice(0,12)}));
@@ -73,6 +87,6 @@ const assert=require('node:assert/strict');
  await context.close();await browser.close();
  fs.writeFileSync('mml-audit-report.json',JSON.stringify(report,null,2));
  console.log('MML_SUMMARY '+JSON.stringify({configs:report.runs.length,routes:report.runs.map(r=>r.routeCount),horizontalOverflow:report.runs.map(r=>r.overflow),errors:report.runs.map(r=>r.errors.length),persisted:report.runs.map(r=>r.persisted),installabilityErrors:report.installability?.errors||report.installabilityError}));
- const failed=report.runs.some(r=>r.routeCount!==42||r.overflow>8||r.errors.length>0||r.persisted!=='QA mobile saved plan');
+ const failed=report.runs.some(r=>r.routeCount!==42||r.overflow>8||r.errors.length>0||r.persisted!=='QA mobile saved plan'||!r.managerDistinct||!r.offline?.appShell);
  if(failed){console.error('FAIL: mobile audit functional or layout thresholds exceeded');process.exitCode=1;}
 })();

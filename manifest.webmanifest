@@ -2,10 +2,10 @@
   "id": "./",
   "name": "My Management Lab | آزمایشگاه مدیریت به‌پرور",
   "short_name": "My Management Lab",
-  "description": "برنامه توسعه شایستگی‌های مدیران و سرپرستان به‌پرور؛ شش جلسه، دو مسیر، ارزیابی و تمرین عملی",
+  "description": "My Management Lab به‌پرور: توسعه شایستگی‌های مدیران و سرپرستان با تمرین‌های کوتاه و راهنمای کاربردی",
   "lang": "fa",
   "dir": "rtl",
-  "start_url": "./#course",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "display_override": [

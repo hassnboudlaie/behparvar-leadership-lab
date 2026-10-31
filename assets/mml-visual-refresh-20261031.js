@@ -193,6 +193,7 @@
  }
  function init(){
    if(!document.body.classList.contains("mml-refreshed"))return;
+   document.body.classList.add(new URLSearchParams(location.search).has("instructor")?"mml-instructor-mode":"mml-beginner-mode");
    buildHome();
    cleanNavigation();
    buildLessonSwitchers();

@@ -1,0 +1,48 @@
+name: My Management Lab — learning experience QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'sw.js'
+      - 'assets/mml-*.js'
+      - 'assets/mml-*.css'
+      - 'verify-mml-experience.js'
+      - 'qa-mml-browser.cjs'
+      - '.github/workflows/mml-ux-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate teaching library, routing, accessibility and state safety
+        run: node verify-mml-experience.js
+  browser-smoke:
+    needs: source-regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install test-only browser dependencies
+        run: |
+          npm install --no-save --package-lock=false playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Mobile and desktop UX smoke tests
+        run: node qa-mml-browser.cjs
+      - name: Upload visual QA screenshots and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mml-visual-qa
+          path: qa-screenshots/
+          if-no-files-found: ignore

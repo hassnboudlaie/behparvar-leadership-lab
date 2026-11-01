@@ -18,8 +18,12 @@ jobs:
         run: |
           node --check assets/my-management-lab.js
           node --check assets/mml-guided-lessons.js
+          node --check assets/bp-competency-s2-data-20261101.js
+          node --check assets/bp-competency-path-20261101.js
       - name: Check content and data compatibility
-        run: node tests/mml-guided-regression.cjs
+        run: |
+          node tests/mml-guided-regression.cjs
+          node tests/bp-competency-regression.cjs
       - name: Existing six-session navigation regressions
         run: |
           node verify-six-sessions.js

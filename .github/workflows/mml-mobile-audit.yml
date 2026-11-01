@@ -50,6 +50,8 @@ jobs:
         run: node tests/mml-webkit-audit.cjs
       - name: Browser acceptance for practice-first learning
         run: node tests/bp-practice-browser.cjs
+      - name: Browser acceptance for deep session 2 roleplays
+        run: node tests/bp-session2-clinic-browser.cjs
       - name: Show compact audit and screenshots for review
         if: always()
         run: |

@@ -45,7 +45,8 @@ function modelLesson(){
  link("bp-c-families",'<span class="bp-c-symbol family">▦</span><strong>شش خانواده</strong><small>پشتوانه مدل</small>',"bp-c-tile")+'</nav>'+
  '<div class="bp-c-footline"><strong>مسیر آموزشی</strong><p>جلسه ۲: شناخت مدل ← جلسه ۳: خودم ← جلسه ۴ و ۵: دیگران ← جلسه ۶: نتایج.</p></div>'+
  roleSwitcher()+'<p class="bp-c-role-hint">'+summary(session.role)+'</p>'+
- '<div class="bp-c-actions">'+link("bp-c-test","🎯 آزمون تشخیصی","bp-c-primary")+
+ '<div class="bp-c-actions">'+link("bp-c-clinic-2","🎭 تمرین دونفره و چهارنفره","bp-c-primary")+
+ link("bp-c-test","🎯 آزمون تشخیصی","bp-c-secondary")+
  link("session2","↩ صفحه جلسه دوم","bp-c-secondary")+'</div>';
 }
 function domainPage(id,domain){
@@ -135,7 +136,8 @@ function updateLanding(){
    cards.setAttribute("aria-label","انتخاب بخش یادگیری جلسه");
    if(n===2){
     cards.innerHTML=link("bp-c-lesson",'<span>📖</span><strong>درسنامه و نمودار مدل</strong><small>سه حوزه و شش خانواده را کلیک کنید</small>',"bp-c-landing-card")+
-      link("bp-c-test",'<span>🎯</span><strong>آزمون موقعیت‌محور</strong><small>بانک جدا برای مدیران و سرپرستان</small>',"bp-c-landing-card")+
+      link("bp-c-clinic-2",'<span>🎭</span><strong>تمرین‌های دونفره و چهارنفره</strong><small>گفت‌وگو، تصمیم و بازخورد همتایان</small>',"bp-c-landing-card")+
+       link("bp-c-test",'<span>🎯</span><strong>آزمون موقعیت‌محور</strong><small>بانک جدا برای مدیران و سرپرستان</small>',"bp-c-landing-card")+
       link("bp-c-report",'<span>📊</span><strong>نتایج و پیشنهاد یادگیری</strong><small>بعد از پاسخ‌گویی فعال می‌شود</small>',"bp-c-landing-card");
    }else{
     cards.innerHTML=link("bp-c-focus-"+n,'<span>🧭</span><strong>شایستگی‌های این جلسه</strong><small>تعریف، سطوح خبرگی و مثال</small>',"bp-c-landing-card");
@@ -146,7 +148,7 @@ function updateLanding(){
    if(actions){
      actions.classList.add("bp-c-old-actions");
      const originalStart=actions.querySelector(".mml-reader-next");
-     if(originalStart)originalStart.textContent=n===2?"تمرین‌های تکمیلی برنامه‌ریزی و هماهنگی":"هفت بخش کاربردی جلسه";
+     if(originalStart)originalStart.textContent=n===2?"مطالب تکمیلی و آرشیوی جلسه دوم":"هفت بخش کاربردی جلسه";
    }
  }
  const oldPortal=document.getElementById("competencies");

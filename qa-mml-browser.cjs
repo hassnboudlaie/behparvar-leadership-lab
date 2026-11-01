@@ -54,6 +54,9 @@ async function run(){
   assert.equal(await page.locator('#bp-c-self [data-bp-skill]').count(),3);
   await page.locator('#bp-c-self [data-bp-skill="judgment"]').click();
   assert.ok(await page.locator('#bp-c-self #bp-c-skill-detail').isVisible());
+  assert.equal(await page.locator('#bp-c-self #bp-c-skill-detail .bp-c-levels li').count(),4);
+  assert.ok((await page.locator('#bp-c-self #bp-c-skill-detail').innerText()).includes("تعریف شایستگی"));
+  assert.ok(!(await page.locator('#bp-c-self #bp-c-skill-detail').innerText()).includes("شاهد عملکرد"));
   await page.locator('#bp-c-self [data-open="bp-c-lesson"]').first().click();
   await page.locator('#bp-c-lesson [data-open="bp-c-families"]').click();
   await page.waitForSelector('#bp-c-families.view.active');
@@ -100,35 +103,28 @@ async function run(){
 
  await page.locator('#welcome .bp-welcome-tile[data-open="competencies"]').click();
  await page.waitForSelector("#competencies.view.active");
- await measure("welcome competency route shows three domains",async()=>{
-  assert.equal(await page.locator("#competencies #bp-competency-map .bp-domain-card").count(),3);
-  assert.ok(await page.locator("#competencies .bp-domain-grid").isVisible());
+ await measure("home and competency model are dedicated separated screens",async()=>{
+  assert.equal(await page.locator('#competencies .bp-model-three a').count(),3);
+  assert.ok(await page.locator('#competencies .bp-model-three').isVisible());
+  assert.ok(!await page.locator('#course').isVisible());
+  assert.equal(await page.locator('#competencies .bp-domain-grid:visible').count(),0);
+  assert.ok(await page.locator('#bp-global-home').isVisible());
+  await page.locator('#competencies .bp-model-three [data-open="bp-c-others"]').click();
+  await page.waitForSelector('#bp-c-others.view.active');
+  assert.equal(await page.locator('#bp-c-others [data-bp-skill]').count(),4);
+  await page.locator('#bp-c-others [data-bp-skill="communication"]').click();
+  assert.equal(await page.locator('#bp-c-others .bp-c-levels li').count(),4);
+  await page.locator('#bp-global-home').click();
+  await page.waitForSelector('#welcome.view.active');
+  assert.ok(!await page.locator('#bp-global-home').isVisible());
+  await page.locator('#welcome .bp-welcome-tile[data-open="course"]').click();
+  await page.waitForSelector('#course.view.active');
+  assert.ok(!await page.locator('#course .bp-competency-map').isVisible());
+  assert.equal(await page.locator('#course .bp-course-emoji').count(),6);
+  assert.ok(await page.locator('#bp-global-home').isVisible());
  });
- await page.locator('#competencies .bp-inner-top [data-open="welcome"]').click();
- await page.waitForSelector("#welcome.view.active");
- await page.locator('#welcome .bp-welcome-tile[data-open="course"]').click();
- await page.waitForSelector("#course.view.active");
  await page.waitForSelector("#course .course-session.mml-course-tile",{timeout:20000});
  await measure("mobile landing: 6 course cards",async()=>assert.equal(await page.locator("#course .course-session.mml-course-tile").count(),6));
- await measure("three visible competency domains and six emoji session markers",async()=>{
-  const domains=page.locator("#course .bp-domain-card");
-  assert.equal(await domains.count(),3);
-  assert.deepEqual(await domains.locator(".bp-domain-name").allTextContents(),["خودم","دیگران","نتایج کسب‌وکار"]);
-  assert.equal(await page.locator("#course .bp-course-emoji").count(),6);
-  assert.ok(await page.locator("#course .bp-map-title").isVisible());
- });
- await measure("competency card expands four people skills and links to learning",async()=>{
-  const others=page.locator('[data-bp-domain="others"]');
-  await others.click();
-  assert.equal(await others.getAttribute("aria-expanded"),"true");
-  assert.ok(await page.locator("#bp-domain-details").isVisible());
-  assert.equal(await page.locator("#bp-domain-details .bp-skill").count(),4);
-  assert.equal(await page.locator('#bp-domain-details .bp-skill-link[href="#session4"]').count(),2);
-  assert.equal(await page.locator('#bp-domain-details .bp-skill-link[href="#session5"]').count(),2);
-  await others.click();
-  assert.equal(await others.getAttribute("aria-expanded"),"false");
-  assert.ok(!await page.locator("#bp-domain-details").isVisible());
- });
  await measure("mobile RTL, concise course home and no extra toolbar",async()=>{
   assert.equal(await page.locator("html").getAttribute("dir"),"rtl");
   assert.equal(await page.locator("#course .mml-study-guide").count(),0);

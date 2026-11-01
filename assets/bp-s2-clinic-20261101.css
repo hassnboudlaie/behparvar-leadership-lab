@@ -1,0 +1,93 @@
+/* Session two clinic - independent, accessible practice UI. */
+#bp-c-clinic-2{direction:rtl;color:#172f50;font-family:Vazirmatn,Tahoma,sans-serif}
+#bp-c-clinic-2 *{box-sizing:border-box;min-width:0}
+#bp-c-clinic-2 .bp-s2-root{max-width:1020px;margin:0 auto;padding:15px 4px 42px;font-size:21px;line-height:1.85}
+#bp-c-clinic-2 h1,#bp-c-clinic-2 h2,#bp-c-clinic-2 h3,#bp-c-clinic-2 h4{color:#122f61;line-height:1.48;font-weight:900;margin:10px 0 14px}
+#bp-c-clinic-2 h1{font-size:clamp(31px,4vw,43px)}
+#bp-c-clinic-2 h2{font-size:clamp(26px,3vw,32px)}
+#bp-c-clinic-2 h3{font-size:clamp(24px,3vw,30px)}
+#bp-c-clinic-2 h4{font-size:23px}
+#bp-c-clinic-2 p,#bp-c-clinic-2 li{font-size:21px;line-height:1.9}
+#bp-c-clinic-2 button,#bp-c-clinic-2 a,#bp-c-clinic-2 textarea{font-family:inherit}
+#bp-c-clinic-2 :is(button,a,summary,textarea):focus-visible{outline:4px solid #bd832c;outline-offset:3px}
+#bp-c-clinic-2 .bp-s2-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:4px 0 16px}
+#bp-c-clinic-2 .bp-s2-top a{font-size:19px;font-weight:900;color:#126779;text-decoration:none;padding:11px 15px;border:1px solid #d2e3e8;background:#fff;border-radius:12px}
+#bp-c-clinic-2 .bp-s2-hero{border-radius:23px;padding:clamp(23px,4vw,36px);background:linear-gradient(120deg,#132c68,#136e7a);color:#fff;margin-bottom:24px}
+#bp-c-clinic-2 .bp-s2-hero h1{color:#fff;margin:4px 0 10px}
+#bp-c-clinic-2 .bp-s2-hero p{color:#f1fafb;margin:6px 0 0;font-size:21px}
+#bp-c-clinic-2 .bp-s2-hero>span{font-weight:800;color:#b9f0ef;font-size:18px}
+#bp-c-clinic-2 .bp-s2-role-label{color:#0f7478;font-weight:800;margin:3px 0 17px}
+#bp-c-clinic-2 .bp-s2-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:18px 0 22px}
+#bp-c-clinic-2 .bp-s2-case-card{display:flex;flex-direction:column;align-items:flex-start;text-align:right;border:2px solid #d1e2e6;background:#fff;gap:12px;padding:23px 21px;border-radius:19px;min-height:200px;cursor:pointer;color:#203657}
+#bp-c-clinic-2 .bp-s2-case-card:hover{border-color:#168687;background:#f5fbfa}
+#bp-c-clinic-2 .bp-s2-chip{border-radius:10px;padding:6px 10px;background:#e7f5f3;color:#0e676d;font-size:18px;font-weight:800}
+#bp-c-clinic-2 .bp-s2-case-card strong{font-weight:900;color:#122f61;font-size:24px;line-height:1.55}
+#bp-c-clinic-2 .bp-s2-case-card>span:not(.bp-s2-chip){font-size:19px;line-height:1.6}
+#bp-c-clinic-2 .bp-s2-case-card small{font-size:18px;color:#486475}
+#bp-c-clinic-2 .bp-s2-facilitator{border:1px solid #d1e2e6;border-radius:14px;margin:12px 0;background:#fff;padding:0 17px}
+#bp-c-clinic-2 .bp-s2-facilitator summary{min-height:53px;padding:12px 5px;font-size:20px;color:#0c6168;font-weight:900;cursor:pointer}
+#bp-c-clinic-2 .bp-s2-links{display:flex;gap:12px;flex-wrap:wrap;margin:19px 0}
+#bp-c-clinic-2 .bp-s2-links a,#bp-c-clinic-2 .bp-s2-outlink{color:#135f76;background:#eaf5f7;border-radius:10px;padding:13px 16px;text-decoration:none;font-weight:900;font-size:19px}
+#bp-c-clinic-2 .bp-s2-notice{background:#fff;padding:26px;border-radius:17px;border:1px solid #dae7ee}
+#bp-c-clinic-2 .bp-s2-role-select{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+#bp-c-clinic-2 .bp-s2-role-select a{padding:16px;border:2px solid #c0e0e2;border-radius:13px;text-align:center;font-size:21px;font-weight:900;text-decoration:none;background:#f3faf9;color:#12666d}
+#bp-c-clinic-2 .bp-s2-topline{display:flex;flex-wrap:wrap;align-items:center;gap:15px;margin:0 0 18px}
+#bp-c-clinic-2 .bp-s2-back{background:#fff;border:1px solid #cfe0e8;border-radius:10px;color:#115c72;padding:12px 15px;font-size:19px;font-weight:900;cursor:pointer}
+#bp-c-clinic-2 .bp-s2-topline strong{font-size:22px;color:#112f61;flex:1 1 230px}
+#bp-c-clinic-2 .bp-s2-topline span{font-size:18px;color:#526977}
+#bp-c-clinic-2 .bp-s2-progress{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:22px}
+#bp-c-clinic-2 .bp-s2-progress button{border-radius:11px;padding:11px 7px;border:1px solid #d2e4e9;background:#fff;color:#274764;font-size:17px;line-height:1.45;min-height:70px;cursor:pointer;font-weight:800}
+#bp-c-clinic-2 .bp-s2-progress button small{display:block;font-size:18px;font-weight:900;color:#13818b}
+#bp-c-clinic-2 .bp-s2-progress button[aria-current="step"]{background:#135f70;border-color:#135f70;color:#fff}
+#bp-c-clinic-2 .bp-s2-progress button[aria-current="step"] small{color:#fff}
+#bp-c-clinic-2 button:disabled{cursor:not-allowed;opacity:.47}
+#bp-c-clinic-2 .bp-s2-body{background:#fff;border:1px solid #d6e4ed;border-radius:20px;padding:clamp(18px,3vw,29px);box-shadow:0 5px 22px rgba(18,39,78,.05)}
+#bp-c-clinic-2 .bp-s2-scene{padding:19px 20px;border-right:5px solid #157f82;border-radius:14px;background:#eef9f7;color:#223b54}
+#bp-c-clinic-2 .bp-s2-prompt{font-weight:800;color:#225478}
+#bp-c-clinic-2 .bp-s2-body section{margin:19px 0 26px}
+#bp-c-clinic-2 .bp-s2-muted{font-size:18px;color:#4d6375}
+#bp-c-clinic-2 .bp-s2-evidence ul{margin:10px 0 16px;padding-right:28px}
+#bp-c-clinic-2 .bp-s2-role>summary,#bp-c-clinic-2 .bp-s2-sample>summary,#bp-c-clinic-2 .bp-s2-evidence>details>summary,#bp-c-clinic-2 .bp-s2-map>summary{cursor:pointer;color:#104d6b;font-weight:900;font-size:21px;line-height:1.6;min-height:52px;padding:12px}
+#bp-c-clinic-2 .bp-s2-roles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#bp-c-clinic-2 .bp-s2-role,#bp-c-clinic-2 .bp-s2-evidence details,#bp-c-clinic-2 .bp-s2-sample,#bp-c-clinic-2 .bp-s2-map{margin:10px 0;border:1px solid #cddfe7;border-radius:14px;padding:0 13px;background:#f8fbfd}
+#bp-c-clinic-2 .bp-s2-role summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#bp-c-clinic-2 .bp-s2-role summary>span{display:grid;place-items:center;background:#16386b;color:white;border-radius:9px;width:35px;height:35px}
+#bp-c-clinic-2 .bp-s2-role summary strong{flex:1 1 155px}
+#bp-c-clinic-2 .bp-s2-role summary small{font-size:17px;font-weight:700;color:#447284}
+#bp-c-clinic-2 .bp-s2-role p{padding:0 8px 6px;font-size:20px}
+#bp-c-clinic-2 .bp-s2-speech{display:flex;flex-direction:column;gap:5px;margin:11px 0;padding:13px 17px;border-right:4px solid #17818c;border-radius:12px;background:#fff}
+#bp-c-clinic-2 .bp-s2-speech strong{font-size:19px;color:#124f71}
+#bp-c-clinic-2 .bp-s2-speech span{font-size:21px;line-height:1.85}
+#bp-c-clinic-2 .bp-s2-options{display:grid;gap:11px;margin:15px 0}
+#bp-c-clinic-2 .bp-s2-options button{display:flex;align-items:start;gap:13px;width:100%;padding:17px;border:2px solid #d1e0e9;border-radius:14px;color:#1c3a60;background:white;text-align:right;font-size:21px;line-height:1.85;cursor:pointer}
+#bp-c-clinic-2 .bp-s2-options button b{flex:none;border-radius:9px;padding:2px 12px;background:#e6f2f5;color:#12556b}
+#bp-c-clinic-2 .bp-s2-options button[aria-pressed="true"]{border-color:#13878c;background:#e9f7f4}
+#bp-c-clinic-2 .bp-s2-feedback{padding:20px;border-radius:14px;background:#f0f8f7;border-right:5px solid #138381;margin:19px 0}
+#bp-c-clinic-2 .bp-s2-feedback strong{color:#0f6669;font-size:21px}
+#bp-c-clinic-2 .bp-s2-feedback small{color:#54697a;font-size:18px;display:block}
+#bp-c-clinic-2 .bp-s2-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+#bp-c-clinic-2 .bp-s2-next{min-height:57px;padding:12px 20px;border:0;background:#13386b;color:white;font-size:21px;font-weight:900;border-radius:13px;cursor:pointer}
+#bp-c-clinic-2 .bp-s2-label{display:flex;flex-direction:column;gap:10px;font-size:21px;color:#193968;font-weight:800;margin:17px 0}
+#bp-c-clinic-2 textarea{width:100%;resize:vertical;min-height:108px;max-width:100%;border-radius:13px;border:2px solid #c3d8e4;padding:15px 17px;background:#fff;color:#183a60;font-size:20px;line-height:1.8;font-weight:500}
+#bp-c-clinic-2 .bp-s2-runbook{border-radius:16px;background:#eef7fb;padding:18px 23px;margin:17px 0}
+#bp-c-clinic-2 .bp-s2-runbook ol{padding-right:31px}
+#bp-c-clinic-2 .bp-s2-competency-tags{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+#bp-c-clinic-2 .bp-s2-competency-tags span{font-size:19px;color:#125773;padding:7px 11px;border-radius:10px;background:#dff1f5}
+#bp-c-clinic-2 .bp-s2-checks{display:grid;gap:10px}
+#bp-c-clinic-2 .bp-s2-checks label{display:flex;align-items:start;gap:13px;padding:12px;border:1px solid #d3e2ea;border-radius:11px;font-size:21px;line-height:1.65;cursor:pointer}
+#bp-c-clinic-2 .bp-s2-checks input{width:27px;height:27px;flex:none;accent-color:#147f84;margin-top:5px}
+#bp-c-clinic-2 .bp-s2-foot{font-size:18px;color:#526879}
+#bp-c-clinic-2 .bp-s2-status{min-height:25px;color:#0a7777;font-size:18px;margin:14px 0 0}
+@media(max-width:780px){
+ #bp-c-clinic-2 .bp-s2-root{padding:12px 0 27px}
+ #bp-c-clinic-2 .bp-s2-card-grid,#bp-c-clinic-2 .bp-s2-role-select,#bp-c-clinic-2 .bp-s2-roles{grid-template-columns:1fr}
+ #bp-c-clinic-2 .bp-s2-progress{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #bp-c-clinic-2 .bp-s2-progress button{min-height:62px;font-size:18px}
+ #bp-c-clinic-2 .bp-s2-hero{padding:23px 19px}
+ #bp-c-clinic-2 .bp-s2-body{padding:20px 14px}
+ #bp-c-clinic-2 .bp-s2-case-card{min-height:145px;padding:17px}
+ #bp-c-clinic-2 .bp-s2-next{width:100%}
+ #bp-c-clinic-2 .bp-s2-topline{gap:8px}
+ #bp-c-clinic-2 .bp-s2-speech span{font-size:21px}
+}
+@media(prefers-reduced-motion:reduce){#bp-c-clinic-2 *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

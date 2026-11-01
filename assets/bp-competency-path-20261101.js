@@ -189,17 +189,12 @@ function renderTest(){
  q.options.map((x,i)=>'<button type="button" data-bp-option="'+i+'" '+(answered?"disabled":"")+' class="'+(answered&&i===q.answer?"correct":answered&&i===a?"chosen":"")+'"><span>'+FA[i]+'</span><strong>'+esc(x)+'</strong></button>').join("")+
  '</div></div>';
  if(answered){
-   const success=a===q.answer;
-   html+='<section class="bp-c-feedback"><h3>'+(success?"✓ تحلیل انتخاب شما":"🔎 بازنگری انتخاب شما")+'</h3>'+
-   '<p>'+(!success?"انتخاب شما: "+FA[a]+"؛ ":"")+'مناسب‌ترین پاسخ آموزشی در این موقعیت: <strong>گزینه '+FA[q.answer]+'</strong>.</p>'+
-   '<p class="bp-c-answer-why">'+esc(q.reasons[q.answer])+'</p>'+
-   '<details><summary>چرا هر یک از چهار گزینه مناسب‌تر یا ضعیف‌تر است؟</summary>'+
-   q.reasons.map((x,i)=>'<div class="bp-c-feedback-line"><strong>گزینه '+FA[i]+(i===q.answer?" · مناسب‌تر":"")+'</strong><p>'+esc(x)+'</p></div>').join("")+
-   '</details></section>';
+   html+='<div class="bp-c-answer-saved"><strong>✓ پاسخ شما ثبت شد</strong>'+
+   '<p>پس از تکمیل همه ۱۲ سؤال، پاسخ مناسب‌تر و دلیل هر چهار گزینه در صفحه «مرور پاسخ‌ها» نمایش داده می‌شود.</p></div>';
  }
  html+='<div class="bp-c-actions">'+(answered?
    (session.step===11?link("bp-c-report","📊 مشاهده نتیجه نهایی","bp-c-primary"):'<button type="button" data-bp-next class="bp-c-primary">سؤال بعدی ←</button>'):
-   '<span class="bp-c-instruction-mini">یک گزینه را انتخاب کنید؛ پاسخ ثبت و تشریح نمایش داده می‌شود.</span>')+
+   '<span class="bp-c-instruction-mini">گزینه را انتخاب کنید؛ پاسخ ذخیره می‌شود و تحلیل پس از پایان آزمون باز خواهد شد.</span>')+
  link("bp-c-lesson","↩ درسنامه","bp-c-secondary")+'</div>';
  el.innerHTML=html;
 }
@@ -268,7 +263,13 @@ function report(){
 }
 function review(){
  const el=root("bp-c-review");if(!el)return;
- const role=session.quizRole||"supervisors",qs=D[role],responses=load(role).answers;
+ const role=session.quizRole||(["supervisors","managers"].find(r=>Object.keys(load(r).answers).length===12))||"supervisors",qs=D[role],responses=load(role).answers;
+ if(qs.filter(q=>Number.isInteger(responses[q.id])).length<12){
+   el.innerHTML=header("مرور پاسخ‌ها","برای مشاهده پاسخ‌های آموزشی ابتدا همه سؤال‌ها را تکمیل کنید.","bp-c-test")+
+   '<div class="bp-c-instructions"><h2>مرور پاسخ‌ها پس از آزمون فعال می‌شود</h2><p>تا پایان آزمون، گزینه درست نمایش داده نمی‌شود تا پاسخ‌های بعدی تحت تأثیر قرار نگیرند.</p>'+
+   link("bp-c-test","ادامه آزمون","bp-c-primary")+'</div>';
+   return;
+ }
  let h=header("مرور پاسخ‌ها و تشریح","هر سؤال را جداگانه باز کنید؛ پاسخ و علت هر گزینه قابل بررسی است.","bp-c-report","بازخورد آموزشی");
  h+='<div class="bp-c-review-list">'+qs.map((q,i)=>{
    const selected=responses[q.id],answered=Number.isInteger(selected);

@@ -48,6 +48,8 @@ jobs:
         run: node tests/mobile-live-audit.cjs > /tmp/audit-verbose.log 2>&1
       - name: WebKit Safari-engine layout audit
         run: node tests/mml-webkit-audit.cjs
+      - name: Browser acceptance for practice-first learning
+        run: node tests/bp-practice-browser.cjs
       - name: Show compact audit and screenshots for review
         if: always()
         run: |

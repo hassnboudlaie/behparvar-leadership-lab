@@ -549,6 +549,7 @@ function openView(requested,options={}){
  let id=routeAliases[requested]||requested;if(!Object.prototype.hasOwnProperty.call(viewNames,id))id='course';
  if(!audience&&isLessonView(id)){gatedEntry=true;pendingView=id;const number=sessionFor(id);id=number>1?'session'+number:'home';qs(number>1?'#session'+number+'Prompt':'#audiencePrompt').textContent='برای ورود به این بخش، ابتدا مدیران یا سرپرستان را انتخاب کنید.'}
  qsa('.view').forEach(v=>v.classList.toggle('active',v.id===id));currentView=id;
+ document.body.classList.toggle('bp-on-welcome',id==='welcome');
  document.body.classList.toggle('at-home',!isLessonView(id));
  const inWorkshop=!['welcome','competencies','scenarios','progress','guide','course'].includes(id);
  document.body.classList.toggle('in-workshop',inWorkshop);qs('#workshopLayout').classList.toggle('has-sidebar',inWorkshop);

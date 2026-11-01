@@ -168,6 +168,13 @@ async function run(){
  const desktop=await browser.newContext({viewport:{width:1366,height:900},deviceScaleFactor:1});
  const wide=await desktop.newPage();wide.on("pageerror",err=>errors.push(err.message));
  await wide.goto(base,{waitUntil:"load"});
+ await wide.waitForSelector("#welcome.view.active");
+ await measure("desktop welcome has five live destinations",async()=>{
+  assert.equal(await wide.locator("#welcome .bp-welcome-tile").count(),5);
+ });
+ await wide.screenshot({path:path.join(artifact,"desktop-welcome-1366.png"),fullPage:true});
+ await wide.locator('#welcome .bp-welcome-tile[data-open="course"]').click();
+ await wide.waitForSelector("#course.view.active");
  await wide.waitForSelector("#course .mml-course-tile");
  await wide.screenshot({path:path.join(artifact,"desktop-home-1366.png"),fullPage:true});
  await measure("desktop 6 course cards",async()=>assert.equal(await wide.locator("#course .mml-course-tile").count(),6));

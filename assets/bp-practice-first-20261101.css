@@ -1,0 +1,72 @@
+/* Behparvar · Practice-first learning panel · additive overrides.
+   Responsive, large type, Persian-first; no changes to old lesson layouts. */
+/* Existing beginner shell hides every sibling except its start card; reveal our approved practice panel. */
+body.mml-refreshed.mml-beginner-mode .view.mml-clean-landing > section.bp-practice{display:block!important;visibility:visible!important}
+.bp-practice{max-width:100%;margin:24px 0 26px;direction:rtl;text-align:right;color:#172b4e;font-family:Vazirmatn,Tahoma,sans-serif;font-size:21px;line-height:1.85}
+.bp-practice *{box-sizing:border-box;min-width:0}
+.bp-practice-shell{border:2px solid #d1e5e8;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 7px 24px rgba(18,43,78,.06)}
+.bp-practice-shell>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:20px 24px;background:linear-gradient(108deg,#123065,#147b80);color:#fff;cursor:pointer;font-weight:900;font-size:clamp(22px,3vw,28px);line-height:1.45}
+.bp-practice-shell>summary::-webkit-details-marker{display:none}
+.bp-practice-shell>summary:after{content:"⌄";font-weight:900;opacity:.95}
+.bp-practice-shell[open]>summary:after{transform:rotate(180deg)}
+.bp-practice-shell>summary small{font-weight:600;font-size:18px;color:#edf8f7}
+.bp-practice-inner{padding:22px 24px}
+.bp-practice-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 20px}
+.bp-practice-tabs button,.bp-practice-skills button{appearance:none;border:2px solid #d6e4eb;border-radius:14px;color:#123668;background:#f6fafb;min-height:64px;padding:12px 14px;text-align:center;font:800 21px/1.5 Vazirmatn,Tahoma,sans-serif;cursor:pointer}
+.bp-practice-tabs button[aria-pressed="true"],.bp-practice-skills button[aria-pressed="true"]{background:#13777d;color:#fff;border-color:#13777d}
+.bp-practice-tabs button:hover,.bp-practice-skills button:hover{border-color:#147b80}
+.bp-practice-tabs button:focus-visible,.bp-practice button:focus-visible,.bp-practice textarea:focus-visible,.bp-practice summary:focus-visible{outline:4px solid #c17a18;outline-offset:3px}
+.bp-practice-stage[hidden]{display:none!important}
+.bp-practice-step h3{font-size:clamp(24px,3vw,31px);line-height:1.5;color:#123065;margin:6px 0 14px;font-weight:900}
+.bp-practice-step h4{font-size:23px;color:#123065;line-height:1.5;margin:20px 0 10px}
+.bp-practice-step p,.bp-practice-step li{font-size:21px;line-height:1.9;margin:9px 0}
+.bp-practice-kicker{display:block;font-size:20px;font-weight:800;color:#116f78;margin:4px 0 8px}
+.bp-practice-context{padding:18px 20px;background:#f0f8f9;border-right:5px solid #14888a;border-radius:15px}
+.bp-practice-flow{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin:20px 0}
+.bp-practice-flow>span{flex:1 1 150px;border:1px solid #cddfe8;background:#f6f9fd;border-radius:13px;padding:12px;display:flex;gap:12px;align-items:center;min-height:65px}
+.bp-practice-flow b{display:grid;place-items:center;width:37px;height:37px;border-radius:10px;background:#143865;color:#fff;flex-shrink:0;font-size:18px}
+.bp-practice-flow strong{font-size:18px;line-height:1.5}
+.bp-practice-flow i{align-self:center;font-size:25px;font-style:normal;color:#187b7f}
+.bp-practice-options{display:grid;gap:12px}
+.bp-practice-options button{display:flex;align-items:flex-start;text-align:right;gap:13px;border-radius:15px;padding:17px 18px;min-height:70px;background:#fff;color:#173359;border:2px solid #cddde7;font:700 21px/1.85 Vazirmatn,Tahoma,sans-serif;cursor:pointer}
+.bp-practice-options button span{flex-shrink:0;border-radius:9px;background:#e6f0f7;color:#153b61;min-width:33px;text-align:center}
+.bp-practice-options button[aria-pressed="true"]{background:#e8f7f4;border-color:#128083}
+.bp-practice-feedback{margin:20px 0 6px;padding:20px 22px;border-right:5px solid #137d81;border-radius:16px;background:#f3faf8}
+.bp-practice-feedback h4{margin-top:0}
+.bp-practice-feedback strong{font-size:21px;color:#0f6870}
+.bp-practice-feedback small{display:block;font-size:17px;color:#3d5267;margin-top:12px}
+.bp-practice-next{display:inline-flex;margin-top:18px;border-radius:13px;background:#132f65;color:#fff;border:2px solid #132f65;padding:13px 25px;min-height:55px;font:800 21px Vazirmatn,Tahoma,sans-serif;cursor:pointer}
+.bp-practice-skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px;margin:10px 0 22px}
+.bp-practice-drama{padding:19px 21px;border:1px solid #d9e5ea;border-radius:19px;background:#fbfdfd}
+.bp-practice-drama h4{margin-top:8px}
+.bp-practice-weak{border:1px solid #eadbc8;background:#fff9f2;border-radius:15px;padding:14px 18px;margin:15px 0}
+.bp-speech{padding:12px 16px;border-right:4px solid #b5cbd9;background:#fff;border-radius:9px;margin:10px 0!important}
+.bp-speech strong{color:#124c73}
+.bp-practice-weak .bp-speech{border-right-color:#d6a04f}
+.bp-practice-better .bp-speech{border-right-color:#11878b}
+.bp-practice-drama details{margin:12px 0;background:#fff;border:1px solid #d7e5e9;border-radius:12px;padding:0 15px}
+.bp-practice-drama summary{cursor:pointer;font-size:21px;font-weight:900;color:#145b6d;min-height:54px;padding:11px 5px}
+.bp-practice-drama details>p,.bp-practice-drama details>ol,.bp-practice-better{padding:0 8px 12px}
+.bp-practice-drama ol{padding-right:30px}
+.bp-practice-action{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:17px 0}
+.bp-practice-action label{display:flex;flex-direction:column;gap:8px;font-size:21px;font-weight:800;color:#123865}
+.bp-practice-action textarea{display:block;resize:vertical;width:100%;border:2px solid #bbd2dc;border-radius:12px;padding:14px 16px;color:#182d46;background:#fff;font:500 21px/1.7 Vazirmatn,Tahoma,sans-serif}
+.bp-practice-footnote{font-size:17px!important;color:#536879}
+.bp-practice-save{min-height:23px;color:#0e7377;font-size:18px;margin:8px 0 0}
+.bp-practice-info{padding:20px;border-radius:14px;background:#f2f7fa}
+.bp-practice-info a{display:inline-block;color:#114f78;font-weight:900;padding:10px}
+@media(max-width:800px){
+ .bp-practice{font-size:21px;margin:18px 0}
+ .bp-practice-shell>summary{flex-direction:column;align-items:flex-start;font-size:23px;padding:17px 18px}
+ .bp-practice-shell>summary small{font-size:17px}
+ .bp-practice-inner{padding:17px 14px}
+ .bp-practice-tabs{grid-template-columns:1fr;gap:9px}
+ .bp-practice-tabs button{min-height:57px;text-align:right;padding-right:18px}
+ .bp-practice-action{grid-template-columns:1fr}
+ .bp-practice-flow{flex-direction:column}
+ .bp-practice-flow i{transform:rotate(-90deg);line-height:20px}
+ .bp-practice-options button{font-size:20px;padding:14px;min-height:66px}
+ .bp-practice-drama{padding:13px}
+ .bp-practice-skills{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.bp-practice *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}

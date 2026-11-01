@@ -1,0 +1,60 @@
+/* Browser-level practice workflow acceptance: additive; never touches shared learner records. */
+"use strict";
+const {chromium}=require("playwright");
+const assert=require("node:assert/strict");
+(async()=>{
+const browser=await chromium.launch({headless:true,args:["--no-sandbox"]});
+const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
+const errors=[];
+try {
+ const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,locale:"fa-IR"});
+ const page=await context.newPage();
+ page.on("pageerror",e=>errors.push(String(e)));
+ await page.goto(base+"?audience=supervisors",{waitUntil:"load"});
+ await page.locator('#welcome [data-open="course"]').click();
+ await page.locator('#course [data-course-session="4"]').click();
+ await page.locator("#session4.view.active").waitFor();
+ await page.locator("#bp-practice-4").waitFor();
+ const host=page.locator("#bp-practice-4");
+ await host.locator("summary").first().click();
+ await host.locator('[data-bp-scene-choice="4:0"]').waitFor({state:"visible"});
+ assert.match(await host.locator(".bp-practice-context").innerText(),/شیفت|گزارش/);
+ await host.locator('[data-bp-scene-choice="4:1"]').click();
+ assert.equal(await host.locator('.bp-practice-options [aria-pressed="true"]').count(),1);
+ assert.ok((await host.locator(".bp-practice-feedback").innerText()).includes("ریسک"));
+ await host.locator('[data-bp-practice-tab="4:dialogue"]').first().click();
+ await host.locator('[data-bp-dialogue-id="conflict"]').click();
+ assert.match(await host.locator(".bp-practice-drama").innerText(),/تولید|کیفیت/);
+ assert.equal(await host.locator(".bp-practice-weak .bp-speech").count(),2);
+ await host.locator(".bp-practice-drama details").nth(1).locator("summary").click();
+ assert.equal(await host.locator(".bp-practice-better .bp-speech").count(),6);
+ await host.locator('[data-bp-practice-tab="4:transfer"]').first().click();
+ await host.locator('[data-bp-practice-note="4:behavior"]').fill("سؤال باز پیش از قضاوت");
+ await host.locator('[data-bp-practice-note="4:opportunity"]').fill("تحویل شیفت بعدی");
+ const stateBefore=await page.evaluate(()=>JSON.parse(localStorage.getItem("bp_practice_action_v1_supervisors_session4")||"{}"));
+ assert.equal(stateBefore.behavior,"سؤال باز پیش از قضاوت");
+ assert.equal(stateBefore.opportunity,"تحویل شیفت بعدی");
+ await page.reload({waitUntil:"load"});
+ await page.locator("#bp-practice-4 summary").first().click();
+ await page.locator('#bp-practice-4 [data-bp-practice-tab="4:transfer"]').first().click();
+ assert.equal(await page.locator('[data-bp-practice-note="4:behavior"]').inputValue(),"سؤال باز پیش از قضاوت");
+ await page.goto(base+"?audience=managers",{waitUntil:"load"});
+ await page.locator('#welcome [data-open="course"]').click();
+ await page.locator('#course [data-course-session="4"]').click();
+ await page.locator("#session4.view.active").waitFor();
+ await page.locator("#bp-practice-4 summary").first().click();
+ assert.match(await page.locator("#bp-practice-4 .bp-practice-context").innerText(),/فروش|تولید|کیفیت/);
+ await page.locator('#bp-practice-4 [data-bp-practice-tab="4:transfer"]').first().click();
+ assert.equal(await page.locator('[data-bp-practice-note="4:behavior"]').inputValue(),"");
+ const old=await page.evaluate(()=>JSON.parse(localStorage.getItem("bp_practice_action_v1_supervisors_session4")||"{}"));
+ assert.equal(old.behavior,"سؤال باز پیش از قضاوت");
+ const routes=await page.evaluate(()=>{
+ const parts=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
+ return Array.from({length:6},(_,i)=>i+1).flatMap(n=>parts.map(p=>n===1?p:"session"+n+"-"+p)).filter(id=>!!document.getElementById(id)).length;
+ });
+ assert.equal(routes,42);
+ assert.deepEqual(errors,[]);
+ console.log("PASS practice browser: decision -> trade-off -> distinct roleplay -> 4-field action -> refresh persistence -> role separation; 42 routes; mobile 390px");
+ await context.close();
+} finally {await browser.close();}
+})().catch(e=>{console.error(e);process.exitCode=1});

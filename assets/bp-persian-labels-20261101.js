@@ -42,6 +42,9 @@ function update(){
  updates.forEach(([n,v])=>n.nodeValue=v);
 }
 function init(){
+ const home=document.getElementById("bp-global-home");
+ const masthead=document.querySelector("#app .masthead");
+ if(home&&masthead) masthead.appendChild(home);
  update();
  document.addEventListener("click",e=>{
   if(e.target.closest("[data-open],[data-bp-skill],[data-bp-family],[data-bp-role],[data-bp-next],[data-bp-option]"))requestAnimationFrame(update);

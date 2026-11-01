@@ -175,8 +175,7 @@ function init(){
   if(!["revised","learning","action"].includes(kind))return;
   const ok=update(r,selectedCase,kind,el.value.slice(0,kind==="revised"?1200:900));
   if(kind==="revised"){
-   const btn=document.querySelector("#"+ROOT_ID+' [data-s2-stage="rehearse"]');
-   if(btn)btn.disabled=el.value.trim().length<20;
+   document.querySelectorAll("#"+ROOT_ID+' [data-s2-stage="rehearse"]').forEach(btn=>{btn.disabled=el.value.trim().length<20});
   }
   status(ok?"✓ یادداشت در همین دستگاه ذخیره شد.":"ذخیره ممکن نیست؛ متن را کپی کنید.");
  });

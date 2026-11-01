@@ -239,3 +239,6 @@ body.bp-on-welcome #main{width:100%}
  #app .bp-tile-illustration:has(.bp-sticker){width:67px;height:70px}
  #app .bp-tile-illustration .bp-sticker{width:66px;height:65px}
 }
+
+/* Do not draw a keyboard-style focus rectangle around programmatically focused non-interactive artwork headings. */
+#app #welcome :is(h1,h2):focus-visible{outline:none!important;box-shadow:none!important}

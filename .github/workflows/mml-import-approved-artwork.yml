@@ -14,7 +14,7 @@ jobs:
       - name: Download full-resolution realistic management meeting photo
         run: |
           curl --fail --location --retry 2 --connect-timeout 10 --max-time 35 -sS \
-            'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85' \
+            'https://images.pexels.com/photos/7644001/pexels-photo-7644001.jpeg?auto=compress&cs=tinysrgb&w=1200' \
             -o /tmp/meeting.jpg
           file /tmp/meeting.jpg
       - name: Optimize a stable first-party WebP asset

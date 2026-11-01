@@ -203,3 +203,15 @@ body.mml-refreshed .bp-c-review-list>details>p{padding:0 16px;font-size:20px!imp
  body.mml-refreshed .bp-c-quiz-roles button{padding:11px 5px}
  body.mml-refreshed .bp-c-quiz-roles strong{font-size:20px!important}
 }
+/* Keep answers hidden until completion, with concise and clear confirmation. */
+body.mml-refreshed .bp-c-answer-saved{
+ display:flex;flex-direction:column;gap:3px;padding:14px 18px;margin:15px 0 0;
+ background:#eef8f7;border:1px solid #cce6e3;border-right:4px solid #168b80;
+ border-radius:13px
+}
+body.mml-refreshed .bp-c-answer-saved strong{
+ color:#165d65;font-size:20px!important;font-weight:900
+}
+body.mml-refreshed .bp-c-answer-saved p{
+ color:#476b76;font-size:18px!important;line-height:1.8!important;margin:0
+}

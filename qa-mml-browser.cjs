@@ -27,6 +27,24 @@ async function run(){
  const page=await mobile.newPage();
  page.on("pageerror",err=>errors.push(err.message));
  await page.goto(base,{waitUntil:"load"});
+ await page.waitForSelector("#welcome.view.active",{timeout:20000});
+ await measure("clean default welcome with five clickable destinations",async()=>{
+  assert.equal(await page.locator("#welcome .bp-welcome-tile").count(),5);
+  assert.ok(await page.locator("#welcome .bp-welcome-hero").isVisible());
+  assert.ok(!await page.locator("#course").isVisible());
+  assert.ok(!await page.locator("#workshopSidebar").isVisible());
+ });
+ await page.screenshot({path:path.join(artifact,"mobile-welcome-390.png"),fullPage:true});
+ await page.locator('#welcome .bp-welcome-tile[data-open="competencies"]').click();
+ await page.waitForSelector("#competencies.view.active");
+ await measure("welcome competency route shows three domains",async()=>{
+  assert.equal(await page.locator("#competencies #bp-competency-map .bp-domain-card").count(),3);
+  assert.ok(await page.locator("#competencies .bp-domain-grid").isVisible());
+ });
+ await page.locator('#competencies .bp-inner-top [data-open="welcome"]').click();
+ await page.waitForSelector("#welcome.view.active");
+ await page.locator('#welcome .bp-welcome-tile[data-open="course"]').click();
+ await page.waitForSelector("#course.view.active");
  await page.waitForSelector("#course .course-session.mml-course-tile",{timeout:20000});
  await measure("mobile landing: 6 course cards",async()=>assert.equal(await page.locator("#course .course-session.mml-course-tile").count(),6));
  await measure("three visible competency domains and six emoji session markers",async()=>{

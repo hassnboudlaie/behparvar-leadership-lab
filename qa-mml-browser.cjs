@@ -109,6 +109,8 @@ async function run(){
   assert.ok(!await page.locator('#course').isVisible());
   assert.equal(await page.locator('#competencies .bp-domain-grid:visible').count(),0);
   assert.ok(await page.locator('#bp-global-home').isVisible());
+  const homePosition=await page.locator('#bp-global-home').evaluate(el=>getComputedStyle(el).position);
+  assert.equal(homePosition,'static',"Home should not cover text as a floating button");
   await page.locator('#competencies .bp-model-three [data-open="bp-c-others"]').click();
   await page.waitForSelector('#bp-c-others.view.active');
   assert.equal(await page.locator('#bp-c-others [data-bp-skill]').count(),4);
@@ -173,7 +175,7 @@ async function run(){
 
  await measure("mobile text is at least 20 CSS px in core reading and choices",async()=>{
   const size=await page.locator("#session4-m1 .mml-align-main p").first().evaluate(x=>parseFloat(getComputedStyle(x).fontSize));
-  assert.ok(size>=20,"Main reading was only "+size+"px");
+  assert.ok(size>=30,"Main reading was only "+size+"px; expected 50% larger typography");
  });
  await page.screenshot({path:path.join(artifact,"mobile-session4-first-lesson.png"),fullPage:true});
  await measure("deeper reading is optional, not an extra tab",async()=>{

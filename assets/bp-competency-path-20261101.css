@@ -215,3 +215,19 @@ body.mml-refreshed .bp-c-answer-saved strong{
 body.mml-refreshed .bp-c-answer-saved p{
  color:#476b76;font-size:18px!important;line-height:1.8!important;margin:0
 }
+
+/* Final mobile UX audit: prevent inherited smooth scroll from leaving a route
+   half-visible after clicking a session tile. */
+html:has(body.mml-refreshed){scroll-behavior:auto!important}
+/* Six taxonomy families need two readable columns, never tiny three-across cards. */
+@media(max-width:750px){
+ body.mml-refreshed .bp-c-family-score-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ body.mml-refreshed .bp-c-family-score{padding:17px 14px}
+ body.mml-refreshed .bp-c-family-score strong{font-size:19px!important;line-height:1.55!important}
+ body.mml-refreshed .bp-c-family-score>small{font-size:16px!important}
+}
+/* The hero displays a real business photo as context, not a cartoon or illustration. */
+body.mml-refreshed .bp-c-hero:before{
+ width:43%;opacity:.35;
+ mask-image:linear-gradient(to right,black 15%,transparent 99%)
+}

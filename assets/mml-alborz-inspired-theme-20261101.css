@@ -1,0 +1,282 @@
+/* Behparvar | Alborz-inspired visual and typography harmonization | 2026-11-01
+   Visual changes only. Do not alter learning logic, 6x7 navigation, assessments,
+   local progress, or content. Based on Alborz academy's real UI palette.
+   Loaded LAST after clear-reader to settle the existing cascade. */
+body.mml-refreshed {
+  --g:#173d5d;
+  --ink:#263746;
+  --muted:#566c79;
+  --bg:#f5f8fa;
+  --line:#dce7eb;
+  --soft:#eef7f7;
+  --mml-ui-brand:#173d5d;
+  --mml-ui-teal:#168b8b;
+  --mml-ui-stroke:#dce7eb;
+  --mml-ui-shadow:0 7px 22px rgba(23,61,93,.06);
+  --mml-r-navy:#173d5d;
+  --mml-r-teal:#168b8b;
+  --mml-r-ink:#263746;
+  --type-brand:#173d5d;
+  --type-action:#147a7b;
+  --type-dialogue-bg:#eff7f8;
+  color:var(--ink);
+  background:var(--bg);
+  font-size:20px;
+  line-height:1.85;
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+body.mml-refreshed :is(h1,h2,h3,h4){color:var(--g);letter-spacing:0}
+body.mml-refreshed :is(button,input,textarea,select){font-family:Vazirmatn,Tahoma,Arial,sans-serif}
+body.mml-refreshed :is(button,a,summary){-webkit-tap-highlight-color:transparent}
+body.mml-refreshed :focus-visible{outline:3px solid #c0475b;outline-offset:3px}
+body.mml-refreshed .wrap{max-width:1200px}
+body.mml-refreshed .masthead{background:#fff;border:1px solid var(--line);
+  border-radius:17px;margin-top:12px;margin-bottom:20px;padding:12px 22px}
+body.mml-refreshed .masthead .session-label{color:var(--g);font-weight:750;background:#eef7f7;
+  border:1px solid #d7e9e9;min-height:48px;padding:9px 15px;border-radius:11px}
+body.mml-refreshed .masthead .brand span{color:#566c79}
+
+/* Alborz-like restrained hero: navy-to-teal, white typography, no tiny metadata. */
+body.mml-refreshed #course .mml-hub-head{
+  background:linear-gradient(118deg,#173d5d 0%,#1d526c 63%,#168080 100%);
+  border:1px solid #356e80;border-radius:20px;
+  box-shadow:0 9px 24px rgba(23,61,93,.12);min-height:0
+}
+body.mml-refreshed #course .mml-hub-head>div{padding:25px 30px}
+body.mml-refreshed #course .mml-hub-head h1{color:#fff!important;
+  font-size:clamp(30px,3.6vw,42px)!important;line-height:1.4!important;font-weight:900}
+body.mml-refreshed #course .mml-hub-head p{color:#e5f2f4!important;
+  font-size:20px!important;line-height:1.8!important}
+body.mml-refreshed #course .mml-hub-head small{color:#d6eef0;font-size:17px!important}
+body.mml-refreshed #course .mml-session-heading h2{color:var(--g);
+  font-size:27px!important;line-height:1.5;font-weight:850}
+body.mml-refreshed #course .mml-session-heading p{font-size:18px!important;
+  color:#56707b}
+body.mml-refreshed #course .mml-role-picker button{
+  min-height:58px!important;padding:11px 20px;
+  background:#fff;color:var(--g);border:1px solid #cbdde3;
+  border-radius:13px;font-size:20px!important;font-weight:800
+}
+body.mml-refreshed #course .mml-role-picker button[aria-pressed="true"]{
+  background:var(--g);color:#fff;border-color:var(--g)
+}
+
+/* Clear, spacious six-session tiles, with genuinely readable secondary text. */
+body.mml-refreshed #course .course-sessions{gap:15px}
+body.mml-refreshed #course .course-session.mml-course-tile{
+  background:#fff;border:1px solid #d7e4e8;border-radius:17px;
+  box-shadow:0 7px 22px rgba(23,61,93,.055);
+  padding:21px!important;min-height:155px;
+  gap:12px 13px;transition:box-shadow .18s ease,transform .18s ease
+}
+body.mml-refreshed #course .course-session.mml-course-tile:hover{
+  border-color:#7dbbbc;box-shadow:0 11px 26px rgba(23,61,93,.10)}
+body.mml-refreshed #course .course-session.mml-course-tile::before{
+  height:4px;background:#168b8b
+}
+body.mml-refreshed #course .mml-course-tile-icon{
+  color:#173d5d;background:#eef7f7;border-color:#cde5e5;
+  border-radius:12px;font-size:27px
+}
+body.mml-refreshed #course .course-session.mml-course-tile strong{
+  color:#173d5d;font-size:22px!important;line-height:1.55!important;font-weight:850
+}
+body.mml-refreshed #course .course-session.mml-course-tile small{
+  color:#4e6673;font-size:18px!important;line-height:1.75!important
+}
+body.mml-refreshed #course .mml-course-progress-caption{
+  color:#456470;font-size:17px!important;line-height:1.7
+}
+body.mml-refreshed #course .mml-course-progress-track{height:9px;background:#e6f1f2}
+body.mml-refreshed #course .mml-course-progress-track i{background:#168080}
+body.mml-refreshed #course .mml-resume{
+  background:#eef7f7;border:1px solid #c8e2e2;
+  border-right:5px solid #168080;border-radius:14px
+}
+body.mml-refreshed #course .mml-resume-hint{font-size:17px!important;color:#446873}
+body.mml-refreshed #course .mml-study-guide{
+  background:#fff;border-color:#dce7eb;box-shadow:0 6px 17px rgba(23,61,93,.05)
+}
+body.mml-refreshed #course .mml-study-guide-heading h2{color:var(--g);font-size:25px!important}
+body.mml-refreshed #course .mml-study-guide-heading p,
+body.mml-refreshed #course .mml-study-step p{font-size:18px!important;line-height:1.75}
+body.mml-refreshed #course .mml-study-step strong{font-size:20px!important;color:#173d5d}
+body.mml-refreshed #course .mml-study-step{
+  background:#f7fbfc;border-color:#dce7eb;border-radius:13px
+}
+body.mml-refreshed #course .mml-study-step>span{background:#173d5d;font-size:16px!important}
+
+/* The seven-section navigation stays intact, but uses the same visual rhythm. */
+body.mml-refreshed .workshop-sidebar{
+  background:#fff;border-color:#dce7eb;box-shadow:0 6px 22px rgba(23,61,93,.07)
+}
+body.mml-refreshed .workshop-sidebar .sidebar-heading{
+  background:linear-gradient(120deg,#173d5d,#1c6874);border-radius:12px
+}
+body.mml-refreshed .workshop-sidebar .sidebar-heading h2{
+  color:#fff;font-size:22px!important;line-height:1.5!important
+}
+body.mml-refreshed .workshop-sidebar .sidebar-eyebrow,
+body.mml-refreshed .workshop-sidebar .sidebar-audience{font-size:16px!important;color:#d9eff0}
+body.mml-refreshed .workshop-sidebar .site-nav a{
+  min-height:55px;padding:11px 13px;border-radius:11px;
+  font-size:19px!important;line-height:1.5;background:#fff;color:#263f51
+}
+body.mml-refreshed .workshop-sidebar .site-nav a:hover{
+  background:#eef7f7;border-color:#d0e5e5;color:#173d5d
+}
+body.mml-refreshed .workshop-sidebar .site-nav a[aria-current="page"]{
+  background:#173d5d;color:#fff;border-color:#173d5d
+}
+body.mml-refreshed .workshop-sidebar .sidebar-step{
+  background:#e5f3f3;color:#173d5d;font-size:16px!important
+}
+body.mml-refreshed .workshop-sidebar .sidebar-home{
+  color:#173d5d;font-size:18px!important;min-height:52px
+}
+body.mml-refreshed #sidebarToggle{
+  background:linear-gradient(112deg,#173d5d,#1b6572);
+  border:1px solid #286779;min-height:60px;border-radius:12px
+}
+body.mml-refreshed #sidebarToggle strong{color:#fff;font-size:21px!important}
+body.mml-refreshed #sidebarToggle small{font-size:17px!important;color:#d8ecee}
+
+/* Lesson pages: white instructional surface, large headings and readable body. */
+body.mml-refreshed.mml-beginner-mode .mml-reader-heading{
+  border-bottom-color:#d5e6e9
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-heading h2{
+  color:#173d5d!important;font-size:34px!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-where{
+  color:#4b6877!important;font-size:19px!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main{
+  max-width:920px;border-color:#dce7eb;border-radius:17px;
+  box-shadow:0 6px 21px rgba(23,61,93,.05);
+  color:#263746;background:#fff;
+  font-size:21px!important;line-height:1.9!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main h3{
+  color:#173d5d!important;font-size:28px!important;line-height:1.5!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main h4{
+  color:#173d5d!important;font-size:24px!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main p,
+body.mml-refreshed.mml-beginner-mode .mml-align-context p,
+body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-drama li p,
+body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-align-feedback li p{
+  font-size:21px!important;line-height:1.9!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-context{
+  background:#f1f8f9;border-color:#cfe7e7;border-right:5px solid #168080
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-context>strong{
+  color:#173d5d;font-size:24px!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-skill{
+  background:#e9f5f4;border-right-color:#168080;font-size:21px!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-align-options button{
+  min-height:64px;border:1px solid #cadde2;border-radius:13px;
+  background:#fff;color:#263746;font-size:21px!important;line-height:1.8!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-options button span{
+  font-size:21px!important;line-height:1.8!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-options button[aria-pressed="true"]{
+  border:2px solid #168080;background:#eaf6f5
+}
+body.mml-refreshed.mml-beginner-mode .mml-align-feedback{
+  border-color:#cbe3e6;background:#f2f9f9
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-navigation a,
+body.mml-refreshed.mml-beginner-mode .mml-simple-entry-actions>a{
+  min-height:62px;border-radius:12px;
+  font-size:20px!important;line-height:1.6!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-reader-navigation .mml-reader-next{
+  background:#173d5d;border-color:#173d5d;color:#fff
+}
+body.mml-refreshed.mml-beginner-mode .mml-simple-session-home{
+  background:#fff;border:1px solid #d8e7ea;border-right:5px solid #168080;
+  border-radius:18px;box-shadow:0 7px 22px rgba(23,61,93,.05)
+}
+body.mml-refreshed.mml-beginner-mode .mml-simple-session-home h1{
+  font-size:36px!important;color:#173d5d!important;line-height:1.5!important
+}
+body.mml-refreshed.mml-beginner-mode .mml-simple-session-home .mml-simple-goal{
+  font-size:22px!important;line-height:1.85!important;color:#3e5867
+}
+body.mml-refreshed .mml-session-learning-status{
+  background:#f1f8f9;border-color:#d3e6e8;border-right-color:#168080
+}
+body.mml-refreshed .mml-session-learning-status strong{color:#173d5d;font-size:20px!important}
+body.mml-refreshed .mml-session-learning-status p{font-size:18px!important}
+
+/* Familiar Alborz card styling across both dashboards and learning surfaces. */
+body.mml-refreshed :is(.card,.mml-zone,.mml-case,.mml-step,.mml-practice,.mml-visual-card){
+  border-color:#dce7eb
+}
+body.mml-refreshed :is(.btn.primary,.leader-switch button.selected){
+  background:#173d5d;border-color:#173d5d;color:#fff
+}
+body.mml-refreshed .btn{min-height:54px;border-radius:11px}
+body.mml-refreshed .mml-zone b{color:#173d5d}
+body.mml-refreshed .mml-zone p{color:#4e6471}
+
+/* Responsive mobile display: no microtype, stable RTL layout and larger taps. */
+@media(max-width:780px){
+  body.mml-refreshed{font-size:20px}
+  body.mml-refreshed .wrap{padding-inline:15px}
+  body.mml-refreshed .masthead{padding:10px 13px;margin-top:8px;margin-bottom:14px}
+  body.mml-refreshed .masthead .brand img{max-width:146px}
+  body.mml-refreshed #course .mml-hub-head>div{padding:23px 19px}
+  body.mml-refreshed #course .mml-hub-head h1{font-size:33px!important}
+  body.mml-refreshed #course .mml-hub-head p{font-size:20px!important}
+  body.mml-refreshed #course .mml-session-heading h2{font-size:25px!important}
+  body.mml-refreshed #course .mml-role-picker button{font-size:19px!important;min-height:58px!important}
+  body.mml-refreshed #course .mml-study-guide{padding:17px}
+  body.mml-refreshed #course .mml-study-step strong{font-size:20px!important}
+  body.mml-refreshed #course .mml-study-step p{font-size:18px!important}
+  body.mml-refreshed .workshop-sidebar .site-nav a{font-size:19px!important;min-height:56px}
+}
+@media(max-width:650px){
+  body.mml-refreshed #course .course-sessions{grid-template-columns:1fr!important;gap:13px}
+  body.mml-refreshed #course .course-session.mml-course-tile{
+    min-height:126px!important;padding:18px 17px!important
+  }
+  body.mml-refreshed #course .course-session.mml-course-tile strong{font-size:23px!important}
+  body.mml-refreshed #course .course-session.mml-course-tile small{font-size:18px!important}
+  body.mml-refreshed #course .mml-course-progress-caption{font-size:17px!important}
+  body.mml-refreshed #course .mml-course-tile-icon{
+    width:44px;height:44px;font-size:26px
+  }
+  body.mml-refreshed #course .course-session.mml-course-tile{grid-template-columns:44px minmax(0,1fr)!important}
+  body.mml-refreshed.mml-beginner-mode .mml-simple-session-home{
+    padding:21px 17px
+  }
+  body.mml-refreshed.mml-beginner-mode .mml-simple-session-home h1{font-size:32px!important}
+  body.mml-refreshed.mml-beginner-mode .mml-align-main{
+    padding:19px 16px!important;font-size:21px!important
+  }
+  body.mml-refreshed.mml-beginner-mode .mml-align-main h3{font-size:27px!important}
+  body.mml-refreshed.mml-beginner-mode .mml-align-main p,
+  body.mml-refreshed.mml-beginner-mode .mml-align-context p,
+  body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-edu-drama li p,
+  body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-align-feedback li p{
+    font-size:21px!important;line-height:1.85!important
+  }
+  body.mml-refreshed.mml-beginner-mode .mml-reader-where{font-size:19px!important}
+  body.mml-refreshed #sidebarToggle{min-height:64px}
+}
+@media(max-width:390px){
+  body.mml-refreshed .masthead .brand img{max-width:127px}
+  body.mml-refreshed #course .mml-hub-head h1{font-size:30px!important}
+  body.mml-refreshed #course .mml-role-picker button{padding-inline:9px;font-size:18px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  body.mml-refreshed #course .course-session.mml-course-tile{transition:none}
+}

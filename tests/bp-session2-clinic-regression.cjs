@@ -24,7 +24,7 @@ for(const c of cases){
   assert.ok(p.scene.length>=120,"rich contextual scene "+c.id+" "+role);
   assert.equal(p.signals.length,3);
   assert.equal(p.constraints.length,3);
-  assert.ok(p.roles.every(x=>x.length===4&&x.every(v=>v.length>=10)));
+  assert.ok(p.roles.every(x=>x.length===4&&x[0].length>=5&&x.slice(1).every(v=>v.length>=15)));
   assert.ok(p.initial.length>=participants*2);
   assert.ok(p.improved.length>=participants*3);
   assert.ok(p.initial.every(x=>x.length===2&&Number.isInteger(x[0])&&x[0]>=0&&x[0]<participants&&x[1].length>=15));

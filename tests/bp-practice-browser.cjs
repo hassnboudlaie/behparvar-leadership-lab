@@ -10,7 +10,10 @@ try {
  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,locale:"fa-IR"});
  const page=await context.newPage();
  page.on("pageerror",e=>errors.push(String(e)));
- await page.goto(base+"?audience=supervisors#session4",{waitUntil:"load"});
+ await page.goto(base+"?audience=supervisors",{waitUntil:"load"});
+ await page.locator('#welcome [data-open="course"]').click();
+ await page.locator('#course [data-course-session="4"]').click();
+ await page.locator("#session4.view.active").waitFor();
  await page.locator("#bp-practice-4").waitFor();
  const host=page.locator("#bp-practice-4");
  await host.locator("summary").first().click();
@@ -35,7 +38,10 @@ try {
  await page.locator("#bp-practice-4 summary").first().click();
  await page.locator('#bp-practice-4 [data-bp-practice-tab="4:transfer"]').first().click();
  assert.equal(await page.locator('[data-bp-practice-note="4:behavior"]').inputValue(),"سؤال باز پیش از قضاوت");
- await page.goto(base+"?audience=managers#session4",{waitUntil:"load"});
+ await page.goto(base+"?audience=managers",{waitUntil:"load"});
+ await page.locator('#welcome [data-open="course"]').click();
+ await page.locator('#course [data-course-session="4"]').click();
+ await page.locator("#session4.view.active").waitFor();
  await page.locator("#bp-practice-4 summary").first().click();
  assert.match(await page.locator("#bp-practice-4 .bp-practice-context").innerText(),/فروش|تولید|کیفیت/);
  await page.locator('#bp-practice-4 [data-bp-practice-tab="4:transfer"]').first().click();

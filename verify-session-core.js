@@ -30,7 +30,7 @@ function boot({hash='',data={},blocked=false,audience='managers',display='',widt
  return{doc,data,events,alerts,location,viewport:context.window,test:context.__triangleTests,get reloaded(){return reloaded},q:s=>doc.querySelector(s),all:s=>doc.querySelectorAll(s),active:()=>doc.querySelector('.view.active').id};
 }
 const app=boot();
-assert.equal(app.active(),'course');
+assert.equal(app.active(),'welcome');
 assert.equal(app.all('.module-card').length,7,'exactly seven workshop sections');
 for(const id of ['home','m1','m2','leaders','techniques','visuals','diseases','quiz','action','assessment'])assert.equal(boot({hash:'#'+id}).active(),id);
 const aliases={session:'home',workshop:'home',profile:'home',m3:'leaders',m4:'techniques',m5:'visuals',m6:'diseases',m7:'quiz',m8:'action',m1cases:'m2',m1model:'m1',m1learning:'action',m1action:'action',m1office:'m2'};

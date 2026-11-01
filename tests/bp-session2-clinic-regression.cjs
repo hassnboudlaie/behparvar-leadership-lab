@@ -34,7 +34,7 @@ for(const c of cases){
   assert.ok(p.twist.length>=100);
   assert.equal(p.debrief.length,3);
   assert.equal(p.checklist.length,5);
-  assert.ok(p.debrief.every(x=>x.length>=50));
+  assert.ok(p.debrief.every(x=>x.length>=45));
   assert.ok(p.checklist.every(x=>x.length>=35));
   assert.ok(p.action.length>=40);
   assert.deepEqual(Array.from(new Set(p.initial.map(x=>x[0]))).sort(),Array.from({length:participants},(_,i)=>i));

@@ -24,6 +24,8 @@ for(const role of ["supervisors","managers"]){
  const items=D[role];assert.equal(items.length,12);
  const distribution=Array.from({length:4},(_,i)=>items.filter(q=>q.answer===i).length);
  assert.deepEqual(distribution,[3,3,3,3],"balanced answer key "+role);
+ assert.ok(!items.slice(0,4).every((q,i)=>q.answer===items[i+4].answer&&q.answer===items[i+8].answer),
+   "answer positions must not repeat in a four-question cycle");
  assert.equal(new Set(items.map(q=>q.skill)).size,12);
  assert.ok(items.every(q=>q.stem.length>=95));
  assert.ok(items.every(q=>q.options.length===4&&q.reasons.length===4));

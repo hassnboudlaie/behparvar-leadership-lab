@@ -1,0 +1,250 @@
+/* BEHPARVAR · Mobile readability and navigation audit — 2026-11-01
+   User acceptance: +~50% text scale, less content per route, Persian-first,
+   separate competency and sessions views, persistent Home control. */
+html[dir="rtl"] body.mml-refreshed{
+ --g:#173d5d;--ink:#233746;--bg:#f5f8fa;
+ font-size:30px!important;line-height:1.72!important;
+}
+body.mml-refreshed #app{padding-bottom:110px}
+body.mml-refreshed #app .view{max-width:100%}
+body.mml-refreshed #app :is(.small,.muted,small){line-height:1.68}
+body.mml-refreshed #app .bp-global-home{
+ position:fixed!important;right:clamp(12px,2.5vw,25px);bottom:max(23px,calc(env(safe-area-inset-bottom) + 14px));
+ z-index:2500;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+ min-width:138px;min-height:65px;padding:11px 23px;border-radius:18px;
+ background:linear-gradient(120deg,#173d5d,#196e78);border:2px solid #cce7e7;
+ color:#fff!important;font:900 25px/1.3 Vazirmatn,Tahoma,sans-serif;text-decoration:none;
+ box-shadow:0 9px 25px rgba(11,48,67,.24)
+}
+body.mml-refreshed #app .bp-global-home span{font-size:33px;line-height:1}
+body.mml-refreshed.bp-on-welcome #app .bp-global-home{display:none!important}
+/* Home page is a gateway, not a scrolling second dashboard. */
+body.mml-refreshed #welcome{max-width:1000px;margin-inline:auto}
+body.mml-refreshed #welcome .bp-welcome-intro h1{font-size:clamp(28px,3vw,39px)!important;font-weight:900!important}
+body.mml-refreshed #welcome .bp-welcome-intro h1 [dir="ltr"]{display:none!important}
+body.mml-refreshed #welcome .bp-welcome-intro p{font-size:26px!important}
+body.mml-refreshed #welcome .bp-welcome-hero-text h2{font-size:clamp(36px,4.6vw,58px)!important}
+body.mml-refreshed #welcome .bp-welcome-hero-text p{font-size:27px!important;line-height:1.5!important}
+body.mml-refreshed #welcome .bp-welcome-tile strong{font-size:clamp(26px,2.7vw,33px)!important;line-height:1.48!important}
+body.mml-refreshed #welcome .bp-welcome-tile{min-height:213px;padding:22px 12px}
+body.mml-refreshed #welcome .bp-welcome-grid{gap:16px}
+body.mml-refreshed #welcome .bp-tile-illustration:has(.bp-sticker){width:122px;height:111px}
+body.mml-refreshed #welcome .bp-tile-illustration .bp-sticker{width:120px;height:108px}
+/* Model appears ONLY in the dedicated route, not above six session cards. */
+body.mml-refreshed #course :is(.bp-competency-map,.mml-study-guide){display:none!important}
+body.mml-refreshed #competencies #bp-competency-portal{display:none!important}
+body.mml-refreshed #course .mml-hub-head{display:none!important}
+body.mml-refreshed #course .course-heading h1{
+ color:#173d5d;font-size:clamp(37px,4.4vw,48px)!important;font-weight:900!important
+}
+body.mml-refreshed #course .course-heading p{font-size:27px!important;line-height:1.6!important}
+body.mml-refreshed #course .mml-session-heading h2{font-size:36px!important}
+body.mml-refreshed #course .mml-session-heading p{font-size:26px!important}
+body.mml-refreshed #course .mml-role-picker button{
+ font-size:28px!important;min-height:75px!important;padding:12px 18px
+}
+body.mml-refreshed #course .course-session.mml-course-tile{
+ min-height:173px!important;padding:22px!important;grid-template-columns:74px minmax(0,1fr)!important
+}
+body.mml-refreshed #course .course-session.mml-course-tile strong{font-size:33px!important;font-weight:900!important}
+body.mml-refreshed #course .course-session.mml-course-tile small{font-size:27px!important;line-height:1.58!important}
+body.mml-refreshed #course .mml-course-tile-icon.bp-course-emoji{
+ width:72px!important;height:72px!important;min-width:72px!important;font-size:40px!important
+}
+body.mml-refreshed #course .mml-course-progress-caption{font-size:23px!important}
+body.mml-refreshed #course :is(.mml-course-tile-en,.bp-domain-en){display:none!important}
+/* Dedicated 3-domain competency landing. */
+body.mml-refreshed #competencies{max-width:1000px;margin:0 auto}
+body.mml-refreshed .bp-model-intro{margin:5px 0 24px;padding:28px 31px;
+ border-radius:22px;background:linear-gradient(112deg,#173d5d 0%,#176b79 90%);color:#fff;
+ box-shadow:0 9px 24px rgba(23,61,93,.12)}
+body.mml-refreshed .bp-model-intro .bp-model-kicker{
+ display:inline-block;background:#fff;color:#175e6e;border-radius:30px;padding:6px 17px;
+ font-size:22px;font-weight:850;margin-bottom:12px
+}
+body.mml-refreshed .bp-model-intro h1{
+ color:#fff!important;font-size:clamp(36px,4.4vw,49px)!important;
+ line-height:1.5!important;font-weight:900!important;margin:0 0 12px
+}
+body.mml-refreshed .bp-model-intro p{font-size:27px!important;line-height:1.73!important;color:#e7f4f5;margin:0}
+body.mml-refreshed .bp-model-three{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px
+}
+body.mml-refreshed .bp-model-three a{
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ min-height:254px;gap:11px;padding:25px 13px;border:2px solid #d7e7e9;border-top:5px solid #168b8b;
+ border-radius:21px;background:#fff;box-shadow:0 8px 25px rgba(23,61,93,.07);
+ color:#173d5d;text-decoration:none;text-align:center
+}
+body.mml-refreshed .bp-model-three a:first-child{border-top-color:#407f9c}
+body.mml-refreshed .bp-model-three a:last-child{border-top-color:#bd914e}
+body.mml-refreshed .bp-model-three a:hover{border-color:#168b8b;background:#f4fbfb}
+body.mml-refreshed .bp-model-illustration{
+ display:grid;place-items:center;flex:none;width:96px;height:96px;border-radius:26px;
+ background:linear-gradient(135deg,#ebf9fa,#ceeeee);font-size:57px;filter:drop-shadow(0 5px 4px rgba(19,76,85,.1))
+}
+body.mml-refreshed .bp-model-illustration.bp-others{background:linear-gradient(130deg,#e8f2ff,#d5e4f5)}
+body.mml-refreshed .bp-model-illustration.bp-results{background:linear-gradient(130deg,#fff7e8,#f8e6c9)}
+body.mml-refreshed .bp-model-three strong{font-size:33px!important;font-weight:900!important;line-height:1.42}
+body.mml-refreshed .bp-model-three small{font-size:25px!important;color:#526d79}
+body.mml-refreshed .bp-model-secondary{display:flex;flex-wrap:wrap;gap:13px;margin:26px 0}
+body.mml-refreshed .bp-model-secondary a{
+ display:inline-flex;align-items:center;justify-content:center;min-height:67px;padding:15px 20px;
+ border-radius:14px;background:#fff;border:1px solid #cfe1e4;text-decoration:none;
+ color:#17505e;font-size:26px;font-weight:850
+}
+/* Large, click-to-reveal competency lessons: one expanded panel, no practice/evidence here. */
+body.mml-refreshed .bp-c-root{font-size:29px!important;line-height:1.75!important}
+body.mml-refreshed .bp-c-root .bp-c-hero{min-height:164px;padding:28px 26px}
+body.mml-refreshed .bp-c-root .bp-c-hero h1{font-size:clamp(37px,4.3vw,48px)!important}
+body.mml-refreshed .bp-c-root .bp-c-hero p{font-size:27px!important}
+body.mml-refreshed .bp-c-root .bp-c-tag{font-size:23px!important;padding:6px 17px}
+body.mml-refreshed .bp-c-root .bp-c-section-title{font-size:35px!important}
+body.mml-refreshed .bp-c-root .bp-c-top span{font-size:22px!important}
+body.mml-refreshed .bp-c-root .bp-c-back{font-size:25px!important;min-height:63px}
+body.mml-refreshed .bp-c-root .bp-c-choose-list{grid-template-columns:1fr!important;gap:15px}
+body.mml-refreshed .bp-c-root .bp-c-choose-list>button{
+ min-height:102px;padding:18px 21px;border-radius:18px;gap:15px
+}
+body.mml-refreshed .bp-c-root .bp-c-choose-list strong{font-size:30px!important}
+body.mml-refreshed .bp-c-root .bp-c-choose-list small{font-size:24px!important}
+body.mml-refreshed .bp-c-root .bp-c-list-symbol{
+ width:67px;height:67px;font-size:39px;border-radius:16px
+}
+body.mml-refreshed .bp-c-root .bp-c-reveal{padding:27px 26px;margin-top:22px}
+body.mml-refreshed .bp-c-root .bp-c-reveal h3{font-size:35px!important;font-weight:900!important}
+body.mml-refreshed .bp-c-root .bp-c-reveal h4{font-size:31px!important;font-weight:900!important;margin:22px 0 8px}
+body.mml-refreshed .bp-c-root .bp-c-reveal p{font-size:28px!important;line-height:1.8!important}
+body.mml-refreshed .bp-c-root .bp-c-compare .bp-c-role-switch button,
+body.mml-refreshed .bp-c-root .bp-c-role-switch button{font-size:26px!important;min-height:66px}
+body.mml-refreshed .bp-c-root .bp-c-role-hint{font-size:26px!important}
+body.mml-refreshed .bp-c-root .bp-c-levels{
+ display:grid;gap:13px;margin:15px 0 22px;padding:0;list-style:none
+}
+body.mml-refreshed .bp-c-root .bp-c-levels li{
+ border:1px solid #d6e6e8;border-right:5px solid #168b8b;background:#f9fcfc;
+ border-radius:13px;padding:15px 21px
+}
+body.mml-refreshed .bp-c-root .bp-c-levels strong{font-size:28px!important;color:#173d5d}
+body.mml-refreshed .bp-c-root .bp-c-levels li p{font-size:26px!important;margin:7px 0 0}
+body.mml-refreshed .bp-c-root .bp-c-example{
+ background:#edf8f7;border:1px solid #d0e6e5;border-radius:12px;padding:16px 20px
+}
+body.mml-refreshed .bp-c-root .bp-c-family-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+body.mml-refreshed .bp-c-root .bp-c-family-grid button{min-height:163px}
+body.mml-refreshed .bp-c-root .bp-c-family-grid strong{font-size:29px!important}
+body.mml-refreshed .bp-c-root .bp-c-family-grid small{font-size:24px!important}
+body.mml-refreshed .bp-c-root .bp-c-quiz-roles strong{font-size:29px!important}
+body.mml-refreshed .bp-c-root .bp-c-quiz-roles small{font-size:23px!important}
+body.mml-refreshed .bp-c-root .bp-c-question h2{font-size:31px!important;line-height:1.8!important}
+body.mml-refreshed .bp-c-root .bp-c-options button{min-height:100px;padding:18px}
+body.mml-refreshed .bp-c-root .bp-c-options button strong{font-size:27px!important;line-height:1.8!important}
+body.mml-refreshed .bp-c-root .bp-c-options button>span{font-size:26px;width:46px;height:46px}
+body.mml-refreshed .bp-c-root .bp-c-feedback p{font-size:27px!important}
+body.mml-refreshed .bp-c-root .bp-c-actions :is(a,button){min-height:73px;font-size:28px!important}
+body.mml-refreshed .bp-c-root .bp-c-evidence-note{font-size:24px!important}
+body.mml-refreshed .bp-c-root .bp-c-report-role strong{font-size:27px!important}
+body.mml-refreshed .bp-c-root .bp-c-report-role small{font-size:22px!important}
+body.mml-refreshed .bp-c-root .bp-c-family-score>strong{font-size:27px!important}
+body.mml-refreshed .bp-c-root .bp-c-family-score>small{font-size:22px!important}
+body.mml-refreshed .bp-c-root .bp-c-family-score>span{font-size:29px!important}
+body.mml-refreshed .bp-c-root .bp-c-competency-details>details>summary{font-size:27px!important}
+body.mml-refreshed .bp-c-root .bp-c-competency-details li strong{font-size:26px!important}
+body.mml-refreshed .bp-c-root .bp-c-competency-details li span{font-size:22px!important}
+/* Existing 7 teaching subpages: raise type, headings, and tap targets about 50%. */
+body.mml-refreshed.mml-beginner-mode .mml-simple-session-home h1{font-size:44px!important}
+body.mml-refreshed.mml-beginner-mode .mml-simple-session-home .mml-simple-goal{font-size:30px!important}
+body.mml-refreshed.mml-beginner-mode .mml-reader-heading h2{font-size:45px!important}
+body.mml-refreshed.mml-beginner-mode .mml-align-main{font-size:30px!important;line-height:1.8!important}
+body.mml-refreshed.mml-beginner-mode .mml-align-main h3{font-size:38px!important}
+body.mml-refreshed.mml-beginner-mode .mml-align-main h4{font-size:34px!important}
+body.mml-refreshed.mml-beginner-mode .mml-align-main p,
+body.mml-refreshed.mml-beginner-mode .mml-align-context p,
+body.mml-refreshed.mml-beginner-mode .mml-align-feedback li p{font-size:30px!important;line-height:1.8!important}
+body.mml-refreshed.mml-beginner-mode .mml-align-main .mml-align-options button,
+body.mml-refreshed.mml-beginner-mode .mml-align-options button span{font-size:29px!important;min-height:77px!important}
+body.mml-refreshed.mml-beginner-mode .mml-reader-navigation a,
+body.mml-refreshed.mml-beginner-mode .mml-simple-entry-actions>a{font-size:28px!important;min-height:77px!important}
+body.mml-refreshed .workshop-sidebar .site-nav a{font-size:27px!important;min-height:73px;padding:15px!important}
+body.mml-refreshed .workshop-sidebar .sidebar-heading h2{font-size:31px!important}
+body.mml-refreshed #sidebarToggle strong{font-size:30px!important}
+body.mml-refreshed #sidebarToggle small{font-size:23px!important}
+body.mml-refreshed #sidebarToggle{min-height:75px!important}
+/* Remove English microcopy for the learner, not the underlying source data. */
+body.mml-refreshed #course .bp-domain-en,
+body.mml-refreshed .bp-domain-en,
+body.mml-refreshed #course .mml-course-tile-en,
+body.mml-refreshed #welcome h1 span[dir="ltr"]{display:none!important}
+body.mml-refreshed footer .settings{display:none!important}
+/* Small screens: one decision at a time; no three tiny cards beside each other. */
+@media(max-width:780px){
+ body.mml-refreshed #app{padding-bottom:100px}
+ body.mml-refreshed #app .bp-global-home{min-height:63px;min-width:126px;font-size:25px}
+ body.mml-refreshed #welcome .bp-welcome-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px
+ }
+ body.mml-refreshed #welcome .bp-welcome-tile,
+ body.mml-refreshed #welcome .bp-welcome-tile-wide{
+  grid-column:span 1!important;min-height:195px;padding:16px 7px!important
+ }
+ body.mml-refreshed #welcome .bp-welcome-tile:last-child{grid-column:span 2!important;min-height:164px}
+ body.mml-refreshed #welcome .bp-welcome-tile strong{font-size:25px!important}
+ body.mml-refreshed #welcome .bp-welcome-hero-text h2{font-size:36px!important}
+ body.mml-refreshed #welcome .bp-welcome-hero-text p{font-size:25px!important}
+ body.mml-refreshed #welcome .bp-welcome-intro h1{font-size:29px!important}
+ body.mml-refreshed #welcome .bp-welcome-intro p{font-size:23px!important}
+ body.mml-refreshed .bp-model-intro{padding:23px 19px}
+ body.mml-refreshed .bp-model-intro h1{font-size:39px!important}
+ body.mml-refreshed .bp-model-intro p{font-size:27px!important}
+ body.mml-refreshed .bp-model-three{grid-template-columns:1fr!important;gap:12px}
+ body.mml-refreshed .bp-model-three a{
+  display:grid;grid-template-columns:76px minmax(0,1fr);grid-template-rows:auto auto;
+  text-align:right;justify-content:stretch;align-content:center;min-height:126px;
+  gap:5px 15px;padding:16px 20px
+ }
+ body.mml-refreshed .bp-model-three .bp-model-illustration{grid-row:span 2;width:76px;height:76px;font-size:46px}
+ body.mml-refreshed .bp-model-three strong{font-size:33px!important}
+ body.mml-refreshed .bp-model-three small{font-size:25px!important}
+ body.mml-refreshed .bp-model-secondary{display:grid;gap:11px}
+ body.mml-refreshed .bp-model-secondary a{font-size:25px!important}
+ body.mml-refreshed #course .course-sessions{grid-template-columns:1fr!important;gap:14px}
+ body.mml-refreshed #course .course-session.mml-course-tile{
+  grid-template-columns:68px minmax(0,1fr)!important;
+  min-height:153px!important;padding:18px!important;gap:12px!important
+ }
+ body.mml-refreshed #course .course-session.mml-course-tile strong{font-size:32px!important}
+ body.mml-refreshed #course .course-session.mml-course-tile small{font-size:25px!important}
+ body.mml-refreshed #course .mml-course-tile-icon.bp-course-emoji{width:67px!important;height:67px!important;min-width:67px!important;font-size:36px!important}
+ body.mml-refreshed #course .mml-session-heading h2{font-size:36px!important}
+ body.mml-refreshed #course .mml-role-picker button{font-size:26px!important}
+ body.mml-refreshed .bp-c-root .bp-c-hero h1{font-size:38px!important}
+ body.mml-refreshed .bp-c-root .bp-c-hero p{font-size:25px!important}
+ body.mml-refreshed .bp-c-root .bp-c-choose-list strong{font-size:29px!important}
+ body.mml-refreshed .bp-c-root .bp-c-choose-list small{font-size:24px!important}
+ body.mml-refreshed .bp-c-root .bp-c-tiles.four{grid-template-columns:1fr!important}
+ body.mml-refreshed .bp-c-root .bp-c-tile{
+  display:grid;grid-template-columns:73px 1fr;grid-template-rows:auto auto;
+  min-height:95px;text-align:right;align-items:center;justify-content:start;gap:2px 16px;padding:14px 17px
+ }
+ body.mml-refreshed .bp-c-root .bp-c-tile .bp-c-symbol{grid-row:1/3}
+ body.mml-refreshed .bp-c-root .bp-c-tile strong{font-size:28px!important}
+ body.mml-refreshed .bp-c-root .bp-c-tile small{font-size:24px!important}
+ body.mml-refreshed .bp-c-root .bp-c-family-grid{grid-template-columns:1fr!important}
+ body.mml-refreshed .bp-c-root .bp-c-family-grid button{min-height:105px}
+ body.mml-refreshed .bp-c-root .bp-c-quiz-roles{grid-template-columns:1fr!important}
+ body.mml-refreshed .bp-c-root .bp-c-quiz-roles button{min-height:87px}
+ body.mml-refreshed .bp-c-root .bp-c-family-score-grid{grid-template-columns:1fr!important}
+ body.mml-refreshed .bp-c-root .bp-c-report-role{flex-wrap:wrap}
+ body.mml-refreshed.mml-beginner-mode .mml-simple-session-home h1{font-size:38px!important}
+ body.mml-refreshed.mml-beginner-mode .mml-align-main h3{font-size:35px!important}
+ body.mml-refreshed.mml-beginner-mode .mml-reader-heading h2{font-size:40px!important}
+}
+@media(max-width:380px){
+ body.mml-refreshed #welcome .bp-welcome-tile strong{font-size:23px!important}
+ body.mml-refreshed .bp-c-root .bp-c-choose-list strong{font-size:27px!important}
+ body.mml-refreshed #course .course-session.mml-course-tile strong{font-size:29px!important}
+ body.mml-refreshed .bp-model-intro h1{font-size:36px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ body.mml-refreshed #app .bp-global-home{transition:none}
+}

@@ -41,9 +41,11 @@ async function run(){
   await page.waitForSelector('#session2.view.active',{timeout:10000});
   assert.equal(await page.locator('#session2 .bp-c-landing-card').count(),3);
   assert.ok(await page.locator('#session2 .bp-c-landing-card').first().isVisible());
+  await page.screenshot({path:path.join(artifact,"mobile-session2-first-click.png"),fullPage:false});
   await page.locator('#session2 [data-open="bp-c-lesson"]').click();
   await page.waitForSelector('#bp-c-lesson.view.active');
   assert.equal(await page.locator('#bp-c-lesson .bp-c-tile').count(),4);
+  await page.screenshot({path:path.join(artifact,"mobile-competency-lesson-390.png"),fullPage:true});
   await page.locator('#bp-c-lesson [data-open="bp-c-self"]').click();
   await page.waitForSelector('#bp-c-self.view.active');
   assert.equal(await page.locator('#bp-c-self [data-bp-skill]').count(),3);
@@ -77,6 +79,7 @@ async function run(){
   assert.equal(await page.locator('#bp-c-report .bp-c-family-score').count(),6);
   assert.ok((await page.locator('#bp-c-report').innerText()).includes("ارزیابی نشده"));
   assert.equal(await page.locator('#bp-c-report .bp-c-competency-details details').count(),3);
+  await page.screenshot({path:path.join(artifact,"mobile-competency-results-390.png"),fullPage:true});
   await page.locator('#bp-c-report [data-open="bp-c-review"]').click();
   await page.waitForSelector('#bp-c-review.view.active');
   assert.equal(await page.locator('#bp-c-review .bp-c-review-list details').count(),12);

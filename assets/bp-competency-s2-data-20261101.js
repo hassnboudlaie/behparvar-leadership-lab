@@ -282,7 +282,8 @@ for(const role of ["supervisors","managers"]){
 function bank(role){
  const source=raw[role]; if(!source)throw Error("Unknown role");
  return source.map(function(x,i){
-   const slot=(i*3+(role==="supervisors"?1:2))%4;
+   const sequence=role==="supervisors"?[1,0,3,2,0,2,1,3,3,1,2,0]:[2,3,1,0,1,2,0,3,0,1,3,2];
+   const slot=sequence[i];
    const options=[x[2],x[3],x[4],x[5]],reasons=[x[6],x[7],x[8],x[9]];
    const arranged=new Array(4),why=new Array(4);
    for(let j=0;j<4;j++){let idx=(slot+j)%4;arranged[idx]=options[j];why[idx]=reasons[j]}

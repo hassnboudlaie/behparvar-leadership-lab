@@ -15,7 +15,7 @@ var THEMES=[
  ["هدف و مقدار واقعی","علت انحراف","اقدام آزمایشی و بازبینی"]
 ];
 var AVAILABLE={1:["self"],2:[],3:["self","problem","judgment"],4:["communication","conflict"],5:["delegation","coaching"],6:["planning","coordination","performance","business","change"]};
-function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;":"&quot;","'":"&#39;"}[c]})}
+function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function fa(v){return String(v).replace(/[0-9]/g,function(c){return "۰۱۲۳۴۵۶۷۸۹"[Number(c)]})}
 function role(){
  var fromUrl=new URLSearchParams(location.search).get("audience");

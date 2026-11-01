@@ -130,7 +130,11 @@ function updateLanding(){
    const actions=home.querySelector(".mml-simple-entry-actions");
    if(actions)home.insertBefore(cards,actions);
    else home.appendChild(cards);
-   if(actions)actions.classList.add("bp-c-old-actions");
+   if(actions){
+     actions.classList.add("bp-c-old-actions");
+     const originalStart=actions.querySelector(".mml-reader-next");
+     if(originalStart)originalStart.textContent=n===2?"تمرین‌های تکمیلی برنامه‌ریزی و هماهنگی":"هفت بخش کاربردی جلسه";
+   }
  }
  const oldPortal=document.getElementById("competencies");
  if(oldPortal&&!oldPortal.querySelector(".bp-c-portal-link")){

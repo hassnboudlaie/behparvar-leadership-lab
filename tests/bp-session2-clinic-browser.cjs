@@ -1,0 +1,83 @@
+/* Session 2 end-to-end: true mobile browser, two/four-person, progress, replay, role isolation. */
+"use strict";
+const {chromium}=require("playwright"),assert=require("node:assert/strict");
+(async()=>{
+ const browser=await chromium.launch({headless:true,args:["--no-sandbox"]});
+ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
+ const errs=[];
+ try{
+  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,locale:"fa-IR"});
+  const page=await context.newPage();
+  page.on("pageerror",e=>errs.push(String(e)));
+  await page.goto(base+"?audience=supervisors",{waitUntil:"load"});
+  await page.locator('#welcome [data-open="course"]').click();
+  await page.locator('#course [data-course-session="2"]').click();
+  await page.locator("#session2.view.active").waitFor();
+  assert.equal(await page.locator("#session2 .bp-c-landing-card").count(),4);
+  await page.locator('#session2 [data-open="bp-c-clinic-2"]').click();
+  await page.locator("#bp-c-clinic-2.view.active").waitFor();
+  assert.equal(await page.locator("#bp-c-clinic-2 [data-s2-case]").count(),4);
+  await page.evaluate(()=>localStorage.setItem("bp_competency_session2_v1_supervisors",'{"version":1,"answers":{"test":2}}'));
+  await page.locator('[data-s2-case="pair-signal"]').click();
+  assert.equal(await page.locator("#bp-c-clinic-2 .bp-s2-role").count(),2);
+  await page.locator("#bp-c-clinic-2 .bp-s2-role summary").first().click();
+  assert.ok(await page.locator("#bp-c-clinic-2 .bp-s2-role").first().getAttribute("open")!==null);
+  await page.locator('#bp-c-clinic-2 [data-s2-stage="talk"]').first().click();
+  assert.equal(await page.locator("#bp-c-clinic-2 .bp-s2-dialogue .bp-s2-speech").count(),6);
+  assert.equal(await page.locator('#bp-c-clinic-2 [data-s2-stage="twist"]').isDisabled(),true);
+  await page.locator('#bp-c-clinic-2 [data-s2-decision="1"]').click();
+  assert.ok((await page.locator("#bp-c-clinic-2 .bp-s2-feedback").innerText()).includes("ریسک"));
+  await page.locator('#bp-c-clinic-2 [data-s2-stage="twist"]').last().click();
+  assert.equal(await page.locator('#bp-c-clinic-2 [data-s2-stage="rehearse"]').last().isDisabled(),true);
+  await page.locator("#bp-c-clinic-2 [data-s2-revised]").fill("محموله را متوقف می‌کنم؛ ساعت ۱۸ با مسئول کیفیت و ارسال بازبینی و اطلاع‌رسانی می‌کنیم.");
+  assert.equal(await page.locator('#bp-c-clinic-2 [data-s2-stage="rehearse"]').last().isEnabled(),true);
+  await page.locator('#bp-c-clinic-2 [data-s2-stage="rehearse"]').last().click();
+  assert.ok(await page.locator("#bp-c-clinic-2 .bp-s2-map").count()>0);
+  await page.locator('#bp-c-clinic-2 .bp-s2-sample summary').click();
+  assert.ok(await page.locator("#bp-c-clinic-2 .bp-s2-speech").count()>=10);
+  await page.locator('#bp-c-clinic-2 [data-s2-stage="debrief"]').last().click();
+  assert.equal(await page.locator("#bp-c-clinic-2 [data-s2-observe]").count(),5);
+  await page.locator('#bp-c-clinic-2 [data-s2-observe="0"]').check();
+  await page.locator('#bp-c-clinic-2 [data-s2-reflect="learning"]').fill("وقتی نتیجه قطعی نیست، ابتدا داده و حد اختیار را روشن می‌کنم.");
+  await page.locator('#bp-c-clinic-2 [data-s2-reflect="action"]').fill("فردا در تحویل شیفت، مسئول و موعد اعلام نتیجه آزمایش را ثبت می‌کنم.");
+  const before=await page.evaluate(()=>({
+    clinic:JSON.parse(localStorage.getItem("bp_s2_clinic_v1_supervisors")),
+    diag:localStorage.getItem("bp_competency_session2_v1_supervisors")
+  }));
+  assert.equal(before.clinic.cases["pair-signal"].decision,1);
+  assert.equal(before.clinic.cases["pair-signal"].observed[0],true);
+  assert.ok(before.clinic.cases["pair-signal"].action.includes("شیفت"));
+  assert.ok(before.diag.includes('"test":2'));
+  await page.reload({waitUntil:"load"});
+  await page.locator("#bp-c-clinic-2.view.active").waitFor();
+  await page.locator('[data-s2-case="pair-signal"]').click();
+  await page.locator('#bp-c-clinic-2 [data-s2-stage="debrief"]').first().click();
+  assert.equal(await page.locator('#bp-c-clinic-2 [data-s2-observe="0"]').isChecked(),true);
+  assert.ok((await page.locator('#bp-c-clinic-2 [data-s2-reflect="learning"]').inputValue()).includes("نتیجه قطعی"));
+  await page.locator("#bp-c-clinic-2 [data-s2-list]").first().click();
+  await page.locator('[data-s2-case="group-handover"]').click();
+  assert.equal(await page.locator("#bp-c-clinic-2 .bp-s2-role").count(),4);
+  await page.locator('#bp-c-clinic-2 [data-s2-stage="talk"]').first().click();
+  assert.equal(await page.locator("#bp-c-clinic-2 .bp-s2-dialogue .bp-s2-speech").count(),8);
+  await page.locator('#bp-c-clinic-2 [data-s2-decision="0"]').click();
+  await page.locator('#bp-c-clinic-2 [data-s2-stage="twist"]').last().click();
+  await page.locator("#bp-c-clinic-2 [data-s2-revised]").fill("برای تطبیق کد و مذاکره تحویل جزئی، مسئول کیفیت و بازرگانی و ساعت مرور مشخص شود.");
+  await page.locator('#bp-c-clinic-2 [data-s2-stage="rehearse"]').last().click();
+  await page.locator('#bp-c-clinic-2 .bp-s2-sample summary').click();
+  assert.ok(await page.locator("#bp-c-clinic-2 .bp-s2-speech").count()>=12);
+  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
+  assert.ok(overflow<=1,"overflow "+overflow);
+  await page.goto(base+"?audience=managers#bp-c-clinic-2",{waitUntil:"load"});
+  await page.locator("#bp-c-clinic-2.view.active").waitFor();
+  await page.locator('[data-s2-case="group-handover"]').click();
+  assert.equal(await page.locator("#bp-c-clinic-2 .bp-s2-role").count(),4);
+  assert.ok((await page.locator(".bp-s2-scene").innerText()).includes("فروش"));
+  await page.locator('#bp-c-clinic-2 [data-s2-stage="talk"]').first().click();
+  assert.equal(await page.locator('#bp-c-clinic-2 [data-s2-stage="twist"]').isDisabled(),true);
+  const managerState=await page.evaluate(()=>localStorage.getItem("bp_s2_clinic_v1_managers"));
+  assert.equal(managerState,null);
+  assert.deepEqual(errs,[]);
+  await context.close();
+  console.log("PASS: session 2 roleplay browser — 2/4 actors, decisions, twist, feedback, gated reveal, reflection persistence, role isolation, diagnostics intact, RTL mobile no overflow");
+ }finally{await browser.close()}
+})().catch(e=>{console.error(e);process.exitCode=1});

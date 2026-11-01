@@ -1,4 +1,4 @@
-name: Import approved Behparvar welcome artwork
+name: Install Behparvar management workshop photo
 on:
   push:
     paths:
@@ -7,50 +7,38 @@ on:
 permissions:
   contents: write
 jobs:
-  import-art:
-    runs-on: ubuntu-latest
+  install-photo:
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Download owner-approved artwork
-        env:
-          IMAGE_URL: 'https://media.canva.com/v2/image-resize/format:PNG/height:1672/quality:100/uri:ifs%3A%2F%2FM%2F832b23ae-1a2b-4077-93f8-4a066f8381db/watermark:F/width:941?csig=AAAAAAAAAAAAAAAAAAAAALFpt-POK2Jy5jObsUInbf7L1Xr2lRiklPcVOODgrsjE&exp=1793559862&osig=AAAAAAAAAAAAAAAAAAAAAJ0_ZoyjjGVm25F_6jmHlx5EF9MdC6PhENo1nhj9ffuW&signer=media-rpc&token=AAIAAU0AJDgzMmIyM2FlLTFhMmItNDA3Ny05M2Y4LTRhMDY2ZjgzODFkYgAAAAABoZh_mvB6qbP-awZtthGp2Q_FuS-Nj_j3ANvuEEaY_cfQ1uCtvg&x-canva-quality=default'
+      - name: Download full-resolution realistic management meeting photo
         run: |
-          curl --fail --location --retry 2 -sS "$IMAGE_URL" -o /tmp/approved.png
-          file /tmp/approved.png
-      - name: Extract hero and lively icons
+          curl --fail --location --retry 2 --connect-timeout 10 --max-time 35 -sS \
+            'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85' \
+            -o /tmp/meeting.jpg
+          file /tmp/meeting.jpg
+      - name: Optimize a stable first-party WebP asset
         run: |
           python -m pip install -q Pillow
           python - <<'PY'
-          from PIL import Image, ImageOps, ImageEnhance
+          from PIL import Image, ImageOps
           from pathlib import Path
-          im=Image.open('/tmp/approved.png').convert('RGB')
-          print('Source image',im.size)
-          if im.width<800 or im.height<1500:
-              raise ValueError('Source unavailable at approved original resolution; do not publish a blurry asset.')
-          out=Path('assets/mml-welcome');out.mkdir(parents=True,exist_ok=True)
-          assets={
-            'hero-meeting.webp':(14,273,915,770),
-            'icon-competency.webp':(661,1016,862,1199),
-            'icon-sessions.webp':(357,1018,568,1196),
-            'icon-scenarios.webp':(60,1017,274,1197),
-            'icon-growth.webp':(564,1355,835,1519),
-            'icon-guide.webp':(94,1353,383,1532),
-          }
-          for name,rect in assets.items():
-              item=im.crop(rect)
-              if name=='hero-meeting.webp':
-                  item.thumbnail((1200,720),Image.Resampling.LANCZOS)
-              else:
-                  item.thumbnail((360,270),Image.Resampling.LANCZOS)
-              item.save(out/name,format='WEBP',quality=85,method=6)
-              print(name,(out/name).stat().st_size,item.size)
+          im=Image.open('/tmp/meeting.jpg').convert('RGB')
+          print('Downloaded image size',im.size)
+          assert im.width>=700 and im.height>=450, 'Photo below production-quality threshold'
+          target=Path('assets/mml-welcome/hero-meeting.webp')
+          target.parent.mkdir(parents=True,exist_ok=True)
+          im=ImageOps.exif_transpose(im)
+          im.save(target, 'WEBP', quality=85, method=6)
+          print('Saved stable photo', target, target.stat().st_size)
           PY
-      - name: Commit image assets
+      - name: Commit photo to the site
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/mml-welcome/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/mml-welcome/hero-meeting.webp
           if ! git diff --cached --quiet; then
-            git commit -m "assets: install approved management welcome photo and five lively icons"
-            git push
+            git commit -m 'assets: bundle realistic management workshop hero as local WebP'
+            git pull --rebase origin main
+            git push origin main
           fi

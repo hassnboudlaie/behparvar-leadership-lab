@@ -39,7 +39,7 @@ async function run(){
   await page.locator('#welcome [data-open="course"]').click();
   await page.locator('#course [data-course-session="2"]').click();
   await page.waitForSelector('#session2.view.active',{timeout:10000});
-  assert.equal(await page.locator('#session2 .bp-c-landing-card').count(),3);
+  assert.equal(await page.locator('#session2 .bp-c-landing-card').count(),4);
   assert.ok(await page.locator('#session2 .bp-c-landing-card').first().isVisible());
   await page.waitForTimeout(90);
   const offset=await page.evaluate(()=>window.scrollY);

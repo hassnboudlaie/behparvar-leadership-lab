@@ -22,11 +22,15 @@ jobs:
           node --check assets/bp-competency-path-20261101.js
           node --check assets/bp-practice-data-20261101.js
           node --check assets/bp-practice-first-20261101.js
+          node --check assets/bp-s2-pair-cases-20261101.js
+          node --check assets/bp-s2-group-cases-20261101.js
+          node --check assets/bp-s2-clinic-20261101.js
       - name: Check content and data compatibility
         run: |
           node tests/mml-guided-regression.cjs
           node tests/bp-competency-regression.cjs
           node tests/bp-practice-first-regression.cjs
+          node tests/bp-session2-clinic-regression.cjs
       - name: Existing six-session navigation regressions
         run: |
           node verify-six-sessions.js

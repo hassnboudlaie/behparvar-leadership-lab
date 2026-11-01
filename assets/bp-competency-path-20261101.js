@@ -98,8 +98,10 @@ function showSkill(btn){
  const example=session.role==="supervisors"?skill.s:skill.m;
  target.innerHTML='<h3>📖 '+skill.name+'</h3>'+
  '<h4>تعریف شایستگی</h4><p>'+esc(profile.def)+'</p>'+
+ '<h4>چرا در کار مدیریتی مهم است؟</h4><p>'+esc(skill.behavior)+'</p>'+
  '<h4>چهار سطح خبرگی</h4><ol class="bp-c-levels">'+profile.levels.map((s,i)=>'<li><strong>'+levels[i]+'</strong><p>'+esc(s)+'</p></li>').join("")+'</ol>'+
- '<h4>مثال برای '+(session.role==="supervisors"?"سرپرستان":"مدیران")+'</h4><p class="bp-c-example">'+esc(example)+'</p>';
+ '<h4>مثال برای سرپرستان</h4><p class="bp-c-example">'+esc(skill.s)+'</p>'+
+ '<h4>مثال برای مدیران</h4><p class="bp-c-example">'+esc(skill.m)+'</p>';
  target.hidden=false;
 }
 function showFamily(btn){
@@ -182,7 +184,7 @@ function renderTest(){
  html+=quizRoleChoice();
  if(!session.quizRole){
    html+='<div class="bp-c-instructions"><h2>پیش از شروع</h2><p>بانک مناسب نقش خود را انتخاب کنید. چهار گزینه در هر سؤال می‌توانند بخشی از راه‌حل باشند؛ باید مناسب‌ترین اقدام را با توجه به محدودیت‌ها انتخاب کنید.</p>'+
-   '<p>پس از هر انتخاب، توضیح همان گزینه و دلایل سه گزینه دیگر نمایش داده می‌شود.</p></div>'+
+   '<p>پاسخ شما بدون نمایش کلید ثبت می‌شود. پس از تکمیل هر ۱۲ موقعیت، دلایل تک‌تک گزینه‌ها را مرور می‌کنید.</p></div>'+
    '';
    el.innerHTML=html;return;
  }
@@ -236,7 +238,7 @@ function collect(role){
 }
 function bars(domain){
  const val=domain.percent;
- return '<div class="bp-c-bar-row"><div class="bp-c-bar-label"><strong>'+domain.name+'</strong><span>'+(val==null?"سنجش‌نشده":fa(val)+"٪")+'</span></div>'+
+ return '<div class="bp-c-bar-row"><div class="bp-c-bar-label"><strong>'+domain.name+'</strong><span>'+(val==null?"ارزیابی نشده":fa(val)+"٪")+'</span></div>'+
  '<div class="bp-c-progress-track"><i style="width:'+(val||0)+'%"></i></div>'+
  '<small>'+(domain.count?fa(domain.correct)+" پاسخ همسو از "+fa(domain.count):"پرسشی در این بخش وجود ندارد")+'</small></div>';
 }

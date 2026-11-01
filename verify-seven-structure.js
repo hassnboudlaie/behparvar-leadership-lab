@@ -34,7 +34,7 @@ const parts=['m1','m2','leaders','techniques','visuals','diseases','quiz'];
 const words=['اول','دوم','سوم','چهارم','پنجم','ششم'];
 const firstKey='behparvar_session1_v4';
 for(const role of ['managers','supervisors']){
- const a=boot({audience:role});assert.equal(a.active(),'course');assert.equal(a.all('[data-course-session]').length,6);assert.equal(a.all('#home .module-card').length,7);
+ const a=boot({audience:role});assert.equal(a.active(),'welcome');assert.equal(a.all('[data-course-session]').length,6);assert.equal(a.all('#home .module-card').length,7);
  const untouched=JSON.stringify(a.test.getState());
  for(let n=2;n<=6;n++){
   a.q('[data-course-session="'+n+'"]').click();assert.equal(a.active(),'session'+n);assert.equal(a.all('#workshopNavigation a').length,7);assert.equal(a.q('#workshopSidebar').hidden,false);

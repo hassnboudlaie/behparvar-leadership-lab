@@ -41,6 +41,9 @@ async function run(){
   await page.waitForSelector('#session2.view.active',{timeout:10000});
   assert.equal(await page.locator('#session2 .bp-c-landing-card').count(),3);
   assert.ok(await page.locator('#session2 .bp-c-landing-card').first().isVisible());
+  await page.waitForTimeout(90);
+  const offset=await page.evaluate(()=>window.scrollY);
+  assert.ok(offset<15,"new session route should be at the top, scrollY="+offset);
   await page.screenshot({path:path.join(artifact,"mobile-session2-first-click.png"),fullPage:false});
   await page.locator('#session2 [data-open="bp-c-lesson"]').click();
   await page.waitForSelector('#bp-c-lesson.view.active');
@@ -65,7 +68,9 @@ async function run(){
   const sStem=await page.locator('#bp-c-test .bp-c-question h2').innerText();
   for(let i=0;i<12;i++){
     assert.equal(await page.locator('#bp-c-test .bp-c-options button').count(),4);
-    await page.locator('#bp-c-test .bp-c-options button').nth(i%4).click();
+    const correct=await page.evaluate(j=>window.BPCompetencyData.supervisors[j].answer,i);
+    const answer=i%3===0?(correct+1)%4:correct;
+    await page.locator('#bp-c-test .bp-c-options button').nth(answer).click();
     assert.ok(await page.locator('#bp-c-test .bp-c-answer-saved').isVisible());
     assert.equal(await page.locator('#bp-c-test .bp-c-feedback-line').count(),0,
       "the diagnostic must not reveal correct answers before completion");

@@ -35,6 +35,61 @@ async function run(){
   assert.ok(!await page.locator("#workshopSidebar").isVisible());
  });
  await page.screenshot({path:path.join(artifact,"mobile-welcome-390.png"),fullPage:true});
+ await measure("new session 2 overview uses concise clickable competency paths",async()=>{
+  await page.locator('#welcome [data-open="course"]').click();
+  await page.locator('#course [data-course-session="2"]').click();
+  await page.waitForSelector('#session2.view.active',{timeout:10000});
+  assert.equal(await page.locator('#session2 .bp-c-landing-card').count(),3);
+  assert.ok(await page.locator('#session2 .bp-c-landing-card').first().isVisible());
+  await page.locator('#session2 [data-open="bp-c-lesson"]').click();
+  await page.waitForSelector('#bp-c-lesson.view.active');
+  assert.equal(await page.locator('#bp-c-lesson .bp-c-tile').count(),4);
+  await page.locator('#bp-c-lesson [data-open="bp-c-self"]').click();
+  await page.waitForSelector('#bp-c-self.view.active');
+  assert.equal(await page.locator('#bp-c-self [data-bp-skill]').count(),3);
+  await page.locator('#bp-c-self [data-bp-skill="judgment"]').click();
+  assert.ok(await page.locator('#bp-c-self #bp-c-skill-detail').isVisible());
+  await page.locator('#bp-c-self [data-open="bp-c-lesson"]').click();
+  await page.locator('#bp-c-lesson [data-open="bp-c-families"]').click();
+  await page.waitForSelector('#bp-c-families.view.active');
+  assert.equal(await page.locator('#bp-c-families [data-bp-family]').count(),6);
+  await page.locator('#bp-c-families [data-bp-family="functional"]').click();
+  assert.ok((await page.locator('#bp-c-families #bp-c-family-detail').innerText()).includes("ارزیابی"));
+ });
+ await measure("distinct diagnostic scenarios, per-option rationale and results",async()=>{
+  await page.goto(base+"#bp-c-test",{waitUntil:"load"});
+  await page.waitForSelector('#bp-c-test.view.active');
+  await page.locator('#bp-c-test [data-bp-quiz-role="supervisors"]').click();
+  const sStem=await page.locator('#bp-c-test .bp-c-question h2').innerText();
+  for(let i=0;i<12;i++){
+    assert.equal(await page.locator('#bp-c-test .bp-c-options button').count(),4);
+    await page.locator('#bp-c-test .bp-c-options button').nth(i%4).click();
+    assert.ok(await page.locator('#bp-c-test .bp-c-feedback').isVisible());
+    if(i===0){
+      await page.locator('#bp-c-test .bp-c-feedback details summary').click();
+      assert.equal(await page.locator('#bp-c-test .bp-c-feedback-line').count(),4);
+    }
+    if(i<11)await page.locator('#bp-c-test [data-bp-next]').click();
+  }
+  await page.locator('#bp-c-test [data-open="bp-c-report"]').click();
+  await page.waitForSelector('#bp-c-report.view.active');
+  assert.equal(await page.locator('#bp-c-report .bp-c-bar-row').count(),3);
+  assert.equal(await page.locator('#bp-c-report .bp-c-family-score').count(),6);
+  assert.ok((await page.locator('#bp-c-report').innerText()).includes("ارزیابی نشده"));
+  assert.equal(await page.locator('#bp-c-report .bp-c-competency-details details').count(),3);
+  await page.locator('#bp-c-report [data-open="bp-c-review"]').click();
+  await page.waitForSelector('#bp-c-review.view.active');
+  assert.equal(await page.locator('#bp-c-review .bp-c-review-list details').count(),12);
+  await page.goto(base+"#bp-c-test",{waitUntil:"load"});
+  await page.locator('#bp-c-test [data-bp-quiz-role="managers"]').click();
+  const mStem=await page.locator('#bp-c-test .bp-c-question h2').innerText();
+  assert.notEqual(mStem,sStem,"manager bank must have a distinct work scenario");
+  const supState=await page.evaluate(()=>localStorage.getItem("bp_competency_session2_v1_supervisors"));
+  assert.equal(Object.keys(JSON.parse(supState).answers).length,12);
+  await page.goto(base,{waitUntil:"load"});
+  await page.waitForSelector('#welcome.view.active');
+ });
+
  await page.locator('#welcome .bp-welcome-tile[data-open="competencies"]').click();
  await page.waitForSelector("#competencies.view.active");
  await measure("welcome competency route shows three domains",async()=>{

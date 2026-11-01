@@ -29,6 +29,25 @@ async function run(){
  await page.goto(base,{waitUntil:"load"});
  await page.waitForSelector("#course .course-session.mml-course-tile",{timeout:20000});
  await measure("mobile landing: 6 course cards",async()=>assert.equal(await page.locator("#course .course-session.mml-course-tile").count(),6));
+ await measure("three visible competency domains and six emoji session markers",async()=>{
+  const domains=page.locator("#course .bp-domain-card");
+  assert.equal(await domains.count(),3);
+  assert.deepEqual(await domains.locator(".bp-domain-name").allTextContents(),["خودم","دیگران","نتایج کسب‌وکار"]);
+  assert.equal(await page.locator("#course .bp-course-emoji").count(),6);
+  assert.ok(await page.locator("#course .bp-map-title").isVisible());
+ });
+ await measure("competency card expands four people skills and links to learning",async()=>{
+  const others=page.locator('[data-bp-domain="others"]');
+  await others.click();
+  assert.equal(await others.getAttribute("aria-expanded"),"true");
+  assert.ok(await page.locator("#bp-domain-details").isVisible());
+  assert.equal(await page.locator("#bp-domain-details .bp-skill").count(),4);
+  assert.equal(await page.locator('#bp-domain-details .bp-skill-link[href="#session4"]').count(),2);
+  assert.equal(await page.locator('#bp-domain-details .bp-skill-link[href="#session5"]').count(),2);
+  await others.click();
+  assert.equal(await others.getAttribute("aria-expanded"),"false");
+  assert.ok(!await page.locator("#bp-domain-details").isVisible());
+ });
  await measure("mobile RTL, concise course home and no extra toolbar",async()=>{
   assert.equal(await page.locator("html").getAttribute("dir"),"rtl");
   assert.equal(await page.locator("#course .mml-study-guide").count(),0);
@@ -115,6 +134,13 @@ async function run(){
   assert.equal(new Set(explanations).size,3);
   const stored=await page.evaluate(()=>localStorage.getItem("mml_aligned_v1_managers_4"));
   assert.ok(stored&&JSON.parse(stored).answers[0]===1);
+ });
+ await measure("mobile lesson has visible 30px-class heading and sticker",async()=>{
+  const heading=page.locator("#session4-quiz .mml-reader-heading h2");
+  assert.ok(await heading.isVisible(),"Lesson title must not be hidden on mobile");
+  const size=await heading.evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
+  assert.ok(size>=28,"Lesson heading too small: "+size);
+  assert.ok(await page.locator("#session4-quiz .bp-lesson-icon").isVisible());
  });
  await page.screenshot({path:path.join(artifact,"mobile-session4-quiz-large-type.png"),fullPage:false});
  await measure("mobile horizontal overflow",async()=>{

@@ -49,7 +49,7 @@ async function run(){
   assert.equal(await page.locator('#bp-c-self [data-bp-skill]').count(),3);
   await page.locator('#bp-c-self [data-bp-skill="judgment"]').click();
   assert.ok(await page.locator('#bp-c-self #bp-c-skill-detail').isVisible());
-  await page.locator('#bp-c-self [data-open="bp-c-lesson"]').click();
+  await page.locator('#bp-c-self [data-open="bp-c-lesson"]').first().click();
   await page.locator('#bp-c-lesson [data-open="bp-c-families"]').click();
   await page.waitForSelector('#bp-c-families.view.active');
   assert.equal(await page.locator('#bp-c-families [data-bp-family]').count(),6);

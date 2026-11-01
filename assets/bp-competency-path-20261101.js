@@ -2,7 +2,16 @@
    Original 6x7 lessons and local answers stay untouched. Educational, non-validated. */
 (function(global){"use strict";
 const D=global.BPCompetencyData;if(!D)throw Error("Competency data missing");const PROFILES=global.BPCompetencyProfiles||{};
-const session={role:(new URLSearchParams(location.search).get("audience")==="managers"?"managers":"supervisors"),quizRole:null,step:0};
+function learnerRole(){
+ const param=new URLSearchParams(location.search).get("audience");
+ if(param==="managers"||param==="supervisors")return param;
+ try{
+  const st=JSON.parse(localStorage.getItem("behparvar_app_v1")||"null");
+  if(st&&(st.role==="managers"||st.role==="supervisors"))return st.role;
+ }catch(e){}
+ return "supervisors";
+}
+const session={role:learnerRole(),quizRole:null,step:0};
 const FA=["الف","ب","ج","د"],DOM={"self":"خودم","others":"دیگران","results":"نتایج کسب‌وکار"};
 const ROUTES=new Set(["bp-c-lesson","bp-c-self","bp-c-others","bp-c-results","bp-c-families","bp-c-test","bp-c-report","bp-c-review","bp-c-focus-3","bp-c-focus-4","bp-c-focus-5","bp-c-focus-6"]);
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
@@ -43,6 +52,7 @@ function domainPage(id,domain){
  const el=root(id);if(!el)return;
  const group=D.domains.find(x=>x.id===domain),list=D.skills.filter(s=>s.domain===domain);
  el.innerHTML=header("حوزه "+group.name,group.purpose,"bp-c-lesson","درسنامه · جلسه دوم")+
+ roleSwitcher()+
  '<h2 class="bp-c-section-title">شایستگی‌ها را جداگانه باز کنید</h2>'+
  '<div class="bp-c-choose-list">'+list.map(s=>'<button type="button" data-bp-skill="'+s.id+'" aria-expanded="false"><span class="bp-c-list-symbol">'+(domain==="self"?"◎":domain==="others"?"♧":"↗")+'</span><span><strong>'+s.name+'</strong><small>تعریف · چهار سطح خبرگی · مثال</small></span><span aria-hidden="true">⌄</span></button>').join("")+'</div>'+
  '<div class="bp-c-reveal" id="bp-c-skill-detail" hidden></div>'+
@@ -293,6 +303,11 @@ function render(route){
  else if(/^bp-c-focus-[3-6]$/.test(route))focusPage(Number(route.slice(-1)));
 }
 function onClick(e){
+ const chosen=e.target.closest("[data-mml-role],[data-session-audience],[data-audience-entry]");
+ if(chosen){
+  const value=chosen.getAttribute("data-mml-role")||chosen.getAttribute("data-session-audience")||chosen.getAttribute("data-audience-entry");
+  if(value==="managers"||value==="supervisors")session.role=value;
+ }
  const t=e.target.closest("[data-bp-role],[data-bp-skill],[data-bp-family],[data-bp-quiz-role],[data-bp-option],[data-bp-next],[data-bp-restart]");
  if(!t)return;
  if(t.dataset.bpRole){session.role=t.dataset.bpRole;render(location.hash.slice(1));return}

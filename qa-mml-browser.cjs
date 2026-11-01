@@ -66,11 +66,9 @@ async function run(){
   for(let i=0;i<12;i++){
     assert.equal(await page.locator('#bp-c-test .bp-c-options button').count(),4);
     await page.locator('#bp-c-test .bp-c-options button').nth(i%4).click();
-    assert.ok(await page.locator('#bp-c-test .bp-c-feedback').isVisible());
-    if(i===0){
-      await page.locator('#bp-c-test .bp-c-feedback details summary').click();
-      assert.equal(await page.locator('#bp-c-test .bp-c-feedback-line').count(),4);
-    }
+    assert.ok(await page.locator('#bp-c-test .bp-c-answer-saved').isVisible());
+    assert.equal(await page.locator('#bp-c-test .bp-c-feedback-line').count(),0,
+      "the diagnostic must not reveal correct answers before completion");
     if(i<11)await page.locator('#bp-c-test [data-bp-next]').click();
   }
   await page.locator('#bp-c-test [data-open="bp-c-report"]').click();
@@ -83,6 +81,8 @@ async function run(){
   await page.locator('#bp-c-report [data-open="bp-c-review"]').click();
   await page.waitForSelector('#bp-c-review.view.active');
   assert.equal(await page.locator('#bp-c-review .bp-c-review-list details').count(),12);
+  await page.locator('#bp-c-review .bp-c-review-list details').first().locator('summary').click();
+  assert.equal(await page.locator('#bp-c-review .bp-c-review-list details').first().locator('.bp-c-feedback-line').count(),4);
   await page.goto(base+"#bp-c-test",{waitUntil:"load"});
   await page.locator('#bp-c-test [data-bp-quiz-role="managers"]').click();
   const mStem=await page.locator('#bp-c-test .bp-c-question h2').innerText();

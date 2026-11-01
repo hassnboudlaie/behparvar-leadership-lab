@@ -1,5 +1,7 @@
 /* Behparvar · Practice-first learning panel · additive overrides.
    Responsive, large type, Persian-first; no changes to old lesson layouts. */
+/* Existing beginner shell hides every sibling except its start card; reveal our approved practice panel. */
+body.mml-refreshed.mml-beginner-mode .view.mml-clean-landing > section.bp-practice{display:block!important;visibility:visible!important}
 .bp-practice{max-width:100%;margin:24px 0 26px;direction:rtl;text-align:right;color:#172b4e;font-family:Vazirmatn,Tahoma,sans-serif;font-size:21px;line-height:1.85}
 .bp-practice *{box-sizing:border-box;min-width:0}
 .bp-practice-shell{border:2px solid #d1e5e8;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 7px 24px rgba(18,43,78,.06)}

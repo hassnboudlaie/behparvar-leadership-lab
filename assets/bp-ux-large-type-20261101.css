@@ -248,3 +248,21 @@ body.mml-refreshed footer .settings{display:none!important}
 @media(prefers-reduced-motion:reduce){
  body.mml-refreshed #app .bp-global-home{transition:none}
 }
+
+/* Prevent the fixed Home control from covering course paragraphs.
+   Place Home inside the normal masthead row, next to the Behparvar brand. */
+body.mml-refreshed #app .masthead #bp-global-home{
+ position:static!important;inset:auto!important;z-index:auto!important;
+ box-shadow:0 3px 11px rgba(23,61,93,.08);
+ margin:0!important;min-height:57px;min-width:111px;
+ font-size:23px!important;padding:10px 16px;border-radius:13px;flex:none
+}
+body.mml-refreshed #app .masthead #bp-global-home span{font-size:27px!important}
+body.mml-refreshed #app .masthead .session-label{display:none!important}
+body.mml-refreshed #app .masthead{gap:12px;min-height:69px}
+@media(max-width:650px){
+ body.mml-refreshed #app .masthead{display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;padding:10px 6px}
+ body.mml-refreshed #app .masthead .brand{flex:1;min-width:0;gap:6px}
+ body.mml-refreshed #app .masthead .brand img{max-width:160px;height:auto}
+ body.mml-refreshed #app .masthead #bp-global-home{min-height:54px;min-width:104px;font-size:22px!important;padding:8px 10px}
+}

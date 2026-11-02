@@ -130,7 +130,7 @@ function showSkill(btn){
  '<h4>مثال برای سرپرستان</h4><p class="bp-c-skill-example">'+esc(skill.s)+'</p>'+
  '<h4>مثال برای مدیران</h4><p class="bp-c-skill-example">'+esc(skill.m)+'</p>'+
  (p.mistake?'<div class="bp-c-skill-callout"><strong>⚠️ خطای رایج</strong><p>'+esc(p.mistake)+'</p></div>':"")+
- '<div class="bp-c-skill-evidence"><h4>تمرین کلاسی</h4><p>یکی از نمونه‌های بالا را دو نفره اجرا کنید: نفر اول نقش مدیر یا سرپرست و نفر دوم نقش همکار را دارد. بعد از گفت‌وگو، دقیقاً یک رفتار قابل مشاهده و یک کار برای دفعه بعد بیان کنید.</p></div>';
+ '<div class="bp-c-skill-evidence"><h4>تمرین مشاهده شایستگی</h4><p>از گفت‌وگوهای دو سرپرست هم‌سطح یا نشست چهار مدیر/سرپرست واحدهای مختلف، یک مثال مرتبط با این شایستگی پیدا کنید. جمله یا اقدام مشخص را به‌عنوان شاهد بنویسید و یک بازخورد قابل اجرا ارائه دهید.</p>'+link("bp-c-clinic-2","🎭 مشاهده گفت‌وگو و چک‌لیست","bp-c-secondary")+'</div>';
  target.hidden=false;
 }
 function showFamily(btn){

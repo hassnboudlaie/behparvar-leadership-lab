@@ -244,7 +244,7 @@ function renderTest(){
  html+='<div class="bp-c-actions">'+(answered?
    (session.step===11?link("bp-c-report","📊 مشاهده نتیجه نهایی","bp-c-primary"):'<button type="button" data-bp-next class="bp-c-primary">سؤال بعدی ←</button>'):
    '<span class="bp-c-instruction-mini">گزینه را انتخاب کنید؛ پاسخ ذخیره می‌شود و تحلیل پس از پایان آزمون باز خواهد شد.</span>')+
-+'</div>';
+ '</div>';
  el.innerHTML=html;
 }
 function answer(i){

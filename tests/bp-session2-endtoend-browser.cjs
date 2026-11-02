@@ -17,6 +17,8 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   const reader="#session2-m2 .mml-aligned-panel";
   const studioCards=page.locator(reader+" [data-simple-open-case]");
   assert.equal(await studioCards.count(),5,"all five cases available directly from seven-part reader");
+  const selectedTrack=await page.locator(reader+' [data-simple-open-case="group-empowerment"]').getAttribute("data-simple-target-role");
+  assert.equal(selectedTrack,"supervisors","session-two reader must preserve supervisor audience from URL");
   const readerText=await page.locator(reader).innerText();
   assert.ok(readerText.includes("چک‌لیست مشاهده‌گر"),"observation is purpose of session-two reader");
   for(const obsolete of ["دور دوم؛ همان گفت‌وگو","کارت اتفاق تازه","همه نقش‌ها در برابر اتفاق تازه","۶ دقیقه بازی نقش"]){
@@ -25,7 +27,7 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   await page.locator(reader+' [data-simple-open-case="group-empowerment"]').click();
   await page.locator("#bp-c-clinic-2.view.active").waitFor();
   assert.equal(await page.locator("#bp-c-clinic-2 .bp-simple-roles article").count(),4);
-  assert.ok((await page.locator("#bp-c-clinic-2 .bp-simple-roles h3").allInnerTexts()).every(x=>x.startsWith("سرپرست")));
+  assert.ok((await page.locator("#bp-c-clinic-2 .bp-simple-roles h3").allTextContents()).every(x=>x.startsWith("سرپرست")));
   assert.ok((await page.locator("#bp-c-clinic-2 .bp-simple-dialogue").innerText()).includes("نوبت ۱"));
   assert.equal(await page.locator("#bp-c-clinic-2 .bp-simple-inpage [data-simple-jump]").count(),3);
   await page.locator("#bp-c-clinic-2 [data-simple-jump='checklist']").click();

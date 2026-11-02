@@ -97,7 +97,7 @@ function session2StudioCases(role){
  return '<div class="mml-s2-dialogue-grid">'+cases.map(function(c){
   return '<a class="mml-s2-dialogue-choice" href="#bp-c-clinic-2" data-open="bp-c-clinic-2" data-simple-open-case="'+esc(c.id)+'" data-simple-target-role="'+esc(role)+'">'+
    '<span>'+ (c.format==="pair"?"👥 گفت‌وگوی دونفره":"👥 گفت‌وگوی چهارنفره")+'</span>'+
-   '<strong>'+esc(c[role].title)+'</strong><small>متن کامل، لحظه‌های مهارتی، چک‌لیست و بازخورد مشاهده‌گر</small></a>';
+   '<strong>'+esc(c[role].title)+'</strong><small>متن کامل، لحظه‌های مهارتی، چک‌لیست مشاهده‌گر و بازخورد</small></a>';
  }).join("")+'</div>';
 }
 function session2StudioLink(label){

@@ -76,23 +76,23 @@ function conversation(c,d,role){
  const labels=turnAnchors[c.id]&&turnAnchors[c.id][role]||{};
  const notes=momentNotes[c.id]&&momentNotes[c.id][role]||{};
  const names=Object.fromEntries(D.skills.map(x=>[x.id,x.name]));
- return '<section class="bp-simple-section bp-simple-script-section"><h2>۲. گفت‌وگوی نمونه و لحظه‌های مهارتی</h2>'+
+ return '<section class="bp-simple-section bp-simple-script-section" data-simple-section="dialogue"><h2>۲. گفت‌وگوی نمونه و لحظه‌های مهارتی</h2>'+
  '<div class="bp-simple-target"><strong>🎯 شایستگی‌های قابل مشاهده</strong><div>'+skillNames(c).map(x=>'<span>'+esc(x)+'</span>').join("")+'</div></div>'+
  '<div class="bp-simple-dialogue">'+lines.map(([n,t],i)=>{
    const skill=labels[i];
    const moment=skill?'<aside class="bp-simple-moment"><strong>💡 '+esc(names[skill]||skill)+'</strong><p>'+esc(notes[i]||"رفتار قابل مشاهده و تغییر رویکرد را تشخیص دهید.")+'</p></aside>':"";
    return '<article class="bp-simple-line'+(skill?' bp-simple-highlight':'')+'" data-simple-turn="'+i+'">'+
-   '<span class="bp-simple-speaker">'+(d.names&&d.names[n]?'<strong>'+esc(d.names[n])+'</strong><small>'+esc(d.roles[n][0])+'</small>':esc(d.roles[n][0]))+'</span>'+
+   '<span class="bp-simple-speaker"><em class="bp-simple-turn-number">نوبت '+fa(i+1)+'</em> '+(d.names&&d.names[n]?'<strong>'+esc(d.names[n])+'</strong><small>'+esc(d.roles[n][0])+'</small>':esc(d.roles[n][0]))+'</span>'+
    '<p>'+esc(t)+'</p>'+moment+'</article>';
  }).join("")+'</div></section>';
 }
 function analysis(c,d,role){
  const a=reflections[c.id];
- return '<section class="bp-simple-section bp-simple-analysis"><h2>۳. تحلیل و بازخورد مشاهده‌گران</h2>'+
+ return '<section class="bp-simple-section bp-simple-analysis" data-simple-section="analysis"><h2>۳. تحلیل و بازخورد مشاهده‌گران</h2>'+
  '<p class="bp-simple-observer-intro">👀 سایر شرکت‌کنندگان کلاس با استفاده از چک‌لیست، گفت‌وگو را مستقلاً تحلیل کنند. در هر معیار، میزان مشاهده و یک شاهد مشخص از جمله‌ها یا رفتارها را ثبت کنید؛ نه قضاوت درباره شخصیت افراد.</p>'+
  '<div class="bp-simple-observer-head"><label>نام مشاهده‌گر (اختیاری)<input data-simple-observer-name type="text" placeholder="نام شما"></label><span>موقعیت: '+esc(d.title)+'</span></div>'+
  '<h3 class="bp-simple-criteria-heading">✅ چک‌لیست مشاهده‌گر · پنج رفتار قابل مشاهده</h3>'+
- '<div class="bp-simple-checks">'+d.checklist.map((t,i)=>
+ '<div class="bp-simple-checks" data-simple-section="checklist">'+d.checklist.map((t,i)=>
  '<div class="bp-simple-criterion-row" data-simple-check-item>'+
  '<strong class="bp-simple-criterion">'+fa(i+1)+'. '+esc(t)+'</strong>'+
  '<div class="bp-simple-observer-inputs"><label>وضعیت رفتار<select data-simple-eval aria-label="وضعیت رفتار '+fa(i+1)+'">'+
@@ -101,7 +101,7 @@ function analysis(c,d,role){
  '<option value="مشاهده نشد">مشاهده نشد</option>'+
  '<option value="شاهد کافی نیست">شاهد کافی نیست</option></select></label>'+
  '<label>شاهد مشخص: کدام جمله یا رفتار؟<input data-simple-evidence type="text" placeholder="جمله یا لحظه مشخصی از گفت‌وگو"></label></div></div>').join("")+'</div>'+
- '<h3 class="bp-simple-questions-heading">🔎 سه سؤال تحلیلی؛ پیدا کردن نقاط عطف</h3>'+
+ '<h3 class="bp-simple-questions-heading" data-simple-section="questions">🔎 سه سؤال تحلیلی؛ پیدا کردن نقاط عطف</h3>'+
  '<div class="bp-simple-reflection">'+d.debrief.slice(0,3).map((q,i)=>
  '<label class="bp-simple-reflection-item"><strong>'+fa(i+1)+'. '+esc(q)+'</strong>'+
  '<textarea data-simple-answer rows="3" placeholder="تحلیل و شاهد خود را بنویسید."></textarea></label>').join("")+'</div>'+
@@ -127,6 +127,7 @@ function empowermentMechanism(c){
 function casePage(c,role){
  const d=c[role];
  return '<div class="bp-simple-caseback"><button type="button" data-simple-back>→ همه تمرین‌ها</button><strong>'+esc(d.title)+'</strong><span>'+fa(d.roles.length)+' مدیر/سرپرست هم‌سطح</span></div>'+
+ '<nav class="bp-simple-inpage" aria-label="دسترسی سریع در این گفت‌وگو"><button type="button" data-simple-jump="dialogue">💬 گفت‌وگو</button><button type="button" data-simple-jump="checklist">✅ چک‌لیست مشاهده‌گر</button><button type="button" data-simple-jump="questions">🔎 پرسش‌های تحلیلی</button></nav>'+ 
  '<section class="bp-simple-scene"><h2>۱. اتفاق آشنا؛ جزئیات موقعیت</h2><p class="bp-simple-fiction">موقعیت آموزشی و فرضی، الهام‌گرفته از فرایندهای صنعت خوراک دام و طیور؛ نام‌ها، رویدادها و اعداد واقعی نیستند.</p>'+
  '<div class="bp-simple-scenetext">'+String(d.scene).split(/\n\s*\n/).map(t=>t.trim()).filter(Boolean).map(t=>'<p>'+esc(t)+'</p>').join("")+'</div>'+
  '<div class="bp-simple-casefacts"><h3>📋 داده‌های در دسترس</h3><ul>'+d.signals.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></div>'+
@@ -178,6 +179,19 @@ async function copyObserverReport(){
  }
 }
 
-function init(){render();document.addEventListener("click",e=>{if(e.target.closest("#"+HOST+" [data-simple-copy]")){copyObserverReport();return;}const t=e.target.closest("#"+HOST+" [data-simple-case],#"+HOST+" [data-simple-back],#"+HOST+" [data-simple-role]");if(!t)return;if(t.dataset.simpleRole){activeRole=t.dataset.simpleRole;chosen=null}else if(t.dataset.simpleCase)chosen=t.dataset.simpleCase;else if(t.hasAttribute("data-simple-back"))chosen=null;render();const root=container();if(root)root.scrollIntoView({block:"start",behavior:"smooth"});});window.addEventListener("hashchange",()=>{if(location.hash==="#"+HOST)render();});}
+function init(){render();document.addEventListener("click",e=>{
+ const linked=e.target.closest("[data-simple-open-case]");
+ if(linked){
+  const id=linked.getAttribute("data-simple-open-case"),role=linked.getAttribute("data-simple-target-role");
+  if(C.some(c=>c.id===id)){
+   chosen=id;
+   if(role==="managers"||role==="supervisors")activeRole=role;
+   render();
+  }
+  return;
+ }
+ const jump=e.target.closest("#"+HOST+" [data-simple-jump]");
+ if(jump){const key=jump.getAttribute("data-simple-jump");const target=container()?.querySelector('[data-simple-section="'+key+'"]');if(target)target.scrollIntoView({behavior:"smooth",block:"start"});return;}
+ if(e.target.closest("#"+HOST+" [data-simple-copy]")){copyObserverReport();return;}const t=e.target.closest("#"+HOST+" [data-simple-case],#"+HOST+" [data-simple-back],#"+HOST+" [data-simple-role]");if(!t)return;if(t.dataset.simpleRole){activeRole=t.dataset.simpleRole;chosen=null}else if(t.dataset.simpleCase)chosen=t.dataset.simpleCase;else if(t.hasAttribute("data-simple-back"))chosen=null;render();const root=container();if(root)root.scrollIntoView({block:"start",behavior:"smooth"});});window.addEventListener("hashchange",()=>{if(location.hash==="#"+HOST)render();});}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })(window);

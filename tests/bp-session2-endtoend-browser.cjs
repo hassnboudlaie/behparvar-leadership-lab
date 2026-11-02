@@ -71,7 +71,7 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   await page.locator("#session2-m2.view.active [data-simple-open-case='pair-delegation']").waitFor();
   await page.locator("#session2-m2 [data-simple-open-case='pair-delegation']").click();
   await page.locator("#bp-c-clinic-2.view.active").waitFor();
-  assert.deepEqual(await page.locator("#bp-c-clinic-2 .bp-simple-roles h3").allInnerTexts(),["مدیر عملیات","مدیر منابع انسانی"],"direct links preserve selected manager path");
+  assert.deepEqual(await page.locator("#bp-c-clinic-2 .bp-simple-roles h3").allTextContents(),["مدیر عملیات","مدیر منابع انسانی"],"direct links preserve selected manager path");
   assert.deepEqual(errors,[],"no JavaScript page errors");
   await ctx.close();
   console.log("PASS session 2: five canonical case links, no obsolete replay/twist, selected audience, readable observer shortcuts, distinct 3/12-question assessments, versioned SJT and retained historical responses.");

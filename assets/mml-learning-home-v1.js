@@ -5,7 +5,7 @@
 var PARTS=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
 var WORDS=["اول","دوم","سوم","چهارم","پنجم","ششم"];
 var ICONS=["◈","▦","▤","◉","◇","↻"];
-var SHORT=["شناخت نقش","برنامه‌ریزی","حل مسئله","گفت‌وگو و تعارض","تفویض و رشد افراد","بهبود و تغییر"];
+var SHORT=["رهبری","مدل شایستگی","معطوف به خود","معطوف به دیگران","نتایج کسب‌وکار","مدیریت پیشرفته"];
 var KEY="behparvar_app_v1";
 function readState(){try{return JSON.parse(localStorage.getItem(KEY)||"null")||{}}catch(e){return {}}}
 function roleOf(st){

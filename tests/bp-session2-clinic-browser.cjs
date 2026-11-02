@@ -25,7 +25,7 @@ const {chromium}=require("playwright"),assert=require("node:assert/strict");
   assert.equal(await page.locator("#bp-c-clinic-2 .bp-simple-twist").count(),1);
   assert.equal(await page.locator("#bp-c-clinic-2 .bp-simple-feedback textarea").count(),2);
   await page.locator("#bp-c-clinic-2 .bp-simple-feedback textarea").first().fill("سؤال روشن درباره زمان و مسئول");
-  assert.ok((await page.locator("#bp-c-clinic-2 .bp-simple-target").innerText()).includes("شایستگی‌های هدف"));
+  assert.ok((await page.locator("#bp-c-clinic-2 .bp-simple-target").innerText()).includes("شایستگی‌هایی که باید در رفتار دیده شوند"));
   assert.equal(await page.locator("#bp-c-clinic-2 .bp-simple-checks input").count(),5);
   await page.locator("#bp-c-clinic-2 .bp-simple-checks input").first().check();
   assert.equal(await page.locator("#bp-c-clinic-2 .bp-simple-checks input").first().isChecked(),true);

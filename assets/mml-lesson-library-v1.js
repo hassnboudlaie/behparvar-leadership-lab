@@ -251,6 +251,11 @@ note:"در دور دوم، مخاطب باید یک ریسک واقعی تازه
 }
 ];
 function renderRoleplay(n,role){
+ if(n===2){
+  return '<div class="mml-edu-drama"><h4>گفت‌وگوهای معتبر جلسه دوم</h4><p>پنج گفت‌وگوی کاملِ میان‌واحدی همراه با لحظه‌های مهارتی و تحلیل مشاهده‌گران، در محیط اختصاصی جلسه دوم قرار دارد؛ از متن‌های کوتاه و تمرین‌های قدیمی استفاده نمی‌شود.</p>'+
+   '<a href="#bp-c-clinic-2" data-open="bp-c-clinic-2">🎭 گفت‌وگوهای نمونه و چک‌لیست مشاهده‌گر</a></div>';
+ }
+
  var x=(global.BPCurriculumRoleplays&&global.BPCurriculumRoleplays[n-1])||ROLEPLAYS[n-1],a=role==="managers"?x.m:x.s;
  return '<div class="mml-edu-drama"><div class="mml-edu-drama-title"><span aria-hidden="true">🎭</span><div><h4>نقش‌آفرینی · گفت‌وگوی تمرینی</h4><p>۶ دقیقه بازی نقش + ۳ دقیقه بازخورد. این گفت‌وگو برای تمرین ساخته شده است.</p></div></div><ol>'+a.map(function(t,i){return '<li class="'+(i%2?"mml-edu-turn-alt":"")+'"><strong>'+esc(t[0])+'</strong><small>لحن، حالت چهره و زبان بدن: '+esc(t[1])+'</small><p>«'+esc(t[2])+'»</p></li>'}).join("")+'</ol><aside class="mml-edu-question"><strong>راهنمای تسهیلگر</strong><p>'+esc(x.note)+'</p><p>نقش‌ها را جابه‌جا کنید و درباره رفتار مشاهده‌شده، کیفیت شنیدن، وضوح توافق و محدودیت‌های حرفه‌ای بازخورد بدهید.</p></aside></div>';
 }

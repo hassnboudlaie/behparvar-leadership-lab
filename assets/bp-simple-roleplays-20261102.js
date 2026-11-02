@@ -51,6 +51,7 @@ const expertNotes={
 
 const momentNotes={"pair-signal":{"supervisors":{"3":"پذیرش سهم واحد خود در ضعف اطلاع‌رسانی","4":"تبدیل قضاوت عجولانه به سؤال باز","11":"جداکردن زمان اعلام نتیجه از زمان خروج","15":"روشن‌کردن مالک اعلام و دریافت"},"managers":{"4":"تعریف منفعت مشترک مشتری و کیفیت","8":"تفکیک وعده شفاهی از تعهد معتبر","13":"حفظ مرز اختیار فنی و تجاری","17":"توافق بر اقدام و موعد"}},"pair-delegation":{"supervisors":{"4":"درخواست تعهد از همتای سازمانی به‌جای دستور","7":"تشخیص حدود اختیار و مجوز کیفیت","10":"تفویض کار در تیم خود","17":"تعهد اطلاع‌رسانی زودهنگام"},"managers":{"3":"بازنگری فرض کمبود نیروی هم‌زمان","8":"پذیرش مسئولیت عملیات در آموزش","14":"اصلاح لحن در برابر شواهد","18":"شاخص مشترک ظرفیت و ریسک"}},"group-handover":{"supervisors":{"6":"نقطه عطف: چهار تعریف متفاوت از آماده‌بودن","11":"تعهد مسئول مشخص در تولید","17":"مرزبندی زمان گزارش و آزادسازی","23":"پیام مشترک مبتنی بر وضعیت واقعی"},"managers":{"5":"شناسایی شکاف میان دو تعهد","8":"مقایسه سناریوها به جای دفاع واحدی","17":"دیدن هزینه واقعی تصمیم","21":"معیار مشترک کل شرکت"}},"group-capacity":{"supervisors":{"8":"تغییر برداشت درباره واحدهای دیگر","12":"سند معتبر و تعهد انبار","17":"حفظ اختیار سرپرست تعمیرات","20":"برنامه مشروط با شاهد"},"managers":{"5":"به چالش‌کشیدن راه‌حل یک‌گزینه‌ای","8":"تعریف مهلت تصمیم برای پایلوت","15":"مشخص‌کردن معیار بازنگری","20":"پذیرش مشارکت سرپرستان در اجرا"}},"group-empowerment":{"supervisors":{"2":"پذیرش پیامد دخالت در اختیار واحد دیگر","5":"توافق بر عناصر تفویض مسئولانه","8":"شاهد صلاحیت قبل از واگذاری","12":"شرط توقف و ارجاع فنی","18":"تعهد همتای سازمانی","23":"بازگویی حدود اختیار برای اطمینان از فهم"},"managers":{"4":"دسته‌بندی تصمیم براساس ریسک","7":"تفویض در مرز واحد خود","10":"شواهد متناسب با سطح حساسیت","17":"بازخورد و اصلاح به‌جای لغو همه اختیارها","22":"شاخص محافظ کیفیت و ایمنی"}}};
 let chosen=null,activeRole=null;
+const observerDrafts=new Map(); // In-memory only: no server, no shared device persistence.
 function esc(x){return String(x==null?"":x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function fa(x){return String(x).replace(/\d/g,c=>"۰۱۲۳۴۵۶۷۸۹"[Number(c)])}
 function container(){return document.querySelector("#"+HOST+" .bp-s2-root")}
@@ -76,7 +77,7 @@ function conversation(c,d,role){
  const labels=turnAnchors[c.id]&&turnAnchors[c.id][role]||{};
  const notes=momentNotes[c.id]&&momentNotes[c.id][role]||{};
  const names=Object.fromEntries(D.skills.map(x=>[x.id,x.name]));
- return '<section class="bp-simple-section bp-simple-script-section"><h2>۲. گفت‌وگوی نمونه و لحظه‌های مهارتی</h2>'+
+ return '<section class="bp-simple-section bp-simple-script-section" id="bp-s2-dialogue"><h2>۲. گفت‌وگوی نمونه و لحظه‌های مهارتی</h2>'+
  '<div class="bp-simple-target"><strong>🎯 شایستگی‌های قابل مشاهده</strong><div>'+skillNames(c).map(x=>'<span>'+esc(x)+'</span>').join("")+'</div></div>'+
  '<div class="bp-simple-dialogue">'+lines.map(([n,t],i)=>{
    const skill=labels[i];
@@ -88,10 +89,10 @@ function conversation(c,d,role){
 }
 function analysis(c,d,role){
  const a=reflections[c.id];
- return '<section class="bp-simple-section bp-simple-analysis"><h2>۳. تحلیل و بازخورد مشاهده‌گران</h2>'+
+ return '<section class="bp-simple-section bp-simple-analysis" id="bp-s2-observer"><h2>۳. تحلیل و بازخورد مشاهده‌گران</h2>'+
  '<p class="bp-simple-observer-intro">👀 سایر شرکت‌کنندگان کلاس با استفاده از چک‌لیست، گفت‌وگو را مستقلاً تحلیل کنند. در هر معیار، میزان مشاهده و یک شاهد مشخص از جمله‌ها یا رفتارها را ثبت کنید؛ نه قضاوت درباره شخصیت افراد.</p>'+
  '<div class="bp-simple-observer-head"><label>نام مشاهده‌گر (اختیاری)<input data-simple-observer-name type="text" placeholder="نام شما"></label><span>موقعیت: '+esc(d.title)+'</span></div>'+
- '<h3 class="bp-simple-criteria-heading">✅ چک‌لیست مشاهده‌گر · پنج رفتار قابل مشاهده</h3>'+
+ '<h3 class="bp-simple-criteria-heading">✅ چک‌لیست مشاهده‌گر · پنج رفتار قابل مشاهده</h3><p class="bp-simple-completion" data-simple-completion role="status" aria-live="polite">هنوز ارزیابی ثبت نشده است.</p>'+
  '<div class="bp-simple-checks">'+d.checklist.map((t,i)=>
  '<div class="bp-simple-criterion-row" data-simple-check-item>'+
  '<strong class="bp-simple-criterion">'+fa(i+1)+'. '+esc(t)+'</strong>'+
@@ -114,7 +115,7 @@ function analysis(c,d,role){
  '<div class="bp-simple-feedback"><label>قوی‌ترین رفتار یا جمله چه بود؟<textarea rows="2" data-simple-strength placeholder="کدام جمله گفت‌وگو را جلو برد و چرا؟"></textarea></label>'+
  '<label>کدام رفتار باید بهتر شود؟<textarea rows="2" data-simple-improvement placeholder="چه سؤال یا پاسخ دقیق‌تری پیشنهاد می‌کنید؟"></textarea></label></div>'+
  '<div class="bp-simple-share"><p>گزارش هر مشاهده‌گر در همین صفحه تکمیل می‌شود؛ برای ارائه به مدرس یا سایر اعضای کلاس می‌توانید متن آن را کپی کنید. هیچ پاسخی به سرور ارسال نمی‌شود.</p>'+
- '<button type="button" class="bp-simple-copy" data-simple-copy>📋 کپی گزارش مشاهده‌گر</button>'+
+ '<div class="bp-simple-report-actions"><button type="button" class="bp-simple-copy" data-simple-copy>📋 کپی گزارش مشاهده‌گر</button><button type="button" class="bp-simple-clear" data-simple-clear>پاک کردن پاسخ‌های این مشاهده‌گر</button></div>'+
  '<p data-simple-copy-status role="status" aria-live="polite"></p>'+
  '<div data-simple-report-preview hidden><label>متن گزارش برای کپی دستی<textarea readonly rows="10"></textarea></label></div></div>'+
  '<p class="bp-simple-action"><strong>انتقال به محیط کار:</strong> '+esc(d.action)+'</p></section>';
@@ -126,8 +127,9 @@ function empowermentMechanism(c){
 }
 function casePage(c,role){
  const d=c[role];
- return '<div class="bp-simple-caseback"><button type="button" data-simple-back>→ همه تمرین‌ها</button><strong>'+esc(d.title)+'</strong><span>'+fa(d.roles.length)+' مدیر/سرپرست هم‌سطح</span></div>'+
- '<section class="bp-simple-scene"><h2>۱. اتفاق آشنا؛ جزئیات موقعیت</h2><p class="bp-simple-fiction">موقعیت آموزشی و فرضی، الهام‌گرفته از فرایندهای صنعت خوراک دام و طیور؛ نام‌ها، رویدادها و اعداد واقعی نیستند.</p>'+
+ return '<div class="bp-simple-caseback"><button type="button" data-simple-back>→ همه تمرین‌ها</button><strong>'+esc(d.title)+'</strong><span>'+fa(d.roles.length)+' مدیر/سرپرست هم‌سطح</span></div>'+ 
+ '<nav class="bp-simple-jumpbar" aria-label="دسترسی سریع به بخش‌های گفت‌وگو"><button type="button" data-simple-jump="bp-s2-scene">📍 اتفاق آشنا</button><button type="button" data-simple-jump="bp-s2-dialogue">💬 گفت‌وگوی نمونه</button><button type="button" data-simple-jump="bp-s2-observer">✅ چک‌لیست و تحلیل</button></nav>'+
+ '<section class="bp-simple-scene" id="bp-s2-scene"><h2>۱. اتفاق آشنا؛ جزئیات موقعیت</h2><p class="bp-simple-fiction">موقعیت آموزشی و فرضی، الهام‌گرفته از فرایندهای صنعت خوراک دام و طیور؛ نام‌ها، رویدادها و اعداد واقعی نیستند.</p>'+
  '<div class="bp-simple-scenetext">'+String(d.scene).split(/\n\s*\n/).map(t=>t.trim()).filter(Boolean).map(t=>'<p>'+esc(t)+'</p>').join("")+'</div>'+
  '<div class="bp-simple-casefacts"><h3>📋 داده‌های در دسترس</h3><ul>'+d.signals.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></div>'+
  '<details class="bp-simple-limits"><summary>حدود اختیار و محدودیت‌ها</summary><ul>'+d.constraints.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></details></section>'+
@@ -139,7 +141,40 @@ function render(){
  const r=getRole(),c=C.find(x=>x.id===chosen);
  el.innerHTML=top()+chooser(r)+(r?(c?casePage(c,r):cards(r)):
  '<section class="bp-simple-choose"><h2>ابتدا مشخص کنید در کدام مسیر هستید</h2><p>برای دیدن گفت‌وگوهای مخصوص سرپرستان یا مدیران، یکی از دو گزینه بالا را انتخاب کنید.</p></section>');
+ restoreObserverDraft();
 }
+function draftKey(){return chosen&&getRole()?getRole()+":"+chosen:null}
+function observerFields(){const root=container();return root?[...root.querySelectorAll("[data-simple-observer-name],[data-simple-eval],[data-simple-evidence],[data-simple-answer],[data-simple-strength],[data-simple-improvement]")]:[]}
+function updateCompletion(){
+ const root=container();if(!root)return;
+ const out=root.querySelector("[data-simple-completion]");if(!out)return;
+ const ratings=[...root.querySelectorAll("[data-simple-eval]")];
+ const done=ratings.filter(x=>x.value).length;
+ const evidence=[...root.querySelectorAll("[data-simple-evidence]")].filter(x=>x.value.trim()).length;
+ out.textContent="ارزیابی "+fa(done)+" از "+fa(ratings.length)+" رفتار · "+fa(evidence)+" شاهد ثبت‌شده";
+}
+function saveObserverDraft(){
+ const key=draftKey();if(!key)return;
+ observerDrafts.set(key,observerFields().map(x=>x.value));
+ updateCompletion();
+}
+function restoreObserverDraft(){
+ const key=draftKey(),draft=key&&observerDrafts.get(key);if(draft){
+  observerFields().forEach((x,i)=>{if(draft[i]!==undefined)x.value=draft[i]});
+ }
+ updateCompletion();
+}
+function clearObserverDraft(){
+ const key=draftKey();if(!key)return;
+ observerDrafts.delete(key);
+ observerFields().forEach(x=>x.value="");
+ const root=container();if(root){
+  const preview=root.querySelector("[data-simple-report-preview]");if(preview)preview.hidden=true;
+  const status=root.querySelector("[data-simple-copy-status]");if(status)status.textContent="پاسخ‌های این مشاهده‌گر از فرم پاک شدند.";
+ }
+ updateCompletion();
+}
+
 function observerReport(){
  const root=container(),c=C.find(x=>x.id===chosen),r=getRole();
  if(!root||!c||!r)return "";
@@ -178,6 +213,23 @@ async function copyObserverReport(){
  }
 }
 
-function init(){render();document.addEventListener("click",e=>{if(e.target.closest("#"+HOST+" [data-simple-copy]")){copyObserverReport();return;}const t=e.target.closest("#"+HOST+" [data-simple-case],#"+HOST+" [data-simple-back],#"+HOST+" [data-simple-role]");if(!t)return;if(t.dataset.simpleRole){activeRole=t.dataset.simpleRole;chosen=null}else if(t.dataset.simpleCase)chosen=t.dataset.simpleCase;else if(t.hasAttribute("data-simple-back"))chosen=null;render();const root=container();if(root)root.scrollIntoView({block:"start",behavior:"smooth"});});window.addEventListener("hashchange",()=>{if(location.hash==="#"+HOST)render();});}
+function init(){
+ render();
+ document.addEventListener("input",e=>{if(e.target.closest("#"+HOST+" [data-simple-observer-name],#"+HOST+" [data-simple-evidence],#"+HOST+" [data-simple-answer],#"+HOST+" [data-simple-strength],#"+HOST+" [data-simple-improvement]"))saveObserverDraft()});
+ document.addEventListener("change",e=>{if(e.target.closest("#"+HOST+" [data-simple-eval]"))saveObserverDraft()});
+ document.addEventListener("click",e=>{
+  if(e.target.closest("#"+HOST+" [data-simple-copy]")){copyObserverReport();return;}
+  if(e.target.closest("#"+HOST+" [data-simple-clear]")){clearObserverDraft();return;}
+  const jump=e.target.closest("#"+HOST+" [data-simple-jump]");
+  if(jump){const target=container()?.querySelector("#"+jump.dataset.simpleJump);if(target){target.scrollIntoView({block:"start",behavior:"auto"});target.setAttribute("tabindex","-1");target.focus({preventScroll:true})}return;}
+  const t=e.target.closest("#"+HOST+" [data-simple-case],#"+HOST+" [data-simple-back],#"+HOST+" [data-simple-role]");
+  if(!t)return;
+  if(t.dataset.simpleRole){activeRole=t.dataset.simpleRole;chosen=null}
+  else if(t.dataset.simpleCase)chosen=t.dataset.simpleCase;
+  else if(t.hasAttribute("data-simple-back"))chosen=null;
+  render();const root=container();if(root)root.scrollIntoView({block:"start",behavior:"auto"});
+ });
+ window.addEventListener("hashchange",()=>{if(location.hash==="#"+HOST)render()});
+}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })(window);

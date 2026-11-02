@@ -21,7 +21,10 @@ for(const c of cases){
  for(const role of ["supervisors","managers"]){
   const p=c[role];
   assert.equal(p.roles.length,participants);
-  assert.ok(p.scene.length>=120,"rich contextual scene "+c.id+" "+role);
+  assert.ok(p.scene.length>=750,"industrial cross-unit context must have depth "+c.id+" "+role);
+  assert.equal(p.names.length,participants,"fictional character names + role");
+  assert.ok(p.fictionalContext,"case must be clearly marked educational and fictional");
+  assert.ok(p.scene.includes("خوراک")||p.scene.includes("پلت"),"context tied to feed production");
   assert.equal(p.signals.length,3);
   assert.equal(p.constraints.length,3);
   assert.ok(p.roles.every(x=>x.length===7&&x[0].length>=5&&x.slice(1).every(v=>v.length>=15)),"seven-part character profile");
@@ -61,15 +64,24 @@ assert.ok(app.includes("data-simple-case"));
 assert.ok(app.includes("data-simple-role"));
 assert.ok(app.includes("bp-simple-dialogue"));
 assert.ok(app.includes("bp-simple-private"),"private character detail");
-assert.ok(app.includes("bp-simple-twist"),"facilitator introduces twist");
-assert.ok(app.includes("bp-simple-script"),"sample is available on demand");
+assert.ok(!app.includes("bp-simple-twist"),"no facilitator twist card");
+assert.ok(app.includes("bp-simple-script-section"),"example dialogue shown without extra action");
 assert.ok(app.includes("bp-simple-feedback"),"behavioral feedback fields");
+assert.ok(app.includes("bp-simple-criterion-row")&&app.includes("data-simple-evidence"),"observer scores plus verbatim evidence");
+assert.ok(app.includes("data-simple-eval")&&app.includes("تا حدی مشاهده شد"),"graded classroom checklist");
+assert.ok(app.includes("bp-simple-moment"),"skill turning points embedded in dialogue");
+assert.ok(app.includes("bp-simple-reflection")&&app.includes("data-simple-answer"),"observer analyses all three debatable moments");
+assert.ok(app.includes("data-simple-copy")&&app.includes("copyObserverReport"),"shareable observer report");
+for(const banned of ["نوبت شماست","کارت اتفاق تازه","اجرای دوباره","bp-simple-run","bp-simple-nobias"]){
+ assert.ok(!app.includes(banned),"removed activity stage "+banned);
+}
 assert.ok(app.includes("return null}"),"role must not silently default to supervisor");
 assert.ok(app.includes("bp-simple-analysis"));
+assert.ok(app.includes("واقعی نیستند"),"explicit fiction status; no invented company facts portrayed as observed history");
 assert.ok(app.includes("bp-simple-empower"),"six-element delegation process visible");
 assert.ok(cases.some(c=>c.id==="group-empowerment"&&c.skills.includes("delegation")),"four-unit empowerment scenario must exist");
-assert.ok(app.includes("شایستگی‌هایی که باید در رفتار دیده شوند"));
-assert.ok(app.includes("کارت شخصیت‌ها و پیش‌فرض‌های پنهان"));
+assert.ok(app.includes("شایستگی‌های قابل مشاهده"),"skill targets in the visible dialogue");
+assert.ok(app.includes("شخصیت‌ها و پیش‌فرض‌هایشان"));
 assert.ok(!app.includes("revised.trim().length<20"),"no forced typing gate");
 assert.ok(!app.includes("data-s2-decision"),"no gated quiz inside dialogue");
 assert.ok(!app.includes("localStorage.removeItem"));

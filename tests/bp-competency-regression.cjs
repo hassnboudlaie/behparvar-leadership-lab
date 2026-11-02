@@ -50,5 +50,22 @@ assert.ok(html.includes("bp-competency-path-20261101.css"));
 assert.ok(html.includes('id="session2"')&&html.includes('id="session6"'));
 const ui=fs.readFileSync("assets/bp-competency-path-20261101.js","utf8");
 assert.ok(ui.includes('bp_competency_session2_v1_'),"dedicated saved diagnostic namespace");
-assert.ok(ui.includes("bp-c-evidence-note"),"show study limitations to learner");
+assert.ok(ui.includes("bp-c-plain-summary"),"plain-language educational results");
+assert.ok(!ui.includes("پاسخ همسو"),"remove opaque alignment scores");
+const profiles=fs.readFileSync("assets/bp-competency-profiles-20261101.js","utf8");
+const upgrade=fs.readFileSync("assets/bp-upgrade-data-20261102.js","utf8");
+vm.runInNewContext(profiles,sandbox,{timeout:10000});
+vm.runInNewContext(upgrade,sandbox,{timeout:10000});
+assert.equal(Object.keys(sandbox.window.BPUpgradeData).length,12,"12 competency-rich profiles");
+for(const id of ["self","problem","judgment"]){
+ const p=sandbox.window.BPCompetencyProfiles[id];
+ assert.equal(p.levelNames.length,4,"distinct proficiency headings for "+id);
+ assert.equal(p.evidence.length,4,"observable evidence at all four levels "+id);
+ assert.ok(p.levels.every(l=>l.length>80),"behaviour-rich proficiency "+id);
+}
+assert.ok(sandbox.window.BPCompetencyData.families.every(f=>f.story&&f.good&&f.bad&&f.evidence),"six families need stories and examples");
+assert.ok(html.includes("bp-upgrade-data-20261102.js"));
+assert.ok(html.includes("bp-simple-roleplays-20261102.js"));
+assert.ok(html.includes("توسعه</span> <span class=\"bp-title-skills\">مهارت‌های مدیریتی"));
+assert.ok(!html.includes('href="#progress" data-open="progress" class="bp-welcome-tile'),"no growth card on homepage");
 console.log("PASS: 3 domains (3/4/5), 6 BMCF families, 12 skills; sessions 3–6 mapping; 12 distinct role questions each, balanced keys, unique rationales and no systematic correct-length cue; all 12 routes; separate saved data.");

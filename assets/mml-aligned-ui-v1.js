@@ -95,6 +95,11 @@ function render(n,part,role){
     '<section><h3>چه چیزی می‌دانیم؟</h3>'+bullets(data.facts)+'</section>'+
     '<section><h3>قبل از تصمیم چه بپرسم؟</h3><p>از هر نفر بپرسید: چه اتفاقی افتاده؟ چه چیزی جلوی کار را گرفته؟ چه کمکی لازم است؟ سپس قدم بعدی را مشخص کنید.</p></section>'+
     reviewInput(n,part,role,"یک سؤال که باید از تیم بپرسم");
+ }else if(i===1 && n===2){
+   h=context(n,role)+
+    '<section class="mml-session2-canonical-dialogue"><h3>گفت‌وگوهای نمونه؛ مشاهده و تحلیل شایستگی</h3>'+
+    '<p>پنج موقعیت میان‌واحدی با گفت‌وگوی نمونه، لحظه‌های مهارتی، چک‌لیست مشاهده‌گر و سه سؤال تحلیلی برای مسیر سرپرستان و مدیران.</p>'+
+    '<a class="mml-session2-dialogue-link" href="#bp-c-clinic-2" data-open="bp-c-clinic-2">🎭 ورود به گفت‌وگوهای نمونه و تحلیل مشاهده‌گران</a></section>';
  }else if(i===1){
    h=context(n,role)+
     '<section><h3>گفت‌وگو را اجرا کنید</h3><p>نقش‌های دو یا چهار واحد را بین شرکت‌کنندگان تقسیم کنید. به لحن، مکث، زبان بدن و تغییر موضع هنگام اختلاف توجه کنید.</p>'+
@@ -109,6 +114,12 @@ function render(n,part,role){
     '<section><h3>اگر مدیر بودی چه می‌دیدی؟</h3><p>'+prose(data.facts[1])+'</p>'+
     '<p>در تصمیم اخیر خودتان کدام نگرانی یا محدودیت را دیر متوجه شدید؟</p></section>'+bookExample(n)+
     reviewInput(n,part,role,"یک نکته که می‌خواهم در کارم امتحان کنم");
+ }else if(i===3 && n===2){
+   h=context(n,role)+
+    '<section><h3>شایستگی را چگونه از روی رفتار تشخیص دهیم؟</h3><ol class="mml-align-process">'+d.flow.map(function(x,j){return '<li><b>'+(j+1)+'</b><span>'+prose(x)+'</span></li>'}).join("")+'</ol></section>'+
+    '<section><h3>شاهد عملکرد کجاست؟</h3><p>در گفت‌وگوهای میان‌واحدی، به تغییر پیش‌فرض، سؤال باز، رعایت حدود اختیار، تصمیم با مسئول مشخص و موعد بازبینی توجه کنید.</p>'+
+    '<a class="mml-session2-dialogue-link" href="#bp-c-clinic-2" data-open="bp-c-clinic-2">بررسی شواهد در گفت‌وگوها</a></section>'+
+    reviewInput(n,part,role,"یک رفتار قابل مشاهده که در گفت‌وگو پیدا کردم");
  }else if(i===3){
    h=context(n,role)+
     '<section><h3>روش کار در چهار گام</h3><ol class="mml-align-process">'+d.flow.map(function(x,j){return '<li><b>'+(j+1)+'</b><span>'+prose(x)+'</span></li>'}).join("")+'</ol></section>'+
@@ -122,6 +133,12 @@ function render(n,part,role){
     '<tbody>'+d.matrix.map(function(x){return '<tr><th>'+prose(x[0])+'</th><td>'+prose(x[1])+'</td><td>'+prose(x[2])+'</td></tr>'}).join("")+'</tbody></table></div></section>'+
     '<section><h3>مراحل تصمیم</h3><ol class="mml-align-process">'+d.flow.map(function(x,j){return '<li><b>'+(j+1)+'</b><span>'+prose(x)+'</span></li>'}).join("")+'</ol></section>'+
     reviewInput(n,part,role,"در این موقعیت، کدام روش را انتخاب می‌کنم؟ چرا؟");
+ }else if(i===5 && n===2){
+   h=context(n,role)+
+    '<section><h3>اشتباه رایج در تشخیص شایستگی</h3><p>'+prose(data.trap)+'</p></section>'+
+    '<section><h3>راه درست چیست؟</h3><p>'+prose(data.technique)+'</p>'+
+    '<p>به‌جای قضاوت درباره شخصیت، شواهد رفتاری را در چک‌لیست ثبت کنید. یک پاسخ درست در آزمون، گواه خبرگی واقعی نیست.</p></section>'+
+    reviewInput(n,part,role,"کدام برچسب ذهنی را می‌توانم به شاهد رفتاری تبدیل کنم؟");
  }else if(i===5){
    h=context(n,role)+
     '<section><h3>اشتباه رایج</h3><p>'+prose(data.trap)+'</p></section>'+

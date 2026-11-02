@@ -140,8 +140,8 @@ function updateLanding(){
    cards.className="bp-c-landing-links";
    cards.setAttribute("aria-label","انتخاب بخش یادگیری جلسه");
    if(n===2){
-    cards.innerHTML=link("bp-c-lesson",'<span>📖</span><strong>درسنامه و نمودار مدل</strong><small>سه حوزه و شش خانواده را کلیک کنید</small>',"bp-c-landing-card")+
-      link("bp-c-clinic-2",'<span>🎭</span><strong>تمرین‌های دونفره و چهارنفره</strong><small>گفت‌وگو، تصمیم و بازخورد همتایان</small>',"bp-c-landing-card")+
+    cards.innerHTML=link("bp-c-clinic-2",'<span>🎭</span><strong>گفت‌وگوهای دو نفره و چهار نفره</strong><small>کارت نقش، دیالوگ حرفه‌ای و تحلیل</small>',"bp-c-landing-card")+
+      link("bp-c-lesson",'<span>📖</span><strong>درسنامه و نمودار مدل</strong><small>سه حوزه و شش خانواده شایستگی</small>',"bp-c-landing-card")+
        link("bp-c-test",'<span>🎯</span><strong>آزمون موقعیت‌محور</strong><small>بانک جدا برای مدیران و سرپرستان</small>',"bp-c-landing-card")+
       link("bp-c-report",'<span>📊</span><strong>نتایج و پیشنهاد یادگیری</strong><small>بعد از پاسخ‌گویی فعال می‌شود</small>',"bp-c-landing-card");
    }else{

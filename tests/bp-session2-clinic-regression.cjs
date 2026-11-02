@@ -69,6 +69,8 @@ assert.ok(app.includes("bp-simple-script-section"),"example dialogue shown witho
 assert.ok(app.includes("bp-simple-feedback"),"behavioral feedback fields");
 assert.ok(app.includes("bp-simple-criterion-row")&&app.includes("data-simple-evidence"),"observer scores plus verbatim evidence");
 assert.ok(app.includes("data-simple-eval")&&app.includes("تا حدی مشاهده شد"),"graded classroom checklist");
+assert.ok(app.includes("ungrounded")&&app.includes("missingEvidence"),"observer feedback warns about ratings lacking concrete evidence");
+assert.ok(app.includes("کیفیت ثبت شواهد"),"teacher-facing copy includes quality of observer evidence");
 assert.ok(app.includes("bp-simple-moment"),"skill turning points embedded in dialogue");
 const anchorSource=app.match(/const turnAnchors=(\{[\s\S]*?\});\s*const expertNotes=/);
 assert.ok(anchorSource,"skill-anchor definitions present");

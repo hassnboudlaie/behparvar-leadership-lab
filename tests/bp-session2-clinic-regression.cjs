@@ -70,8 +70,29 @@ assert.ok(app.includes("bp-simple-feedback"),"behavioral feedback fields");
 assert.ok(app.includes("bp-simple-criterion-row")&&app.includes("data-simple-evidence"),"observer scores plus verbatim evidence");
 assert.ok(app.includes("data-simple-eval")&&app.includes("تا حدی مشاهده شد"),"graded classroom checklist");
 assert.ok(app.includes("bp-simple-moment"),"skill turning points embedded in dialogue");
+const anchorSource=app.match(/const turnAnchors=(\{[\s\S]*?\});\s*const expertNotes=/);
+assert.ok(anchorSource,"skill-anchor definitions present");
+const anchors=vm.runInNewContext("("+anchorSource[1]+")");
+for(const c of cases){
+ for(const role of ["supervisors","managers"]){
+  const marks=anchors[c.id][role];
+  assert.ok(Object.keys(marks).length>=4,"each case has at least four observable annotated moments");
+  for(const [turn,skill] of Object.entries(marks)){
+   assert.ok(Number(turn)<c[role].improved.length,"moment within actual dialogue "+c.id+" "+role);
+   assert.ok(c.skills.includes(skill),"moment skill must be declared as target "+c.id+" "+role+" "+skill);
+  }
+ }
+}
 assert.ok(app.includes("bp-simple-reflection")&&app.includes("data-simple-answer"),"observer analyses all three debatable moments");
 assert.ok(app.includes("data-simple-copy")&&app.includes("copyObserverReport"),"shareable observer report");
+assert.ok(app.includes("observerDrafts=new Map()")&&app.includes("restoreObserverDraft"),"in-session observer notes retained while changing cases");
+assert.ok(app.includes("data-simple-clear")&&app.includes("clearObserverDraft"),"separate observers can restart");
+assert.ok(app.includes("data-simple-jump")&&app.includes("bp-s2-dialogue")&&app.includes("bp-s2-observer"),"classroom navigation to dialogue and checklist");
+assert.ok(!app.includes("localStorage.setItem")&&!app.includes("sessionStorage.setItem"),"observer comments remain ephemeral and local only");
+const aligned=read("assets/mml-aligned-ui-v1.js");
+assert.ok(aligned.includes("i===1 && n===2")&&aligned.includes("i===3 && n===2")&&aligned.includes("i===5 && n===2"),"old reader session-two instructions isolated and replaced");
+const competency=read("assets/bp-competency-path-20261101.js");
+assert.ok(competency.includes("تمرین مشاهده شایستگی")&&competency.includes("سرپرست هم‌سطح"),"competency detail uses cross-unit observation rather than subordinate roleplay");
 for(const banned of ["نوبت شماست","کارت اتفاق تازه","اجرای دوباره","bp-simple-run","bp-simple-nobias"]){
  assert.ok(!app.includes(banned),"removed activity stage "+banned);
 }

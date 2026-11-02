@@ -311,3 +311,24 @@ body.mml-refreshed .bp-c-level-report summary{cursor:pointer;color:#155c6c;font-
  #bp-c-clinic-2 .bp-simple-criterion{font-size:19px}
  #bp-c-clinic-2 .bp-simple-feedback{grid-template-columns:1fr}
 }
+
+/* Session-2 post-implementation audit: teacher-friendly rapid navigation and evidence retention UI */
+#bp-c-clinic-2 .bp-simple-jumpbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0 22px;direction:rtl}
+#bp-c-clinic-2 .bp-simple-jumpbar button{display:flex;align-items:center;justify-content:center;min-height:60px;padding:10px 13px;background:#fff;border:2px solid #c1dfe0;border-radius:14px;color:#155b66;font-family:inherit;font-size:19px;font-weight:800;line-height:1.6;cursor:pointer;text-align:center}
+#bp-c-clinic-2 .bp-simple-jumpbar button:hover{background:#eaf8f5;border-color:#2b9094}
+#bp-c-clinic-2 .bp-simple-jumpbar button:focus-visible,#bp-c-clinic-2 .bp-simple-clear:focus-visible{outline:3px solid #df9e5a;outline-offset:2px}
+#bp-c-clinic-2 .bp-simple-completion{font-size:18px;font-weight:850;line-height:1.6;background:#eaf7f3;border-radius:11px;padding:9px 14px;color:#225a66;margin:9px 0 15px}
+#bp-c-clinic-2 .bp-simple-report-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+#bp-c-clinic-2 .bp-simple-clear{font-family:inherit;font-size:18px;font-weight:800;line-height:1.55;background:#fff;color:#786042;border:2px solid #e5d4be;border-radius:13px;cursor:pointer;padding:12px 18px;min-height:56px}
+#bp-c-clinic-2 .bp-simple-clear:hover{background:#fff8f0}
+.mml-session2-canonical-dialogue{background:#edf9f6;border:2px solid #c5e3df;padding:20px;border-radius:18px;margin:16px 0}
+.mml-session2-canonical-dialogue h3{font-size:24px;margin:0 0 9px;color:#145969}
+.mml-session2-canonical-dialogue p{font-size:20px;line-height:1.8;margin:0 0 14px}
+.mml-session2-dialogue-link{display:inline-flex;min-height:52px;align-items:center;padding:10px 19px;background:#146f7b;border-radius:13px;text-decoration:none!important;color:#fff!important;font-size:20px;font-weight:900;line-height:1.55}
+.mml-session2-dialogue-link:hover{background:#0b5864}
+@media(max-width:760px){
+ #bp-c-clinic-2 .bp-simple-jumpbar{gap:7px}
+ #bp-c-clinic-2 .bp-simple-jumpbar button{font-size:16px;padding:9px 5px;min-height:67px}
+ #bp-c-clinic-2 .bp-simple-report-actions{flex-direction:column;align-items:stretch}
+ #bp-c-clinic-2 .bp-simple-report-actions button{width:100%}
+}

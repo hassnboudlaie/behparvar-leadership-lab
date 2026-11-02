@@ -49,10 +49,18 @@ for(let n=1;n<=6;n++){
     const output=ui.render(n,part,role);
     assert.ok(output.includes('data-mml-scene-id="session-'+n+'"'),"Missing continuous scenario");
     assert.ok(output.includes(t.skill),"Missing skill focus");
-    assert.ok(output.includes(part==="quiz"?"data-mml-align-quiz-mount":part==="m2"?"اتفاق تازه":"اتفاق آشنا"));
+    assert.ok(output.includes(part==="quiz"?"data-mml-align-quiz-mount":n===2&&part==="m2"?"bp-c-clinic-2":part==="m2"?"اتفاق تازه":"اتفاق آشنا"));
     if(part==="m2"){
-      assert.ok(output.includes("دور دوم")&&output.includes("چک‌لیست مشاهده‌گر")&&output.includes("لحن، حالت چهره و زبان بدن"));
+      if(n===2){
+        assert.ok(output.includes("گفت‌وگوهای نمونه")&&output.includes("مشاهده‌گران"));
+        assert.ok(!output.includes("اتفاق تازه")&&!output.includes("دور دوم")&&!output.includes("گفت‌وگو را اجرا کنید"));
+      }else{
+        assert.ok(output.includes("دور دوم")&&output.includes("چک‌لیست مشاهده‌گر")&&output.includes("لحن، حالت چهره و زبان بدن"));
+      }
       roleplays++;
+    }
+    if(n===2){
+      assert.ok(!output.includes("مانع تازه")&&!output.includes("وقتی شرایط عوض می‌شود"),"old scenario stages removed from all session-two pages");
     }
     pages++;
    }

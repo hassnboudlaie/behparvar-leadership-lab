@@ -49,6 +49,9 @@ assert.ok(!html.includes('<img class="bp-welcome-photo" <img'));
 assert.ok(!appSource.includes("localStorage.removeItem"));
 assert.ok(appSource.includes("bp_practice_"));
 assert.ok(appSource.includes("role()"));
+assert.ok(appSource.includes("if(n===2)return;"),"session-two legacy practice duplicate is suppressed");
+assert.ok(appSource.includes("BPCanonicalSessions"),"old scripts cannot override canonical session map");
+
 assert.ok(css.includes("@media(max-width:800px)"));
 assert.ok(css.includes("prefers-reduced-motion"));
 assert.ok(appSource.includes("aria-pressed"));

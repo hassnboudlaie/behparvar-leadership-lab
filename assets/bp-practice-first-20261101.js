@@ -5,7 +5,7 @@
 var D=global.BPPracticeData;
 if(!D||!Array.isArray(D.sessions)||D.sessions.length!==6||D.conversations.length!==12)throw Error("Practice-first teaching data unavailable");
 var WORDS=["اول","دوم","سوم","چهارم","پنجم","ششم"];
-var TITLES=["شناخت نقش مدیریتی و سرپرستی","آشنایی با مدل شایستگی‌های مدیریتی","شایستگی‌های معطوف به خود","ارتباطات و مدیریت تعارض","تفویض اختیار، توانمندسازی و توسعه دیگران","مدیریت نتایج کسب‌وکار و بهبود مستمر"];
+var TITLES=["رهبری","مدل شایستگی‌های مدیریتی","شایستگی‌های معطوف به خود","شایستگی‌های معطوف به دیگران","شایستگی‌های معطوف به نتایج کسب‌وکار","مدیریت پیشرفته"];
 var THEMES=[
  ["نقش روشن","حدود اختیار","بازبینی مسئولانه"],
  ["خودم","دیگران","نتایج کسب‌وکار"],
@@ -34,7 +34,8 @@ function announce(n,msg){var e=holder(n)&&holder(n).querySelector("[data-bp-save
 function button(n,name,label){return '<button type="button" data-bp-practice-tab="'+n+":"+name+'" aria-controls="bp-practice-stage-'+n+'" aria-pressed="false">'+label+'</button>'}
 function initLanding(){
  D.sessions.forEach(function(s){
-  var n=s.n,page=entry(n);if(!page||holder(n))return;
+  var n=s.n,page=entry(n);if(n===2)return; // Session two uses the canonical competency model, dialogue and observer lab, never a parallel legacy workshop.
+  if(!page||holder(n))return;
   var host=document.createElement("section");
   host.className="bp-practice";host.id="bp-practice-"+n;
   host.setAttribute("aria-label","کارگاه عملی جلسه "+fa(n));
@@ -53,9 +54,11 @@ function initLanding(){
 }
 function updateTitles(){
  var sessionTitles={
-  "2":"مدل شایستگی‌های مدیریتی","3":"شایستگی‌های معطوف به خود","4":"ارتباطات و مدیریت تعارض",
-  "5":"تفویض اختیار و توسعه دیگران","6":"نتایج کسب‌وکار و بهبود مستمر"
+  "2":"مدل شایستگی‌های مدیریتی","3":"شایستگی‌های معطوف به خود",
+  "4":"شایستگی‌های معطوف به دیگران","5":"شایستگی‌های معطوف به نتایج کسب‌وکار",
+  "6":"مدیریت پیشرفته"
  };
+ if(global.BPCanonicalSessions){for(var t=2;t<=6;t++)sessionTitles[String(t)]=global.BPCanonicalSessions[t-1]||sessionTitles[String(t)];}
  for(var n=2;n<=6;n++){
   var el=entry(n),h=el&&el.querySelector(".mml-simple-session-home h1");
   if(h)h.textContent="جلسه "+WORDS[n-1]+"؛ "+sessionTitles[n];

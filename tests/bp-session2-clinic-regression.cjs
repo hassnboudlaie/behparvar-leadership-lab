@@ -24,7 +24,12 @@ for(const c of cases){
   assert.ok(p.scene.length>=120,"rich contextual scene "+c.id+" "+role);
   assert.equal(p.signals.length,3);
   assert.equal(p.constraints.length,3);
-  assert.ok(p.roles.every(x=>x.length===4&&x[0].length>=5&&x.slice(1).every(v=>v.length>=15)));
+  assert.ok(p.roles.every(x=>x.length===7&&x[0].length>=5&&x.slice(1).every(v=>v.length>=15)),"seven-part character profile");
+  assert.ok(p.roles.every(x=>x[0].startsWith(role==="supervisors"?"سرپرست":"مدیر")),"peer-level participants only");
+  assert.equal(new Set(p.roles.map(x=>x[0])).size,participants,"each participant represents a different unit");
+  assert.ok(p.roles.every(x=>x[4].length>=30&&x[5].length>=25&&x[6].length>=30),"assumptions, style and private knowledge");
+  assert.ok(p.improved.length>=16,"substantive multi-turn negotiation");
+  assert.ok(p.improved.some(x=>/اگر|ولی|اما|به شرط|نمی‌توان|نمی‌تون|نگران/.test(x[1])),"dialogue includes tension or conditions");
   assert.ok(p.initial.length>=participants*2);
   assert.ok(p.improved.length>=participants*3);
   assert.ok(p.initial.every(x=>x.length===2&&Number.isInteger(x[0])&&x[0]>=0&&x[0]<participants&&x[1].length>=15));
@@ -55,9 +60,14 @@ assert.ok(read("assets/bp-competency-path-20261101.js").includes('link("bp-c-cli
 assert.ok(app.includes("data-simple-case"));
 assert.ok(app.includes("data-simple-role"));
 assert.ok(app.includes("bp-simple-dialogue"));
+assert.ok(app.includes("bp-simple-private"),"private character detail");
+assert.ok(app.includes("bp-simple-twist"),"facilitator introduces twist");
+assert.ok(app.includes("bp-simple-script"),"sample is available on demand");
+assert.ok(app.includes("bp-simple-feedback"),"behavioral feedback fields");
+assert.ok(app.includes("return null}"),"role must not silently default to supervisor");
 assert.ok(app.includes("bp-simple-analysis"));
 assert.ok(app.includes("شایستگی‌های هدف در این گفت‌وگو"));
-assert.ok(app.includes("مفروضات و ویژگی‌های نقش‌ها"));
+assert.ok(app.includes("کارت شخصیت‌ها و پیش‌فرض‌های پنهان"));
 assert.ok(!app.includes("revised.trim().length<20"),"no forced typing gate");
 assert.ok(!app.includes("data-s2-decision"),"no gated quiz inside dialogue");
 assert.ok(!app.includes("localStorage.removeItem"));
@@ -67,4 +77,4 @@ for(let n=1;n<=6;n++)for(const p of PARTS){
  const id=n===1?p:"session"+n+"-"+p;
  assert.ok(html.includes('id="'+id+'"'),"legacy route "+id);
 }
-console.log("PASS: 8 role-specific conversations; visible role assumptions, full dialogues, target skills and debrief; no gated navigation, unchanged 42 course routes.");
+console.log("PASS: cross-unit peer-only characters in 8 role-specific conversations; visible role assumptions, full dialogues, target skills and debrief; no gated navigation, unchanged 42 course routes.");

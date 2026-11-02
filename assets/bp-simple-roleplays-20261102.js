@@ -101,7 +101,7 @@ function analysis(c,d,role){
  '<option value="تا حدی مشاهده شد">تا حدی مشاهده شد</option>'+
  '<option value="مشاهده نشد">مشاهده نشد</option>'+
  '<option value="شاهد کافی نیست">شاهد کافی نیست</option></select></label>'+
- '<label>شاهد مشخص: کدام جمله یا رفتار؟<input data-simple-evidence type="text" placeholder="جمله یا لحظه مشخصی از گفت‌وگو"></label></div></div>').join("")+'</div>'+
+ '<label>شاهد مشخص: کدام نوبت و چه جمله یا رفتاری؟<input data-simple-evidence type="text" placeholder="مثلاً نوبت ۷: سؤال باز یا پذیرش سهم واحد"></label></div></div>').join("")+'</div>'+
  '<h3 class="bp-simple-questions-heading">🔎 سه سؤال تحلیلی؛ پیدا کردن نقاط عطف</h3>'+
  '<div class="bp-simple-reflection">'+d.debrief.slice(0,3).map((q,i)=>
  '<label class="bp-simple-reflection-item"><strong>'+fa(i+1)+'. '+esc(q)+'</strong>'+
@@ -149,9 +149,15 @@ function updateCompletion(){
  const root=container();if(!root)return;
  const out=root.querySelector("[data-simple-completion]");if(!out)return;
  const ratings=[...root.querySelectorAll("[data-simple-eval]")];
+ const evidenceFields=[...root.querySelectorAll("[data-simple-evidence]")];
  const done=ratings.filter(x=>x.value).length;
- const evidence=[...root.querySelectorAll("[data-simple-evidence]")].filter(x=>x.value.trim()).length;
- out.textContent="ارزیابی "+fa(done)+" از "+fa(ratings.length)+" رفتار · "+fa(evidence)+" شاهد ثبت‌شده";
+ const evidence=evidenceFields.filter(x=>x.value.trim()).length;
+ /* A positive or negative observation needs a line/behaviour as evidence.
+    "Insufficient evidence" is legitimate and must not force a fabricated quote. */
+ const ungrounded=ratings.filter((x,i)=>x.value&&x.value!=="شاهد کافی نیست"&&!evidenceFields[i]?.value.trim()).length;
+ out.textContent="ارزیابی "+fa(done)+" از "+fa(ratings.length)+" رفتار · "+fa(evidence)+" شاهد ثبت‌شده"+
+ (ungrounded?" · ⚠️ "+fa(ungrounded)+" ارزیابی بدون شاهد مشخص":"");
+ out.dataset.missingEvidence=String(ungrounded);
 }
 function saveObserverDraft(){
  const key=draftKey();if(!key)return;
@@ -179,6 +185,8 @@ function observerReport(){
  const root=container(),c=C.find(x=>x.id===chosen),r=getRole();
  if(!root||!c||!r)return "";
  const d=c[r],get=sel=>root.querySelector(sel)?.value?.trim()||"";
+ const ungrounded=Number(root.querySelector("[data-simple-completion]")?.dataset.missingEvidence||0);
+ const evidenceStatus=ungrounded?"یادآوری: "+fa(ungrounded)+" ارزیابی دارای امتیاز، بدون شاهد مشخص است.":"همه ارزیابی‌های ثبت‌شده، شاهد دارند یا «شاهد کافی نیست» انتخاب شده است.";
  const rows=[...root.querySelectorAll("[data-simple-check-item]")].map(node=>
   (node.querySelector(".bp-simple-criterion")?.textContent||"")+
   "\nارزیابی: "+(node.querySelector("[data-simple-eval]")?.value||"ثبت نشده")+
@@ -189,6 +197,7 @@ function observerReport(){
  return ["گزارش مشاهده‌گر — جلسه دوم مدل شایستگی‌های به‌پرور",
  "موقعیت: "+d.title,"مسیر: "+roleName[r],
  "نام مشاهده‌گر: "+(get("[data-simple-observer-name]")||"بدون نام"),
+ "کیفیت ثبت شواهد: "+evidenceStatus,
  "چک‌لیست مبتنی بر شاهد:",...rows,
  "نقاط عطف و تحلیل:",...debrief,
  "قوی‌ترین رفتار: "+(get("[data-simple-strength]")||"ثبت نشده"),

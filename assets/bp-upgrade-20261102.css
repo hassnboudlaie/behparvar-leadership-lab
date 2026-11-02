@@ -223,3 +223,16 @@ body.mml-refreshed .bp-c-level-report summary{cursor:pointer;color:#155c6c;font-
  body.mml-refreshed .bp-c-lesson-cases article{padding:15px}
  body.mml-refreshed .bp-c-lesson-cases p{font-size:19px}
 }
+
+#app .bp-model-facets{border:2px solid #cfe4e6;background:#f7fbfa;border-radius:17px;margin:16px 0 21px;overflow:hidden}
+#app .bp-model-facets summary{font-size:21px;font-weight:900;color:#185968;padding:16px 20px;cursor:pointer;line-height:1.65}
+#app .bp-model-facets[open] summary{background:#e9f6f4}
+#app .bp-model-facets-list{padding:12px 20px 19px;display:grid;gap:9px}
+#app .bp-model-facets-list p{font-size:19px;line-height:1.8;border-bottom:1px solid #dce8e8;padding:7px 0;margin:0}
+#app .bp-model-facets-list a{color:#126b77;font-weight:850;text-decoration:underline}
+#bp-c-clinic-2 .bp-simple-empower{padding:19px 22px;border:2px solid #b4dcd7;background:#edfaf5;border-radius:17px;margin:15px 0}
+#bp-c-clinic-2 .bp-simple-empower h3{font-size:24px;color:#155c65;margin:0 0 8px}
+#bp-c-clinic-2 .bp-simple-empower p{font-size:20px;line-height:1.8;margin:7px 0}
+#bp-c-clinic-2 .bp-simple-empower ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding-right:27px}
+#bp-c-clinic-2 .bp-simple-empower li{font-size:20px;padding:6px 0}
+@media(max-width:760px){#app .bp-model-facets summary{font-size:19px}#bp-c-clinic-2 .bp-simple-empower ol{grid-template-columns:1fr}#bp-c-clinic-2 .bp-simple-empower{padding:15px}}

@@ -19,6 +19,9 @@ jobs:
           node --check assets/my-management-lab.js
           node --check assets/mml-guided-lessons.js
           node --check assets/bp-competency-s2-data-20261101.js
+          node --check assets/mml-aligned-ui-v1.js
+          node --check assets/mml-lesson-library-v1.js
+          node --check assets/mml-visual-refresh-20261031.js
           node --check assets/bp-competency-path-20261101.js
           node --check assets/bp-practice-data-20261101.js
           node --check assets/bp-practice-first-20261101.js

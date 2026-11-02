@@ -85,7 +85,9 @@ vm.runInNewContext(curriculum,sandbox,{filename:"bp-curriculum-alignment-2026110
 assert.deepEqual(Array.from(sandbox.window.MMLLessonLibrary.DATA,x=>x.name),courseTitles);
 assert.ok(sandbox.window.MMLLessonLibrary.DATA.every(x=>x.chapters.length===7&&x.goals.length===2),"all six lessons retain seven relevant chapters");
 assert.equal(sandbox.window.MMLLessonLibrary.DATA[4].chapters[0][0],"نتیجه واقعی، نه KPI واحد");
-assert.ok(sandbox.window.BPCurriculumRoleplays[1].s.length===4,"session two has four-unit role dialogue");
+assert.ok(sandbox.window.BPCurriculumRoleplays[1].s.length>=4&&sandbox.window.BPCurriculumRoleplays[1].m.length>=4,"session two includes a substantive four-unit peer dialogue");
+assert.ok(sandbox.window.BPCurriculumRoleplays[1].s.some(turn=>turn[0]==="سرپرست ارسال"),"all four peer units contribute in the supervised scenario");
+assert.ok(sandbox.window.BPCurriculumRoleplays[1].m.some(turn=>turn[0]==="مدیر مالی"),"all four peer units contribute in the managerial scenario");
 assert.ok(sandbox.window.MMLAlignedData.sessions[4].quiz[0].q.includes("تحویل"),"results-focused diagnostic content");
 assert.ok(html.includes("bp-title-letter")&&html.includes("مهارت‌های مدیریتی"),"hero typography and exact title");
 assert.ok(!html.includes('href="#progress" data-open="progress" class="bp-welcome-tile'),"no growth card on homepage");

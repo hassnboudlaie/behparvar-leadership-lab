@@ -10,7 +10,7 @@ body.mml-refreshed .bp-c-top{display:flex;align-items:center;justify-content:spa
 body.mml-refreshed .bp-c-top span{color:#58707c;font-weight:750;font-size:17px}
 body.mml-refreshed .bp-c-back{min-height:49px;display:inline-flex;align-items:center;justify-content:center;padding:9px 15px;background:#fff;border:1px solid #d3e5e9;border-radius:12px;color:#173d5d;text-decoration:none;font-size:18px;font-weight:850}
 body.mml-refreshed .bp-c-hero{display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(105deg,#176a79,#173d5d);border-radius:21px;padding:23px 29px;color:#fff;min-height:155px;margin:0 0 21px;box-shadow:0 8px 22px rgba(23,61,93,.1);position:relative;overflow:hidden}
-body.mml-refreshed .bp-c-hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:40%;background:url("mml-welcome/hero-meeting.webp") center/cover;opacity:.12;mask-image:linear-gradient(to right,black,transparent);pointer-events:none}
+body.mml-refreshed .bp-c-hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:40%;background:url("behparvar-campus.webp") center/cover;opacity:.12;mask-image:linear-gradient(to right,black,transparent);pointer-events:none}
 body.mml-refreshed .bp-c-hero>div{position:relative;z-index:1}
 body.mml-refreshed .bp-c-tag{display:inline-flex;align-items:center;font-size:16px;font-weight:850;background:#e8f5f4;border:1px solid #cbe5e5;border-radius:99px;color:#176370;padding:4px 12px;line-height:1.5;margin-bottom:11px}
 body.mml-refreshed .bp-c-hero .bp-c-tag{background:rgba(255,255,255,.92);border-color:#eef; color:#154559}

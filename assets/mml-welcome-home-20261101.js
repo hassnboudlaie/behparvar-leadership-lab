@@ -3,7 +3,7 @@
 (function(){
 "use strict";
 var PARTS=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
-var SESSIONS=["شناخت نقش","برنامه‌ریزی و هماهنگی","کنترل و حل مسئله","ارتباطات و تعارض","تفویض و توسعه افراد","بهبود و تغییر"];
+var SESSIONS=["رهبری","مدل شایستگی","معطوف به خود","معطوف به دیگران","نتایج کسب‌وکار","مدیریت پیشرفته"];
 var EMOJI=["🧭","🗓️","📊","💬","🤝","🚀"];
 function portal(){
   var map=document.getElementById("bp-competency-map");

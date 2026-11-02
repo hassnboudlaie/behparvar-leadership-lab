@@ -1,0 +1,62 @@
+/* Mobile acceptance for installed-app entry, unique competency model, multiple lesson examples, and calibrated diagnostic output. */
+"use strict";
+const {chromium}=require("playwright"),assert=require("node:assert/strict");
+(async()=>{
+ const browser=await chromium.launch({headless:true,args:["--no-sandbox"]}),errors=[];
+ try{
+  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,locale:"fa-IR"});
+  const page=await context.newPage();page.on("pageerror",e=>errors.push(String(e)));
+  const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
+  await page.goto(base+"?audience=supervisors",{waitUntil:"load"});
+  assert.ok(await page.locator("#welcome #bp-install-action").isVisible(),"install is visible on initial mobile entry");
+  assert.equal(await page.locator("#welcome #bp-install-action").getAttribute("type"),"button");
+  await page.locator('#welcome [data-open="competencies"]').click();
+  await page.locator("#competencies.view.active").waitFor();
+  assert.equal(await page.locator("#competencies .bp-model-process .bp-model-step").count(),3,"only one domain set");
+  assert.equal(await page.locator("#competencies .bp-model-three").count(),0,"no repeated domain section");
+  await page.locator("#competencies .bp-model-facets summary").click();
+  const labels=await page.locator("#competencies .bp-model-facets-list").innerText();
+  for(const x of ["تفویض","جلسات","جرئت‌ورزی","هوش هیجانی","تصمیم‌گیری"])assert.ok(labels.includes(x),"missing mapping "+x);
+  await page.locator('#competencies [data-open="bp-c-lesson"]').click();
+  await page.locator("#bp-c-lesson.view.active").waitFor();
+  assert.equal(await page.locator("#bp-c-lesson .bp-c-lesson-cases article").count(),2,"supervisor and manager cross-unit stories");
+  assert.equal(await page.locator("#bp-c-lesson .bp-c-lesson-questions article").count(),3);
+  assert.ok(await page.locator("#bp-c-lesson .bp-c-lesson-questions li").count()>=10,"multiple questions per domain");
+  assert.equal(await page.locator("#bp-c-lesson .bp-c-lesson-kse article").count(),3);
+  assert.ok(await page.locator("#bp-c-lesson .bp-c-lesson-kse li").count()>=12,"multiple knowledge skill evidence examples");
+  await page.locator('#bp-c-lesson [data-open="course"]').click();
+  await page.locator("#course.view.active").waitFor();
+  assert.equal(await page.locator("#course .course-session").count(),6);
+  const sessionNames=await page.locator("#course .course-session small").allInnerTexts();
+  assert.ok(sessionNames[0].includes("رهبری"));
+  assert.ok(sessionNames[1].includes("شایستگی"));
+  assert.ok(sessionNames[2].includes("خود"));
+  assert.ok(sessionNames[3].includes("دیگران"));
+  assert.ok(sessionNames[4].includes("نتایج"));
+  assert.ok(sessionNames[5].includes("پیشرفته"));
+  await page.locator("#course .course-session[data-course-session='2']").click();
+  await page.locator("#session2.view.active").waitFor();
+  assert.ok((await page.locator("#session2 .mml-simple-session-home h1").innerText()).includes("مدل شایستگی"));
+  await page.locator('#session2 [data-open="bp-c-test"]').first().click();
+  await page.locator("#bp-c-test.view.active").waitFor();
+  await page.locator("#bp-c-test [data-bp-quiz-role='supervisors']").click();
+  assert.ok(await page.locator("#bp-c-test .bp-c-question h2").isVisible());
+  assert.equal(await page.locator("#bp-c-test .bp-c-actions [data-open='bp-c-lesson']").count(),0,"no lesson link beneath a question");
+  await page.evaluate(()=>{
+   const q=window.BPCompetencyData.supervisors,answers=Object.fromEntries(q.map(x=>[x.id,x.answer]));
+   localStorage.setItem("bp_competency_session2_v1_supervisors",JSON.stringify({version:1,answers}));
+  });
+  await page.locator("#bp-c-test [data-bp-quiz-role='supervisors']").click();
+  await page.locator('#bp-c-test [data-open="bp-c-report"]').click();
+  await page.locator("#bp-c-report.view.active").waitFor();
+  const result=await page.locator("#bp-c-report .bp-c-level-report").innerText();
+  assert.ok(result.includes("۱۰۰٪"),"must display the computed percentage");
+  assert.ok(result.includes("سطح ۴"),"must display educational expertise-level indicator");
+  assert.ok(result.includes("ارزیابی رسمی عملکرد نیست"),"avoid certification-level claim");
+  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
+  assert.ok(overflow<=1,"mobile horizontal overflow "+overflow);
+  assert.deepEqual(errors,[],"no JavaScript page errors");
+  await context.close();
+  console.log("PASS: PWA install discoverability, one three-domain model, skill locations, multi-question case lesson, six session titles, diagnostic no lesson link, percent and educational level.");
+ }finally{await browser.close()}
+})().catch(e=>{console.error(e);process.exitCode=1});

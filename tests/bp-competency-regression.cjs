@@ -15,7 +15,7 @@ assert.equal(D.families.length,6);
 assert.equal(D.skills.filter(s=>s.family==="functional").length,0,
  "generic scenario quiz must not award functional job competence");
 assert.ok(D.skills.every(s=>s.session>=3&&s.session<=6));
-const expected={3:["self","problem","judgment"],4:["communication","conflict"],5:["delegation","coaching"],6:["planning","coordination","performance","business","change"]};
+const expected={3:["self","problem","judgment"],4:["communication","conflict","delegation","coaching"],5:["planning","coordination","performance","business","change"]};
 for(const [n,ids]of Object.entries(expected)){
  assert.deepEqual(Array.from(D.skills.filter(s=>s.session===Number(n)),s=>s.id),ids);
 }
@@ -51,6 +51,9 @@ assert.ok(html.includes('id="session2"')&&html.includes('id="session6"'));
 const ui=fs.readFileSync("assets/bp-competency-path-20261101.js","utf8");
 assert.ok(ui.includes('bp_competency_session2_v1_'),"dedicated saved diagnostic namespace");
 assert.ok(ui.includes("bp-c-plain-summary"),"plain-language educational results");
+assert.ok(ui.includes("درصد پاسخ درست")&&ui.includes("برآورد آموزشی سطح خبرگی"),"transparent percent and educational four-level estimate");
+assert.ok(ui.includes("انجام درست")===false||ui.includes("درصد پاسخ درست"));
+assert.ok(!ui.includes('link("bp-c-lesson","↩ درسنامه","bp-c-secondary")'),"no repeated lesson link under diagnostic questions");
 assert.ok(!ui.includes("پاسخ همسو"),"remove opaque alignment scores");
 const profiles=fs.readFileSync("assets/bp-competency-profiles-20261101.js","utf8");
 const upgrade=fs.readFileSync("assets/bp-upgrade-data-20261102.js","utf8");
@@ -67,6 +70,23 @@ assert.ok(sandbox.window.BPCompetencyData.families.every(f=>f.story&&f.good&&f.b
 assert.ok(sandbox.window.BPCompetencyData.families.every(f=>f.supervisorPractice&&f.managerPractice&&f.reflectionQuestion),"six families need cross-unit role-specific practice");
 assert.ok(html.includes("bp-upgrade-data-20261102.js"));
 assert.ok(html.includes("bp-simple-roleplays-20261102.js"));
+assert.ok(html.includes("bp-install-action")&&html.includes("bp-pwa-install-20261102.js"),"visible PWA install entry");
+assert.equal((html.match(/class="bp-model-step"/g)||[]).length,3,"single clickable three-domain competency model");
+assert.ok(!html.includes('class="bp-model-three"'),"no duplicated domain chooser");
+assert.ok(html.includes("bp-model-facets"),"important management practices mapped to competencies");
+const courseTitles=["رهبری","مدل شایستگی‌های مدیریتی","شایستگی‌های معطوف به خود","شایستگی‌های معطوف به دیگران","شایستگی‌های معطوف به نتایج کسب‌وکار","مدیریت پیشرفته"];
+for(const x of courseTitles)assert.ok(html.includes(x),"canonical course title "+x);
+const curriculum=fs.readFileSync("assets/bp-curriculum-alignment-20261102.js","utf8");
+new vm.Script(curriculum,{filename:"bp-curriculum-alignment-20261102.js"});
+for(const p of ["assets/mml-lesson-library-v1.js","assets/mml-aligned-content-v1.js"]){
+ vm.runInNewContext(fs.readFileSync(p,"utf8"),sandbox,{filename:p,timeout:10000});
+}
+vm.runInNewContext(curriculum,sandbox,{filename:"bp-curriculum-alignment-20261102.js",timeout:10000});
+assert.deepEqual(Array.from(sandbox.window.MMLLessonLibrary.DATA,x=>x.name),courseTitles);
+assert.ok(sandbox.window.MMLLessonLibrary.DATA.every(x=>x.chapters.length===7&&x.goals.length===2),"all six lessons retain seven relevant chapters");
+assert.equal(sandbox.window.MMLLessonLibrary.DATA[4].chapters[0][0],"نتیجه واقعی، نه KPI واحد");
+assert.ok(sandbox.window.BPCurriculumRoleplays[1].s.length===4,"session two has four-unit role dialogue");
+assert.ok(sandbox.window.MMLAlignedData.sessions[4].quiz[0].q.includes("تحویل"),"results-focused diagnostic content");
 assert.ok(html.includes("bp-title-letter")&&html.includes("مهارت‌های مدیریتی"),"hero typography and exact title");
 assert.ok(!html.includes('href="#progress" data-open="progress" class="bp-welcome-tile'),"no growth card on homepage");
 console.log("PASS: 3 domains (3/4/5), 6 BMCF families, 12 skills; sessions 3–6 mapping; 12 distinct role questions each, balanced keys, unique rationales and no systematic correct-length cue; all 12 routes; separate saved data.");

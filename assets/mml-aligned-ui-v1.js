@@ -27,7 +27,7 @@ var SIMPLE_SCENARIOS=[
 ];
 function question(n,role){
  var story=SIMPLE_SCENARIOS[n-1],doc=library.DATA[n-1];
- return story?(role==="supervisors"?story.s:story.m):(role==="supervisors"?doc.supervisor:doc.manager);
+ return n>1?(role==="supervisors"?doc.supervisor:doc.manager):(story?(role==="supervisors"?story.s:story.m):(role==="supervisors"?doc.supervisor:doc.manager));
 }
 function reviewInput(n,part,role,title){
  var state=read(n,role),text=((state.notes||{})[part]||"");
@@ -97,10 +97,10 @@ function render(n,part,role){
     reviewInput(n,part,role,"یک سؤال که باید از تیم بپرسم");
  }else if(i===1){
    h=context(n,role)+
-    '<section><h3>گفت‌وگو را اجرا کنید</h3><p>دو نفر نقش‌ها را بگیرند. به لحن، مکث، حالت چهره و زبان بدن هم توجه کنند.</p>'+
+    '<section><h3>گفت‌وگو را اجرا کنید</h3><p>نقش‌های دو یا چهار واحد را بین شرکت‌کنندگان تقسیم کنید. به لحن، مکث، زبان بدن و تغییر موضع هنگام اختلاف توجه کنید.</p>'+
     library.renderRoleplay(n,role)+'</section>'+
     '<section class="mml-align-twist"><h3>اتفاق تازه</h3><p>'+prose(data.twist)+'</p></section>'+
-    '<section><h3>دور دوم؛ همان گفت‌وگو را بهتر اجرا کنید</h3><p>یک نفر گفت‌وگو را از لحظه شنیدن خبر تازه ادامه دهد؛ نفر دوم پاسخ بدهد. بعد نقش‌ها را جابه‌جا کنید.</p>'+
+    '<section><h3>دور دوم؛ همان گفت‌وگو را بهتر اجرا کنید</h3><p>همه نقش‌ها در برابر اتفاق تازه موضع خود را بازبینی کنند و سپس یک دور دوباره اجرا کنید. برای تمرین همدلی، نقش‌ها را نیز جابه‌جا کنید.</p>'+
     '<strong>چک‌لیست مشاهده‌گر</strong>'+bullets(data.observe)+'</section>'+
     reviewInput(n,part,role,"کدام جمله و رفتار باید در اجرای دوم تغییر کند؟");
  }else if(i===2){

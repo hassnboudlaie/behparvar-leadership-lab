@@ -95,6 +95,11 @@
     <div class="bp-hero-process" aria-hidden="true"><span>شناخت</span><i>◀</i><span>تمرین</span><i>◀</i><span>بازخورد</span><i>◀</i><span>به‌کارگیری</span></div>
     <div class="bp-welcome-hero-text"><h2 id="bp-welcome-title"><span class="bp-title-develop"><span class="bp-title-letter">ت</span>وسعه</span> <span class="bp-title-skills">مهارت‌های مدیریتی</span></h2></div>
   </section>
+  <section class="bp-install-panel" aria-label="نصب اپلیکیشن به‌پرور">
+    <div class="bp-install-copy"><strong>📲 به‌پرور همیشه در دسترس شما</strong><p>در صورت تمایل می‌توانید اپ را روی صفحه اصلی گوشی یا رایانه نصب کنید؛ استفاده تحت وب هم بدون نصب امکان‌پذیر است.</p></div>
+    <button type="button" id="bp-install-action" class="bp-install-action">📲 نصب اپلیکیشن به‌پرور</button>
+    <p id="bp-install-help" class="bp-install-help" role="status" aria-live="polite" hidden></p>
+  </section>
   <nav class="bp-welcome-grid" aria-label="پنج بخش اصلی توسعه مهارت‌های مدیریتی">
     <a class="bp-welcome-tile" href="#competencies" data-open="competencies">
       <span class="bp-tile-illustration bp-ill-comp" aria-hidden="true"><span><svg class="bp-sticker" viewBox="0 0 240 200" aria-hidden="true"><use href="assets/mml-welcome-stickers-20261101.svg#competency"></use></svg></span></span>
@@ -125,10 +130,10 @@
 <section class="view bp-c-view" id="bp-c-test" aria-label="آزمون تشخیصی شایستگی"><div class="bp-c-root" aria-live="polite"></div></section>
 <section class="view bp-c-view" id="bp-c-report" aria-label="داشبورد آموزشی"><div class="bp-c-root" aria-live="polite"></div></section>
 <section class="view bp-c-view" id="bp-c-review" aria-label="مرور و تشریح پاسخ‌ها"><div class="bp-c-root" aria-live="polite"></div></section>
-<section class="view bp-c-view" id="bp-c-focus-3" aria-label="جلسه سوم؛ حوزه خودم"><div class="bp-c-root" aria-live="polite"></div></section>
-<section class="view bp-c-view" id="bp-c-focus-4" aria-label="جلسه چهارم؛ ارتباطات و تعارض"><div class="bp-c-root" aria-live="polite"></div></section>
-<section class="view bp-c-view" id="bp-c-focus-5" aria-label="جلسه پنجم؛ تفویض و توسعه دیگران"><div class="bp-c-root" aria-live="polite"></div></section>
-<section class="view bp-c-view" id="bp-c-focus-6" aria-label="جلسه ششم؛ نتایج کسب‌وکار"><div class="bp-c-root" aria-live="polite"></div></section>
+<section class="view bp-c-view" id="bp-c-focus-3" aria-label="جلسه سوم؛ شایستگی‌های معطوف به خود"><div class="bp-c-root" aria-live="polite"></div></section>
+<section class="view bp-c-view" id="bp-c-focus-4" aria-label="جلسه چهارم؛ شایستگی‌های معطوف به دیگران"><div class="bp-c-root" aria-live="polite"></div></section>
+<section class="view bp-c-view" id="bp-c-focus-5" aria-label="جلسه پنجم؛ شایستگی‌های معطوف به نتایج کسب‌وکار"><div class="bp-c-root" aria-live="polite"></div></section>
+<section class="view bp-c-view" id="bp-c-focus-6" aria-label="جلسه ششم؛ مدیریت پیشرفته"><div class="bp-c-root" aria-live="polite"></div></section>
 <section class="view" id="competencies" aria-label="مدل شایستگی‌های مدیریتی">
  <header class="bp-model-intro">
   <span class="bp-model-kicker">🧭 نقشه شایستگی‌ها</span>
@@ -140,11 +145,14 @@
    <a class="bp-model-step" href="#bp-c-others" data-open="bp-c-others"><span aria-hidden="true">👥</span><strong>دیگران</strong><small>گفت‌وگو و توانمندسازی</small></a>
    <a class="bp-model-step" href="#bp-c-results" data-open="bp-c-results"><span aria-hidden="true">🎯</span><strong>نتایج کسب‌وکار</strong><small>تصمیم و اثر واقعی آن</small></a>
  </nav>
- <nav class="bp-model-three" aria-label="سه حوزه شایستگی">
-  <a href="#bp-c-self" data-open="bp-c-self"><span class="bp-model-illustration bp-self" aria-hidden="true">🧠</span><strong>خودم</strong><small>۳ شایستگی</small></a>
-  <a href="#bp-c-others" data-open="bp-c-others"><span class="bp-model-illustration bp-others" aria-hidden="true">👥</span><strong>دیگران</strong><small>۴ شایستگی</small></a>
-  <a href="#bp-c-results" data-open="bp-c-results"><span class="bp-model-illustration bp-results" aria-hidden="true">🎯</span><strong>نتایج کسب‌وکار</strong><small>۵ شایستگی</small></a>
- </nav>
+ <details class="bp-model-facets"><summary>🔎 تفویض، مدیریت جلسات، جرئت‌ورزی، هوش هیجانی و تصمیم‌گیری کجای مدل‌اند؟</summary>
+ <div class="bp-model-facets-list">
+  <p><strong>هوش هیجانی:</strong> <a href="#bp-c-self" data-open="bp-c-self">خودم ← خودآگاهی و خودمدیریتی</a>؛ با کاربرد در شنیدن و حل اختلاف</p>
+  <p><strong>تصمیم‌گیری:</strong> <a href="#bp-c-self" data-open="bp-c-self">خودم ← قضاوت حرفه‌ای</a>؛ در مدیریت پیشرفته با ریسک و پیامد کسب‌وکار تلفیق می‌شود</p>
+  <p><strong>جرئت‌ورزی:</strong> <a href="#bp-c-others" data-open="bp-c-others">دیگران ← ارتباط و مدیریت تعارض</a>؛ بیان قاطع و محترمانه مرزها</p>
+  <p><strong>مدیریت جلسات:</strong> <a href="#bp-c-others" data-open="bp-c-others">دیگران ← تسهیل گفت‌وگو و تعارض</a>؛ با پیوند به هماهنگی بین‌واحدی و نتیجه</p>
+  <p><strong>تفویض اختیار و توانمندسازی:</strong> <a href="#bp-c-others" data-open="bp-c-others">دیگران ← شایستگی مستقل تفویض</a>؛ خروجی، اختیار، منابع، حمایت و بازبینی</p>
+ </div></details>
  <div class="bp-model-secondary">
   <a href="#bp-c-lesson" data-open="bp-c-lesson">📖 درسنامه و نمودار مدل ←</a>
   <a href="#bp-c-families" data-open="bp-c-families">▦ شش خانواده شایستگی ←</a>
@@ -155,12 +163,12 @@
   <div class="bp-inner-top"><a href="#welcome" data-open="welcome">⌂ صفحه اول</a><span>تمرین‌های گروهی</span></div>
   <header class="bp-subpage-heading"><h1>🎭 سناریو و تمرین</h1><p>موقعیت واقعی‌نما را انتخاب کنید، نقش‌ها را اجرا کنید و درباره تصمیم مدیریتی گفت‌وگو کنید.</p></header>
   <nav class="bp-scenario-links" aria-label="انتخاب سناریوی جلسه">
-    <a href="#m2" data-open="m2"><span>🧭</span><strong>۱. نقش مدیر و سرپرست</strong><small>گفت‌وگوی کاری و مرز مسئولیت‌ها</small></a>
-    <a href="#session2-m2" data-open="session2-m2"><span>🗓️</span><strong>۲. برنامه‌ریزی و هماهنگی</strong><small>مذاکره بین واحدها</small></a>
-    <a href="#session3-m2" data-open="session3-m2"><span>📊</span><strong>۳. عملکرد و حل مسئله</strong><small>تحلیل انحراف و اقدام اصلاحی</small></a>
-    <a href="#session4-m2" data-open="session4-m2"><span>💬</span><strong>۴. ارتباطات و تعارض</strong><small>گفت‌وگوی دشوار و بازخورد</small></a>
-    <a href="#session5-m2" data-open="session5-m2"><span>🤝</span><strong>۵. تفویض و توسعه افراد</strong><small>تمرین هدایت و توانمندسازی</small></a>
-    <a href="#session6-m2" data-open="session6-m2"><span>🚀</span><strong>۶. بهبود و تغییر</strong><small>تصمیم مشترک درباره زنجیره ارزش</small></a>
+    <a href="#m2" data-open="m2"><span>🧭</span><strong>۱. رهبری و شناخت نقش</strong><small>گفت‌وگوی کاری و مرز مسئولیت‌ها</small></a>
+    <a href="#session2-m2" data-open="session2-m2"><span>🗓️</span><strong>۲. مدل شایستگی‌های مدیریتی</strong><small>مذاکره بین واحدها</small></a>
+    <a href="#session3-m2" data-open="session3-m2"><span>📊</span><strong>۳. شایستگی‌های معطوف به خود</strong><small>تحلیل انحراف و اقدام اصلاحی</small></a>
+    <a href="#session4-m2" data-open="session4-m2"><span>💬</span><strong>۴. شایستگی‌های معطوف به دیگران</strong><small>گفت‌وگوی دشوار و بازخورد</small></a>
+    <a href="#session5-m2" data-open="session5-m2"><span>🤝</span><strong>۵. شایستگی‌های معطوف به نتایج</strong><small>تمرین هدایت و توانمندسازی</small></a>
+    <a href="#session6-m2" data-open="session6-m2"><span>🚀</span><strong>۶. مدیریت پیشرفته</strong><small>تصمیم مشترک درباره زنجیره ارزش</small></a>
   </nav>
 </section>
 <section class="view" id="progress" aria-label="مسیر رشد و پیشرفت یادگیری">
@@ -180,12 +188,12 @@
   </div>
   <a class="bp-bottom-link" href="#course" data-open="course">شروع یادگیری ←</a>
 </section>
-<section class="view active" id="course" aria-label="خانه دوره شش‌جلسه‌ای بهپرور"><header class="course-heading"><div class="kicker">توسعه مهارت‌های کاربردی مدیریت</div><h1 tabindex="-1">فهرست جلسات به‌پرور</h1><p>یک جلسه را انتخاب کنید.</p></header><nav class="course-sessions" aria-label="جلسات اول تا ششم"><a class="course-session ready" href="#home" data-open="home" data-course-session="1"><span class="course-session-number">۱</span><span><strong>جلسه اول</strong><small>شناخت نقش و شایستگی</small></span><span class="course-session-arrow" aria-hidden="true">←</span></a><a class="course-session" href="#session2" data-open="session2" data-course-session="2"><span class="course-session-number">۲</span><span><strong>جلسه دوم</strong><small>برنامه‌ریزی، سازماندهی و هماهنگی</small></span><span class="course-session-arrow" aria-hidden="true">←</span></a><a class="course-session" href="#session3" data-open="session3" data-course-session="3"><span class="course-session-number">۳</span><span><strong>جلسه سوم</strong><small>کنترل عملکرد و حل مسئله</small></span><span class="course-session-arrow" aria-hidden="true">←</span></a><a class="course-session" href="#session4" data-open="session4" data-course-session="4"><span class="course-session-number">۴</span><span><strong>جلسه چهارم</strong><small>ارتباطات، تعارض و رفتار سازمانی</small></span><span class="course-session-arrow" aria-hidden="true">←</span></a><a class="course-session" href="#session5" data-open="session5" data-course-session="5"><span class="course-session-number">۵</span><span><strong>جلسه پنجم</strong><small>هدایت، تفویض و توسعه افراد</small></span><span class="course-session-arrow" aria-hidden="true">←</span></a><a class="course-session" href="#session6" data-open="session6" data-course-session="6"><span class="course-session-number">۶</span><span><strong>جلسه ششم</strong><small>بهبود مستمر، تغییر و نگاه کسب‌وکار</small></span><span class="course-session-arrow" aria-hidden="true">←</span></a></nav></section>
+<section class="view active" id="course" aria-label="خانه دوره شش‌جلسه‌ای بهپرور"><header class="course-heading"><div class="kicker">توسعه مهارت‌های کاربردی مدیریت</div><h1 tabindex="-1">فهرست جلسات به‌پرور</h1><p>یک جلسه را انتخاب کنید.</p></header><nav class="course-sessions" aria-label="جلسات اول تا ششم"><a class="course-session ready" href="#home" data-open="home" data-course-session="1"><span class="course-session-number">۱</span><span><strong>جلسه اول</strong><small>رهبری</small></span><span class="course-session-arrow" aria-hidden="true">←</span></a><a class="course-session" href="#session2" data-open="session2" data-course-session="2"><span class="course-session-number">۲</span><span><strong>جلسه دوم</strong><small>مدل شایستگی‌های مدیریتی</small></span><span class="course-session-arrow" aria-hidden="true">←</span></a><a class="course-session" href="#session3" data-open="session3" data-course-session="3"><span class="course-session-number">۳</span><span><strong>جلسه سوم</strong><small>شایستگی‌های معطوف به خود</small></span><span class="course-session-arrow" aria-hidden="true">←</span></a><a class="course-session" href="#session4" data-open="session4" data-course-session="4"><span class="course-session-number">۴</span><span><strong>جلسه چهارم</strong><small>شایستگی‌های معطوف به دیگران</small></span><span class="course-session-arrow" aria-hidden="true">←</span></a><a class="course-session" href="#session5" data-open="session5" data-course-session="5"><span class="course-session-number">۵</span><span><strong>جلسه پنجم</strong><small>شایستگی‌های معطوف به نتایج کسب‌وکار</small></span><span class="course-session-arrow" aria-hidden="true">←</span></a><a class="course-session" href="#session6" data-open="session6" data-course-session="6"><span class="course-session-number">۶</span><span><strong>جلسه ششم</strong><small>مدیریت پیشرفته</small></span><span class="course-session-arrow" aria-hidden="true">←</span></a></nav></section>
 <section class="view" id="home" aria-label="جلسه اول: کارگاه رهبری">
 <div class="home-hero">
 <div class="home-copy">
 <div class="home-topline"><span class="home-eyebrow">جلسه اول</span><button type="button" id="homeDisplayMode" class="home-display" aria-pressed="false">نمایش در کلاس</button></div>
-<h1 class="home-title" tabindex="-1">شناخت نقش مدیریتی</h1>
+<h1 class="home-title" tabindex="-1">رهبری؛ شناخت نقش و سبک مدیریتی</h1>
 
 
 </div>
@@ -981,6 +989,7 @@ restoreSelections();updateNoteStatus();openView(location.hash.slice(1)||'welcome
 <script defer src="assets/my-management-lab.js?v=20261031g"></script>
 <script defer src="assets/mml-lesson-library-v1.js?v=5"></script>
 <script defer src="assets/mml-aligned-content-v1.js?v=1"></script>
+<script defer src="assets/bp-curriculum-alignment-20261102.js?v=1"></script>
 <script defer src="assets/mml-aligned-ui-v1.js?v=6"></script>
 <script defer src="assets/mml-visual-refresh-20261031.js?v=7"></script>
 <script defer src="assets/mml-learning-home-v1.js?v=5"></script>
@@ -996,4 +1005,5 @@ restoreSelections();updateNoteStatus();openView(location.hash.slice(1)||'welcome
 <script defer src="assets/bp-s2-pair-cases-20261101.js?v=1"></script>
 <script defer src="assets/bp-s2-group-cases-20261101.js?v=1"></script>
 <script defer src="assets/bp-simple-roleplays-20261102.js?v=1"></script>
+<script defer src="assets/bp-pwa-install-20261102.js?v=1"></script>
 </body></html>

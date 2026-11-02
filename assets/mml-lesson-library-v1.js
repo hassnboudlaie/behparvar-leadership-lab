@@ -251,7 +251,7 @@ note:"در دور دوم، مخاطب باید یک ریسک واقعی تازه
 }
 ];
 function renderRoleplay(n,role){
- var x=ROLEPLAYS[n-1],a=role==="managers"?x.m:x.s;
+ var x=(global.BPCurriculumRoleplays&&global.BPCurriculumRoleplays[n-1])||ROLEPLAYS[n-1],a=role==="managers"?x.m:x.s;
  return '<div class="mml-edu-drama"><div class="mml-edu-drama-title"><span aria-hidden="true">🎭</span><div><h4>نقش‌آفرینی · گفت‌وگوی تمرینی</h4><p>۶ دقیقه بازی نقش + ۳ دقیقه بازخورد. این گفت‌وگو برای تمرین ساخته شده است.</p></div></div><ol>'+a.map(function(t,i){return '<li class="'+(i%2?"mml-edu-turn-alt":"")+'"><strong>'+esc(t[0])+'</strong><small>لحن، حالت چهره و زبان بدن: '+esc(t[1])+'</small><p>«'+esc(t[2])+'»</p></li>'}).join("")+'</ol><aside class="mml-edu-question"><strong>راهنمای تسهیلگر</strong><p>'+esc(x.note)+'</p><p>نقش‌ها را جابه‌جا کنید و درباره رفتار مشاهده‌شده، کیفیت شنیدن، وضوح توافق و محدودیت‌های حرفه‌ای بازخورد بدهید.</p></aside></div>';
 }
 
@@ -264,7 +264,7 @@ function diagram(n,d){
  if(n===3){
   return '<figure class="mml-edu-figure"><figcaption>نمودار نمونه — آمادگی خط در یک شیفت فرضی</figcaption><div class="mml-edu-bars" role="img" aria-label="هدف ۸ ساعت، عملکرد واقعی فرضی ۶ ساعت، اختلاف ۲ ساعت"><div class="mml-edu-bar"><span>هدف: ۸ ساعت</span><div><i style="width:100%"></i></div></div><div class="mml-edu-bar actual"><span>انجام‌شده: ۶ ساعت</span><div><i style="width:75%"></i></div></div></div><p><b>فاصله تا هدف: ۲ ساعت</b>؛ اعداد صرفاً آموزشی‌اند و داده واقعی به‌پرور نیستند. نمودار علت را مشخص نمی‌کند.</p></figure>';
  }
- if(n===5){
+ if(n===4){
   return '<figure class="mml-edu-figure"><figcaption>شکل ۵ — نردبان اختیار در تفویض</figcaption><ol class="mml-edu-ladder"><li><b>سطح ۱</b><span>مسئله را گزارش کن</span></li><li><b>سطح ۲</b><span>گزینه پیشنهاد بده</span></li><li><b>سطح ۳</b><span>در چارچوب مجاز تصمیم بگیر و اطلاع بده</span></li><li><b>سطح ۴</b><span>مستقل در مرز مصوب اجرا کن و بازبینی بده</span></li></ol><p>سطح مناسب تابع صلاحیت، ریسک و ضوابط سازمان است؛ این شکل نردبان عمومی است، نه مجوز عملیاتی.</p></figure>';
  }
  return '<figure class="mml-edu-figure"><figcaption>شکل ساده — '+esc(d.name)+'</figcaption><ol class="mml-edu-process">'+d.flow.map(function(s,i){return '<li><span>'+digit(i+1)+'</span><strong>'+esc(s)+'</strong></li>'}).join("")+'</ol><p>شکل، ترتیب تحلیل و گفت‌وگو را نشان می‌دهد؛ اجرای واقعی باید متناسب با موقعیت و حدود اختیار باشد.</p></figure>';

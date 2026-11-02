@@ -34,21 +34,47 @@ function triang(){
 }
 function modelLesson(){
  const el=root("bp-c-lesson");if(!el)return;
- el.innerHTML=header("درسنامه مدل شایستگی","چگونه در کار روزانه، تفاوت دانش، رفتار و نتیجه را ببینیم؟","competencies","مدل شایستگی‌های به‌پرور")+
- '<div class="bp-c-lead-row">'+triang()+
- '<div class="bp-c-concept"><h2>شایستگی در عمل یعنی چه؟</h2><p>دانستن «اهمیت ارتباط» کافی نیست. وقتی کارشناس کیفیت خبر ناخوشایند می‌دهد، مدیر باید بدون متهم‌کردن او سؤال بپرسد، وضعیت را روشن کند و به توافقی برسد که کیفیت را قربانی زمان نکند. این رفتار قابل مشاهده است.</p><p>مدل به ما می‌گوید برای انجام درست کار، هم باید خودمان را اداره کنیم، هم با دیگران کار کنیم و هم اثر تصمیم را بر نتیجه ببینیم.</p></div></div>'+
- '<section class="bp-c-story"><h2 class="bp-c-section-title">یک اتفاق واقعی‌نما از به‌پرور</h2><p>سفارش آماده بارگیری است؛ تولید می‌گوید کارش تمام شده، کنترل کیفیت هنوز آزمون تکمیلی دارد و فروش نگران مشتری است. مدیر حرفه‌ای فقط درباره سرعت تصمیم نمی‌گیرد؛ ابتدا واکنش خود را تنظیم می‌کند، نگرانی واحدها را می‌شنود و بعد بر سر تصمیم مجاز، مسئول و موعد توافق می‌سازد.</p><div class="bp-c-family-story"><article><h4>۱. خودم؛ رفتار من تحت فشار</h4><p>آیا هنگام شنیدن خبر بد، فوراً دنبال مقصر می‌گردم یا داده را از برداشت خودم جدا می‌کنم؟</p></article><article><h4>۲. دیگران؛ کیفیت گفت‌وگو</h4><p>آیا نظر کیفیت و تولید را شنیده‌ام و اختلاف را به توافق قابل اجرا تبدیل کرده‌ام؟</p></article><article><h4>۳. نتایج؛ پیامد تصمیم</h4><p>آیا خروج مجاز، هزینه تأخیر و تعهد مشتری را هم‌زمان می‌سنجم؟</p></article></div></section>'+
- '<section class="bp-c-story"><h2 class="bp-c-section-title">فرق دانش، مهارت و شاهد عملکرد</h2><div class="bp-c-family-story"><article><h4>دانش</h4><p>می‌دانم که باید پیش از تصمیم داده کافی و حدود اختیار را بررسی کنم.</p></article><article><h4>مهارت</h4><p>در جلسه پرتنش می‌توانم سؤال روشن بپرسم، گزینه‌ها را مقایسه کنم و بر اقدام مشخص توافق کنم.</p></article><article><h4>شاهد عملکرد</h4><p>در صورت‌جلسه معلوم است چه کسی چه تصمیمی گرفت، دلیل تصمیم چه بود و چه زمانی نتیجه را بازبینی می‌کنیم.</p></article></div></section>'+
- '<h2 class="bp-c-section-title">حالا یکی از چهار بخش را باز کنید</h2>'+
- '<nav class="bp-c-tiles four" aria-label="موضوعات درسنامه">'+
- link("bp-c-self",'<span class="bp-c-symbol self">◎</span><strong>خودم</strong><small>۳ شایستگی مستقل</small>',"bp-c-tile")+
+ const stories=[
+  {title:"👷 سرپرستان؛ اختلاف تولید و تعمیرات",body:"در شیفت عصر دستگاه لرزش غیرعادی دارد. سرپرست تولید، حمید، نگران سفارش مشتری است و تصور می‌کند سرپرست تعمیرات، نادر، برای فرار از پاسخ‌گویی زمان توقف را طولانی می‌گوید. نادر نیز تجربه خرابی مجدد پس از راه‌اندازی عجولانه دارد و فکر می‌کند تولید هشدار فنی را جدی نمی‌گیرد. دو سرپرست هم‌سطح‌اند و هیچ‌کدام نمی‌تواند به کارکنان واحد مقابل دستور بدهد. در جلسه کوتاه، حمید ابتدا تند می‌گوید «چرا همیشه دیر می‌گویید؟» اما سپس زمان اعلام وضعیت را می‌پرسد. نادر حد ایمنی را حفظ می‌کند و تا ساعت ۱۴:۳۰ گزارش وضعیت، نه قول راه‌اندازی، می‌دهد. حمید هم ظرفیت خط مجاز جایگزین را بررسی می‌کند.",takeaway:"نتیجه: تصمیم عملیاتی با مرز ایمنی، مسئول هر واحد و زمان بازبینی روشن شد؛ اختلاف شخصی به تعهد مشترک تبدیل شد."},
+  {title:"🧭 مدیران؛ تصمیم تجاری با قید کیفیت",body:"مدیر فروش از دست‌رفتن مشتری راهبردی نگران است؛ مدیر کیفیت خطر آزادسازی کالای نامطمئن را جدی می‌گیرد؛ مدیر عملیات ظرفیت محدود و مدیر مالی هزینه دو مرحله حمل را مطرح می‌کنند. مدیر فروش ابتدا تصور می‌کند کیفیت فقط مانع‌تراشی می‌کند و مدیر کیفیت نیز فروش را بی‌توجه به استاندارد می‌بیند. در نشست چهارمدیری، هر نفر داده و محدودیت خود را ارائه می‌کند؛ سه سناریوی تحویل کامل دیرتر، تحویل مرحله‌ای و تغییر توالی سفارش‌ها مقایسه می‌شود. هیچ مدیر به جای مرجع فنی مجوز صادر نمی‌کند؛ درباره مشتری، هزینه کل و زمان اعلام نتیجه توافق می‌سازند.",takeaway:"نتیجه: منافع واحدی با معیار مشترک شرکت جایگزین می‌شود؛ تعهد تجاری بر داده معتبر و اختیار واقعی تکیه دارد."}
+ ];
+ const questions=[
+  {domain:"🧠 معطوف به خود",items:[
+   "حمید کدام احساس و کدام پیش‌فرض درباره نادر را باید تشخیص دهد؟",
+   "چه زمانی پرسیدن سؤال به‌جای اتهام‌زدن نشان‌دهنده خودمدیریتی و هوش هیجانی است؟",
+   "در تصمیم مدیران، کدام گزینه و ریسک باید قبل از انتخاب بررسی شود؟",
+   "اگر داده جدید خلاف برداشت اولیه باشد، چه نشانه‌ای از انعطاف در قضاوت می‌بینیم؟"]},
+  {domain:"👥 معطوف به دیگران",items:[
+   "کدام جمله نشانه گوش‌دادن فعال و کدام جمله نشانه جرئت‌ورزی محترمانه است؟",
+   "تسهیلگر نشست چهارواحدی چطور به همه مدیران فرصت اظهار نظر می‌دهد؟",
+   "کدام اختلاف به جای دعوای شخصی، به مسئله مشترک تبدیل شد؟",
+   "هر سرپرست چه مسئولیتی را می‌تواند در واحد خودش تفویض کند و چه حمایتی باید فراهم کند؟"]},
+  {domain:"🎯 معطوف به نتایج کسب‌وکار",items:[
+   "اگر تولید به موقع پایان یابد ولی کیفیت تأیید نشود، آیا کل شرکت موفق بوده است؟",
+   "کدام تصمیم اثر هم‌زمان بر هزینه، ظرفیت، مشتری و کیفیت دارد؟",
+   "در توافق نهایی، مالک اقدام، موعد، شاهد انجام و شرط بازنگری چیست؟",
+   "کدام شاخص مشترک مانع بهترشدن ظاهری یک واحد به زیان واحد دیگر می‌شود؟"]}
+ ];
+ const kse=[
+  {title:"📚 دانش؛ چه چیزهایی را باید بدانیم؟",items:["تفاوت نتیجه نامطمئن با نتیجه مردود و مجوز رسمی آزادسازی","حدود اختیار سرپرست و مدیر در تصمیم میان‌واحدی","معنای خودآگاهی، جرئت‌ورزی، مدیریت جلسات و تفویض اختیار","مفهوم ظرفیت واقعی، هزینه کل، ریسک و شاخص مشترک"]},
+  {title:"🛠 مهارت؛ چه کاری را بتوانیم انجام دهیم؟",items:["تبدیل قضاوت شتاب‌زده به سؤال باز و بازتاب نگرانی طرف مقابل","تسهیل جلسه، مدیریت مخالفت و ایجاد فضای بیان نظر مخالف","بیان قاطع خط قرمز فنی بدون توهین یا تسلیم","واگذاری کار با اختیار، منابع، حمایت و نقطه بازبینی","مقایسه گزینه‌ها و تصمیم مشروط زیر فشار زمان"]},
+  {title:"🔎 شاهد عملکرد؛ چه چیزی قابل مشاهده است؟",items:["گفت‌وگوی ثبت‌شده‌ای که در آن فرض اولیه اصلاح شده است","صورت‌جلسه چهارواحدی با داده، تصمیم، مسئول و موعد","توافق تفویض شامل خروجی، مرز اختیار، منابع و پیگیری","وضعیت مستند مجوز کیفیت و زمان اعلام نتیجه","داده بعد از اقدام که اثر بر کیفیت، هزینه و مشتری را نشان می‌دهد"]}
+ ];
+ let h=header("درسنامه مدل شایستگی","از موقعیت میان‌واحدی تا رفتار، شواهد و اقدام در محیط کار.","competencies","مدل شایستگی‌های به‌پرور")+
+ '<div class="bp-c-lead-row">'+triang()+'<div class="bp-c-concept"><h2>شایستگی در عمل یعنی چه؟</h2><p>شایستگی یعنی بتوانیم دانش، قضاوت، مهارت و رفتار را متناسب با موقعیت به کار بگیریم؛ به‌نحوی که در گفت‌وگوی واقعی و نتیجه کار، شاهد قابل مشاهده داشته باشد. سه حوزه خودم، دیگران و نتایج، در یک تصمیم واقعی هم‌زمان فعال‌اند.</p></div></div>';
+ h+='<section class="bp-c-story"><h2 class="bp-c-section-title">اتفاق واقعی‌نما؛ گفت‌وگو میان واحدها</h2><p>این موقعیت‌ها برای تمرین ساخته شده‌اند و گزارش حادثه واقعی شرکت نیستند.</p><div class="bp-c-lesson-cases">'+stories.map(x=>'<article><h3>'+esc(x.title)+'</h3><p>'+esc(x.body)+'</p><strong>'+esc(x.takeaway)+'</strong></article>').join("")+'</div></section>';
+ h+='<section class="bp-c-story"><h2 class="bp-c-section-title">سؤال‌های تحلیلی بر اساس سه حوزه</h2><p>در هر حوزه چند شایستگی به‌صورت هم‌زمان تمرین می‌شود. پاسخ را با اشاره به جمله، رفتار یا تصمیم مشخص ارائه کنید.</p><div class="bp-c-lesson-questions">'+questions.map(x=>'<article><h3>'+esc(x.domain)+'</h3><ol>'+x.items.map(q=>'<li>'+esc(q)+'</li>').join("")+'</ol></article>').join("")+'</div></section>';
+ h+='<section class="bp-c-story"><h2 class="bp-c-section-title">تفاوت دانش، مهارت و شاهد عملکرد</h2><p>برای هرکدام فقط یک نمونه کافی نیست؛ این مثال‌ها چند شایستگی را در کنار هم نشان می‌دهند.</p><div class="bp-c-lesson-kse">'+kse.map(x=>'<article><h3>'+esc(x.title)+'</h3><ul>'+x.items.map(q=>'<li>'+esc(q)+'</li>').join("")+'</ul></article>').join("")+'</div></section>';
+ h+='<h2 class="bp-c-section-title">شایستگی‌ها را در چهار بخش ببینید</h2><nav class="bp-c-tiles four" aria-label="موضوعات درسنامه">'+
+ link("bp-c-self",'<span class="bp-c-symbol self">◎</span><strong>خودم</strong><small>۳ شایستگی</small>',"bp-c-tile")+
  link("bp-c-others",'<span class="bp-c-symbol others">♧</span><strong>دیگران</strong><small>۴ شایستگی</small>',"bp-c-tile")+
  link("bp-c-results",'<span class="bp-c-symbol results">↗</span><strong>نتایج کسب‌وکار</strong><small>۵ شایستگی</small>',"bp-c-tile")+
- link("bp-c-families",'<span class="bp-c-symbol family">▦</span><strong>شش خانواده</strong><small>تعریف، روایت و مثال</small>',"bp-c-tile")+'</nav>'+
- roleSwitcher()+'<p class="bp-c-role-hint">'+summary(session.role)+'</p>'+
- '<div class="bp-c-actions">'+link("bp-c-clinic-2","🎭 گفت‌وگوهای دونفره و چهار نفره","bp-c-primary")+
+ link("bp-c-families",'<span class="bp-c-symbol family">▦</span><strong>شش خانواده</strong><small>تعریف و مثال</small>',"bp-c-tile")+'</nav>';
+ h+=roleSwitcher()+'<p class="bp-c-role-hint">'+summary(session.role)+'</p>'+
+ '<div class="bp-c-actions">'+link("bp-c-clinic-2","🎭 اجرای گفت‌وگوهای دو و چهار نفره","bp-c-primary")+
  link("bp-c-test","🎯 آزمون تشخیصی","bp-c-secondary")+
- link("course","📚 جلسات","bp-c-secondary")+'</div>';
+ link("course","📚 فهرست شش جلسه","bp-c-secondary")+'</div>';
+ el.innerHTML=h;
 }
 function domainPage(id,domain){
  const el=root(id);if(!el)return;
@@ -69,10 +95,10 @@ function familiesPage(){
  '<div class="bp-c-actions">'+link("bp-c-lesson","↩ بازگشت به درسنامه","bp-c-secondary")+'</div>';
 }
 const FOCUS={
-3:{title:"خودم؛ پایه قضاوت حرفه‌ای",domain:"self",lead:"خودآگاهی، حل مسئله و تصمیم‌گیری در شرایط واقعی کار.",ids:["self","problem","judgment"],s:"رفتار خود در فشار شیفت را بازبینی می‌کند و علت را پیش از اقدام می‌سنجد.",m:"سوگیری، ریسک و پیامد تصمیم چندواحدی را تحلیل می‌کند."},
-4:{title:"دیگران؛ ارتباطات و تعارض",domain:"others",lead:"از گفت‌وگوی دشوار تا توافق قابل اجرا.",ids:["communication","conflict"],s:"بازخورد توصیفی و حل تعارض در تحویل کار روزانه.",m:"مدیریت اختلاف اولویت و اعتماد میان واحدها."},
-5:{title:"دیگران؛ تفویض و توسعه",domain:"others",lead:"کاهش وابستگی و ساختن ظرفیت تصمیم‌گیری افراد.",ids:["delegation","coaching"],s:"واگذاری کار در حدود مجاز و مربیگری کوتاه حین اجرا.",m:"تفویض اختیار به سرپرستان و طراحی مسیر توسعه آنان."},
-6:{title:"نتایج؛ از برنامه تا اثر واقعی",domain:"results",lead:"برنامه‌ریزی، هماهنگی، عملکرد، زنجیره ارزش و تغییر.",ids:["planning","coordination","performance","business","change"],s:"اولویت‌بندی شیفت، کنترل کیفیت و اصلاح عملیاتی.",m:"تصمیم منابع و سنجش اثر بر مشتری و کل زنجیره."}
+3:{title:"شایستگی‌های معطوف به خود",domain:"self",lead:"هوش هیجانی، خودمدیریتی، حل مسئله و قضاوت حرفه‌ای در فشار واقعی کار.",ids:["self","problem","judgment"],s:"در اختلاف با سرپرست واحد دیگر، پیش‌فرض را جدا می‌کند و بر پایه داده تصمیم می‌گیرد.",m:"سوگیری، عدم قطعیت، ریسک و پیامد تصمیم میان چند واحد را بررسی می‌کند."},
+4:{title:"شایستگی‌های معطوف به دیگران",domain:"others",lead:"ارتباط، جرئت‌ورزی، مدیریت جلسات و تعارض، تفویض اختیار و توانمندسازی.",ids:["communication","conflict","delegation","coaching"],s:"در مذاکره با سرپرست همتا، گفت‌وگو و تفویض در واحد خود را با اختیار روشن انجام می‌دهد.",m:"نشست میان‌واحدی را تسهیل و توافق توسعه و توانمندسازی مدیران و سرپرستان می‌سازد."},
+5:{title:"شایستگی‌های معطوف به نتایج کسب‌وکار",domain:"results",lead:"برنامه‌ریزی، هماهنگی، عملکرد، ارزش مشتری و بهبود پایدار کل شرکت.",ids:["planning","coordination","performance","business","change"],s:"در تحویل مشترک، وضعیت مجاز، تعهد، هزینه و موعد واحدها را هماهنگ می‌کند.",m:"نتیجه مالی، کیفیت، ظرفیت و مشتری را با شاخص مشترک و سناریوی جایگزین می‌سنجد."},
+6:{title:"مدیریت پیشرفته؛ تلفیق شایستگی‌ها",domain:"results",lead:"تصمیم‌سازی در ابهام، تسهیل اختلاف مدیران، تحول و راهبری نتیجه شرکتی.",ids:["self","judgment","communication","delegation","coordination","business","change"],s:"در مسئله چندواحدی، از داده و اختیار تا تصمیم و بازخورد را یکپارچه می‌کند.",m:"چند سناریوی دشوار شرکتی را با هزینه کل، کیفیت، انسان و نتیجه تصمیم‌سازی می‌کند."}
 };
 function focusPage(n){
  const x=FOCUS[n],id="bp-c-focus-"+n,el=root(id);if(!el)return;
@@ -131,8 +157,8 @@ function updateLanding(){
    if(!home||home.querySelector(".bp-c-landing-links"))continue;
    const heading=home.querySelector("h1"),goal=home.querySelector(".mml-simple-goal");
    if(n===2){
-    if(heading)heading.textContent="جلسه دوم؛ برنامه‌ریزی، سازماندهی و هماهنگی";
-    if(goal)goal.innerHTML="<strong>تمرکز جلسه:</strong> با شایستگی‌های مدیریتی آشنا شو، اختلاف بین واحدها را در یک گفت‌وگوی واقعی‌نما تمرین کن و درباره رفتار قابل مشاهده بازخورد بگیر.";
+    if(heading)heading.textContent="جلسه دوم؛ مدل شایستگی‌های مدیریتی";
+    if(goal)goal.innerHTML="<strong>تمرکز جلسه:</strong> مدل سه‌حوزه‌ای و شش خانواده را بشناس؛ در مذاکره میان‌واحدی شایستگی‌ها را مشاهده، تمرین و بازخورد بده.";
    }else{
     if(heading)heading.textContent="جلسه "+["","", "","سوم","چهارم","پنجم","ششم"][n]+"؛ "+FOCUS[n].title;
     if(goal)goal.textContent=FOCUS[n].lead;
@@ -163,7 +189,9 @@ function updateLanding(){
    if(head)head.insertAdjacentHTML("afterend",link("bp-c-lesson","📖 درسنامه و مسیر شش‌جلسه‌ای مدل","bp-c-portal-link"));
  }
  const card=document.querySelector('#course .course-session[data-course-session="2"] small');
- if(card)card.textContent="برنامه‌ریزی و هماهنگی بین واحدها";
+ if(card)card.textContent="مدل شایستگی‌های مدیریتی";
+ const titles=["رهبری","مدل شایستگی‌های مدیریتی","شایستگی‌های معطوف به خود","شایستگی‌های معطوف به دیگران","شایستگی‌های معطوف به نتایج کسب‌وکار","مدیریت پیشرفته"];
+ document.querySelectorAll("#course .course-session[data-course-session]").forEach(x=>{const i=Number(x.dataset.courseSession)-1,small=x.querySelector("small");if(i>=0&&i<6&&small)small.textContent=titles[i]});
 }
 function key(role){return "bp_competency_session2_v1_"+role}
 function load(role){
@@ -216,7 +244,7 @@ function renderTest(){
  html+='<div class="bp-c-actions">'+(answered?
    (session.step===11?link("bp-c-report","📊 مشاهده نتیجه نهایی","bp-c-primary"):'<button type="button" data-bp-next class="bp-c-primary">سؤال بعدی ←</button>'):
    '<span class="bp-c-instruction-mini">گزینه را انتخاب کنید؛ پاسخ ذخیره می‌شود و تحلیل پس از پایان آزمون باز خواهد شد.</span>')+
- link("bp-c-lesson","↩ درسنامه","bp-c-secondary")+'</div>';
+ '</div>';
  el.innerHTML=html;
 }
 function answer(i){
@@ -260,13 +288,21 @@ function report(){
  h+='<div class="bp-c-report-role"><strong>مسیر: '+(role==="supervisors"?"سرپرستان":"مدیران")+'</strong><small>'+fa(p.count)+' از ۱۲ پاسخ ثبت شده</small></div>';
  if(p.count<12){h+='<div class="bp-c-instructions"><h2>آزمون هنوز تمام نشده است</h2><p>برای دیدن تحلیل، به همه موقعیت‌ها پاسخ بدهید.</p>'+link("bp-c-test","ادامه آزمون","bp-c-primary")+'</div>';el.innerHTML=h;return;}
  const correct=p.skills.filter(s=>s.correct),needs=p.skills.filter(s=>!s.correct);
- h+='<section class="bp-c-plain-summary"><strong>'+fa(correct.length)+' پاسخ درست از ۱۲ موقعیت</strong><p>این عدد فقط نتیجه همین پرسش‌های آموزشی است؛ سطح واقعی شایستگی شما یا معیار مقایسه کارکنان نیست.</p></section>';
+ const percent=p.percent;
+ const level=percent>=75?4:percent>=50?3:percent>=25?2:1;
+ const descriptors=["شروع یادگیری","در حال شکل‌گیری","کاربرد در موقعیت آشنا","آمادگی برای موقعیت پیچیده"];
+ h+='<section class="bp-c-plain-summary bp-c-level-report"><h2>نتیجه تشخیصی شما</h2><div class="bp-c-report-metrics">'+
+ '<div><small>پاسخ درست</small><strong>'+fa(correct.length)+' از ۱۲</strong></div>'+
+ '<div><small>درصد پاسخ درست</small><strong>'+fa(percent)+'٪</strong></div>'+
+ '<div><small>برآورد آموزشی سطح خبرگی</small><strong>سطح '+fa(level)+' · '+descriptors[level-1]+'</strong></div></div>'+
+ '<p><strong>مهم:</strong> این سطح فقط از تعداد پاسخ‌های درست همین آزمون آموزشی برآورد شده و نشان‌دهنده خبرگی واقعی، صلاحیت شغلی یا ارزیابی رسمی عملکرد نیست. برای تعیین سطح معتبر باید رفتار در چند موقعیت، کیفیت اجرای گفت‌وگو و شواهد محیط کار نیز مشاهده شود.</p>'+
+ '<details><summary>روش برآورد چهار سطح</summary><p>سطح ۱: کمتر از ۲۵٪؛ سطح ۲: از ۲۵ تا کمتر از ۵۰٪؛ سطح ۳: از ۵۰ تا کمتر از ۷۵٪؛ سطح ۴: از ۷۵ تا ۱۰۰٪. این مرزبندی صرفاً راهنمای آموزشی است و اعتبارسنجی روان‌سنجی نشده است.</p></details></section>';
  h+='<h2 class="bp-c-section-title">نتیجه به تفکیک سه حوزه</h2><div class="bp-c-family-story">'+p.domains.map(d=>{
  const list=p.skills.filter(s=>s.domain===d.id),right=list.filter(s=>s.correct);
- return '<article><h4>'+esc(d.name)+'</h4><p>'+fa(right.length)+' پاسخ درست از '+fa(list.length)+' موقعیت. '+(right.length===list.length?"برای تثبیت، گفت‌وگو را در عمل تمرین کنید.":"پاسخ‌های دیگر را بازبینی و دلیل انتخاب را تحلیل کنید.")+'</p></article>';
+ return '<article><h4>'+esc(d.name)+'</h4><p>'+fa(right.length)+' از '+fa(list.length)+' پاسخ درست · '+fa(list.length?Math.round(right.length*100/list.length):0)+'٪. '+(right.length===list.length?"برای تثبیت، گفت‌وگو را در عمل تمرین کنید.":"پاسخ‌های دیگر را بازبینی و دلیل انتخاب را تحلیل کنید.")+'</p></article>';
  }).join("")+'</div>';
  h+='<h2 class="bp-c-section-title">کدام رفتارها را دوباره تمرین کنم؟</h2><div class="bp-c-competency-details">'+needs.map(s=>
- '<details><summary>'+esc(s.name)+' · پیشنهاد تمرین</summary><p>تعریف و سطوح این شایستگی را مرور کنید؛ در یک گفت‌وگوی دونفره دلیل تصمیم و اثر آن را با همکار بررسی کنید.</p>'+link("bp-c-focus-"+s.session,"بازکردن درس مرتبط","bp-c-mini-link")+'</details>').join("")+'</div>';
+ '<details><summary>'+esc(s.name)+' · پیشنهاد تمرین</summary><p>تعریف و سطوح این شایستگی را مرور کنید؛ در یک گفت‌وگوی دونفره دلیل تصمیم و اثر آن را با همکار بررسی کنید.</p>'+link("bp-c-focus-"+(s.session||3),"بازکردن درس مرتبط","bp-c-mini-link")+'</details>').join("")+'</div>';
  if(!needs.length)h+='<p>همه پاسخ‌ها درست بوده‌اند. برای انتقال یادگیری به محیط کار، تمرین‌های شبیه‌سازی‌شده را اجرا کنید.</p>';
  h+='<div class="bp-c-actions">'+link("bp-c-review","مرور کامل سؤال‌ها و دلیل گزینه‌ها","bp-c-primary")+link("bp-c-clinic-2","اجرای گفت‌وگوهای شبیه‌سازی‌شده","bp-c-secondary")+
  '<button type="button" class="bp-c-reset" data-bp-restart>شروع دوباره آزمون</button></div>';
@@ -284,7 +320,7 @@ function review(){
  let h=header("مرور پاسخ‌ها و تشریح","هر سؤال را جداگانه باز کنید؛ پاسخ و علت هر گزینه قابل بررسی است.","bp-c-report","بازخورد آموزشی");
  h+='<div class="bp-c-review-list">'+qs.map((q,i)=>{
    const selected=responses[q.id],answered=Number.isInteger(selected);
-   return '<details><summary><strong>'+fa(i+1)+'. '+D.skills.find(x=>x.id===q.skill).name+'</strong><span>'+(answered?(selected===q.answer?"✓ همسو":"↗ نیاز به بازنگری"):"بدون پاسخ")+'</span></summary>'+
+   return '<details><summary><strong>'+fa(i+1)+'. '+D.skills.find(x=>x.id===q.skill).name+'</strong><span>'+(answered?(selected===q.answer?"✓ پاسخ درست":"↗ نیاز به بازنگری"):"بدون پاسخ")+'</span></summary>'+
    '<p>'+esc(q.stem)+'</p>'+
    q.options.map((o,j)=>'<div class="bp-c-feedback-line"><strong>گزینه '+FA[j]+(j===q.answer?" · مناسب‌تر":"")+(j===selected?" · انتخاب شما":"")+'</strong><p>'+esc(o)+'</p><small>'+esc(q.reasons[j])+'</small></div>').join("")+'</details>';
  }).join("")+'</div><div class="bp-c-actions">'+link("bp-c-report","↩ داشبورد نتایج","bp-c-primary")+'</div>';

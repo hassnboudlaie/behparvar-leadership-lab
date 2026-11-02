@@ -70,6 +70,19 @@ assert.ok(app.includes("bp-simple-feedback"),"behavioral feedback fields");
 assert.ok(app.includes("bp-simple-criterion-row")&&app.includes("data-simple-evidence"),"observer scores plus verbatim evidence");
 assert.ok(app.includes("data-simple-eval")&&app.includes("تا حدی مشاهده شد"),"graded classroom checklist");
 assert.ok(app.includes("bp-simple-moment"),"skill turning points embedded in dialogue");
+const anchorSource=app.match(/const turnAnchors=(\{[\s\S]*?\});\s*const expertNotes=/);
+assert.ok(anchorSource,"skill-anchor definitions present");
+const anchors=vm.runInNewContext("("+anchorSource[1]+")");
+for(const c of cases){
+ for(const role of ["supervisors","managers"]){
+  const marks=anchors[c.id][role];
+  assert.ok(Object.keys(marks).length>=4,"each case has at least four observable annotated moments");
+  for(const [turn,skill] of Object.entries(marks)){
+   assert.ok(Number(turn)<c[role].improved.length,"moment within actual dialogue "+c.id+" "+role);
+   assert.ok(c.skills.includes(skill),"moment skill must be declared as target "+c.id+" "+role+" "+skill);
+  }
+ }
+}
 assert.ok(app.includes("bp-simple-reflection")&&app.includes("data-simple-answer"),"observer analyses all three debatable moments");
 assert.ok(app.includes("data-simple-copy")&&app.includes("copyObserverReport"),"shareable observer report");
 assert.ok(app.includes("observerDrafts=new Map()")&&app.includes("restoreObserverDraft"),"in-session observer notes retained while changing cases");

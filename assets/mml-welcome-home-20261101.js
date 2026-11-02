@@ -59,14 +59,11 @@ function progress(){
 function setHeroFallback(){
  var hero=document.querySelector("#welcome .bp-welcome-photo");
  if(!hero)return;
- /* Prefer first-party approved extraction when available; otherwise use
-    the publicly accessible licensed image above with an offline local backup. */
- var local="assets/mml-welcome/hero-meeting.webp";
- var probe=new Image();
- probe.onload=function(){hero.src=local;hero.removeAttribute("referrerpolicy")};
- probe.onerror=function(){/* Keep current remote image and its local fallback. */};
- probe.src=local;
+ /* Respect the official Behparvar hero; never silently restore generic meeting artwork. */
+ hero.src="assets/behparvar-campus.webp";
+ hero.onerror=function(){this.onerror=null;this.src="assets/production-official.webp"};
 }
+
 function render(){
  portal();
  if(document.querySelector("#progress.active"))progress();

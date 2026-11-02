@@ -49,8 +49,15 @@ assert.ok(html.includes("bp-competency-s2-data-20261101.js")&&html.includes("bp-
 assert.ok(html.includes("bp-competency-path-20261101.css"));
 assert.ok(html.includes('id="session2"')&&html.includes('id="session6"'));
 const ui=fs.readFileSync("assets/bp-competency-path-20261101.js","utf8");
-assert.ok(ui.includes('bp_competency_session2_v1_'),"dedicated saved diagnostic namespace");
+assert.ok(ui.includes('bp_competency_session2_v2_'),"dedicated saved diagnostic namespace");
 assert.ok(ui.includes("bp-c-plain-summary"),"plain-language educational results");
+assert.ok(ui.includes("x.version===2"),"revised item wording has independent scoring");
+assert.ok(!ui.includes("localStorage.removeItem(\"bp_competency_session2_v1_\""),"historical answers not erased");
+for(const role of ["supervisors","managers"]){
+ const bank=D[role];
+ assert.ok(bank.every(q=>q.stem.length>=95));
+ assert.ok(bank.every(q=>q.stem.includes("سرپرست")||q.stem.includes("مدیر")||q.stem.includes("واحد")||q.stem.includes("فروش")||q.stem.includes("کیفیت")),"peer-based cross-functional contexts");
+}
 assert.ok(ui.includes("درصد پاسخ درست")&&ui.includes("برآورد آموزشی سطح خبرگی"),"transparent percent and educational four-level estimate");
 assert.ok(ui.includes("انجام درست")===false||ui.includes("درصد پاسخ درست"));
 assert.ok(!ui.includes('link("bp-c-lesson","↩ درسنامه","bp-c-secondary")'),"no repeated lesson link under diagnostic questions");

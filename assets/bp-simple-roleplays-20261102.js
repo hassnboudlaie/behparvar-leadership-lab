@@ -92,16 +92,35 @@ function conversation(c,d,role){
 }
 function analysis(c,d,role){
  const a=reflections[c.id];
- return '<section class="bp-simple-section bp-simple-analysis"><h2>۳. تحلیل و بازخورد مبتنی بر رفتار</h2>'+
- '<div class="bp-simple-evidence"><strong>🔎 نقطه عطف گفت‌وگو</strong><p>'+esc(expertNotes[c.id][role])+'</p></div>'+
+ return '<section class="bp-simple-section bp-simple-analysis"><h2>۳. تحلیل و بازخورد مشاهده‌گران</h2>'+
+ '<p class="bp-simple-observer-intro">👀 سایر شرکت‌کنندگان کلاس با استفاده از چک‌لیست، گفت‌وگو را مستقلاً تحلیل کنند. در هر معیار، میزان مشاهده و یک شاهد مشخص از جمله‌ها یا رفتارها را ثبت کنید؛ نه قضاوت درباره شخصیت افراد.</p>'+
+ '<div class="bp-simple-observer-head"><label>نام مشاهده‌گر (اختیاری)<input data-simple-observer-name type="text" placeholder="نام شما"></label><span>Case: '+esc(d.title)+'</span></div>'+
+ '<h3 class="bp-simple-criteria-heading">✅ چک‌لیست مشاهده‌گر · پنج رفتار قابل مشاهده</h3>'+
+ '<div class="bp-simple-checks">'+d.checklist.map((t,i)=>
+ '<div class="bp-simple-criterion-row" data-simple-check-item>'+
+ '<strong class="bp-simple-criterion">'+fa(i+1)+'. '+esc(t)+'</strong>'+
+ '<div class="bp-simple-observer-inputs"><label>وضعیت رفتار<select data-simple-eval aria-label="وضعیت رفتار '+fa(i+1)+'">'+
+ '<option value="">انتخاب کنید</option><option value="کاملاً مشاهده شد">کاملاً مشاهده شد</option>'+
+ '<option value="تا حدی مشاهده شد">تا حدی مشاهده شد</option>'+
+ '<option value="مشاهده نشد">مشاهده نشد</option>'+
+ '<option value="شاهد کافی نیست">شاهد کافی نیست</option></select></label>'+
+ '<label>شاهد مشخص: کدام جمله یا رفتار؟<input data-simple-evidence type="text" placeholder="جمله یا لحظه مشخصی از گفت‌وگو"></label></div></div>').join("")+'</div>'+
+ '<h3 class="bp-simple-questions-heading">🔎 سه سؤال تحلیلی؛ پیدا کردن نقاط عطف</h3>'+
+ '<div class="bp-simple-reflection">'+d.debrief.slice(0,3).map((q,i)=>
+ '<label class="bp-simple-reflection-item"><strong>'+fa(i+1)+'. '+esc(q)+'</strong>'+
+ '<textarea data-simple-answer rows="3" placeholder="تحلیل و شاهد خود را بنویسید."></textarea></label>').join("")+'</div>'+
+ '<details class="bp-simple-teacher-analysis"><summary>📖 جمع‌بندی مدرس و نقطه عطف پیشنهادی</summary>'+
+ '<p><strong>نقطه عطف:</strong> '+esc(expertNotes[c.id][role])+'</p>'+
  '<div class="bp-simple-insights"><article><h3>✅ رفتار حرفه‌ای</h3><p>'+esc(a.analysis)+'</p></article>'+
  '<article><h3>⚠️ رفتار پرخطر</h3><p>'+esc(a.failure)+'</p></article>'+
- '<article><h3>🎯 توافق قابل قبول</h3><p>'+esc(a.outcome)+'</p></article></div>'+
- '<h3>چک‌لیست مشاهده‌گر</h3><p>فقط رفتار قابل مشاهده را علامت بزنید، نه شخصیت یا نیت همکار را.</p>'+
- '<div class="bp-simple-checks">'+d.checklist.map(t=>'<label><input type="checkbox"><span>'+esc(t)+'</span></label>').join("")+'</div>'+
- '<div class="bp-simple-feedback"><label>💬 جمله یا رفتاری که مؤثر بود<textarea rows="2" placeholder="مثلاً: وقتی ... پرسید، بحث از اتهام به بررسی داده تغییر کرد."></textarea></label>'+
- '<label>🛠 یک رفتار مشخص برای بهترشدن<textarea rows="2" placeholder="مثلاً: پیش از پیشنهاد راه‌حل، نگرانی واحد مقابل را بازگو کند."></textarea></label></div>'+
- '<h3>سه سؤال تحلیلی برای گفت‌وگوی کلاسی</h3><ol>'+d.debrief.slice(0,3).map(t=>'<li>'+esc(t)+'</li>').join("")+'</ol>'+
+ '<article><h3>🎯 توافق قابل قبول</h3><p>'+esc(a.outcome)+'</p></article></div></details>'+
+ '<h3>💬 نظر خودتان درباره گفت‌وگو</h3>'+
+ '<div class="bp-simple-feedback"><label>قوی‌ترین رفتار یا جمله چه بود؟<textarea rows="2" data-simple-strength placeholder="کدام جمله گفت‌وگو را جلو برد و چرا؟"></textarea></label>'+
+ '<label>کدام رفتار باید بهتر شود؟<textarea rows="2" data-simple-improvement placeholder="چه سؤال یا پاسخ دقیق‌تری پیشنهاد می‌کنید؟"></textarea></label></div>'+
+ '<div class="bp-simple-share"><p>گزارش هر مشاهده‌گر در همین صفحه تکمیل می‌شود؛ برای ارائه به مدرس یا سایر اعضای کلاس می‌توانید متن آن را کپی کنید. هیچ پاسخی به سرور ارسال نمی‌شود.</p>'+
+ '<button type="button" class="bp-simple-copy" data-simple-copy>📋 کپی گزارش مشاهده‌گر</button>'+
+ '<p data-simple-copy-status role="status" aria-live="polite"></p>'+
+ '<div data-simple-report-preview hidden><label>متن گزارش برای کپی دستی<textarea readonly rows="10"></textarea></label></div></div>'+
  '<p class="bp-simple-action"><strong>انتقال به محیط کار:</strong> '+esc(d.action)+'</p></section>';
 }
 function empowermentMechanism(c){
@@ -125,6 +144,44 @@ function render(){
  el.innerHTML=top()+chooser(r)+(r?(c?casePage(c,r):cards(r)):
  '<section class="bp-simple-choose"><h2>ابتدا مشخص کنید در کدام مسیر هستید</h2><p>برای دیدن گفت‌وگوهای مخصوص سرپرستان یا مدیران، یکی از دو گزینه بالا را انتخاب کنید.</p></section>');
 }
-function init(){render();document.addEventListener("click",e=>{const t=e.target.closest("#"+HOST+" [data-simple-case],#"+HOST+" [data-simple-back],#"+HOST+" [data-simple-role]");if(!t)return;if(t.dataset.simpleRole){activeRole=t.dataset.simpleRole;chosen=null}else if(t.dataset.simpleCase)chosen=t.dataset.simpleCase;else if(t.hasAttribute("data-simple-back"))chosen=null;render();const root=container();if(root)root.scrollIntoView({block:"start",behavior:"smooth"});});window.addEventListener("hashchange",()=>{if(location.hash==="#"+HOST)render();});}
+function observerReport(){
+ const root=container(),c=C.find(x=>x.id===chosen),r=getRole();
+ if(!root||!c||!r)return "";
+ const d=c[r],get=sel=>root.querySelector(sel)?.value?.trim()||"";
+ const rows=[...root.querySelectorAll("[data-simple-check-item]")].map(node=>
+  (node.querySelector(".bp-simple-criterion")?.textContent||"")+
+  "\nارزیابی: "+(node.querySelector("[data-simple-eval]")?.value||"ثبت نشده")+
+  "\nشاهد: "+(node.querySelector("[data-simple-evidence]")?.value||"ثبت نشده"));
+ const debrief=[...root.querySelectorAll(".bp-simple-reflection-item")].map(node=>
+  (node.querySelector("strong")?.textContent||"پرسش تحلیلی")+
+  "\n"+(node.querySelector("textarea")?.value||"پاسخی ثبت نشده"));
+ return ["گزارش مشاهده‌گر — جلسه دوم مدل شایستگی‌های به‌پرور",
+ "موقعیت: "+d.title,"مسیر: "+roleName[r],
+ "نام مشاهده‌گر: "+(get("[data-simple-observer-name]")||"بدون نام"),
+ "چک‌لیست مبتنی بر شاهد:",...rows,
+ "نقاط عطف و تحلیل:",...debrief,
+ "قوی‌ترین رفتار: "+(get("[data-simple-strength]")||"ثبت نشده"),
+ "پیشنهاد بهبود: "+(get("[data-simple-improvement]")||"ثبت نشده")].join("\n\n");
+}
+async function copyObserverReport(){
+ const root=container(),status=root&&root.querySelector("[data-simple-copy-status]");
+ if(!root||!status)return;
+ const report=observerReport();
+ try{
+  if(!navigator.clipboard?.writeText)throw Error("clipboard unavailable");
+  await navigator.clipboard.writeText(report);
+  status.textContent="✅ گزارش کپی شد؛ می‌توانید آن را در گروه یا برای مدرس بفرستید.";
+ }catch(err){
+  const panel=root.querySelector("[data-simple-report-preview]");
+  if(panel){
+   panel.hidden=false;
+   const input=panel.querySelector("textarea");
+   input.value=report;input.focus();input.select();
+  }
+  status.textContent="کپی خودکار در این مرورگر فعال نیست؛ متن گزارش در کادر زیر برای کپی دستی آماده است.";
+ }
+}
+
+function init(){render();document.addEventListener("click",e=>{if(e.target.closest("#"+HOST+" [data-simple-copy]")){copyObserverReport();return;}const t=e.target.closest("#"+HOST+" [data-simple-case],#"+HOST+" [data-simple-back],#"+HOST+" [data-simple-role]");if(!t)return;if(t.dataset.simpleRole){activeRole=t.dataset.simpleRole;chosen=null}else if(t.dataset.simpleCase)chosen=t.dataset.simpleCase;else if(t.hasAttribute("data-simple-back"))chosen=null;render();const root=container();if(root)root.scrollIntoView({block:"start",behavior:"smooth"});});window.addEventListener("hashchange",()=>{if(location.hash==="#"+HOST)render();});}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })(window);

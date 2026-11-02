@@ -73,7 +73,7 @@ const {chromium}=require("playwright"),assert=require("node:assert/strict");
   await page.locator(section+" [data-simple-back]").first().click();
   await page.locator('[data-simple-case="group-empowerment"]').click();
   assert.deepEqual(await page.locator(section+" .bp-simple-roles h3").allTextContents(),["مدیر عملیات","مدیر منابع انسانی","مدیر کیفیت","مدیر زنجیره تأمین"]);
-  assert.equal(await page.evaluate(()=>localStorage.getItem("bp_competency_session2_v1_managers")),null);
+  assert.equal(await page.evaluate(()=>localStorage.getItem("bp_competency_session2_v2_managers")),null);
   assert.deepEqual(errors,[],"no Javascript runtime errors");
   await ctx.close();
   console.log("PASS: peer-reviewed sample dialogues, fictional Behparvar feed production, skill moments, 5 graded observer criteria, evidence and copy report, no activity gates, mobile RTL.");

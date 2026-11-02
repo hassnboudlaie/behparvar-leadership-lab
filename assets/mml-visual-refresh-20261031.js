@@ -62,7 +62,7 @@
        guided.hidden=true;
        primary.hidden=false;primary.open=true;
        if(lesson){
-         if(i!==6){
+         if(i!==6&&!(n===2&&i===1)){
            lesson.hidden=false;
            var more=document.createElement("details");
            more.className="mml-reader-more";

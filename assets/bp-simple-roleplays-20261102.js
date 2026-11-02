@@ -35,11 +35,11 @@ const reflections={
 }
 };
 const turnAnchors={
-"group-empowerment":{supervisors:{2:"self",5:"delegation",8:"coaching",12:"performance",18:"coordination",23:"judgment"},managers:{4:"delegation",7:"coordination",10:"coaching",17:"judgment",22:"performance"}},
-"pair-signal":{supervisors:{3:"communication",4:"self",11:"judgment",15:"coordination"},managers:{4:"self",8:"judgment",13:"conflict",17:"performance"}},
+"group-empowerment":{supervisors:{2:"communication",5:"delegation",8:"coaching",12:"performance",18:"coordination",23:"judgment"},managers:{4:"delegation",7:"coordination",10:"coaching",17:"judgment",22:"performance"}},
+"pair-signal":{supervisors:{3:"communication",4:"self",11:"judgment",15:"communication"},managers:{4:"self",8:"judgment",13:"conflict",17:"judgment"}},
 "pair-delegation":{supervisors:{4:"self",7:"coordination",10:"delegation",17:"performance"},managers:{3:"coaching",8:"coordination",14:"self",18:"performance"}},
-"group-handover":{supervisors:{6:"conflict",11:"coordination",17:"judgment",23:"performance"},managers:{5:"self",8:"problem",17:"business",21:"coordination"}},
-"group-capacity":{supervisors:{8:"self",12:"planning",17:"delegation",20:"performance"},managers:{5:"coaching",8:"problem",15:"change",20:"coordination"}}
+"group-handover":{supervisors:{6:"conflict",11:"coordination",17:"judgment",23:"performance"},managers:{5:"conflict",8:"judgment",17:"business",21:"coordination"}},
+"group-capacity":{supervisors:{8:"problem",12:"planning",17:"delegation",20:"change"},managers:{5:"coaching",8:"problem",15:"change",20:"planning"}}
 };
 const expertNotes={
 "group-empowerment":{supervisors:"نقطه عطف: سرپرست تولید به‌جای دستور مستقیم به کارکنان سه واحد دیگر، مسئولیت هر همتای سازمانی را می‌پذیرد و در واحد خودش با مرز اختیار، حمایت و بازخورد تفویض می‌کند.",managers:"نقطه عطف: چهار مدیر از کاهش تعداد امضاها به سازوکار توسعه صلاحیت، اختیار متناسب با ریسک، پایلوت با شاخص محافظ و ارزیابی رفتاری می‌رسند."},

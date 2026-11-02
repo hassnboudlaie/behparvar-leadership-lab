@@ -46,8 +46,13 @@ check("12 staged role-plays include nonverbal instructions",()=>{
  for(let n=1;n<=6;n++)for(let role of ["managers","supervisors"]){
   const output=lib.render(n,"m2",role);
   assert.ok(output.includes("mml-edu-drama"));
-  assert.ok(output.includes("لحن، حالت چهره و زبان بدن:"));
-  assert.ok(output.includes("راهنمای تسهیلگر"));
+  if(n===2){
+   assert.ok(output.includes("bp-c-clinic-2"),"session 2 old sample replaced by canonical full dialogue studio");
+   assert.ok(!output.includes("در اجرای دوم"),"session 2 never asks to replay old scenario");
+  }else{
+   assert.ok(output.includes("لحن، حالت چهره و زبان بدن:"));
+   assert.ok(output.includes("راهنمای تسهیلگر"));
+  }
  }
 });
 check("learning modes and reading defaults intact",()=>{

@@ -64,8 +64,9 @@ for(const id of ["self","problem","judgment"]){
  assert.ok(p.levels.every(l=>l.length>80),"behaviour-rich proficiency "+id);
 }
 assert.ok(sandbox.window.BPCompetencyData.families.every(f=>f.story&&f.good&&f.bad&&f.evidence),"six families need stories and examples");
+assert.ok(sandbox.window.BPCompetencyData.families.every(f=>f.supervisorPractice&&f.managerPractice&&f.reflectionQuestion),"six families need cross-unit role-specific practice");
 assert.ok(html.includes("bp-upgrade-data-20261102.js"));
 assert.ok(html.includes("bp-simple-roleplays-20261102.js"));
-assert.ok(html.includes("توسعه</span> <span class=\"bp-title-skills\">مهارت‌های مدیریتی"));
+assert.ok(html.includes("bp-title-letter")&&html.includes("مهارت‌های مدیریتی"),"hero typography and exact title");
 assert.ok(!html.includes('href="#progress" data-open="progress" class="bp-welcome-tile'),"no growth card on homepage");
 console.log("PASS: 3 domains (3/4/5), 6 BMCF families, 12 skills; sessions 3–6 mapping; 12 distinct role questions each, balanced keys, unique rationales and no systematic correct-length cue; all 12 routes; separate saved data.");

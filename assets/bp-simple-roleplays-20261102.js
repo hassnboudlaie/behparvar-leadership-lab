@@ -1,9 +1,10 @@
 /* به‌پرور: گفت‌وگوهای مهارت‌محور، بدون زنجیره مراحل قفل‌شونده */
 (function(g){"use strict";
 const C=[...(g.BPS2PairCases||[]),...(g.BPS2GroupCases||[])],D=g.BPCompetencyData,HOST="bp-c-clinic-2";
-if(!D||C.length!==4)return;
+if(!D||C.length!==5)return;
 const roleName={supervisors:"سرپرستان",managers:"مدیران"};
 const reflections={
+"group-empowerment":{intro:"چهار واحد باید اختیار و مسئولیت را در تیم خود تفویض کنند و هم‌زمان با همتایان به توافق برسند.",skill:"تفویض اختیار با خروجی، صاحب‌صلاحیت، حدود تصمیم، منابع، حمایت، شاهد و موعد بازبینی؛ توانمندسازی با بازخورد واقعی.",analysis:"تفویض با رهاکردن کار فرق دارد: فرد واجدصلاحیت درباره کار مجاز تصمیم می‌گیرد، سرپرست یا مدیر حمایت و کنترل متناسب می‌دهد و واحدهای همتا به یکدیگر دستور نمی‌دهند.",failure:"وقتی یک نفر کار کارکنان همه واحدها را کنترل کند یا بدون صلاحیت امضا واگذار شود، هم اعتماد تخریب می‌شود و هم ریسک عملیاتی بالا می‌رود.",outcome:"هر واحد خروجی، شخص دارای اختیار، منابع، مرز ارجاع و شاهد قابل مشاهده را تعیین و در یک توافق میان‌واحدی به‌هم متصل کند.",practice:"برای اجرای دوباره نقش‌ها را عوض کنید و یک خطای واقعی‌نما اضافه کنید؛ روشن کنید چه اختیاری حفظ، محدود یا ارجاع می‌شود."},
 "pair-signal":{
  intro:"یک اختلاف واقعی‌نما درباره کیفیت و تعهد تحویل؛ هدف، روشن‌شدن وضعیت بدون مقصرسازی است.",
  skill:"مکث پیش از قضاوت، گوش‌دادن به محدودیت طرف مقابل، جداکردن وضعیت واقعی از فرض، و تصمیم در حدود اختیار.",
@@ -38,12 +39,14 @@ const reflections={
 }
 };
 const turnAnchors={
+"group-empowerment":{supervisors:{2:"self",5:"delegation",8:"coaching",12:"performance",18:"coordination",23:"judgment"},managers:{4:"delegation",7:"coordination",10:"coaching",17:"judgment",22:"performance"}},
 "pair-signal":{supervisors:{3:"communication",4:"self",11:"judgment",15:"coordination"},managers:{4:"self",8:"judgment",13:"conflict",17:"performance"}},
 "pair-delegation":{supervisors:{4:"self",7:"coordination",10:"delegation",17:"performance"},managers:{3:"coaching",8:"coordination",14:"self",18:"performance"}},
 "group-handover":{supervisors:{6:"conflict",11:"coordination",17:"judgment",23:"performance"},managers:{5:"self",8:"problem",17:"business",21:"coordination"}},
 "group-capacity":{supervisors:{8:"self",12:"planning",17:"delegation",20:"performance"},managers:{5:"coaching",8:"problem",15:"change",20:"coordination"}}
 };
 const expertNotes={
+"group-empowerment":{supervisors:"نقطه عطف: سرپرست تولید به‌جای دستور مستقیم به کارکنان سه واحد دیگر، مسئولیت هر همتای سازمانی را می‌پذیرد و در واحد خودش با مرز اختیار، حمایت و بازخورد تفویض می‌کند.",managers:"نقطه عطف: چهار مدیر از کاهش تعداد امضاها به سازوکار توسعه صلاحیت، اختیار متناسب با ریسک، پایلوت با شاخص محافظ و ارزیابی رفتاری می‌رسند."},
 "pair-signal":{supervisors:"لحظه تغییر: تولید از «کیفیت دیر خبر داده» به سؤال درباره داده و زمان اعلام نتیجه می‌رسد؛ کیفیت هم تأخیر اطلاع‌رسانی را می‌پذیرد، اما مجوز آزادسازی را معامله نمی‌کند.",managers:"لحظه تغییر: دو مدیر به‌جای دفاع از KPI داخلی، درباره اعتماد مشتری، هزینه کل و حد فنی غیرقابل مذاکره به زبان مشترک می‌رسند."},
 "pair-delegation":{supervisors:"لحظه تغییر: سرپرست تولید به‌جای دستور به تیم تعمیرات، تعهد گزارش وضعیت از همتای خود می‌گیرد؛ هر سرپرست صرفاً به تیم خودش مأموریت می‌دهد.",managers:"لحظه تغییر: مدیر عملیات پیش‌فرض «منابع انسانی فقط آیین‌نامه دارد» را بازنگری می‌کند و با مدیر منابع انسانی درباره ظرفیت معتبر و توسعه مهارت توافق می‌سازد."},
 "group-handover":{supervisors:"لحظه تغییر: سؤال سرپرست انبار درباره معنی «آماده» باعث می‌شود چهار واحد بفهمند چهار وضعیت متفاوت را با یک واژه گزارش می‌کرده‌اند.",managers:"لحظه تغییر: چهار مدیر از درآمد، ظرفیت، کیفیت و هزینه واحدی به تصمیم شرکتی درباره تحویل معتبر و اقتصادی منتقل می‌شوند."},
@@ -103,11 +106,16 @@ function analysis(c,d,role){
  '<h3>سه سؤال تحلیلی برای گفت‌وگوی کلاسی</h3><ol>'+d.debrief.slice(0,3).map(t=>'<li>'+esc(t)+'</li>').join("")+'</ol>'+
  '<p class="bp-simple-action"><strong>انتقال به محیط کار:</strong> '+esc(d.action)+'</p></section>';
 }
+function empowermentMechanism(c){
+ if(c.id!=="group-empowerment")return "";
+ const parts=["۱. خروجی مورد انتظار","۲. صاحب مسئولیت و صلاحیت","۳. اختیار و خط قرمز","۴. منابع و حمایت","۵. شاهد عملکرد","۶. موعد بازنگری و ارجاع"];
+ return '<aside class="bp-simple-empower"><h3>🧩 سازوکار عملی تفویض اختیار</h3><p>در هر واحد، این شش جزء را قبل از واگذاری روشن کنید. یک واحد حق دستور به کارکنان واحد دیگر را ندارد.</p><ol>'+parts.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ol></aside>';
+}
 function casePage(c,role){
  const d=c[role];
  return '<div class="bp-simple-caseback"><button type="button" data-simple-back>→ همه تمرین‌ها</button><strong>'+esc(d.title)+'</strong><span>'+fa(d.roles.length)+' مدیر/سرپرست هم‌سطح</span></div>'+
  '<section class="bp-simple-scene"><h2>اتفاق آشنا؛ اختلاف میان واحدها</h2><p>'+esc(d.scene)+'</p></section>'+
- roleCards(d)+conversation(c,d,role)+analysis(c,d,role)+
+ roleCards(d)+empowermentMechanism(c)+conversation(c,d,role)+analysis(c,d,role)+
  '<button type="button" class="bp-simple-bottom" data-simple-back>انتخاب گفت‌وگوی بعدی</button>';
 }
 function render(){

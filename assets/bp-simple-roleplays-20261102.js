@@ -53,44 +53,42 @@ const expertNotes={
 "group-capacity":{supervisors:"لحظه تغییر: هر سرپرست به‌جای دفاع از واحد خودش، کار موازیِ مجاز و داده موردنیاز سرپرست دیگر را روشن می‌کند.",managers:"لحظه تغییر: مدیران گزینه خرید تجهیز را از یک راه‌حل قطعی به یک سناریو در کنار اصلاح فرآیند و پایلوت قابل سنجش تبدیل می‌کنند."}
 };
 
+const momentNotes={"pair-signal":{"supervisors":{"3":"پذیرش سهم واحد خود در ضعف اطلاع‌رسانی","4":"تبدیل قضاوت عجولانه به سؤال باز","11":"جداکردن زمان اعلام نتیجه از زمان خروج","15":"روشن‌کردن مالک اعلام و دریافت"},"managers":{"4":"تعریف منفعت مشترک مشتری و کیفیت","8":"تفکیک وعده شفاهی از تعهد معتبر","13":"حفظ مرز اختیار فنی و تجاری","17":"توافق بر اقدام و موعد"}},"pair-delegation":{"supervisors":{"4":"درخواست تعهد از همتای سازمانی به‌جای دستور","7":"تشخیص حدود اختیار و مجوز کیفیت","10":"تفویض کار در تیم خود","17":"تعهد اطلاع‌رسانی زودهنگام"},"managers":{"3":"بازنگری فرض کمبود نیروی هم‌زمان","8":"پذیرش مسئولیت عملیات در آموزش","14":"اصلاح لحن در برابر شواهد","18":"شاخص مشترک ظرفیت و ریسک"}},"group-handover":{"supervisors":{"6":"نقطه عطف: چهار تعریف متفاوت از آماده‌بودن","11":"تعهد مسئول مشخص در تولید","17":"مرزبندی زمان گزارش و آزادسازی","23":"پیام مشترک مبتنی بر وضعیت واقعی"},"managers":{"5":"شناسایی شکاف میان دو تعهد","8":"مقایسه سناریوها به جای دفاع واحدی","17":"دیدن هزینه واقعی تصمیم","21":"معیار مشترک کل شرکت"}},"group-capacity":{"supervisors":{"8":"تغییر برداشت درباره واحدهای دیگر","12":"سند معتبر و تعهد انبار","17":"حفظ اختیار سرپرست تعمیرات","20":"برنامه مشروط با شاهد"},"managers":{"5":"به چالش‌کشیدن راه‌حل یک‌گزینه‌ای","8":"تعریف مهلت تصمیم برای پایلوت","15":"مشخص‌کردن معیار بازنگری","20":"پذیرش مشارکت سرپرستان در اجرا"}},"group-empowerment":{"supervisors":{"2":"پذیرش پیامد دخالت در اختیار واحد دیگر","5":"توافق بر عناصر تفویض مسئولانه","8":"شاهد صلاحیت قبل از واگذاری","12":"شرط توقف و ارجاع فنی","18":"تعهد همتای سازمانی","23":"بازگویی حدود اختیار برای اطمینان از فهم"},"managers":{"4":"دسته‌بندی تصمیم براساس ریسک","7":"تفویض در مرز واحد خود","10":"شواهد متناسب با سطح حساسیت","17":"بازخورد و اصلاح به‌جای لغو همه اختیارها","22":"شاخص محافظ کیفیت و ایمنی"}}};
 let chosen=null,activeRole=null;
 function esc(x){return String(x==null?"":x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function fa(x){return String(x).replace(/\d/g,c=>"۰۱۲۳۴۵۶۷۸۹"[Number(c)])}
 function container(){return document.querySelector("#"+HOST+" .bp-s2-root")}
 function getRole(){if(activeRole)return activeRole;const q=new URLSearchParams(location.search).get("audience");if(q==="managers"||q==="supervisors")return q;try{const x=JSON.parse(localStorage.getItem("behparvar_app_v1")||"{}");if(x.role==="managers"||x.role==="supervisors")return x.role}catch(e){}return null}
-function top(){return '<div class="bp-simple-top"><a href="#welcome" data-open="welcome">⌂ خانه</a><a href="#session2" data-open="session2">جلسه دوم</a></div><header class="bp-simple-hero"><span>تمرین کاربردی در محیط کار</span><h1>🎭 گفت‌وگوهای دو‌نفره و چهار‌نفره</h1><p>همه نقش‌ها مدیر یا سرپرست واحدهای متفاوت‌اند. ابتدا اجرا کنید، سپس گفت‌وگوی نمونه و تحلیل را باز کنید.</p></header>'}
+function top(){return '<div class="bp-simple-top"><a href="#welcome" data-open="welcome">⌂ خانه</a><a href="#session2" data-open="session2">جلسه دوم</a></div><header class="bp-simple-hero"><span>تمرین کاربردی در محیط کار</span><h1>🎭 گفت‌وگوهای دو‌نفره و چهار‌نفره</h1><p>همه نقش‌ها مدیر یا سرپرست واحدهای متفاوت‌اند. متن گفت‌وگوی نمونه را بخوانید و نقاط عطف مهارتی را با کمک چک‌لیست کلاس تحلیل کنید.</p></header>'}
 function chooser(role){return '<div class="bp-simple-rolebar" role="group" aria-label="مسیر تمرین"><span>مسیر:</span>'+["supervisors","managers"].map(r=>'<button type="button" data-simple-role="'+r+'" aria-pressed="'+(r===role)+'">'+roleName[r]+'</button>').join("")+'</div>'}
 function skillNames(c){return c.skills.map(x=>D.skills.find(s=>s.id===x)).filter(Boolean).map(s=>s.name)}
-function cards(role){return '<section class="bp-simple-grid" aria-label="انتخاب موقعیت">'+C.map(c=>'<button type="button" class="bp-simple-case" data-simple-case="'+esc(c.id)+'"><span>'+(c.format==="pair"?"👥 دو نفره":"🗣️ چهار نفره")+'</span><strong>'+esc(c[role].title)+'</strong><small>'+esc(reflections[c.id].intro)+'</small><b>بازکردن تمرین</b></button>').join("")+'</section>'}
+function cards(role){return '<section class="bp-simple-grid" aria-label="انتخاب موقعیت">'+C.map(c=>'<button type="button" class="bp-simple-case" data-simple-case="'+esc(c.id)+'"><span>'+(c.format==="pair"?"👥 دو نفره":"🗣️ چهار نفره")+'</span><strong>'+esc(c[role].title)+'</strong><small>'+esc(reflections[c.id].intro)+'</small><b>مشاهده گفت‌وگو و تحلیل</b></button>').join("")+'</section>'}
 function roleCards(d){
- return '<section class="bp-simple-section"><h2>۱. کارت شخصیت‌ها و پیش‌فرض‌های پنهان</h2><p>هر نفر کارت نقش خودش را بخواند. کارت‌ها درباره شخصیت ساختگی هستند، نه همکار واقعی شما.</p><div class="bp-simple-roles">'+d.roles.map((r,i)=>
- '<article><span>نقش '+fa(i+1)+' · واحد مستقل</span><h3>'+esc(r[0])+'</h3>'+
- '<p><strong>دغدغه واقعی:</strong> '+esc(r[1])+'</p>'+
- '<p><strong>فرض درباره واحد مقابل:</strong> '+esc(r[4]||"")+'</p>'+
- '<p><strong>سبک گفت‌وگو زیر فشار:</strong> '+esc(r[5]||"")+'</p>'+
+ return '<details class="bp-simple-character-cards"><summary>👥 شخصیت‌ها و پیش‌فرض‌هایشان <small>مشاهده اطلاعات نقش‌ها</small></summary>'+
+ '<div class="bp-simple-roles">'+d.roles.map((r,i)=>
+ '<article><span>نقش '+fa(i+1)+' · '+esc(d.names&&d.names[i]||"شخصیت فرضی")+'</span><h3>'+esc(r[0])+'</h3>'+
+ '<p><strong>دغدغه:</strong> '+esc(r[1])+'</p>'+
+ '<p><strong>پیش‌فرض درباره دیگران:</strong> '+esc(r[4]||"")+'</p>'+
+ '<p><strong>سبک گفت‌وگو:</strong> '+esc(r[5]||"")+'</p>'+
  '<p><strong>خط قرمز:</strong> '+esc(r[2])+'</p>'+
- '<p><strong>اختیار توافق:</strong> '+esc(r[3])+'</p>'+
+ '<p><strong>اختیار:</strong> '+esc(r[3])+'</p>'+
  '<details class="bp-simple-private"><summary>🔒 اطلاعات اختصاصی این شخصیت</summary><p>'+esc(r[6]||"")+'</p></details>'+
- '</article>').join("")+'</div></section>';
+ '</article>').join("")+'</div></details>';
 }
 function conversation(c,d,role){
  const lines=d.improved&&d.improved.length?d.improved:d.initial;
  const labels=turnAnchors[c.id]&&turnAnchors[c.id][role]||{};
- const nameById=Object.fromEntries(D.skills.map(x=>[x.id,x.name]));
- const size=c.format==="pair"?"دو نفره":"چهار نفره";
- const timing=c.format==="pair"?"اجرای اول: ۵ دقیقه · تغییر رویکرد: ۴ دقیقه · بازخورد: ۵ دقیقه":"آماده‌سازی نقش‌ها: ۳ دقیقه · نشست: ۱۰ دقیقه · بازخورد: ۶ دقیقه";
- return '<section class="bp-simple-section"><h2>۲. اجرای گفت‌وگوی '+size+'</h2>'+
- '<div class="bp-simple-target"><strong>🎯 شایستگی‌هایی که باید در رفتار دیده شوند</strong><div>'+skillNames(c).map(x=>'<span>'+esc(x)+'</span>').join("")+'</div><p>'+esc(reflections[c.id].skill)+'</p></div>'+
- '<div class="bp-simple-run"><strong>🎬 نوبت شماست؛ اول بدون نمونه اجرا کنید</strong>'+
- '<p>'+esc(d.scene)+'</p><p>هر نفر با دغدغه و فرض اولیه شخصیت خود شروع کند. لازم نیست خیلی زود توافق کنید؛ ابتدا اختلاف را با سؤال، داده و محدودیت‌های واقعی روشن کنید.</p>'+
- '<p class="bp-simple-timing">⏱ '+esc(timing)+'</p></div>'+
- '<details class="bp-simple-twist"><summary>🔀 کارت اتفاق تازه؛ مدرس در میانه اجرا باز کند</summary><p>'+esc(d.twist)+'</p></details>'+
- '<details class="bp-simple-script"><summary>📖 دیدن گفت‌وگوی نمونه و لحظه‌های مهارتی</summary><p>این فقط یک اجرای ممکن است، نه پاسخ حفظی. توجه کنید کجا پیش‌فرض‌ها به چالش کشیده می‌شوند و چه‌طور توافق ساخته می‌شود.</p>'+
- '<div class="bp-simple-dialogue">'+lines.map(([n,t],i)=>
- '<div class="bp-simple-line"><span class="bp-simple-speaker">'+esc(d.roles[n][0])+'</span><p>'+esc(t)+'</p>'+
- (labels[i]?'<small class="bp-simple-turnskill">مهارت قابل مشاهده: '+esc(nameById[labels[i]]||labels[i])+'</small>':"")+
- '</div>').join("")+'</div></details>'+
- '<div class="bp-simple-nobias"><strong>🔄 اجرای دوباره:</strong> نقش‌ها را عوض کنید یا یک پیش‌فرض را تغییر دهید؛ دوباره مذاکره کنید و ببینید کیفیت توافق چه تغییری می‌کند. '+esc(reflections[c.id].practice)+'</div></section>';
+ const notes=momentNotes[c.id]&&momentNotes[c.id][role]||{};
+ const names=Object.fromEntries(D.skills.map(x=>[x.id,x.name]));
+ return '<section class="bp-simple-section bp-simple-script-section"><h2>۲. گفت‌وگوی نمونه و لحظه‌های مهارتی</h2>'+
+ '<div class="bp-simple-target"><strong>🎯 شایستگی‌های قابل مشاهده</strong><div>'+skillNames(c).map(x=>'<span>'+esc(x)+'</span>').join("")+'</div></div>'+
+ '<div class="bp-simple-dialogue">'+lines.map(([n,t],i)=>{
+   const skill=labels[i];
+   const moment=skill?'<aside class="bp-simple-moment"><strong>💡 '+esc(names[skill]||skill)+'</strong><p>'+esc(notes[i]||"رفتار قابل مشاهده و تغییر رویکرد را تشخیص دهید.")+'</p></aside>':"";
+   return '<article class="bp-simple-line'+(skill?' bp-simple-highlight':'')+'" data-simple-turn="'+i+'">'+
+   '<span class="bp-simple-speaker">'+(d.names&&d.names[n]?'<strong>'+esc(d.names[n])+'</strong><small>'+esc(d.roles[n][0])+'</small>':esc(d.roles[n][0]))+'</span>'+
+   '<p>'+esc(t)+'</p>'+moment+'</article>';
+ }).join("")+'</div></section>';
 }
 function analysis(c,d,role){
  const a=reflections[c.id];
@@ -114,7 +112,10 @@ function empowermentMechanism(c){
 function casePage(c,role){
  const d=c[role];
  return '<div class="bp-simple-caseback"><button type="button" data-simple-back>→ همه تمرین‌ها</button><strong>'+esc(d.title)+'</strong><span>'+fa(d.roles.length)+' مدیر/سرپرست هم‌سطح</span></div>'+
- '<section class="bp-simple-scene"><h2>اتفاق آشنا؛ اختلاف میان واحدها</h2><p>'+esc(d.scene)+'</p></section>'+
+ '<section class="bp-simple-scene"><h2>۱. اتفاق آشنا؛ جزئیات موقعیت</h2><p class="bp-simple-fiction">موقعیت آموزشی و فرضی، الهام‌گرفته از فرایندهای صنعت خوراک دام و طیور؛ نام‌ها، رویدادها و اعداد واقعی نیستند.</p>'+
+ '<div class="bp-simple-scenetext">'+String(d.scene).split(/\n\s*\n/).map(t=>t.trim()).filter(Boolean).map(t=>'<p>'+esc(t)+'</p>').join("")+'</div>'+
+ '<div class="bp-simple-casefacts"><h3>📋 داده‌های در دسترس</h3><ul>'+d.signals.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></div>'+
+ '<details class="bp-simple-limits"><summary>حدود اختیار و محدودیت‌ها</summary><ul>'+d.constraints.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></details></section>'+
  roleCards(d)+empowermentMechanism(c)+conversation(c,d,role)+analysis(c,d,role)+
  '<button type="button" class="bp-simple-bottom" data-simple-back>انتخاب گفت‌وگوی بعدی</button>';
 }

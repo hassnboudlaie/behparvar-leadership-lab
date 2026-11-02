@@ -34,7 +34,8 @@ function announce(n,msg){var e=holder(n)&&holder(n).querySelector("[data-bp-save
 function button(n,name,label){return '<button type="button" data-bp-practice-tab="'+n+":"+name+'" aria-controls="bp-practice-stage-'+n+'" aria-pressed="false">'+label+'</button>'}
 function initLanding(){
  D.sessions.forEach(function(s){
-  var n=s.n,page=entry(n);if(!page||holder(n))return;
+  var n=s.n,page=entry(n);if(n===2)return; // Session two uses the canonical competency model, dialogue and observer lab, never a parallel legacy workshop.
+  if(!page||holder(n))return;
   var host=document.createElement("section");
   host.className="bp-practice";host.id="bp-practice-"+n;
   host.setAttribute("aria-label","کارگاه عملی جلسه "+fa(n));

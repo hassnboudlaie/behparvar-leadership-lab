@@ -141,3 +141,44 @@ body.mml-refreshed .bp-c-plain-summary p{font-size:20px;margin:10px 0 0}
 
 /* مهارت‌های هدف در خود جملات، بدون جدا کردن یادگیری از گفت‌وگو */
 #bp-c-clinic-2 .bp-simple-turnskill{display:inline-flex;align-items:center;margin-top:10px;padding:3px 12px;border-radius:99px;background:#fff;color:#155e68;border:1px solid #bddbdd;font-size:15px;font-weight:850;line-height:1.6}
+
+
+/* 2026-11-02 Cross-functional dialogue studio: large type, open choice, no gated stages */
+#app #bp-welcome-title .bp-title-letter{display:inline-grid;place-items:center;width:1.13em;height:1.16em;margin-left:.08em;background:linear-gradient(150deg,#f2b171,#de8c53);color:#153a49;border:2px solid rgba(255,255,255,.8);border-radius:.32em;box-shadow:0 3px 12px rgba(0,0,0,.18);transform:rotate(-5deg);vertical-align:.06em;font-size:.92em;line-height:1}
+#app .bp-welcome-tile small{font-size:17px!important}
+#app .bp-model-step small{font-size:17px!important}
+#bp-c-clinic-2 .bp-simple-choose{background:#f0f8f7;border:2px solid #d1e7e7;padding:22px;border-radius:18px;font-size:21px}
+#bp-c-clinic-2 .bp-simple-choose h2{font-size:27px;margin:0 0 8px;color:#184a5b}
+#bp-c-clinic-2 .bp-simple-choose p{margin:0;font-size:19px}
+#bp-c-clinic-2 .bp-simple-private{margin-top:14px;border:1px solid #d4dfeb;border-radius:12px;background:#fff}
+#bp-c-clinic-2 .bp-simple-private summary{padding:12px 14px;color:#264e67;font-size:19px;font-weight:850;cursor:pointer}
+#bp-c-clinic-2 .bp-simple-private p{padding:0 14px 13px!important;margin:0!important}
+#bp-c-clinic-2 .bp-simple-run{background:#eff9f4;border:2px solid #c1e3d2;padding:21px 24px;border-radius:18px;margin-bottom:15px}
+#bp-c-clinic-2 .bp-simple-run strong{display:block;font-size:24px;color:#13675d;margin-bottom:8px}
+#bp-c-clinic-2 .bp-simple-run p{font-size:20px;line-height:1.85;margin:7px 0;color:#2b4d54}
+#bp-c-clinic-2 .bp-simple-timing{font-weight:900;color:#145b62!important}
+#bp-c-clinic-2 .bp-simple-twist,#bp-c-clinic-2 .bp-simple-script{margin:16px 0;border:2px solid #d1e4e6;background:#fff;border-radius:17px;overflow:hidden}
+#bp-c-clinic-2 .bp-simple-twist summary,#bp-c-clinic-2 .bp-simple-script summary{list-style-position:inside;cursor:pointer;padding:16px 19px;font-size:22px;font-weight:900;color:#145b67;background:#f6fbfa}
+#bp-c-clinic-2 .bp-simple-twist[open] summary,#bp-c-clinic-2 .bp-simple-script[open] summary{background:#eaf6f3}
+#bp-c-clinic-2 .bp-simple-twist>p,#bp-c-clinic-2 .bp-simple-script>p{font-size:20px;line-height:1.8;padding:12px 20px;margin:0}
+#bp-c-clinic-2 .bp-simple-script .bp-simple-dialogue{padding:12px 17px 21px;margin:0}
+#bp-c-clinic-2 .bp-simple-evidence{border-right:5px solid #d89a50;background:#fff6e8;padding:16px 20px;border-radius:14px;margin:12px 0 20px}
+#bp-c-clinic-2 .bp-simple-evidence strong{font-size:22px;color:#765024}
+#bp-c-clinic-2 .bp-simple-evidence p{font-size:20px;line-height:1.8;margin:9px 0 0}
+#bp-c-clinic-2 .bp-simple-feedback{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}
+#bp-c-clinic-2 .bp-simple-feedback label{font-size:20px;font-weight:900;color:#1d5264}
+#bp-c-clinic-2 .bp-simple-feedback textarea{display:block;width:100%;box-sizing:border-box;resize:vertical;min-height:110px;margin-top:8px;padding:15px;background:#fff;border:2px solid #cfdee4;border-radius:13px;font:inherit;font-size:20px;line-height:1.7;direction:rtl;color:#203b4c}
+#bp-c-clinic-2 .bp-simple-feedback textarea:focus-visible{outline:3px solid #eab477;outline-offset:2px}
+#bp-c-clinic-2 .bp-simple-turnskill{font-size:17px!important;white-space:normal}
+@media(max-width:760px){
+ #app .bp-hero-process{right:12px;left:12px;top:12px;gap:5px}
+ #app .bp-hero-process span{font-size:16px!important;padding:5px 9px}
+ #app .bp-hero-process i{display:none}
+ #app .bp-model-step small{font-size:16px!important}
+ #app .bp-welcome-tile small{font-size:17px!important}
+ #bp-c-clinic-2 .bp-simple-feedback{grid-template-columns:1fr}
+ #bp-c-clinic-2 .bp-simple-run{padding:16px}
+ #bp-c-clinic-2 .bp-simple-twist summary,#bp-c-clinic-2 .bp-simple-script summary{font-size:20px}
+ #bp-c-clinic-2 .bp-simple-script .bp-simple-dialogue{padding:10px}
+ #bp-c-clinic-2 .bp-simple-run p{font-size:19px}
+}

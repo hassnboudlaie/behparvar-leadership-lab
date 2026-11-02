@@ -138,3 +138,6 @@ body.mml-refreshed .bp-c-plain-summary p{font-size:20px;margin:10px 0 0}
  body.mml-refreshed .bp-c-family-story{grid-template-columns:1fr}
  body.mml-refreshed .bp-c-family-story article:first-child{grid-column:auto}
 }
+
+/* مهارت‌های هدف در خود جملات، بدون جدا کردن یادگیری از گفت‌وگو */
+#bp-c-clinic-2 .bp-simple-turnskill{display:inline-flex;align-items:center;margin-top:10px;padding:3px 12px;border-radius:99px;background:#fff;color:#155e68;border:1px solid #bddbdd;font-size:15px;font-weight:850;line-height:1.6}

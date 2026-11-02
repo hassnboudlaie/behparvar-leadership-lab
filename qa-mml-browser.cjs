@@ -32,6 +32,7 @@ async function run(){
   assert.equal(await page.locator("#welcome .bp-welcome-tile").count(),5);
   assert.ok(await page.locator("#welcome .bp-welcome-hero").isVisible());
   assert.ok(!await page.locator("#course").isVisible());
+  assert.ok(await page.locator("#bp-install-action").isVisible(),"install CTA must be visible on the first visit");
   assert.ok(!await page.locator("#workshopSidebar").isVisible());
  });
  await page.screenshot({path:path.join(artifact,"mobile-welcome-390.png"),fullPage:true});
@@ -83,7 +84,9 @@ async function run(){
   await page.waitForSelector('#bp-c-report.view.active');
   assert.equal(await page.locator('#bp-c-report .bp-c-plain-summary').count(),1);
   assert.equal(await page.locator('#bp-c-report .bp-c-family-story article').count(),3);
-  assert.ok((await page.locator('#bp-c-report').innerText()).includes("پاسخ درست از ۱۲ موقعیت"));
+  const reported=await page.locator('#bp-c-report').innerText();
+  assert.ok(reported.includes("پاسخ درست")&&reported.includes("درصد پاسخ درست"),"diagnostic shows raw score and percentage");
+  assert.ok(reported.includes("سطح ")&&reported.includes("برآورد آموزشی سطح خبرگی"),"diagnostic shows provisional four-band expertise estimate");
   assert.ok(!(await page.locator('#bp-c-report').innerText()).includes("پاسخ همسو"));
   assert.equal(await page.locator('#bp-c-report .bp-c-competency-details details').count(),4);
   await page.screenshot({path:path.join(artifact,"mobile-competency-results-390.png"),fullPage:true});
@@ -105,14 +108,15 @@ async function run(){
  await page.locator('#welcome .bp-welcome-tile[data-open="competencies"]').click();
  await page.waitForSelector("#competencies.view.active");
  await measure("home and competency model are dedicated separated screens",async()=>{
-  assert.equal(await page.locator('#competencies .bp-model-three a').count(),3);
-  assert.ok(await page.locator('#competencies .bp-model-three').isVisible());
+  assert.equal(await page.locator('#competencies .bp-model-process .bp-model-step').count(),3);
+  assert.ok(await page.locator('#competencies .bp-model-process').isVisible());
+  assert.equal(await page.locator('#competencies .bp-model-three').count(),0,"one domain navigator only");
   assert.ok(!await page.locator('#course').isVisible());
   assert.equal(await page.locator('#competencies .bp-domain-grid:visible').count(),0);
   assert.ok(await page.locator('#bp-global-home').isVisible());
   const homePosition=await page.locator('#bp-global-home').evaluate(el=>getComputedStyle(el).position);
   assert.equal(homePosition,'static',"Home should not cover text as a floating button");
-  await page.locator('#competencies .bp-model-three [data-open="bp-c-others"]').click();
+  await page.locator('#competencies .bp-model-process [data-open="bp-c-others"]').click();
   await page.waitForSelector('#bp-c-others.view.active');
   assert.equal(await page.locator('#bp-c-others [data-bp-skill]').count(),4);
   await page.locator('#bp-c-others [data-bp-skill="communication"]').click();

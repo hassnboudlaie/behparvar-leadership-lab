@@ -80,7 +80,7 @@ assert.ok(app.includes("bp-simple-analysis"));
 assert.ok(app.includes("واقعی نیستند"),"explicit fiction status; no invented company facts portrayed as observed history");
 assert.ok(app.includes("bp-simple-empower"),"six-element delegation process visible");
 assert.ok(cases.some(c=>c.id==="group-empowerment"&&c.skills.includes("delegation")),"four-unit empowerment scenario must exist");
-assert.ok(app.includes("شایستگی‌هایی که باید در رفتار دیده شوند"));
+assert.ok(app.includes("شایستگی‌های قابل مشاهده"),"skill targets in the visible dialogue");
 assert.ok(app.includes("شخصیت‌ها و پیش‌فرض‌هایشان"));
 assert.ok(!app.includes("revised.trim().length<20"),"no forced typing gate");
 assert.ok(!app.includes("data-s2-decision"),"no gated quiz inside dialogue");

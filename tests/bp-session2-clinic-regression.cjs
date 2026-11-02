@@ -66,7 +66,7 @@ assert.ok(app.includes("bp-simple-script"),"sample is available on demand");
 assert.ok(app.includes("bp-simple-feedback"),"behavioral feedback fields");
 assert.ok(app.includes("return null}"),"role must not silently default to supervisor");
 assert.ok(app.includes("bp-simple-analysis"));
-assert.ok(app.includes("شایستگی‌های هدف در این گفت‌وگو"));
+assert.ok(app.includes("شایستگی‌هایی که باید در رفتار دیده شوند"));
 assert.ok(app.includes("کارت شخصیت‌ها و پیش‌فرض‌های پنهان"));
 assert.ok(!app.includes("revised.trim().length<20"),"no forced typing gate");
 assert.ok(!app.includes("data-s2-decision"),"no gated quiz inside dialogue");

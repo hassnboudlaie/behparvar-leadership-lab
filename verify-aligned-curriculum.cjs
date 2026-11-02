@@ -5,6 +5,7 @@ const read=name=>fs.readFileSync(path.join(__dirname,name),"utf8");
 const code={
  lessons:read("assets/mml-lesson-library-v1.js"),
  data:read("assets/mml-aligned-content-v1.js"),
+ curriculum:read("assets/bp-curriculum-alignment-20261102.js"),
  ui:read("assets/mml-aligned-ui-v1.js"),
  integration:read("assets/mml-visual-refresh-20261031.js"),
  html:read("index.html"),sw:read("sw.js"),css:read("assets/mml-aligned-ui-v1.css")
@@ -15,7 +16,7 @@ const context={
  document:{readyState:"loading",addEventListener:()=>{}},
  localStorage:{getItem:k=>items.get(k)||null,setItem:(k,v)=>items.set(k,v)}
 };
-for(const n of ["lessons","data","ui"])vm.runInNewContext(code[n],context,{filename:n,timeout:4000});
+for(const n of ["lessons","data","curriculum","ui"])vm.runInNewContext(code[n],context,{filename:n,timeout:4000});
 const cases={};vm.runInNewContext(read("assets/behparvar-cases-1-3.js"),cases,{timeout:4000});
 vm.runInNewContext(read("assets/behparvar-cases-4-6.js"),cases,{timeout:4000});
 context.window.BP_CASE_DATA=cases.BP_CASE_DATA;
@@ -23,6 +24,9 @@ const library=context.window.MMLLessonLibrary,can=context.window.MMLAlignedData,
 const PARTS=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
 assert.equal(can.sessions.length,6);
 assert.equal(library.DATA.length,6);
+assert.equal(library.DATA[0].name,"رهبری");
+assert.equal(library.DATA[1].name,"مدل شایستگی‌های مدیریتی");
+assert.equal(library.DATA[4].name,"شایستگی‌های معطوف به نتایج کسب‌وکار");
 assert.ok(typeof library.renderRoleplay==="function");
 assert.equal(ui.PARTS.join(","),PARTS.join(","));
 let pages=0,questions=0,reasons=0,roleplays=0;
@@ -70,7 +74,8 @@ for(const name of ["assets/mml-aligned-content-v1.js","assets/mml-aligned-ui-v1.
  assert.ok(code.sw.includes("./"+name),name+" not cached offline");
 }
 assert.ok(code.html.indexOf("mml-lesson-library-v1.js")<code.html.indexOf("mml-aligned-content-v1.js"));
-assert.ok(code.html.indexOf("mml-aligned-content-v1.js")<code.html.indexOf("mml-aligned-ui-v1.js"));
+assert.ok(code.html.indexOf("mml-aligned-content-v1.js")<code.html.indexOf("bp-curriculum-alignment-20261102.js"));
+assert.ok(code.html.indexOf("bp-curriculum-alignment-20261102.js")<code.html.indexOf("mml-aligned-ui-v1.js"));
 assert.ok(code.html.indexOf("mml-aligned-ui-v1.js")<code.html.indexOf("mml-visual-refresh-20261031.js"));
 assert.ok(code.integration.includes("main.innerHTML=aligned.render(n,part,selectedRole)"));
 assert.ok(code.integration.includes('archive.hidden=!new URLSearchParams(location.search).has("instructor")'));

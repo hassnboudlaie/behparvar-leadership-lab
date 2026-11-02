@@ -8,6 +8,8 @@ const html=read("index.html"),sw=read("sw.js"),libraryCode=read("assets/mml-less
 const homeJS=read("assets/mml-learning-home-v1.js"),homeCSS=read("assets/mml-learning-home-v1.css");
 const readerJS=read("assets/mml-visual-refresh-20261031.js"),readerCSS=read("assets/mml-teaching-ui-v1.css");
 const ctx={window:{}};vm.runInNewContext(libraryCode,ctx,{filename:"mml-lesson-library-v1.js"});
+vm.runInNewContext(read("assets/mml-aligned-content-v1.js"),ctx,{filename:"mml-aligned-content-v1.js"});
+vm.runInNewContext(read("assets/bp-curriculum-alignment-20261102.js"),ctx,{filename:"bp-curriculum-alignment-20261102.js"});
 const lib=ctx.window.MMLLessonLibrary,errs=[],asserted=[];
 function check(name,fn){try{fn();asserted.push(name)}catch(err){errs.push(name+": "+err.message)}}
 const PARTS=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
@@ -19,10 +21,11 @@ check("course card labels are canonical session topics",()=>{
  for(let n=1;n<=6;n++){
   const at=html.indexOf('data-course-session="'+n+'"');
   assert.ok(at>=0);
-  const nearby=html.slice(at,at+260);
+  const nearby=html.slice(at,at+320);
   assert.ok(nearby.includes(lib.DATA[n-1].name),"Card "+n+" differs from course");
  }
  assert.ok(homeJS.includes("SHORT[n-1]"));
+ assert.deepEqual(Array.from(lib.DATA,x=>x.name),["رهبری","مدل شایستگی‌های مدیریتی","شایستگی‌های معطوف به خود","شایستگی‌های معطوف به دیگران","شایستگی‌های معطوف به نتایج کسب‌وکار","مدیریت پیشرفته"]);
 });
 check("42 routes remain in HTML",()=>{
  for(let n=1;n<=6;n++)for(let p of PARTS){
@@ -99,7 +102,7 @@ check("loaded asset order and offline scope",()=>{
  }
 });
 check("all new scripts parse",()=>{
- for(const p of ["assets/mml-lesson-library-v1.js","assets/mml-visual-refresh-20261031.js","assets/mml-learning-home-v1.js"]){
+ for(const p of ["assets/mml-lesson-library-v1.js","assets/mml-visual-refresh-20261031.js","assets/mml-learning-home-v1.js","assets/bp-curriculum-alignment-20261102.js"]){
   new vm.Script(read(p),{filename:p});
  }
 });

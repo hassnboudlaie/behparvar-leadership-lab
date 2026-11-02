@@ -90,7 +90,8 @@ assert.ok(app.includes("data-simple-clear")&&app.includes("clearObserverDraft"),
 assert.ok(app.includes("data-simple-jump")&&app.includes("bp-s2-dialogue")&&app.includes("bp-s2-observer"),"classroom navigation to dialogue and checklist");
 assert.ok(!app.includes("localStorage.setItem")&&!app.includes("sessionStorage.setItem"),"observer comments remain ephemeral and local only");
 const aligned=read("assets/mml-aligned-ui-v1.js");
-assert.ok(aligned.includes("i===1 && n===2")&&aligned.includes("i===3 && n===2")&&aligned.includes("i===5 && n===2"),"old reader session-two instructions isolated and replaced");
+assert.ok(aligned.includes("n===2&&i===1")&&aligned.includes("n===2&&i===3")&&aligned.includes("n===2&&i===5"),"session-two canonical reader cases, method and evidence sections are isolated from other five sessions");
+assert.ok(aligned.includes("session2StudioCases(role)")&&aligned.includes("data-simple-open-case"),"five canonical cross-unit peer dialogue choices accessible through reader");
 const competency=read("assets/bp-competency-path-20261101.js");
 assert.ok(competency.includes("تمرین مشاهده شایستگی")&&competency.includes("سرپرست هم‌سطح"),"competency detail uses cross-unit observation rather than subordinate roleplay");
 for(const banned of ["نوبت شماست","کارت اتفاق تازه","اجرای دوباره","bp-simple-run","bp-simple-nobias"]){

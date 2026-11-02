@@ -7,10 +7,10 @@ for(const p of ["assets/bp-competency-s2-data-20261101.js","assets/bp-s2-pair-ca
 }
 const D=sandbox.window.BPCompetencyData;
 const cases=[...sandbox.window.BPS2PairCases,...sandbox.window.BPS2GroupCases];
-assert.equal(cases.length,4,"two pairs and two groups");
+assert.equal(cases.length,5,"two paired and three four-unit cases");
 assert.equal(cases.filter(c=>c.format==="pair").length,2);
-assert.equal(cases.filter(c=>c.format==="group").length,2);
-assert.equal(new Set(cases.map(c=>c.id)).size,4);
+assert.equal(cases.filter(c=>c.format==="group").length,3);
+assert.equal(new Set(cases.map(c=>c.id)).size,5);
 const skills=new Map(D.skills.map(s=>[s.id,s]));
 for(const c of cases){
  assert.ok(c.name.length>12);
@@ -66,6 +66,8 @@ assert.ok(app.includes("bp-simple-script"),"sample is available on demand");
 assert.ok(app.includes("bp-simple-feedback"),"behavioral feedback fields");
 assert.ok(app.includes("return null}"),"role must not silently default to supervisor");
 assert.ok(app.includes("bp-simple-analysis"));
+assert.ok(app.includes("bp-simple-empower"),"six-element delegation process visible");
+assert.ok(cases.some(c=>c.id==="group-empowerment"&&c.skills.includes("delegation")),"four-unit empowerment scenario must exist");
 assert.ok(app.includes("شایستگی‌هایی که باید در رفتار دیده شوند"));
 assert.ok(app.includes("کارت شخصیت‌ها و پیش‌فرض‌های پنهان"));
 assert.ok(!app.includes("revised.trim().length<20"),"no forced typing gate");
@@ -77,4 +79,4 @@ for(let n=1;n<=6;n++)for(const p of PARTS){
  const id=n===1?p:"session"+n+"-"+p;
  assert.ok(html.includes('id="'+id+'"'),"legacy route "+id);
 }
-console.log("PASS: cross-unit peer-only characters in 8 role-specific conversations; visible role assumptions, full dialogues, target skills and debrief; no gated navigation, unchanged 42 course routes.");
+console.log("PASS: cross-unit peer-only characters in 10 role-specific conversations; visible role assumptions, full dialogues, target skills and debrief; no gated navigation, unchanged 42 course routes.");

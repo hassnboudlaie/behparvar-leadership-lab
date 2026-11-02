@@ -82,6 +82,27 @@ function renderQuiz(n,role){
  }
  return display+"</div>";
 }
+/* Session-two reader is a gateway to the single, fully authored cross-unit dialogue studio.
+   No competing legacy sample, twist card, or repeated-roleplay stages. Other sessions unchanged. */
+function session2StudioCases(role){
+ var cases=[].concat(global.BPS2PairCases||[],global.BPS2GroupCases||[]);
+ var fallback=[
+  {id:"pair-signal",format:"pair",name:"مغایرت در تحویل",supervisors:{title:"تولید و کیفیت؛ مغایرت بچ"},managers:{title:"فروش و کیفیت؛ تعهد مشتری"}},
+  {id:"pair-delegation",format:"pair",name:"توافق مسئولانه",supervisors:{title:"تولید و تعمیرات؛ توقف تجهیز"},managers:{title:"عملیات و منابع انسانی؛ ظرفیت و مهارت"}},
+  {id:"group-handover",format:"group",name:"تحویل معتبر",supervisors:{title:"تولید، کیفیت، انبار و ارسال"},managers:{title:"فروش، عملیات، کیفیت و مالی"}},
+  {id:"group-capacity",format:"group",name:"ظرفیت و محدودیت",supervisors:{title:"تولید، تعمیرات، انبار و ارسال"},managers:{title:"عملیات، مالی، منابع انسانی و فروش"}},
+  {id:"group-empowerment",format:"group",name:"تفویض و توانمندسازی",supervisors:{title:"تفویض اختیار در چهار واحد"},managers:{title:"ماتریس اختیار و توانمندسازی"}}
+ ];
+ if(cases.length!==5)cases=fallback;
+ return '<div class="mml-s2-dialogue-grid">'+cases.map(function(c){
+  return '<a class="mml-s2-dialogue-choice" href="#bp-c-clinic-2" data-open="bp-c-clinic-2" data-simple-open-case="'+esc(c.id)+'" data-simple-target-role="'+esc(role)+'">'+
+   '<span>'+ (c.format==="pair"?"👥 گفت‌وگوی دونفره":"👥 گفت‌وگوی چهارنفره")+'</span>'+
+   '<strong>'+esc(c[role].title)+'</strong><small>متن کامل، لحظه‌های مهارتی، چک‌لیست و بازخورد مشاهده‌گر</small></a>';
+ }).join("")+'</div>';
+}
+function session2StudioLink(label){
+ return '<p class="mml-s2-dialogue-shortcut"><a href="#bp-c-clinic-2" data-open="bp-c-clinic-2">'+esc(label||"🎭 مشاهده گفت‌وگوهای کامل و تحلیل رفتار")+'</a></p>';
+}
 function render(n,part,role){
  n=Number(n);
  if(!sources[n-1]||PARTS.indexOf(part)<0)return "";
@@ -90,7 +111,47 @@ function render(n,part,role){
  var intro='<section class="mml-align-main" data-mml-scene-id="session-'+n+'" data-mml-aligned-part="'+part+'">'+
   
   '<div class="mml-align-skill"><strong>موضوع تمرین:</strong><span>'+prose(data.skill)+'</span></div>';
- if(i===0){
+ if(n===2&&i===0){
+   h=context(n,role)+
+    '<section><h3>سه حوزه؛ یک موقعیت واقعی‌نما</h3><p>برای دیدن شایستگی، یک رفتار مشخص از «خودم»، «دیگران» و «نتایج کسب‌وکار» را در تصمیم چند واحد پیدا کنید. آنچه فرد می‌داند، با آنچه در گفت‌وگو انجام می‌دهد و شاهد قابل مشاهده آن، یکسان نیست.</p></section>'+
+    '<section><h3>دسترسی به مدل و درسنامه</h3><p>با سه حوزه، شش خانواده و ۱۲ شایستگی آشنا شوید و شاهد رفتاری را به هر شایستگی پیوند دهید.</p>'+
+    '<p class="mml-s2-dialogue-shortcut"><a href="#bp-c-lesson" data-open="bp-c-lesson">📚 درسنامه مدل شایستگی‌ها</a></p></section>'+
+    reviewInput(n,part,role,"در این موقعیت، رفتار قابل مشاهده هر حوزه چیست؟");
+ }else if(n===2&&i===1){
+   h=context(n,role)+
+    '<section><h3>گفت‌وگوی نمونه و تحلیل مشاهده‌گران</h3>'+
+    '<p>پنج گفت‌وگوی میان‌واحدی برای مسیر '+(role==="managers"?"مدیران":"سرپرستان")+' آماده است؛ دو دونفره و سه چهارنفره. گفت‌وگوها از ابتدا نمایش داده می‌شوند و لحظه‌های مهارتی در متن برجسته‌اند.</p>'+
+    '<p>سایر اعضای کلاس برای پنج رفتار قابل مشاهده، میزان تحقق و یک شاهد از جمله‌ها را ثبت می‌کنند؛ سپس سه نقطه عطف را تحلیل و گزارش خود را کپی می‌کنند.</p></section>'+
+    session2StudioCases(role)+
+    reviewInput(n,part,role,"هنگام مشاهده گفت‌وگو، دنبال کدام رفتار و شاهد مشخص هستم؟");
+ }else if(n===2&&i===2){
+   h=context(n,role)+
+    '<section><h3>دانش، مهارت و شاهد در یک موقعیت</h3><p>'+prose(d.chapters[2][1])+'</p></section>'+
+    '<section><h3>'+(role==="managers"?"از نگاه مدیران":"از نگاه سرپرستان")+'</h3><p>'+prose(role==="managers"?d.manager:d.supervisor)+'</p>'+
+    '<p>از کدام جمله یا تصمیم می‌توان دریافت فرد علاوه بر دانستن مفهوم، واقعاً مهارت را به کار برده است؟</p></section>'+
+    bookExample(n)+session2StudioLink("🎭 بازکردن گفت‌وگوهای نمونه و تحلیل")+
+    reviewInput(n,part,role,"یک شاهد روشن از رفتار مورد انتظار چیست؟");
+ }else if(n===2&&i===3){
+   h=context(n,role)+
+    '<section><h3>چهار گام تحلیل مهارتی</h3><ol class="mml-align-process">'+d.flow.map(function(x,j){return '<li><b>'+(j+1)+'</b><span>'+prose(x)+'</span></li>'}).join("")+'</ol></section>'+
+    '<section><h3>از تشخیص شایستگی تا بازخورد</h3>'+
+    '<p>ابتدا رفتار واقعی را در جمله‌های گفت‌وگو مشخص کنید؛ سپس اثر آن بر تعامل همتایان و نتیجه مشترک را توضیح دهید. در چک‌لیست، نبود شاهد را با ضعف قطعی شخص اشتباه نگیرید.</p></section>'+
+    session2StudioLink("🔎 دیدن لحظه‌های مهارتی در گفت‌وگوهای نمونه")+
+    reviewInput(n,part,role,"کدام شایستگی را با یک جمله واقعی می‌توانم نشان دهم؟");
+ }else if(n===2&&i===5){
+   h=context(n,role)+
+    '<section><h3>اشتباه‌های رایج در تشخیص شایستگی</h3><p>'+prose(data.trap)+'</p></section>'+
+    '<section><h3>چگونه دقیق‌تر بازخورد بدهیم؟</h3><p>از برچسب‌زدن به شخصیت، حدس‌زدن نیت یا قضاوت بر اساس یک جمله پرهیز کنید. برای هر نتیجه، عبارت مشخص، زمینه، اثر و رفتار جایگزین را ثبت کنید.</p></section>'+
+    session2StudioLink("✅ چک‌لیست مبتنی بر شاهد و پرسش‌های نقاط عطف")+
+    reviewInput(n,part,role,"کدام قضاوت بی‌شاهد را باید به بازخورد رفتاری تبدیل کنم؟");
+ }else if(n===2&&i===6){
+   h=context(n,role)+
+    '<section><h3>سه سؤال تمرینی این بخش</h3><p>این سه پرسش برای مرور سریع هستند و با آزمون تشخیصی ۱۲سؤالیِ نقش‌محور تفاوت دارند.</p>'+
+    '<div class="mml-align-quiz-mount" data-mml-align-quiz-mount="'+n+':'+role+'">'+renderQuiz(n,role)+'</div></section>'+
+    '<section><h3>آزمون تشخیصی اصلی جلسه دوم</h3><p>برای دیدن درصد پاسخ درست و برآورد آموزشی سطح خبرگی در ۱۲ موقعیت، آزمون مستقل مدیران یا سرپرستان را تکمیل کنید. این برآورد گواهی خبرگی شغلی نیست.</p>'+
+    '<p class="mml-s2-dialogue-shortcut"><a href="#bp-c-test" data-open="bp-c-test">🎯 آزمون تشخیصی ۱۲ موقعیتی</a></p></section>'+
+    reviewInput(n,part,role,"گام بعدی من برای تمرین و جمع‌آوری شاهد در کار چیست؟");
+ }else if(i===0){
    h=context(n,role)+
     '<section><h3>چه چیزی می‌دانیم؟</h3>'+bullets(data.facts)+'</section>'+
     '<section><h3>قبل از تصمیم چه بپرسم؟</h3><p>از هر نفر بپرسید: چه اتفاقی افتاده؟ چه چیزی جلوی کار را گرفته؟ چه کمکی لازم است؟ سپس قدم بعدی را مشخص کنید.</p></section>'+

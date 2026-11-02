@@ -198,7 +198,7 @@ async function run(){
   await page.waitForSelector("#session4-m2.view.active");
   const reader=page.locator("#session4-m2 .mml-aligned-panel");
   assert.ok(await reader.isVisible());
-  assert.ok(await reader.getByText("اتفاق تازه").isVisible());
+  assert.ok(await reader.getByRole("heading",{name:"اتفاق تازه",exact:true}).isVisible());
   assert.ok(await reader.getByText("دور دوم", {exact:false}).first().isVisible());
   assert.ok(await reader.locator(".mml-edu-drama li").count()>=5);
   assert.ok(!await page.locator("#session4-m2 .mml-instructor-archive").isVisible());

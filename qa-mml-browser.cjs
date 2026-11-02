@@ -99,7 +99,7 @@ async function run(){
   await page.locator('#bp-c-test [data-bp-quiz-role="managers"]').click();
   const mStem=await page.locator('#bp-c-test .bp-c-question h2').innerText();
   assert.notEqual(mStem,sStem,"manager bank must have a distinct work scenario");
-  const supState=await page.evaluate(()=>localStorage.getItem("bp_competency_session2_v1_supervisors"));
+  const supState=await page.evaluate(()=>localStorage.getItem("bp_competency_session2_v2_supervisors"));
   assert.equal(Object.keys(JSON.parse(supState).answers).length,12);
   await page.goto(base,{waitUntil:"load"});
   await page.waitForSelector('#welcome.view.active');

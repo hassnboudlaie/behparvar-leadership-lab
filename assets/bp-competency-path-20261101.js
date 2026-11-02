@@ -120,6 +120,7 @@ function showFamily(btn){
  '<h4>تعریف ساده و کاربرد آن</h4><p>'+esc(f.explain||f.definition)+'</p>'+
  (f.story?'<div class="bp-c-family-story"><article><h4>🎬 یک روایت از محیط کار به‌پرور</h4><p>'+esc(f.story)+'</p></article><article><h4>✅ رفتار حرفه‌ای</h4><p>'+esc(f.good)+'</p></article><article><h4>⚠️ رفتار نامناسب</h4><p>'+esc(f.bad)+'</p></article></div>':"")+
  (f.evidence?'<div class="bp-c-skill-evidence"><h4>از کجا بفهمیم شایستگی اجرا شده است؟</h4><p>'+esc(f.evidence)+'</p></div>':"")+
+ (f.supervisorPractice?'<div class="bp-c-family-roles"><article><h4>👷 تمرین سرپرستان؛ بین واحدها</h4><p>'+esc(f.supervisorPractice)+'</p></article><article><h4>🧭 تمرین مدیران؛ تصمیم شرکتی</h4><p>'+esc(f.managerPractice)+'</p></article></div><div class="bp-c-family-reflect"><strong>پرسش تحلیلی:</strong> '+esc(f.reflectionQuestion)+'</div>':"")+
  '<h4>شایستگی‌های مرتبط با این خانواده</h4>'+
  (skills.length?'<ul>'+skills.map(x=>'<li>'+esc(x.name)+'</li>').join("")+'</ul>':'<p>این خانواده در هر شغل با آزمون تخصصی همان شغل سنجیده می‌شود. در آزمون عمومی دوره، نمره تخصص فنی تعیین نمی‌شود.</p>');
 }

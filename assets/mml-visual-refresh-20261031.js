@@ -22,7 +22,11 @@
      if(i<0)return;
      var library=window.MMLLessonLibrary;
      var roleButton=document.querySelector('[data-mml-role][aria-pressed="true"]');
-     var selectedRole=roleButton?roleButton.getAttribute("data-mml-role"):"managers";
+     var explicitRole=new URLSearchParams(location.search).get("audience");
+     /* Session-two deep links must respect explicit learner route even if the
+        original interactive role button has not been rendered yet. */
+     var selectedRole=(n===2&&(explicitRole==="managers"||explicitRole==="supervisors"))?
+       explicitRole:(roleButton?roleButton.getAttribute("data-mml-role"):"managers");
      var lessonMarkup=library&&typeof library.render==="function"?library.render(n,part,selectedRole):"";
      var lesson=null;
      if(lessonMarkup){

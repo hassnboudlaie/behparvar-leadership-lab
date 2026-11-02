@@ -43,24 +43,28 @@ for(const c of cases){
  assert.notEqual(c.supervisors.scene,c.managers.scene,"role-specific complexity "+c.id);
  assert.notEqual(c.supervisors.title,c.managers.title,"role-specific authority "+c.id);
 }
-const html=read("index.html"),app=read("assets/bp-s2-clinic-20261101.js"),sw=read("sw.js");
-new vm.Script(app,{filename:"bp-s2-clinic-20261101.js"});
-for(const p of ["bp-s2-pair-cases-20261101.js","bp-s2-group-cases-20261101.js","bp-s2-clinic-20261101.js","bp-s2-clinic-20261101.css"]){
- assert.ok(html.includes("assets/"+p));
- assert.ok(sw.includes("./assets/"+p));
+const html=read("index.html"),app=read("assets/bp-simple-roleplays-20261102.js"),sw=read("sw.js");
+new vm.Script(app,{filename:"bp-simple-roleplays-20261102.js"});
+for(const p of ["bp-s2-pair-cases-20261101.js","bp-s2-group-cases-20261101.js","bp-simple-roleplays-20261102.js"]){
+ assert.ok(html.includes("assets/"+p),"missing active script "+p);
+ assert.ok(sw.includes("./assets/"+p),"missing offline script "+p);
 }
 assert.ok(html.includes('id="bp-c-clinic-2"'));
 assert.ok(html.includes('"bp-c-clinic-2":"تمرین‌های دونفره و چهار‌نفره"'));
 assert.ok(read("assets/bp-competency-path-20261101.js").includes('link("bp-c-clinic-2"'));
+assert.ok(app.includes("data-simple-case"));
+assert.ok(app.includes("data-simple-role"));
+assert.ok(app.includes("bp-simple-dialogue"));
+assert.ok(app.includes("bp-simple-analysis"));
+assert.ok(app.includes("شایستگی‌های هدف در این گفت‌وگو"));
+assert.ok(app.includes("مفروضات و ویژگی‌های نقش‌ها"));
+assert.ok(!app.includes("revised.trim().length<20"),"no forced typing gate");
+assert.ok(!app.includes("data-s2-decision"),"no gated quiz inside dialogue");
 assert.ok(!app.includes("localStorage.removeItem"));
-assert.ok(app.includes("bp_s2_clinic_v1_"));
-assert.ok(app.includes("revised.trim().length<20"));
-assert.ok(app.includes("aria-pressed"));
-assert.ok(app.includes("این گزارش صرفاً برای بازاندیشی آموزشی است"));
-assert.ok(read("assets/bp-s2-clinic-20261101.css").includes("@media(max-width:780px)"));
+assert.ok(read("assets/bp-upgrade-20261102.css").includes("@media(max-width:760px)"));
 const PARTS=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
 for(let n=1;n<=6;n++)for(const p of PARTS){
  const id=n===1?p:"session"+n+"-"+p;
  assert.ok(html.includes('id="'+id+'"'),"legacy route "+id);
 }
-console.log("PASS: two 2-person and two 4-person cases x two roles (8 exercises), 24+ person role cards, 8+ initial and improved scripts, role separation, decision tradeoffs, 42 preserved routes and offline assets.");
+console.log("PASS: 8 role-specific conversations; visible role assumptions, full dialogues, target skills and debrief; no gated navigation, unchanged 42 course routes.");

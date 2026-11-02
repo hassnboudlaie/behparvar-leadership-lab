@@ -55,14 +55,14 @@ async function run(){
   await page.locator('#bp-c-self [data-bp-skill="judgment"]').click();
   assert.ok(await page.locator('#bp-c-self #bp-c-skill-detail').isVisible());
   assert.equal(await page.locator('#bp-c-self #bp-c-skill-detail .bp-c-levels li').count(),4);
-  assert.ok((await page.locator('#bp-c-self #bp-c-skill-detail').innerText()).includes("تعریف شایستگی"));
+  assert.ok((await page.locator('#bp-c-self #bp-c-skill-detail').innerText()).includes("این شایستگی در محیط کار"));
   assert.ok(!(await page.locator('#bp-c-self #bp-c-skill-detail').innerText()).includes("شاهد عملکرد"));
   await page.locator('#bp-c-self [data-open="bp-c-lesson"]').first().click();
   await page.locator('#bp-c-lesson [data-open="bp-c-families"]').click();
   await page.waitForSelector('#bp-c-families.view.active');
   assert.equal(await page.locator('#bp-c-families [data-bp-family]').count(),6);
   await page.locator('#bp-c-families [data-bp-family="functional"]').click();
-  assert.ok((await page.locator('#bp-c-families #bp-c-family-detail').innerText()).includes("ارزیابی"));
+  assert.ok((await page.locator('#bp-c-families #bp-c-family-detail').innerText()).includes("آزمون تخصصی"));
  });
  await measure("distinct diagnostic scenarios, per-option rationale and results",async()=>{
   await page.goto(base+"#bp-c-test",{waitUntil:"load"});
@@ -81,10 +81,11 @@ async function run(){
   }
   await page.locator('#bp-c-test [data-open="bp-c-report"]').click();
   await page.waitForSelector('#bp-c-report.view.active');
-  assert.equal(await page.locator('#bp-c-report .bp-c-bar-row').count(),3);
-  assert.equal(await page.locator('#bp-c-report .bp-c-family-score').count(),6);
-  assert.ok((await page.locator('#bp-c-report').innerText()).includes("ارزیابی نشده"));
-  assert.equal(await page.locator('#bp-c-report .bp-c-competency-details details').count(),3);
+  assert.equal(await page.locator('#bp-c-report .bp-c-plain-summary').count(),1);
+  assert.equal(await page.locator('#bp-c-report .bp-c-family-story article').count(),3);
+  assert.ok((await page.locator('#bp-c-report').innerText()).includes("پاسخ درست از ۱۲ موقعیت"));
+  assert.ok(!(await page.locator('#bp-c-report').innerText()).includes("پاسخ همسو"));
+  assert.equal(await page.locator('#bp-c-report .bp-c-competency-details details').count(),4);
   await page.screenshot({path:path.join(artifact,"mobile-competency-results-390.png"),fullPage:true});
   await page.locator('#bp-c-report [data-open="bp-c-review"]').click();
   await page.waitForSelector('#bp-c-review.view.active');

@@ -34,20 +34,21 @@ function triang(){
 }
 function modelLesson(){
  const el=root("bp-c-lesson");if(!el)return;
- el.innerHTML=header("درسنامه مدل شایستگی","نقشه را بفهمید، بعد روی هر حوزه کلیک کنید.","session2")+
+ el.innerHTML=header("درسنامه مدل شایستگی","چگونه در کار روزانه، تفاوت دانش، رفتار و نتیجه را ببینیم؟","competencies","مدل شایستگی‌های به‌پرور")+
  '<div class="bp-c-lead-row">'+triang()+
- '<div class="bp-c-concept"><h2>مدل چه می‌گوید؟</h2><p>شایستگی یعنی رفتاری آموختنی و قابل مشاهده که به انجام مسئولانه کار کمک می‌کند؛ نه صرفاً عنوان شغلی یا ویژگی شخصیتی.</p><p>سه حوزه، مسیر ساده یادگیری‌اند. شش خانواده تخصصی، طبقه‌بندی همان شایستگی‌ها هستند؛ دو مدل مستقل نیستند.</p></div></div>'+
- '<h2 class="bp-c-section-title">چه بخشی را می‌خواهید باز کنید؟</h2>'+
- '<nav class="bp-c-tiles four" aria-label="چهار فصل درسنامه">'+
- link("bp-c-self",'<span class="bp-c-symbol self">◎</span><strong>خودم</strong><small>۳ شایستگی</small>',"bp-c-tile")+
+ '<div class="bp-c-concept"><h2>شایستگی در عمل یعنی چه؟</h2><p>دانستن «اهمیت ارتباط» کافی نیست. وقتی کارشناس کیفیت خبر ناخوشایند می‌دهد، مدیر باید بدون متهم‌کردن او سؤال بپرسد، وضعیت را روشن کند و به توافقی برسد که کیفیت را قربانی زمان نکند. این رفتار قابل مشاهده است.</p><p>مدل به ما می‌گوید برای انجام درست کار، هم باید خودمان را اداره کنیم، هم با دیگران کار کنیم و هم اثر تصمیم را بر نتیجه ببینیم.</p></div></div>'+
+ '<section class="bp-c-story"><h2 class="bp-c-section-title">یک اتفاق واقعی‌نما از به‌پرور</h2><p>سفارش آماده بارگیری است؛ تولید می‌گوید کارش تمام شده، کنترل کیفیت هنوز آزمون تکمیلی دارد و فروش نگران مشتری است. مدیر حرفه‌ای فقط درباره سرعت تصمیم نمی‌گیرد؛ ابتدا واکنش خود را تنظیم می‌کند، نگرانی واحدها را می‌شنود و بعد بر سر تصمیم مجاز، مسئول و موعد توافق می‌سازد.</p><div class="bp-c-family-story"><article><h4>۱. خودم؛ رفتار من تحت فشار</h4><p>آیا هنگام شنیدن خبر بد، فوراً دنبال مقصر می‌گردم یا داده را از برداشت خودم جدا می‌کنم؟</p></article><article><h4>۲. دیگران؛ کیفیت گفت‌وگو</h4><p>آیا نظر کیفیت و تولید را شنیده‌ام و اختلاف را به توافق قابل اجرا تبدیل کرده‌ام؟</p></article><article><h4>۳. نتایج؛ پیامد تصمیم</h4><p>آیا خروج مجاز، هزینه تأخیر و تعهد مشتری را هم‌زمان می‌سنجم؟</p></article></div></section>'+
+ '<section class="bp-c-story"><h2 class="bp-c-section-title">فرق دانش، مهارت و شاهد عملکرد</h2><div class="bp-c-family-story"><article><h4>دانش</h4><p>می‌دانم که باید پیش از تصمیم داده کافی و حدود اختیار را بررسی کنم.</p></article><article><h4>مهارت</h4><p>در جلسه پرتنش می‌توانم سؤال روشن بپرسم، گزینه‌ها را مقایسه کنم و بر اقدام مشخص توافق کنم.</p></article><article><h4>شاهد عملکرد</h4><p>در صورت‌جلسه معلوم است چه کسی چه تصمیمی گرفت، دلیل تصمیم چه بود و چه زمانی نتیجه را بازبینی می‌کنیم.</p></article></div></section>'+
+ '<h2 class="bp-c-section-title">حالا یکی از چهار بخش را باز کنید</h2>'+
+ '<nav class="bp-c-tiles four" aria-label="موضوعات درسنامه">'+
+ link("bp-c-self",'<span class="bp-c-symbol self">◎</span><strong>خودم</strong><small>۳ شایستگی مستقل</small>',"bp-c-tile")+
  link("bp-c-others",'<span class="bp-c-symbol others">♧</span><strong>دیگران</strong><small>۴ شایستگی</small>',"bp-c-tile")+
  link("bp-c-results",'<span class="bp-c-symbol results">↗</span><strong>نتایج کسب‌وکار</strong><small>۵ شایستگی</small>',"bp-c-tile")+
- link("bp-c-families",'<span class="bp-c-symbol family">▦</span><strong>شش خانواده</strong><small>پشتوانه مدل</small>',"bp-c-tile")+'</nav>'+
- '<div class="bp-c-footline"><strong>مسیر آموزشی</strong><p>جلسه ۲: شناخت مدل ← جلسه ۳: خودم ← جلسه ۴ و ۵: دیگران ← جلسه ۶: نتایج.</p></div>'+
+ link("bp-c-families",'<span class="bp-c-symbol family">▦</span><strong>شش خانواده</strong><small>تعریف، روایت و مثال</small>',"bp-c-tile")+'</nav>'+
  roleSwitcher()+'<p class="bp-c-role-hint">'+summary(session.role)+'</p>'+
- '<div class="bp-c-actions">'+link("bp-c-clinic-2","🎭 تمرین دونفره و چهارنفره","bp-c-primary")+
+ '<div class="bp-c-actions">'+link("bp-c-clinic-2","🎭 گفت‌وگوهای دونفره و چهار نفره","bp-c-primary")+
  link("bp-c-test","🎯 آزمون تشخیصی","bp-c-secondary")+
- link("session2","↩ صفحه جلسه دوم","bp-c-secondary")+'</div>';
+ link("course","📚 جلسات","bp-c-secondary")+'</div>';
 }
 function domainPage(id,domain){
  const el=root(id);if(!el)return;
@@ -91,18 +92,19 @@ function showSkill(btn){
  if(!target||!skill)return;
  const already=btn.getAttribute("aria-expanded")==="true";
  btn.parentNode.querySelectorAll("[data-bp-skill]").forEach(b=>b.setAttribute("aria-expanded","false"));
- if(already){target.hidden=true;target.innerHTML="";return}
- const profile=PROFILES[skill.id];
- if(!profile)throw Error("Missing competency proficiency descriptors: "+skill.id);
+ if(already){target.hidden=true;target.innerHTML="";return;}
+ const p=PROFILES[skill.id];if(!p)throw Error("Missing competency profile "+skill.id);
  btn.setAttribute("aria-expanded","true");
- const levels=["۱ · آشنایی","۲ · کاربرد با راهنمایی","۳ · کاربرد مستقل","۴ · توسعه دیگران"];
- const example=session.role==="supervisors"?skill.s:skill.m;
- target.innerHTML='<h3>📖 '+skill.name+'</h3>'+
- '<h4>تعریف شایستگی</h4><p>'+esc(profile.def)+'</p>'+
- '<h4>چرا در کار مدیریتی مهم است؟</h4><p>'+esc(skill.behavior)+'</p>'+
- '<h4>چهار سطح خبرگی</h4><ol class="bp-c-levels">'+profile.levels.map((s,i)=>'<li><strong>'+levels[i]+'</strong><p>'+esc(s)+'</p></li>').join("")+'</ol>'+
- '<h4>مثال برای سرپرستان</h4><p class="bp-c-example">'+esc(skill.s)+'</p>'+
- '<h4>مثال برای مدیران</h4><p class="bp-c-example">'+esc(skill.m)+'</p>';
+ const generic=["۱. تشخیص اولیه","۲. کاربرد با حمایت","۳. کاربرد مستقل","۴. اثرگذاری در موقعیت پیچیده"];
+ const title=(p.levelNames&&p.levelNames.length===4)?p.levelNames:generic;
+ const evidence=Array.isArray(p.evidence)?p.evidence:[];
+ target.innerHTML='<h3>📖 '+esc(skill.name)+'</h3>'+
+ '<h4>این شایستگی در محیط کار یعنی چه؟</h4><p>'+esc(p.def)+'</p>'+
+ '<h4>چهار سطح خبرگی؛ هر سطح با رفتار متفاوت</h4><ol class="bp-c-levels">'+p.levels.map((desc,i)=>'<li><strong>سطح '+fa(i+1)+' · '+esc(title[i])+'</strong><p>'+esc(desc)+'</p>'+(evidence[i]?'<small>شاهد: '+esc(evidence[i])+'</small>':"")+'</li>').join("")+'</ol>'+
+ '<h4>مثال برای سرپرستان</h4><p class="bp-c-skill-example">'+esc(skill.s)+'</p>'+
+ '<h4>مثال برای مدیران</h4><p class="bp-c-skill-example">'+esc(skill.m)+'</p>'+
+ (p.mistake?'<div class="bp-c-skill-callout"><strong>⚠️ خطای رایج</strong><p>'+esc(p.mistake)+'</p></div>':"")+
+ '<div class="bp-c-skill-evidence"><h4>تمرین کلاسی</h4><p>یکی از نمونه‌های بالا را دو نفره اجرا کنید: نفر اول نقش مدیر یا سرپرست و نفر دوم نقش همکار را دارد. بعد از گفت‌وگو، دقیقاً یک رفتار قابل مشاهده و یک کار برای دفعه بعد بیان کنید.</p></div>';
  target.hidden=false;
 }
 function showFamily(btn){
@@ -114,9 +116,12 @@ function showFamily(btn){
  if(open){detail.hidden=true;detail.innerHTML="";return;}
  btn.setAttribute("aria-expanded","true");detail.hidden=false;
  const skills=D.skills.filter(x=>x.family===f.id);
- detail.innerHTML='<h3>'+f.name+'</h3><p>'+f.definition+'</p>'+
- '<strong>نمونه‌های مرتبط در مدل آموزشی:</strong>'+
- (skills.length?'<ul>'+skills.map(x=>'<li>'+x.name+'</li>').join("")+'</ul>':'<p>خانواده تخصصی برای هر شغل جداگانه طراحی و سنجیده می‌شود؛ در آزمون عمومی این دوره نمره ندارد.</p>');
+ detail.innerHTML='<h3>'+esc(f.name)+'</h3>'+
+ '<h4>تعریف ساده و کاربرد آن</h4><p>'+esc(f.explain||f.definition)+'</p>'+
+ (f.story?'<div class="bp-c-family-story"><article><h4>🎬 یک روایت از محیط کار به‌پرور</h4><p>'+esc(f.story)+'</p></article><article><h4>✅ رفتار حرفه‌ای</h4><p>'+esc(f.good)+'</p></article><article><h4>⚠️ رفتار نامناسب</h4><p>'+esc(f.bad)+'</p></article></div>':"")+
+ (f.evidence?'<div class="bp-c-skill-evidence"><h4>از کجا بفهمیم شایستگی اجرا شده است؟</h4><p>'+esc(f.evidence)+'</p></div>':"")+
+ '<h4>شایستگی‌های مرتبط با این خانواده</h4>'+
+ (skills.length?'<ul>'+skills.map(x=>'<li>'+esc(x.name)+'</li>').join("")+'</ul>':'<p>این خانواده در هر شغل با آزمون تخصصی همان شغل سنجیده می‌شود. در آزمون عمومی دوره، نمره تخصص فنی تعیین نمی‌شود.</p>');
 }
 function updateLanding(){
  for(let n=2;n<=6;n++){
@@ -135,8 +140,8 @@ function updateLanding(){
    cards.className="bp-c-landing-links";
    cards.setAttribute("aria-label","انتخاب بخش یادگیری جلسه");
    if(n===2){
-    cards.innerHTML=link("bp-c-lesson",'<span>📖</span><strong>درسنامه و نمودار مدل</strong><small>سه حوزه و شش خانواده را کلیک کنید</small>',"bp-c-landing-card")+
-      link("bp-c-clinic-2",'<span>🎭</span><strong>تمرین‌های دونفره و چهارنفره</strong><small>گفت‌وگو، تصمیم و بازخورد همتایان</small>',"bp-c-landing-card")+
+    cards.innerHTML=link("bp-c-clinic-2",'<span>🎭</span><strong>گفت‌وگوهای دو نفره و چهار نفره</strong><small>کارت نقش، دیالوگ حرفه‌ای و تحلیل</small>',"bp-c-landing-card")+
+      link("bp-c-lesson",'<span>📖</span><strong>درسنامه و نمودار مدل</strong><small>سه حوزه و شش خانواده شایستگی</small>',"bp-c-landing-card")+
        link("bp-c-test",'<span>🎯</span><strong>آزمون موقعیت‌محور</strong><small>بانک جدا برای مدیران و سرپرستان</small>',"bp-c-landing-card")+
       link("bp-c-report",'<span>📊</span><strong>نتایج و پیشنهاد یادگیری</strong><small>بعد از پاسخ‌گویی فعال می‌شود</small>',"bp-c-landing-card");
    }else{
@@ -242,38 +247,28 @@ function bars(domain){
  const val=domain.percent;
  return '<div class="bp-c-bar-row"><div class="bp-c-bar-label"><strong>'+domain.name+'</strong><span>'+(val==null?"ارزیابی نشده":fa(val)+"٪")+'</span></div>'+
  '<div class="bp-c-progress-track"><i style="width:'+(val||0)+'%"></i></div>'+
- '<small>'+(domain.count?fa(domain.correct)+" پاسخ همسو از "+fa(domain.count):"پرسشی در این بخش وجود ندارد")+'</small></div>';
+ '<small>'+(domain.count?fa(domain.correct)+" پاسخ درست از "+fa(domain.count):"پرسشی در این بخش وجود ندارد")+'</small></div>';
 }
 function report(){
  const el=root("bp-c-report");if(!el)return;
- const role=session.quizRole||(["supervisors","managers"].find(r=>load(r)&&Object.keys(load(r).answers).length===12));
- let h=header("داشبورد آموزشی شایستگی","مرور پاسخ‌ها در سه حوزه و شش خانواده.","session2","جلسه دوم");
- if(!role){el.innerHTML=h+'<div class="bp-c-instructions"><h2>هنوز آزمونی تکمیل نشده است</h2><p>بانک متناسب با نقش خود را انتخاب کنید و سؤال‌ها را پاسخ دهید.</p>'+link("bp-c-test","🎯 شروع آزمون","bp-c-primary")+'</div>';return}
+ const role=session.quizRole||(["supervisors","managers"].find(r=>Object.keys(load(r).answers).length===12));
+ let h=header("نتیجه آزمون آموزشی","پاسخ‌های درست و موقعیت‌هایی که بهتر است دوباره تمرین شوند.","bp-c-test","آزمون تشخیصی");
+ if(!role){el.innerHTML=h+'<div class="bp-c-instructions"><h2>هنوز آزمونی تکمیل نشده است</h2><p>ابتدا مسیر مدیران یا سرپرستان را انتخاب و به ۱۲ موقعیت پاسخ دهید.</p>'+link("bp-c-test","شروع آزمون","bp-c-primary")+'</div>';return;}
  session.quizRole=role;
- const p=collect(role),complete=p.count===12;
+ const p=collect(role);
  h+='<div class="bp-c-report-role"><strong>مسیر: '+(role==="supervisors"?"سرپرستان":"مدیران")+'</strong><small>'+fa(p.count)+' از ۱۲ پاسخ ثبت شده</small></div>';
- if(!complete){
-  h+='<div class="bp-c-instructions"><h2>ارزیابی هنوز کامل نیست</h2><p>برای مقایسه سه حوزه و شش خانواده باید هر ۱۲ موقعیت پاسخ داده شود.</p>'+link("bp-c-test","ادامه سؤال‌ها","bp-c-primary")+'</div>';el.innerHTML=h;return;
- }
- h+='<section class="bp-c-results-overview"><div class="bp-c-donut" style="--pct:'+p.percent+'%"><span><strong>'+fa(p.percent)+'٪</strong><small>پاسخ همسو</small></span></div><div class="bp-c-domain-bars"><h2>سه حوزه اصلی</h2>'+p.domains.map(bars).join("")+'</div></section>'+
- '<h2 class="bp-c-section-title">شش خانواده شایستگی</h2>'+
- '<div class="bp-c-family-score-grid">'+p.families.map(f=>'<div class="bp-c-family-score"><strong>'+f.name+'</strong><span>'+(f.percent==null?"ارزیابی نشده":fa(f.percent)+"٪")+'</span><div class="bp-c-progress-track"><i style="width:'+(f.percent||0)+'%"></i></div><small>'+(f.id==="functional"?"وابسته به آزمون فنی هر شغل":fa(f.count)+" سؤال در این خانواده")+'</small></div>').join("")+'</div>';
- const strengths=p.skills.filter(s=>s.correct),needs=p.skills.filter(s=>!s.correct);
- h+='<div class="bp-c-strength-grid"><section><h2>✓ موقعیت‌های با پاسخ همسو</h2><p>'+(strengths.length?strengths.slice(0,4).map(s=>s.name).join(" · "):"در این نوبت موردی ثبت نشد")+'</p></section>'+
- '<section><h2>↗ موضوعات پیشنهادی برای تمرین</h2><p>'+(needs.length?needs.slice(0,4).map(s=>s.name).join(" · "):"برای تثبیت، تمرین واقعی را ادامه دهید")+'</p></section></div>'+
- '<h2 class="bp-c-section-title">۱۲ شایستگی؛ جزئیات قابل بازکردن</h2>'+
- '<div class="bp-c-competency-details">'+p.domains.map(d=>{
-  const subset=p.skills.filter(s=>s.domain===d.id);
-  return '<details><summary>'+d.name+' · '+fa(d.correct)+' از '+fa(d.count)+' پاسخ همسو</summary>'+
-   '<ul>'+subset.map(s=>'<li><strong>'+s.name+'</strong><span>'+(s.correct?"همسو با پاسخ آموزشی":"پیشنهاد مرور و تمرین")+'</span>'+link("bp-c-focus-"+(s.session===3?3:s.session===4?4:s.session===5?5:6),"درس مرتبط ←","bp-c-mini-link")+'</li>').join("")+'</ul></details>';
+ if(p.count<12){h+='<div class="bp-c-instructions"><h2>آزمون هنوز تمام نشده است</h2><p>برای دیدن تحلیل، به همه موقعیت‌ها پاسخ بدهید.</p>'+link("bp-c-test","ادامه آزمون","bp-c-primary")+'</div>';el.innerHTML=h;return;}
+ const correct=p.skills.filter(s=>s.correct),needs=p.skills.filter(s=>!s.correct);
+ h+='<section class="bp-c-plain-summary"><strong>'+fa(correct.length)+' پاسخ درست از ۱۲ موقعیت</strong><p>این عدد فقط نتیجه همین پرسش‌های آموزشی است؛ سطح واقعی شایستگی شما یا معیار مقایسه کارکنان نیست.</p></section>';
+ h+='<h2 class="bp-c-section-title">نتیجه به تفکیک سه حوزه</h2><div class="bp-c-family-story">'+p.domains.map(d=>{
+ const list=p.skills.filter(s=>s.domain===d.id),right=list.filter(s=>s.correct);
+ return '<article><h4>'+esc(d.name)+'</h4><p>'+fa(right.length)+' پاسخ درست از '+fa(list.length)+' موقعیت. '+(right.length===list.length?"برای تثبیت، گفت‌وگو را در عمل تمرین کنید.":"پاسخ‌های دیگر را بازبینی و دلیل انتخاب را تحلیل کنید.")+'</p></article>';
  }).join("")+'</div>';
- const weakest=p.domains.slice().sort((a,b)=>(a.percent||0)-(b.percent||0))[0];
- let priority=p.skills.find(s=>!s.correct&&s.domain===weakest.id)||needs[0]||p.skills[0];
- h+='<div class="bp-c-learning-action"><h2>پیشنهاد یادگیری</h2><p>برای تمرین «'+priority.name+'»، درسنامه جلسه '+fa(priority.session)+' را باز کنید، یک رفتار مشخص انتخاب و در کار واقعی بازبینی کنید.</p>'+
- link("bp-c-focus-"+(priority.session===3?3:priority.session===4?4:priority.session===5?5:6),"بازکردن درس مرتبط ←","bp-c-primary")+'</div>'+
- '<p class="bp-c-evidence-note">تفسیر محدود: تنها یک موقعیت برای هر شایستگی بررسی شده است؛ درصدها نسبت پاسخ‌های همسو با کلید آموزشی هستند، نه اندازه‌گیری معتبر سطح شایستگی یا قابلیت مقایسه اشخاص. خانواده «تخصصی» خارج از دامنه این پرسش‌های عمومی است.</p>'+
- '<div class="bp-c-actions">'+link("bp-c-review","مرور پاسخ‌ها و تشریح","bp-c-secondary")+
- '<button type="button" class="bp-c-reset" data-bp-restart>شروع دوباره همین بانک</button></div>';
+ h+='<h2 class="bp-c-section-title">کدام رفتارها را دوباره تمرین کنم؟</h2><div class="bp-c-competency-details">'+needs.map(s=>
+ '<details><summary>'+esc(s.name)+' · پیشنهاد تمرین</summary><p>تعریف و سطوح این شایستگی را مرور کنید؛ در یک گفت‌وگوی دونفره دلیل تصمیم و اثر آن را با همکار بررسی کنید.</p>'+link("bp-c-focus-"+s.session,"بازکردن درس مرتبط","bp-c-mini-link")+'</details>').join("")+'</div>';
+ if(!needs.length)h+='<p>همه پاسخ‌ها درست بوده‌اند. برای انتقال یادگیری به محیط کار، تمرین‌های شبیه‌سازی‌شده را اجرا کنید.</p>';
+ h+='<div class="bp-c-actions">'+link("bp-c-review","مرور کامل سؤال‌ها و دلیل گزینه‌ها","bp-c-primary")+link("bp-c-clinic-2","اجرای گفت‌وگوهای شبیه‌سازی‌شده","bp-c-secondary")+
+ '<button type="button" class="bp-c-reset" data-bp-restart>شروع دوباره آزمون</button></div>';
  el.innerHTML=h;
 }
 function review(){

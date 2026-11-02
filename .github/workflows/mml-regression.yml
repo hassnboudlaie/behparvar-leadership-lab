@@ -24,7 +24,8 @@ jobs:
           node --check assets/bp-practice-first-20261101.js
           node --check assets/bp-s2-pair-cases-20261101.js
           node --check assets/bp-s2-group-cases-20261101.js
-          node --check assets/bp-s2-clinic-20261101.js
+          node --check assets/bp-upgrade-data-20261102.js
+          node --check assets/bp-simple-roleplays-20261102.js
       - name: Check content and data compatibility
         run: |
           node tests/mml-guided-regression.cjs

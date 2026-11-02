@@ -63,10 +63,11 @@
 <link rel="stylesheet" href="assets/mml-clear-reader-v2.css?v=3">
 <link rel="stylesheet" href="assets/mml-alborz-inspired-theme-20261101.css?v=20261101b">
 <link rel="stylesheet" href="assets/mml-welcome-home-20261101.css?v=20261101b">
-<link rel="stylesheet" href="assets/bp-competency-path-20261101.css?v=3">
+<link rel="stylesheet" href="assets/bp-competency-path-20261101.css?v=20261102">
 <link rel="stylesheet" href="assets/bp-ux-large-type-20261101.css?v=2">
 <link rel="stylesheet" href="assets/bp-practice-first-20261101.css?v=1">
 <link rel="stylesheet" href="assets/bp-s2-clinic-20261101.css?v=1">
+<link rel="stylesheet" href="assets/bp-upgrade-20261102.css?v=1">
 </head>
 <body>
 <a class="skip-link" href="#main">رفتن به محتوای اصلی</a>
@@ -89,30 +90,29 @@
     <div><h1>به‌پرور</h1><p>مهارت‌های کاربردی مدیریت</p></div>
   </div>
   <section class="bp-welcome-hero" aria-labelledby="bp-welcome-title">
-    <img class="bp-welcome-photo" src="assets/mml-welcome/hero-meeting.webp" alt="گروه مدیران و همکاران در حال گفت‌وگو و تصمیم‌گیری در یک جلسه کاری" loading="eager" decoding="async" onerror="this.onerror=null;this.src='assets/behparvar-campus.webp'">
+    <img class="bp-welcome-photo" src="assets/behparvar-campus.webp" alt="تصویر رسمی مجموعه به‌پرور؛ پیوند فعالیت صنعتی با توسعه مهارت‌های مدیریتی" loading="eager" decoding="async">
     <div class="bp-welcome-photo-shade"></div>
-    <div class="bp-welcome-hero-text"><h2 id="bp-welcome-title">رشد مهارت‌های مدیریتی</h2><p>یادگیری ساده، کاربردی و حرفه‌ای</p><span aria-hidden="true"></span></div>
+    <div class="bp-hero-process" aria-hidden="true"><span>شناخت</span><i>◀</i><span>تمرین</span><i>◀</i><span>بازخورد</span><i>◀</i><span>به‌کارگیری</span></div>
+    <div class="bp-welcome-hero-text"><h2 id="bp-welcome-title"><span class="bp-title-develop">توسعه</span> <span class="bp-title-skills">مهارت‌های مدیریتی</span></h2></div>
   </section>
-  <nav class="bp-welcome-grid" aria-label="بخش‌های اصلی آزمایشگاه مدیریت">
+  <nav class="bp-welcome-grid" aria-label="پنج بخش اصلی توسعه مهارت‌های مدیریتی">
     <a class="bp-welcome-tile" href="#competencies" data-open="competencies">
-      <span class="bp-tile-illustration bp-ill-comp" aria-hidden="true"><span><svg class="bp-sticker" viewBox="0 0 240 200" aria-hidden="true" focusable="false"><use href="assets/mml-welcome-stickers-20261101.svg#competency"></use></svg></span></span>
+      <span class="bp-tile-illustration bp-ill-comp" aria-hidden="true"><span><svg class="bp-sticker" viewBox="0 0 240 200" aria-hidden="true"><use href="assets/mml-welcome-stickers-20261101.svg#competency"></use></svg></span></span>
       <strong>مدل شایستگی</strong>
     </a>
+    <a class="bp-welcome-tile" href="#bp-c-lesson" data-open="bp-c-lesson">
+      <span class="bp-tile-illustration bp-ill-lesson" aria-hidden="true"><span>📖</span></span><strong>درسنامه</strong>
+    </a>
     <a class="bp-welcome-tile" href="#course" data-open="course">
-      <span class="bp-tile-illustration bp-ill-classes" aria-hidden="true"><span><svg class="bp-sticker" viewBox="0 0 240 200" aria-hidden="true" focusable="false"><use href="assets/mml-welcome-stickers-20261101.svg#classes"></use></svg></span></span>
-      <strong>جلسات گروهی</strong>
+      <span class="bp-tile-illustration bp-ill-classes" aria-hidden="true"><span><svg class="bp-sticker" viewBox="0 0 240 200" aria-hidden="true"><use href="assets/mml-welcome-stickers-20261101.svg#classes"></use></svg></span></span>
+      <strong>جلسات</strong>
     </a>
-    <a class="bp-welcome-tile" href="#scenarios" data-open="scenarios">
-      <span class="bp-tile-illustration bp-ill-scenarios" aria-hidden="true"><span><svg class="bp-sticker" viewBox="0 0 240 200" aria-hidden="true" focusable="false"><use href="assets/mml-welcome-stickers-20261101.svg#scenarios"></use></svg></span></span>
-      <strong>سناریو و تمرین</strong>
+    <a class="bp-welcome-tile bp-tile-half" href="#bp-c-test" data-open="bp-c-test">
+      <span class="bp-tile-illustration bp-ill-test" aria-hidden="true"><span>🎯</span></span><strong>آزمون تشخیصی</strong>
     </a>
-    <a class="bp-welcome-tile bp-welcome-tile-wide" href="#progress" data-open="progress">
-      <span class="bp-tile-illustration bp-ill-progress" aria-hidden="true"><span><svg class="bp-sticker" viewBox="0 0 240 200" aria-hidden="true" focusable="false"><use href="assets/mml-welcome-stickers-20261101.svg#growth"></use></svg></span></span>
-      <strong>مسیر رشد من</strong>
-    </a>
-    <a class="bp-welcome-tile bp-welcome-tile-wide" href="#guide" data-open="guide">
-      <span class="bp-tile-illustration bp-ill-guide" aria-hidden="true"><span><svg class="bp-sticker" viewBox="0 0 240 200" aria-hidden="true" focusable="false"><use href="assets/mml-welcome-stickers-20261101.svg#guide"></use></svg></span></span>
-      <strong>راهنمای شروع</strong>
+    <a class="bp-welcome-tile bp-tile-half bp-tile-last" href="#bp-c-clinic-2" data-open="bp-c-clinic-2">
+      <span class="bp-tile-illustration bp-ill-scenarios" aria-hidden="true"><span><svg class="bp-sticker" viewBox="0 0 240 200" aria-hidden="true"><use href="assets/mml-welcome-stickers-20261101.svg#scenarios"></use></svg></span></span>
+      <strong>تمرین‌های شبیه‌سازی‌شده</strong><small>دو نفره و چهار نفره</small>
     </a>
   </nav>
 </section>
@@ -135,6 +135,11 @@
   <h1>مدل شایستگی به‌پرور</h1>
   <p>سه حوزه اصلی و ۱۲ شایستگی. برای دیدن تعریف، سطوح خبرگی و مثال، یک حوزه را انتخاب کنید.</p>
  </header>
+ <nav class="bp-model-process" aria-label="نقشه تصویری سه حوزه شایستگی">
+   <a class="bp-model-step" href="#bp-c-self" data-open="bp-c-self"><span aria-hidden="true">🧠</span><strong>خودم</strong><small>شناخت و اداره رفتار خود</small></a>
+   <a class="bp-model-step" href="#bp-c-others" data-open="bp-c-others"><span aria-hidden="true">👥</span><strong>دیگران</strong><small>گفت‌وگو و توانمندسازی</small></a>
+   <a class="bp-model-step" href="#bp-c-results" data-open="bp-c-results"><span aria-hidden="true">🎯</span><strong>نتایج کسب‌وکار</strong><small>تصمیم و اثر واقعی آن</small></a>
+ </nav>
  <nav class="bp-model-three" aria-label="سه حوزه شایستگی">
   <a href="#bp-c-self" data-open="bp-c-self"><span class="bp-model-illustration bp-self" aria-hidden="true">🧠</span><strong>خودم</strong><small>۳ شایستگی</small></a>
   <a href="#bp-c-others" data-open="bp-c-others"><span class="bp-model-illustration bp-others" aria-hidden="true">👥</span><strong>دیگران</strong><small>۴ شایستگی</small></a>
@@ -186,7 +191,13 @@
 </div>
 <figure class="home-scene"><picture><source media="(min-width: 900px)" srcset="assets/behparvar-campus.webp"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E" alt="نمای واقعی مجموعه بهپرور در میان طبیعت؛ محل پیوند کار و یادگیری" width="768" height="433" decoding="async"></picture><figcaption><span>بهپرور</span><strong>یادگیری برای رشد، در دل کار</strong></figcaption></figure>
 </div>
-<p class="session-back-link"><a href="#course" data-open="course">→ همه جلسات دوره</a></p><div class="home-entry">
+<nav class="bp-session-fastlinks" aria-label="بخش‌های سریع جلسه اول">
+<a href="#competencies" data-open="competencies"><span>🧭</span>مدل شایستگی</a>
+<a href="#bp-c-lesson" data-open="bp-c-lesson"><span>📖</span>درسنامه</a>
+<a href="#course" data-open="course"><span>📚</span>جلسات</a>
+<a href="#bp-c-test" data-open="bp-c-test"><span>🎯</span>آزمون تشخیصی</a>
+<a href="#bp-c-clinic-2" data-open="bp-c-clinic-2"><span>🎭</span>تمرین‌های شبیه‌سازی‌شده دو نفره و چهار نفره</a>
+</nav><p class="session-back-link"><a href="#course" data-open="course">→ همه جلسات دوره</a></p><div class="home-entry">
 <div class="home-entry-heading"><h2 id="audienceEntryTitle">مسیر خود را انتخاب کنید</h2><p id="audiencePrompt" role="status" aria-live="polite"></p></div>
 <div class="audience-grid" role="group" aria-labelledby="audienceEntryTitle">
 <button type="button" class="audience-entry" data-audience-entry="managers" aria-pressed="false"><strong class="home-role-name">مدیران</strong><span class="home-role-description">هدایت سرپرستان و هماهنگی واحدها</span><span class="home-role-start">شروع مسیر مدیران <span aria-hidden="true">←</span></span></button>
@@ -974,14 +985,15 @@ restoreSelections();updateNoteStatus();openView(location.hash.slice(1)||'welcome
 <script defer src="assets/mml-visual-refresh-20261031.js?v=7"></script>
 <script defer src="assets/mml-learning-home-v1.js?v=5"></script>
 <script defer src="assets/mml-experience-redesign-20261101.js?v=20261101a"></script>
-<script defer src="assets/mml-welcome-home-20261101.js?v=20261101a"></script>
+<script defer src="assets/mml-welcome-home-20261101.js?v=20261102"></script>
 <script defer src="assets/bp-competency-s2-data-20261101.js?v=3"></script>
 <script defer src="assets/bp-competency-profiles-20261101.js?v=1"></script>
-<script defer src="assets/bp-competency-path-20261101.js?v=3"></script>
+<script defer src="assets/bp-upgrade-data-20261102.js?v=1"></script>
+<script defer src="assets/bp-competency-path-20261101.js?v=20261102"></script>
 <script defer src="assets/bp-persian-labels-20261101.js?v=2"></script>
 <script defer src="assets/bp-practice-data-20261101.js?v=1"></script>
 <script defer src="assets/bp-practice-first-20261101.js?v=1"></script>
 <script defer src="assets/bp-s2-pair-cases-20261101.js?v=1"></script>
 <script defer src="assets/bp-s2-group-cases-20261101.js?v=1"></script>
-<script defer src="assets/bp-s2-clinic-20261101.js?v=1"></script>
+<script defer src="assets/bp-simple-roleplays-20261102.js?v=1"></script>
 </body></html>

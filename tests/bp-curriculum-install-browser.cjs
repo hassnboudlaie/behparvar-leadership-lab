@@ -44,7 +44,7 @@ const {chromium}=require("playwright"),assert=require("node:assert/strict");
   assert.equal(await page.locator("#bp-c-test .bp-c-actions [data-open='bp-c-lesson']").count(),0,"no lesson link beneath a question");
   await page.evaluate(()=>{
    const q=window.BPCompetencyData.supervisors,answers=Object.fromEntries(q.map(x=>[x.id,x.answer]));
-   localStorage.setItem("bp_competency_session2_v1_supervisors",JSON.stringify({version:1,answers}));
+   localStorage.setItem("bp_competency_session2_v2_supervisors",JSON.stringify({version:2,answers}));
   });
   await page.locator("#bp-c-test [data-bp-quiz-role='supervisors']").click();
   await page.locator('#bp-c-test [data-open="bp-c-report"]').click();

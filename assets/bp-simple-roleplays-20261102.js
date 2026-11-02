@@ -83,7 +83,7 @@ function conversation(c,d,role){
    const skill=labels[i];
    const moment=skill?'<aside class="bp-simple-moment"><strong>💡 '+esc(names[skill]||skill)+'</strong><p>'+esc(notes[i]||"رفتار قابل مشاهده و تغییر رویکرد را تشخیص دهید.")+'</p></aside>':"";
    return '<article class="bp-simple-line'+(skill?' bp-simple-highlight':'')+'" data-simple-turn="'+i+'">'+
-   '<span class="bp-simple-speaker">'+(d.names&&d.names[n]?'<strong>'+esc(d.names[n])+'</strong><small>'+esc(d.roles[n][0])+'</small>':esc(d.roles[n][0]))+'</span>'+
+   '<span class="bp-simple-speaker"><em class="bp-simple-turn-number">نوبت '+fa(i+1)+'</em> '+(d.names&&d.names[n]?'<strong>'+esc(d.names[n])+'</strong><small>'+esc(d.roles[n][0])+'</small>':esc(d.roles[n][0]))+'</span>'+
    '<p>'+esc(t)+'</p>'+moment+'</article>';
  }).join("")+'</div></section>';
 }
@@ -218,6 +218,16 @@ function init(){
  document.addEventListener("input",e=>{if(e.target.closest("#"+HOST+" [data-simple-observer-name],#"+HOST+" [data-simple-evidence],#"+HOST+" [data-simple-answer],#"+HOST+" [data-simple-strength],#"+HOST+" [data-simple-improvement]"))saveObserverDraft()});
  document.addEventListener("change",e=>{if(e.target.closest("#"+HOST+" [data-simple-eval]"))saveObserverDraft()});
  document.addEventListener("click",e=>{
+  const direct=e.target.closest("[data-simple-open-case]");
+  if(direct){
+    const id=direct.getAttribute("data-simple-open-case"),role=direct.getAttribute("data-simple-target-role");
+    if(C.some(c=>c.id===id)){
+      chosen=id;
+      if(role==="managers"||role==="supervisors")activeRole=role;
+      render();
+    }
+    return;
+  }
   if(e.target.closest("#"+HOST+" [data-simple-copy]")){copyObserverReport();return;}
   if(e.target.closest("#"+HOST+" [data-simple-clear]")){clearObserverDraft();return;}
   const jump=e.target.closest("#"+HOST+" [data-simple-jump]");

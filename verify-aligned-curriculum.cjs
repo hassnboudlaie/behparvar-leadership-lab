@@ -49,18 +49,16 @@ for(let n=1;n<=6;n++){
     const output=ui.render(n,part,role);
     assert.ok(output.includes('data-mml-scene-id="session-'+n+'"'),"Missing continuous scenario");
     assert.ok(output.includes(t.skill),"Missing skill focus");
-    assert.ok(output.includes(part==="quiz"?"data-mml-align-quiz-mount":n===2&&part==="m2"?"bp-c-clinic-2":part==="m2"?"اتفاق تازه":"اتفاق آشنا"));
+    assert.ok(output.includes(part==="quiz"?"data-mml-align-quiz-mount":(part==="m2"&&n===2?"چک‌لیست مشاهده‌گر":part==="m2"?"اتفاق تازه":"اتفاق آشنا")));
     if(part==="m2"){
       if(n===2){
-        assert.ok(output.includes("گفت‌وگوهای نمونه")&&output.includes("مشاهده‌گران"));
-        assert.ok(!output.includes("اتفاق تازه")&&!output.includes("دور دوم")&&!output.includes("گفت‌وگو را اجرا کنید"));
+       assert.ok(output.includes("چک‌لیست مشاهده‌گر")&&output.includes("data-simple-open-case"),"session two links to actual dialog and evidence-based peer observation");
+       assert.ok(!output.includes("دور دوم")&&!output.includes("اتفاق تازه"),"obsolete duplicated activity stages removed from session-two path");
+       assert.ok((output.match(/data-simple-open-case=/g)||[]).length===5,"five studio cases in session-two reader");
       }else{
-        assert.ok(output.includes("دور دوم")&&output.includes("چک‌لیست مشاهده‌گر")&&output.includes("لحن، حالت چهره و زبان بدن"));
+       assert.ok(output.includes("دور دوم")&&output.includes("چک‌لیست مشاهده‌گر")&&output.includes("لحن، حالت چهره و زبان بدن"));
       }
       roleplays++;
-    }
-    if(n===2){
-      assert.ok(!output.includes("مانع تازه")&&!output.includes("وقتی شرایط عوض می‌شود"),"old scenario stages removed from all session-two pages");
     }
     pages++;
    }
@@ -71,6 +69,13 @@ assert.equal(pages,84);
 assert.equal(questions,18);
 assert.equal(reasons,54);
 assert.equal(roleplays,12);
+for(const role of ["managers","supervisors"]){
+ for(const part of ["techniques","diseases"]){
+  const output=ui.render(2,part,role);
+  assert.ok(!output.includes("mml-align-twist"),"session 2 secondary content has no stale change card");
+ }
+ assert.ok(ui.render(2,"quiz",role).includes("آزمون تشخیصی ۱۲سؤالی"),"practice quiz differentiated from main diagnostic");
+}
 items.set("mml_aligned_v1_managers_2",JSON.stringify({page:0,answers:{0:1},notes:{"m1":"نمونه یادداشت"}}));
 const q=ui.renderQuiz(2,"managers");
 assert.ok(q.includes("دلیل هر گزینه را جداگانه بررسی کنید"));

@@ -332,3 +332,22 @@ body.mml-refreshed .bp-c-level-report summary{cursor:pointer;color:#155c6c;font-
  #bp-c-clinic-2 .bp-simple-report-actions{flex-direction:column;align-items:stretch}
  #bp-c-clinic-2 .bp-simple-report-actions button{width:100%}
 }
+
+/* Session 2: clear case selection from the seven-part reader, observer turn references. */
+#session2-m2 .mml-s2-dialogue-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:18px 0}
+#session2-m2 .mml-s2-dialogue-choice{display:flex;flex-direction:column;gap:8px;padding:19px 20px;background:#f4faf9;border:2px solid #cee5e4;border-radius:17px;color:#194957;text-decoration:none;min-height:150px;box-sizing:border-box}
+#session2-m2 .mml-s2-dialogue-choice:hover,#session2-m2 .mml-s2-dialogue-choice:focus-visible{background:#e9f8f3;border-color:#287f80}
+#session2-m2 .mml-s2-dialogue-choice>span{font-size:17px;color:#12717b;font-weight:850}
+#session2-m2 .mml-s2-dialogue-choice strong{font-size:23px;line-height:1.6;color:#184b5c}
+#session2-m2 .mml-s2-dialogue-choice small{font-size:17px;line-height:1.7;color:#42616b}
+#session2-m1 .mml-s2-dialogue-shortcut a,
+#session2-leaders .mml-s2-dialogue-shortcut a,
+#session2-techniques .mml-s2-dialogue-shortcut a,
+#session2-diseases .mml-s2-dialogue-shortcut a,
+#session2-quiz .mml-s2-dialogue-shortcut a{display:inline-flex;align-items:center;min-height:52px;padding:11px 17px;border-radius:13px;background:#e6f5f2;border:1px solid #b6d9d6;color:#17606e;font-size:20px;font-weight:850;text-decoration:none;line-height:1.7}
+#bp-c-clinic-2 .bp-simple-turn-number{display:inline-block;font-style:normal;font-size:14px;padding:2px 7px;background:rgba(255,255,255,.8);border:1px solid #d3e5e6;border-radius:7px;color:#526d76;white-space:nowrap;font-weight:800}
+@media(max-width:760px){
+ #session2-m2 .mml-s2-dialogue-grid{grid-template-columns:1fr;gap:11px}
+ #session2-m2 .mml-s2-dialogue-choice{min-height:125px;padding:15px 17px}
+ #session2-m2 .mml-s2-dialogue-choice strong{font-size:21px}
+}

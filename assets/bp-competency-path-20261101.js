@@ -193,12 +193,13 @@ function updateLanding(){
  const titles=["رهبری","مدل شایستگی‌های مدیریتی","شایستگی‌های معطوف به خود","شایستگی‌های معطوف به دیگران","شایستگی‌های معطوف به نتایج کسب‌وکار","مدیریت پیشرفته"];
  document.querySelectorAll("#course .course-session[data-course-session]").forEach(x=>{const i=Number(x.dataset.courseSession)-1,small=x.querySelector("small");if(i>=0&&i<6&&small)small.textContent=titles[i]});
 }
-function key(role){return "bp_competency_session2_v1_"+role}
+/* Revised cross-unit item bank uses independent attempt v2; retain historical v1 answers. */
+function key(role){return "bp_competency_session2_v2_"+role}
 function load(role){
  try{const x=JSON.parse(localStorage.getItem(key(role))||"null");
-  if(x&&x.version===1&&x.answers&&typeof x.answers==="object")return x;
+  if(x&&x.version===2&&x.answers&&typeof x.answers==="object")return x;
  }catch(e){}
- return {version:1,answers:{}};
+ return {version:2,answers:{}};
 }
 function save(role,data){try{localStorage.setItem(key(role),JSON.stringify(data));return true}catch(e){return false}}
 function choose(role){
@@ -216,11 +217,11 @@ function quizRoleChoice(){
 }
 function renderTest(){
  const el=root("bp-c-test");if(!el)return;
- let html=header("آزمون تشخیصی شایستگی","۱۲ موقعیت کاری برای هر نقش؛ بدون محدودیت زمانی.","session2","جلسه دوم");
+ let html=header("آزمون تشخیصی شایستگی","۱۲ موقعیت میان‌واحدی متناسب با نقش مدیر یا سرپرست؛ بدون محدودیت زمانی.","session2","جلسه دوم");
  html+=quizRoleChoice();
  if(!session.quizRole){
    html+='<div class="bp-c-instructions"><h2>پیش از شروع</h2><p>بانک مناسب نقش خود را انتخاب کنید. چهار گزینه در هر سؤال می‌توانند بخشی از راه‌حل باشند؛ باید مناسب‌ترین اقدام را با توجه به محدودیت‌ها انتخاب کنید.</p>'+
-   '<p>پاسخ شما بدون نمایش کلید ثبت می‌شود. پس از تکمیل هر ۱۲ موقعیت، دلایل تک‌تک گزینه‌ها را مرور می‌کنید.</p></div>'+
+   '<p>پاسخ شما بدون نمایش کلید ثبت می‌شود. پس از تکمیل هر ۱۲ موقعیت، دلایل تک‌تک گزینه‌ها را مرور می‌کنید. پاسخ‌های نسخه قبلی روی همین دستگاه باقی می‌مانند، اما آزمون بازنگری‌شده از پاسخ‌های قبلی نمره‌گذاری نمی‌کند.</p></div>'+
    '';
    el.innerHTML=html;return;
  }

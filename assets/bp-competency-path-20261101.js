@@ -247,7 +247,7 @@ function bars(domain){
  const val=domain.percent;
  return '<div class="bp-c-bar-row"><div class="bp-c-bar-label"><strong>'+domain.name+'</strong><span>'+(val==null?"ارزیابی نشده":fa(val)+"٪")+'</span></div>'+
  '<div class="bp-c-progress-track"><i style="width:'+(val||0)+'%"></i></div>'+
- '<small>'+(domain.count?fa(domain.correct)+" پاسخ همسو از "+fa(domain.count):"پرسشی در این بخش وجود ندارد")+'</small></div>';
+ '<small>'+(domain.count?fa(domain.correct)+" پاسخ درست از "+fa(domain.count):"پرسشی در این بخش وجود ندارد")+'</small></div>';
 }
 function report(){
  const el=root("bp-c-report");if(!el)return;

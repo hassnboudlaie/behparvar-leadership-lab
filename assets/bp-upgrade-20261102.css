@@ -189,3 +189,37 @@ body.mml-refreshed .bp-c-family-roles h4{font-size:21px;margin:0 0 10px}
 body.mml-refreshed .bp-c-family-roles p{font-size:19px;line-height:1.8;margin:0}
 body.mml-refreshed .bp-c-family-reflect{font-size:19px;line-height:1.8;border-right:5px solid #d3a066;background:#fff6e9;border-radius:10px;padding:14px 17px;margin:13px 0}
 @media(max-width:760px){body.mml-refreshed .bp-c-family-roles{grid-template-columns:1fr}}
+
+/* Canonical learning hierarchy and opt-in install entry */
+#app .bp-install-panel{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:19px 22px;background:#edf8f6;border:2px solid #b6ded8;border-radius:20px;margin:17px 0 23px;direction:rtl}
+#app .bp-install-copy{flex:1 1 270px;min-width:0}
+#app .bp-install-copy strong{display:block;font-size:23px;color:#165765;line-height:1.55}
+#app .bp-install-copy p{font-size:18px;line-height:1.7;color:#375c68;margin:3px 0}
+#app .bp-install-action{border:0;border-radius:15px;background:#116d75;color:#fff;padding:16px 22px;font-size:22px;font-weight:900;min-height:60px;cursor:pointer;box-shadow:0 7px 15px rgba(10,91,105,.13)}
+#app .bp-install-action:hover{background:#0b5969}
+#app .bp-install-action:focus-visible{outline:3px solid #e5ab69;outline-offset:3px}
+#app .bp-install-help{flex-basis:100%;border-radius:12px;background:#fff;border:1px solid #c5e3df;padding:12px 17px;font-size:18px;line-height:1.8;color:#1f4c59;margin:0}
+#app .bp-install-panel [hidden]{display:none!important}
+body.mml-refreshed .bp-c-lesson-cases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0}
+body.mml-refreshed .bp-c-lesson-cases article{background:#f3fbfa;border:1px solid #d1e8e6;border-radius:16px;padding:20px}
+body.mml-refreshed .bp-c-lesson-cases h3{font-size:24px;color:#15546b;margin:0 0 12px}
+body.mml-refreshed .bp-c-lesson-cases p{font-size:20px;line-height:1.85;color:#2c4a55}
+body.mml-refreshed .bp-c-lesson-cases strong{display:block;color:#165f63;font-size:19px;line-height:1.75;margin-top:12px}
+body.mml-refreshed .bp-c-lesson-questions,body.mml-refreshed .bp-c-lesson-kse{display:grid;gap:13px;grid-template-columns:repeat(3,minmax(0,1fr));margin:17px 0}
+body.mml-refreshed .bp-c-lesson-kse article,body.mml-refreshed .bp-c-lesson-questions article{background:#fff;border:2px solid #d9e7e8;border-radius:15px;padding:17px}
+body.mml-refreshed .bp-c-lesson-questions h3,body.mml-refreshed .bp-c-lesson-kse h3{font-size:22px;color:#14596c;margin:0 0 13px}
+body.mml-refreshed .bp-c-lesson-questions ol,body.mml-refreshed .bp-c-lesson-kse ul{margin:0;padding-right:22px}
+body.mml-refreshed .bp-c-lesson-questions li,body.mml-refreshed .bp-c-lesson-kse li{font-size:19px;line-height:1.85;margin:8px 0;color:#304d5a}
+body.mml-refreshed .bp-c-report-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:15px 0}
+body.mml-refreshed .bp-c-report-metrics>div{border:1px solid #bedddb;background:#f2f9f7;border-radius:14px;padding:18px 12px;text-align:center}
+body.mml-refreshed .bp-c-report-metrics small{font-size:18px;color:#365c67;display:block;line-height:1.5}
+body.mml-refreshed .bp-c-report-metrics strong{font-size:25px;display:block;margin-top:7px;line-height:1.6}
+body.mml-refreshed .bp-c-level-report details{font-size:19px;margin-top:13px}
+body.mml-refreshed .bp-c-level-report summary{cursor:pointer;color:#155c6c;font-weight:800}
+@media(max-width:760px){
+ #app .bp-install-panel{padding:16px;gap:13px}
+ #app .bp-install-action{width:100%;font-size:21px}
+ body.mml-refreshed .bp-c-lesson-cases,body.mml-refreshed .bp-c-lesson-questions,body.mml-refreshed .bp-c-lesson-kse,body.mml-refreshed .bp-c-report-metrics{grid-template-columns:1fr}
+ body.mml-refreshed .bp-c-lesson-cases article{padding:15px}
+ body.mml-refreshed .bp-c-lesson-cases p{font-size:19px}
+}

@@ -130,8 +130,8 @@ function updateLanding(){
    if(!home||home.querySelector(".bp-c-landing-links"))continue;
    const heading=home.querySelector("h1"),goal=home.querySelector(".mml-simple-goal");
    if(n===2){
-    if(heading)heading.textContent="جلسه دوم؛ مدل شایستگی‌های مدیریتی";
-    if(goal)goal.innerHTML="<strong>در یک نگاه:</strong> مدل را بشناس، موقعیت‌ها را تحلیل کن و بعد حوزه‌ها را در جلسات آینده تمرین کن.";
+    if(heading)heading.textContent="جلسه دوم؛ برنامه‌ریزی، سازماندهی و هماهنگی";
+    if(goal)goal.innerHTML="<strong>تمرکز جلسه:</strong> با شایستگی‌های مدیریتی آشنا شو، اختلاف بین واحدها را در یک گفت‌وگوی واقعی‌نما تمرین کن و درباره رفتار قابل مشاهده بازخورد بگیر.";
    }else{
     if(heading)heading.textContent="جلسه "+["","", "","سوم","چهارم","پنجم","ششم"][n]+"؛ "+FOCUS[n].title;
     if(goal)goal.textContent=FOCUS[n].lead;
@@ -140,7 +140,7 @@ function updateLanding(){
    cards.className="bp-c-landing-links";
    cards.setAttribute("aria-label","انتخاب بخش یادگیری جلسه");
    if(n===2){
-    cards.innerHTML=link("bp-c-clinic-2",'<span>🎭</span><strong>گفت‌وگوهای دو نفره و چهار نفره</strong><small>کارت نقش، دیالوگ حرفه‌ای و تحلیل</small>',"bp-c-landing-card")+
+    cards.innerHTML=link("bp-c-clinic-2",'<span>🎭</span><strong>مذاکره دو نفره و نشست چهار واحدی</strong><small>شخصیت‌پردازی، اجرا و بازخورد</small>',"bp-c-landing-card")+
       link("bp-c-lesson",'<span>📖</span><strong>درسنامه و نمودار مدل</strong><small>سه حوزه و شش خانواده شایستگی</small>',"bp-c-landing-card")+
        link("bp-c-test",'<span>🎯</span><strong>آزمون موقعیت‌محور</strong><small>بانک جدا برای مدیران و سرپرستان</small>',"bp-c-landing-card")+
       link("bp-c-report",'<span>📊</span><strong>نتایج و پیشنهاد یادگیری</strong><small>بعد از پاسخ‌گویی فعال می‌شود</small>',"bp-c-landing-card");
@@ -162,7 +162,7 @@ function updateLanding(){
    if(head)head.insertAdjacentHTML("afterend",link("bp-c-lesson","📖 درسنامه و مسیر شش‌جلسه‌ای مدل","bp-c-portal-link"));
  }
  const card=document.querySelector('#course .course-session[data-course-session="2"] small');
- if(card)card.textContent="آشنایی با مدل شایستگی";
+ if(card)card.textContent="برنامه‌ریزی و هماهنگی بین واحدها";
 }
 function key(role){return "bp_competency_session2_v1_"+role}
 function load(role){

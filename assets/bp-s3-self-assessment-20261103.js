@@ -60,6 +60,14 @@ problem:{s:["پیش از اقدام اصلاحی، یک مسئله را با ش�
 judgment:{s:["برای تصمیم حساس، معیار، مرز اختیار و پیامد کار را روشن کنم.","در سه تصمیم، گزینه انتخابی، یک ریسک و صاحب اختیار را کوتاه ثبت کنم.","توقف سفارش، کنترل کیفیت، ارجاع مورد مالی یا امنیت اطلاعات.","سه تصمیم ثبت‌شده با معیار، ریسک و اقدام در مرز اختیار."],m:["برای تصمیم‌های کلیدی، گزینه‌ها و Trade-off را روشن و قابل بازنگری کنم.","برای دو تصمیم چندواحدی، حداقل دو گزینه و پیامدهای مالی، انسانی و اجرایی را مقایسه کنم.","جلسه قرارداد، تغییر فرایند یا سرمایه‌گذاری محدود.","دو یادداشت تصمیم با گزینه‌ها، ریسک و زمان بازنگری."]},
 learning:{s:["بازخورد را به یک رفتار مشخص در کار تبدیل و اثرش را پیگیری کنم.","هر هفته از یک همکار بازخورد رفتاری بگیرم و یک تغییر کوچک را در عمل آزمایش کنم.","تحویل شیفت، گفت‌وگو با همکار یا ارائه گزارش.","چهار بازخورد ثبت‌شده و دو مثال از تغییر واقعی رفتار."],m:["بازخورد همتایان را به هدف توسعه رفتاری و تمرین در کار تبدیل کنم.","در دو جلسه مهم، از همتایان بازخورد بگیرم و یک رفتار مشخص را در جلسه بعد اصلاح کنم.","تسهیل جلسه بین‌واحدی یا گفت‌وگوی بازخورد با سرپرستان.","دو چرخه بازخورد، تمرین و مشاهده تغییر رفتار."]}
 };
+const GOALS={
+self:{s:"تا چهار هفته آینده، در سه گفت‌وگوی کاری دشوار واکنش خود را سنجیده مدیریت و نتیجه را با بازخورد بررسی کنم.",m:"تا چهار هفته آینده، در سه نشست بین‌واحدی پیش‌فرض‌هایم را پیش از قضاوت بررسی و کیفیت گفت‌وگو را با بازخورد بسنجیم."},
+efficacy:{s:"در چهار هفته آینده، برای یک وظیفه دشوار سه گام اجرایی تعریف و حداقل دو گام را با پیگیری کامل انجام دهم.",m:"در چهار هفته آینده، در یک چالش مبهم میان‌واحدی دو اقدام محدود با معیار نتیجه اجرا و بازنگری کنم."},
+time:{s:"طی چهار هفته، در دست‌کم هشت روز کاری اولویت‌ها را مشخص و تعهدات زمانی واقع‌بینانه ثبت کنم.",m:"در چهار هفته آینده، حداقل چهار بازه تمرکز را حفظ و دو تصمیم اولویت‌گذاری مستند انجام دهم."},
+problem:{s:"در چهار هفته آینده، دو مسئله واقعی را با شواهد و آزمون علت تحلیل و نتیجه اقدام را پیگیری کنم.",m:"در چهار هفته آینده، برای دو مسئله بین‌واحدی چند علت محتمل را بررسی و اثر تصمیم را با داده پایش کنم."},
+judgment:{s:"طی چهار هفته، برای سه تصمیم حساس معیار، ریسک و مرز اختیار را روشن و قابل پیگیری ثبت کنم.",m:"در چهار هفته آینده، دو تصمیم مهم را با مقایسه گزینه‌ها، ریسک و پیامدهای بین‌واحدی مستند کنم."},
+learning:{s:"در چهار هفته آینده، چهار بازخورد رفتاری دریافت و حداقل دو تغییر مشخص را در کار آزمایش کنم.",m:"در چهار هفته آینده، دو چرخه کامل دریافت بازخورد، اصلاح رفتار و مرور اثر را در جلسات مدیریتی اجرا کنم."}
+};
 const PLAN_FIELDS=[
 ["goal","هدف توسعه‌ای","textarea",true],
 ["behavior","رفتار قابل مشاهده","textarea",true],
@@ -126,6 +134,8 @@ function showResult(){
  el("selfEvidenceNote").textContent="میانگین‌های زیر بر اساس گزارش رفتاری خود شما در چهار هفته اخیرند؛ مقایسه با دیگران یا گواهی شایستگی نیستند."+(note.length?" برای "+note.map(x=>x.name).join(" و ")+"، تعداد رفتارهای قابل مشاهده کمتر از سه مورد بوده و نمره ارائه نمی‌شود.":"");
  el("selfProfileChart").innerHTML=profile.map(d=>
  '<div class="bp-self-chart-item"><div><strong>'+d.icon+" "+esc(d.name)+'</strong><small>'+(d.mean===null?"شواهد کافی نیست":fa(d.answered)+" پاسخ قابل محاسبه")+'</small></div><div class="bp-self-track" role="img" aria-label="'+esc(d.name)+" "+(d.mean===null?"داده کافی نیست":"میانگین "+(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+" از پنج")+'"><span style="width:'+(d.mean===null?0:Math.round(d.mean/5*100))+'%"></span></div><div class="bp-self-chart-number">'+(d.mean===null?"—":(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+" / ۵")+'</div></div>').join("");
+ const examples=AREAS.filter(d=>String(state.notes[d.id]||"").trim());
+ const evidenceBox=el("selfExamplesDetails");evidenceBox.hidden=!examples.length;el("selfEvidenceExamples").innerHTML=examples.map(d=>"<p><strong>"+d.icon+" "+esc(d.name)+":</strong> "+esc(state.notes[d.id])+"</p>").join("");
  const strong=[...known].reverse().slice(0,2),opps=known.slice(0,2);
  el("selfStrengthText").textContent=strong.length?strong.map(x=>x.name).join(" و ")+" در این دوره بیشتر در رفتارهای گزارش‌شده دیده شده‌اند؛ از این ظرفیت‌ها برای تمرین حوزه دیگر کمک بگیرید.":"برای جمع‌بندی نقطه اتکا، شواهد قابل مشاهده بیشتری ثبت کنید.";
  el("selfOpportunityText").textContent=opps.length?opps.map(x=>x.name).join(" و ")+" در چهار هفته اخیر کمتر تکرار شده‌اند. این نتیجه برچسب ضعف نیست؛ می‌تواند مبنای انتخاب تمرین بعدی شما باشد.":"برای پیشنهاد یک اولویت توسعه، پاسخ قابل مشاهده بیشتری لازم است.";
@@ -145,7 +155,7 @@ function showResult(){
 }
 function recommend(target){
  const area=AREAS.find(x=>x.id===target)||AREAS[0],v=IDEAS[area.id][role==="managers"?"m":"s"];
- const goal=v[0],behavior=v[0],practice=v[1],situation=v[2],evidence=v[3];
+ const goal=GOALS[area.id][role==="managers"?"m":"s"],behavior=v[0],practice=v[1],situation=v[2],evidence=v[3];
  return {target,goal,behavior,practice,situation,evidence,
  support:role==="managers"?"یک مدیر همتا یا سرپرست مرتبط؛ بازخورد بر اساس رفتار مشاهده‌شده":"یکی از همکاران همتا یا مدیر مستقیم؛ بازخورد روی رفتار مشخص",
  obstacle:"اگر فشار کار یا تغییر اولویت مانع شد، دامنه تمرین را کاهش می‌دهم و زمان بازنگری را شفاف می‌کنم.",
@@ -171,6 +181,7 @@ function savePlan(){if(el("results").hidden||!el("selfIdpFields").querySelector(
 function reportText(){
  const rows=["به‌پرور | پروفایل خودارزیابی و برنامه توسعه فردی (IDP)","مسیر: "+ROLE_LABEL[role],"مبنای ارزیابی: چهار هفته اخیر | پرسشنامه آموزشی، نه ارزیابی معتبر روان‌سنجی", "","پروفایل شایستگی‌ها"];
  (profile||compute()).forEach(d=>rows.push(d.name+": "+(d.mean===null?"شواهد کافی نیست":(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+" از ۵") ));
+ rows.push("","شواهد رفتاری اختیاری");AREAS.forEach(d=>{if(String(state.notes[d.id]||"").trim())rows.push(d.name+": "+state.notes[d.id]);});
  rows.push("","جمع‌بندی","نقطه اتکا: "+el("selfStrengthText").textContent,"فرصت توسعه: "+el("selfOpportunityText").textContent,"","برنامه توسعه فردی");
  const p=currentPlan(),d=AREAS.find(x=>x.id===p.target);rows.push("حوزه: "+(d?.name||""));
  PLAN_FIELDS.forEach(([id,label])=>rows.push(label+": "+(p[id]||"تکمیل نشده")));

@@ -117,6 +117,7 @@ function savePlan(){
 function init(){
  if(!CASES.length)return;
  role=readRole();document.getElementById("roleLabel").textContent=R[role];
+ document.querySelectorAll("[data-self-assessment-link]").forEach(a=>{a.href="session3-self-assessment.html?audience="+encodeURIComponent(role);});
  document.querySelectorAll("[data-role]").forEach(b=>{b.setAttribute("aria-pressed",String(b.dataset.role===role));b.addEventListener("click",()=>{if(b.dataset.role===role)return;const u=new URL(location.href);u.searchParams.set("audience",b.dataset.role);location.assign(u.href);});});
  renderCards();renderQuiz();loadPlan();
  document.getElementById("caseList").addEventListener("click",e=>{const b=e.target.closest("[data-case-open]");if(!b)return;activeCase=b.dataset.caseOpen;renderCase();root().scrollIntoView({block:"start",behavior:"auto"});});

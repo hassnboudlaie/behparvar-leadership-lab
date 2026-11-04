@@ -69,3 +69,22 @@
 @media(max-width:650px){.bp-self-hero-art{font-size:28px}.bp-self-scale{grid-template-columns:repeat(2,minmax(0,1fr))}.bp-self-scale span:last-child{grid-column:1/-1}.bp-self-dim-nav{grid-template-columns:1fr 1fr;gap:7px}.bp-self-dim-nav button{min-height:80px;padding:9px}.bp-self-dim-nav button span{font-size:16px}.bp-self-dim-nav button small{font-size:14px}.bp-self-question{padding:13px 10px}.bp-self-answers{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.bp-self-answers label{font-size:13px;padding:7px 1px}.bp-self-answers input{width:17px;height:17px}.bp-self-insight-grid,.bp-self-idp-fields{grid-template-columns:1fr}.bp-self-idp-fields label.wide{grid-column:auto}.bp-self-idp-top{align-items:stretch}.bp-self-idp-top label{min-width:0;flex:1 1 100%}.bp-self-actions button{flex:1 1 100%}}
 @media print{.top,.rolebar,.bp-self-intro,.bp-self-workspace,.bp-self-data-policy,.bp-self-report-head button,.bp-self-idp-top button,.bp-self-actions,footer{display:none!important}body{background:white}#results{display:block!important;border:0;padding:0}#selfIdpFields input,#selfIdpFields textarea{border:1px solid #ccc}html{scroll-behavior:auto}}
 @media(prefers-reduced-motion:reduce){.bp-self-progressbar span{transition:none}}
+/* Guided two-hour workshop and individual six-axis competency profile */
+.bp-self-workshop{border-top:5px solid #214880}
+.bp-self-workshop h2{margin:0 0 8px}
+.bp-self-workshop-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:20px 0}
+.bp-self-workshop-steps article{min-height:135px;background:#f3f6fc;border:1px solid #cbd9ec;border-radius:13px;padding:15px}
+.bp-self-workshop-steps article span{display:block;font-weight:800;color:#a52a45;font-size:17px}
+.bp-self-workshop-steps article strong{display:block;font-size:19px;color:#17386f;margin:7px 0 4px}
+.bp-self-workshop-steps article small{display:block;color:#4a5b77;font-size:15px;line-height:1.6}
+.bp-self-name-field{display:block;margin:16px 0 20px;font-weight:800;color:#19366c;max-width:530px}
+.bp-self-name-field input{display:block;margin:7px 0 2px;width:100%;min-height:52px;border:1px solid #a3b5cd;border-radius:11px;padding:10px 12px;font:inherit}
+.bp-self-name-field small{display:block;color:#68768b;font-size:15px;font-weight:400}
+.bp-self-participant{font-weight:800;color:#173a74;margin:12px 0}
+.bp-self-radar{margin:19px auto 22px;max-width:660px;border:1px solid #d7e1ef;background:#f9fbfe;border-radius:16px;padding:12px}
+.bp-self-radar svg{display:block;width:100%;height:auto;max-height:500px;overflow:visible;font-family:Vazirmatn,Tahoma,sans-serif}
+.bp-self-radar figcaption{text-align:center;color:#4f637e;font-size:15px}
+.bp-self-radar-empty{font-size:17px;line-height:1.9;padding:24px;color:#536986}
+@media(max-width:720px){.bp-self-workshop-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.bp-self-workshop-steps article{min-height:125px;padding:12px}.bp-self-workshop-steps article strong{font-size:17px}}
+@media(max-width:390px){.bp-self-workshop-steps{grid-template-columns:1fr}.bp-self-radar{padding:2px}.bp-self-radar figcaption{padding:5px 12px}.bp-self-radar svg{min-width:320px}}
+@media print{.bp-self-workshop{display:none!important}.bp-self-radar{break-inside:avoid;max-width:530px}.bp-self-workshop-steps{display:none!important}}

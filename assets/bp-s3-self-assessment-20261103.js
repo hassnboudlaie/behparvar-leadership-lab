@@ -78,7 +78,7 @@ const PLAN_FIELDS=[
 ["obstacle","مانع محتمل و راه مواجهه","textarea",false],
 ["review","زمان بررسی پیشرفت","text",false]
 ];
-let role="supervisors",state={schema:1,answers:{},notes:{},plan:null},activeDim=0,profile=null;
+let role="supervisors",state={schema:1,answers:{},notes:{},plan:null,personName:""},activeDim=0,profile=null;
 const el=id=>document.getElementById(id),k=(id,i)=>id+"-"+i;
 const fa=n=>String(n).replace(/\d/g,c=>"۰۱۲۳۴۵۶۷۸۹"[+c]);
 const esc=v=>String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -88,7 +88,7 @@ function initialRole(){
  try{const raw=JSON.parse(localStorage.getItem("behparvar_session1_v4")||"{}");if(ROLE_LABEL[raw.audience])return raw.audience;}catch(e){}
  return "supervisors";
 }
-function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:1,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null};}catch(e){}return {schema:1,answers:{},notes:{},plan:null};}
+function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:1,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null,personName:typeof v.personName==="string"?v.personName:""};}catch(e){}return {schema:1,answers:{},notes:{},plan:null};}
 function save(){try{localStorage.setItem(STORAGE+role,JSON.stringify(state));return true;}catch(e){return false;}}
 function countDone(dim){return AREAS[dim].questions.reduce((n,_,i)=>n+(Object.prototype.hasOwnProperty.call(state.answers,k(AREAS[dim].id,i))?1:0),0);}
 function totalDone(){return AREAS.reduce((s,_,i)=>s+countDone(i),0);}
@@ -124,12 +124,29 @@ function compute(){
  });
 }
 function resultOrder(rows){return rows.filter(x=>x.mean!==null).sort((a,b)=>a.mean-b.mean);}
+function drawRadar(rows){
+ const place=el("selfRadarChart"),valid=rows.every(x=>x.mean!==null);
+ if(!valid){place.innerHTML='<div class="bp-self-radar-empty">برای رسم نمودار شعاعی، در همه شش شایستگی حداقل سه رفتار قابل مشاهده لازم است. نمودارهای میله‌ایِ حوزه‌های دارای شواهد کافی در ادامه نمایش داده شده‌اند.</div>';return;}
+ const cx=300,cy=215,r=130,coords=(n,i)=>{const angle=(-90+i*60)*Math.PI/180;return [(cx+Math.cos(angle)*n).toFixed(1),(cy+Math.sin(angle)*n).toFixed(1)];};
+ const short=["خودآگاهی","خودکارآمدی","مدیریت زمان","حل مسئله","قضاوت حرفه‌ای","یادگیری مستمر"];
+ let out='<svg viewBox="0 0 600 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="نمودار شعاعی شش شایستگی، با محورهای یک تا پنج" focusable="false">';
+ for(let n=1;n<=5;n++){out+='<polygon points="'+rows.map((_,i)=>coords(r*n/5,i).join(",")).join(" ")+'" fill="'+(n%2===0?"#edf3fa":"none")+'" stroke="#cfdae9" stroke-width="1.3"/>';}
+ rows.forEach((d,i)=>{const [x,y]=coords(r,i);out+='<line x1="'+cx+'" y1="'+cy+'" x2="'+x+'" y2="'+y+'" stroke="#c2d0e1" stroke-width="1.5"/>';});
+ out+='<polygon points="'+rows.map((d,i)=>coords(r*d.mean/5,i).join(",")).join(" ")+'" fill="#467daa" fill-opacity=".24" stroke="#194c7b" stroke-width="3.5" stroke-linejoin="round"/>';
+ rows.forEach((d,i)=>{let [x,y]=coords(r*d.mean/5,i);out+='<circle cx="'+x+'" cy="'+y+'" r="5" fill="#17487b" stroke="#fff" stroke-width="2"/>';});
+ short.forEach((s,i)=>{let [x,y]=coords(r+48,i);out+='<text x="'+x+'" y="'+y+'" text-anchor="middle" font-size="17" font-weight="700" fill="#17376c" direction="rtl">'+esc(s)+'</text>';});
+ out+='<text x="'+cx+'" y="'+(cy-r-11)+'" text-anchor="start" font-size="14" fill="#546983">۵</text></svg>';
+ place.innerHTML=out;
+}
+
 function showResult(){
  const missing=AREAS.findIndex((d,i)=>countDone(i)<4);
  if(missing!==-1){activeDim=missing;renderQuestions(true);el("selfMessage").textContent="برای ساخت پروفایل، ابتدا به همه ۲۴ عبارت پاسخ دهید. در صورت نداشتن فرصت مشاهده، همان گزینه را انتخاب کنید.";return;}
  profile=compute();
  const known=resultOrder(profile);
  el("selfMessage").textContent="";
+ el("selfParticipantLabel").textContent=state.personName?"پروفایل شخصی: "+state.personName:"پروفایل شخصی بدون نام";
+ drawRadar(profile);
  const note=profile.filter(x=>x.mean===null);
  el("selfEvidenceNote").textContent="میانگین‌های زیر بر اساس گزارش رفتاری خود شما در چهار هفته اخیرند؛ مقایسه با دیگران یا گواهی شایستگی نیستند."+(note.length?" برای "+note.map(x=>x.name).join(" و ")+"، تعداد رفتارهای قابل مشاهده کمتر از سه مورد بوده و نمره ارائه نمی‌شود.":"");
  el("selfProfileChart").innerHTML=profile.map(d=>
@@ -179,7 +196,7 @@ function savePlan(){if(el("results").hidden||!el("selfIdpFields").querySelector(
  el("selfIdpStatus").textContent=save()?"IDP همراه پاسخ‌ها در همین مرورگر و فقط برای این مسیر ذخیره شد.":"ذخیره مرورگر ممکن نشد؛ از گزینه کپی گزارش استفاده کنید.";
 }
 function reportText(){
- const rows=["به‌پرور | پروفایل خودارزیابی و برنامه توسعه فردی (IDP)","مسیر: "+ROLE_LABEL[role],"مبنای ارزیابی: چهار هفته اخیر | پرسشنامه آموزشی، نه ارزیابی معتبر روان‌سنجی", "","پروفایل شایستگی‌ها"];
+ const rows=["به‌پرور | پروفایل خودارزیابی و برنامه توسعه فردی (IDP)","نام / کد شرکت‌کننده: "+(state.personName||"درج نشده"),"مسیر: "+ROLE_LABEL[role],"مبنای ارزیابی: چهار هفته اخیر | پرسشنامه آموزشی، نه ارزیابی معتبر روان‌سنجی", "","پروفایل شایستگی‌ها"];
  (profile||compute()).forEach(d=>rows.push(d.name+": "+(d.mean===null?"شواهد کافی نیست":(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+" از ۵") ));
  rows.push("","شواهد رفتاری اختیاری");AREAS.forEach(d=>{if(String(state.notes[d.id]||"").trim())rows.push(d.name+": "+state.notes[d.id]);});
  rows.push("","جمع‌بندی","نقطه اتکا: "+el("selfStrengthText").textContent,"فرصت توسعه: "+el("selfOpportunityText").textContent,"","برنامه توسعه فردی");
@@ -196,6 +213,8 @@ function copyReport(){
 }
 function setup(){
  role=initialRole();state=read();el("selfRoleName").textContent=ROLE_LABEL[role];
+ el("selfPersonName").value=state.personName||"";
+ el("selfPersonName").addEventListener("input",e=>{state.personName=e.target.value.trim().slice(0,60);save();if(profile)el("selfParticipantLabel").textContent=state.personName?"پروفایل شخصی: "+state.personName:"پروفایل شخصی بدون نام";});
  document.querySelectorAll("[data-self-role]").forEach(b=>{
  b.setAttribute("aria-pressed",String(b.dataset.selfRole===role));
  b.addEventListener("click",()=>{
@@ -232,7 +251,7 @@ function setup(){
  el("selfClearAll").addEventListener("click",()=>{
  if(!confirm("تمام پاسخ‌ها و برنامه توسعه فردی همین مسیر روی این دستگاه پاک شوند؟"))return;
  try{localStorage.removeItem(STORAGE+role);}catch(e){}
- state={schema:1,answers:{},notes:{},plan:null};profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
+ state={schema:1,answers:{},notes:{},plan:null,personName:""};el("selfPersonName").value="";profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
  });
  if(totalDone()===24)el("selfMessage").textContent="پاسخ‌های قبلی شما بازیابی شدند. برای دیدن تحلیل، «مشاهده پروفایل و IDP» را انتخاب کنید.";
 }

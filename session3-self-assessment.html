@@ -26,8 +26,25 @@
 <div class="rolebar"><strong>مسیر یادگیری: <span id="selfRoleName">—</span></strong><div role="group" aria-label="انتخاب مسیر">
 <button type="button" data-self-role="supervisors">سرپرستان</button>
 <button type="button" data-self-role="managers">مدیران</button></div></div>
+<section class="panel bp-self-workshop" aria-label="نقشه کارگاه دو ساعته">
+<h2>🗺️ مسیر کارگاه ۱۲۰ دقیقه‌ای</h2>
+<p>هر شرکت‌کننده با موبایل خودش پاسخ می‌دهد و در پایان، یک پروفایل و برنامه توسعه متعلق به خودش دارد.</p>
+<div class="bp-self-workshop-steps">
+<article><span>۰–۱۰ دقیقه</span><strong>🎯 شروع</strong><small>هدف و معیار پاسخ صادقانه</small></article>
+<article><span>۱۰–۴۰ دقیقه</span><strong>📱 خودارزیابی</strong><small>۲۴ رفتار در ۶ شایستگی</small></article>
+<article><span>۴۰–۶۰ دقیقه</span><strong>📊 پروفایل</strong><small>شناخت قوت‌ها و نیازهای توسعه</small></article>
+<article><span>۶۰–۸۰ دقیقه</span><strong>🤝 گفت‌وگوی دونفره</strong><small>بازتاب و نمونه رفتاری؛ اختیاری برای اشتراک‌گذاری</small></article>
+<article><span>۸۰–۱۱۰ دقیقه</span><strong>🌱 ساخت IDP</strong><small>هدف رفتاری، تمرین، شاخص پیشرفت</small></article>
+<article><span>۱۱۰–۱۲۰ دقیقه</span><strong>✅ تعهد پایانی</strong><small>ذخیره گزارش و تعیین اقدام بعدی</small></article>
+</div>
+<p class="bp-self-muted">این زمان‌بندی راهنمای مدرس است؛ شرکت‌کننده می‌تواند بدون انتظار برای دیگران مراحل را کامل کند.</p>
+</section>
 <section class="panel bp-self-intro" aria-label="راهنمای خودارزیابی">
 <h2>خودارزیابی رفتاری</h2>
+<label class="bp-self-name-field">نام یا کد دلخواه برای درج روی پروفایل (اختیاری)
+<input id="selfPersonName" type="text" maxlength="60" autocomplete="off" placeholder="مثلاً نام کوچک یا کد شرکت‌کننده">
+<small>فقط روی همین دستگاه ذخیره می‌شود؛ در سامانه مرکزی ثبت نمی‌شود.</small>
+</label>
 <p>برای هر جمله، میزان تکرار آن رفتار را در <strong>چهار هفته اخیر</strong> انتخاب کنید. پاسخ مطلوب وجود ندارد؛ مهم این است که به آنچه واقعاً انجام داده‌اید فکر کنید، نه آنچه می‌دانید بهتر است انجام شود.</p>
 <div class="bp-self-scale"><span>۱ · تقریباً هرگز</span><span>۲ · به‌ندرت</span><span>۳ · گاهی</span><span>۴ · اغلب</span><span>۵ · تقریباً همیشه</span></div>
 <p class="bp-self-muted">اگر فرصت بروز یا مشاهده رفتاری را نداشتید، «فرصت مشاهده نداشتم» را انتخاب کنید. این گزینه در میانگین آن حوزه محاسبه نمی‌شود.</p>
@@ -46,13 +63,15 @@
 </section>
 <section class="panel bp-self-report" id="results" hidden aria-label="نتایج و برنامه توسعه فردی">
 <div class="bp-self-report-head"><div><span>پروفایل شخصی من</span><h2>📊 تصویر رفتاری شش حوزه</h2></div><button type="button" class="secondary" id="selfEditAnswers">ویرایش پاسخ‌ها</button></div>
+<p id="selfParticipantLabel" class="bp-self-participant"></p>
 <p id="selfEvidenceNote" class="bp-self-muted"></p>
+<figure class="bp-self-radar"><div id="selfRadarChart" role="group" aria-label="نمایه تصویری شش شایستگی"></div><figcaption>نمایش تصویری خودارزیابی در مقیاس ۱ تا ۵. جزئیات عددی و وضعیت شواهد هر حوزه در نمودار میله‌ای زیر آمده است.</figcaption></figure>
 <div id="selfProfileChart" class="bp-self-chart" role="group" aria-label="پروفایل شش شایستگی"></div>
 <details class="bp-self-method" id="selfExamplesDetails" hidden><summary>📝 نمونه‌های رفتاری ثبت‌شده توسط من</summary><div id="selfEvidenceExamples"></div></details>
 <div class="bp-self-insight-grid"><article><h3>✨ نقطه اتکای من</h3><p id="selfStrengthText"></p></article>
 <article><h3>🌱 فرصت توسعه من</h3><p id="selfOpportunityText"></p></article></div>
 <details class="bp-self-method"><summary>روش محاسبه و محدودیت تفسیر نتیجه</summary>
-<p>برای هر حوزه، میانگین پاسخ‌های ۱ تا ۵ محاسبه می‌شود. «فرصت مشاهده نداشتم» از میانگین کنار گذاشته می‌شود. برای ارائه نتیجه قابل‌تفسیر هر حوزه، حداقل سه پاسخ مشاهده‌پذیر از چهار مورد لازم است. نتایج صرفاً بازتاب گزارش فرد در چهار هفته اخیر است؛ این ابزار آزمون روان‌سنجی اعتبارسنجی‌شده، تشخیص شخصیت یا تأیید صلاحیت شغلی نیست.</p>
+<p>این پروفایل برای مشاهده الگوهای گزارش‌شده و طراحی گفت‌وگوی بازخوردی است؛ نمره پایین‌تر الزاماً «ضعف ثابت» فرد نیست. برای هر حوزه، میانگین پاسخ‌های ۱ تا ۵ محاسبه می‌شود. «فرصت مشاهده نداشتم» از میانگین کنار گذاشته می‌شود. برای ارائه نتیجه قابل‌تفسیر هر حوزه، حداقل سه پاسخ مشاهده‌پذیر از چهار مورد لازم است. نتایج صرفاً بازتاب گزارش فرد در چهار هفته اخیر است؛ این ابزار آزمون روان‌سنجی اعتبارسنجی‌شده، تشخیص شخصیت یا تأیید صلاحیت شغلی نیست.</p>
 </details>
 <div id="selfIdpProfile" class="bp-self-idp-profile">
 <h2>🌱 پروفایل برنامه توسعه فردی (IDP)</h2>

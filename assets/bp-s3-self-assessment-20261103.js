@@ -350,6 +350,62 @@ function updateProgress(){
  el("selfViewResult").hidden=done!==24;
  el("selfDimNav").querySelectorAll("button[data-dim]").forEach((b,i)=>{const n=countDone(i);b.dataset.complete=String(n===4);b.setAttribute("aria-current",i===activeDim?"step":"false");const small=b.querySelector("small");if(small)small.textContent=n===4?"✓ تکمیل شده":fa(n)+" از ۴ پاسخ";});
 }
+
+let guideReturnElement=null,guideReturnScroll=0,guideHistoryEntry=false;
+function openCompetencyGuide(id,trigger){
+ const d=AREAS.find(x=>x.id===id),info=COMPETENCY_GUIDES[id];
+ if(!d||!info)return;
+ const screen=el("selfCompetencyGuide");
+ guideReturnElement=trigger||document.activeElement;
+ guideReturnScroll=window.scrollY||window.pageYOffset||0;
+ el("selfGuideIcon").textContent=d.icon;
+ el("selfGuideTitle").textContent=d.name;
+ el("selfGuideRole").textContent="مصداق‌های کاربردی برای "+ROLE_LABEL[role];
+ el("selfGuideDefinition").textContent=info.meaning;
+ el("selfGuideExamples").innerHTML=[...info.general,...(role==="managers"?info.managers:info.supervisors)].map(item=>"<li>"+esc(item)+"</li>").join("");
+ el("selfGuideNot").textContent=info.not;
+ screen.hidden=false;
+ screen.scrollTop=0;
+ document.body.classList.add("bp-self-guide-open");
+ guideHistoryEntry=false;
+ try{
+  if(window.history&&typeof window.history.pushState==="function"){
+   window.history.pushState({bpSelfGuide:id},"","#bp-guide-"+id);
+   guideHistoryEntry=true;
+  }
+ }catch(error){}
+ const back=screen.querySelector("[data-guide-close]");
+ if(back)back.focus({preventScroll:true});
+}
+function closeCompetencyGuide(fromHistory=false){
+ const screen=el("selfCompetencyGuide");
+ if(screen.hidden)return;
+ screen.hidden=true;
+ document.body.classList.remove("bp-self-guide-open");
+ if(!fromHistory&&guideHistoryEntry&&window.history&&window.history.state?.bpSelfGuide){
+  try{window.history.back();}catch(error){}
+ }
+ guideHistoryEntry=false;
+ const origin=guideReturnElement;
+ if(origin&&origin.isConnected&&typeof origin.focus==="function")origin.focus({preventScroll:true});
+ if(typeof window.scrollTo==="function")window.scrollTo(0,guideReturnScroll);
+ guideReturnElement=null;
+}
+function setupCompetencyGuide(){
+ document.querySelectorAll("[data-guide-close]").forEach(button=>button.addEventListener("click",()=>closeCompetencyGuide()));
+ window.addEventListener("popstate",()=>{if(!el("selfCompetencyGuide").hidden)closeCompetencyGuide(true);});
+ document.addEventListener("keydown",event=>{
+  const screen=el("selfCompetencyGuide");if(screen.hidden)return;
+  if(event.key==="Escape"){event.preventDefault();closeCompetencyGuide();return;}
+  if(event.key==="Tab"){
+   const stops=Array.from(screen.querySelectorAll("[data-guide-close]"));
+   if(!stops.length)return;
+   const first=stops[0],last=stops[stops.length-1];
+   if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+   else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+  }
+ });
+}
 function renderNav(){
  el("selfDimNav").innerHTML=AREAS.map((d,i)=>
   '<div class="bp-self-nav-card" data-guide-card="'+i+'" data-active="'+(i===activeDim)+'">'+
@@ -681,9 +737,19 @@ function setup(){
  const original=a.getAttribute("href");const [path,fragment]=original.split("#");
  a.href=path+"?audience="+encodeURIComponent(role)+(fragment?"#"+fragment:"");
  });
+ setupCompetencyGuide();
  renderNav();renderQuestions();if(versionNotice)el("selfMessage").textContent=versionNotice;
  el("selfReflection").addEventListener("input",e=>{state.reflection=e.target.value;save();updateRewards();});
- el("selfDimNav").addEventListener("click",e=>{const b=e.target.closest("[data-dim]");if(!b)return;activeDim=Number(b.dataset.dim);renderQuestions(true);});
+ el("selfDimNav").addEventListener("click",event=>{
+  const info=event.target.closest("[data-guide]");
+  if(info){openCompetencyGuide(info.dataset.guide,info);return;}
+  const b=event.target.closest("[data-dim]");
+  if(!b)return;activeDim=Number(b.dataset.dim);renderQuestions(true);
+ });
+ el("selfQuestions").addEventListener("click",event=>{
+  const info=event.target.closest("[data-guide]");
+  if(info)openCompetencyGuide(info.dataset.guide,info);
+ });
  el("selfQuestions").addEventListener("change",e=>{
  if(!e.target.matches("[data-answer]"))return;
  const key=e.target.dataset.answer,next=Number(e.target.value);

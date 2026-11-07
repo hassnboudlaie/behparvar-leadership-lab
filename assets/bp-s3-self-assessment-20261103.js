@@ -167,7 +167,7 @@ const PLAN_FIELDS=[
 ["obstacle","مانع محتمل و راه مواجهه","textarea",false],
 ["review","زمان بررسی پیشرفت","text",false]
 ];
-let role="supervisors",state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false},activeDim=0,profile=null;
+let role="supervisors",state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false},activeDim=0,profile=null;
 const el=id=>document.getElementById(id),k=(id,i)=>id+"-"+i;
 const fa=n=>String(n).replace(/\d/g,c=>"۰۱۲۳۴۵۶۷۸۹"[+c]);
 const esc=v=>String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -177,7 +177,7 @@ function initialRole(){
  try{const raw=JSON.parse(localStorage.getItem("behparvar_session1_v4")||"{}");if(ROLE_LABEL[raw.audience])return raw.audience;}catch(e){}
  return "supervisors";
 }
-function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:2,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null,planDraft:v.planDraft&&typeof v.planDraft==="object"?v.planDraft:null,reflection:typeof v.reflection==="string"?v.reflection:"",personName:typeof v.personName==="string"?v.personName:"",profileViewed:v.profileViewed===true};}catch(e){}return {schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false};}
+function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:2,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null,planDraft:v.planDraft&&typeof v.planDraft==="object"?v.planDraft:null,reflection:typeof v.reflection==="string"?v.reflection:"",personName:typeof v.personName==="string"?v.personName:"",profileViewed:v.profileViewed===true,planNeedsReview:v.planNeedsReview===true};}catch(e){}return {schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};}
 function save(){try{localStorage.setItem(STORAGE+role,JSON.stringify(state));return true;}catch(e){return false;}}
 function setStage(name){document.querySelectorAll("[data-stage]").forEach(x=>x.classList.toggle("active",x.dataset.stage===name));}
 function countDone(dim){return AREAS[dim].questions.reduce((n,_,i)=>n+(Object.prototype.hasOwnProperty.call(state.answers,k(AREAS[dim].id,i))?1:0),0);}
@@ -187,7 +187,7 @@ function rewardStatus(){
  const discover=totalDone()===24;
  const insight=discover&&state.profileViewed===true&&String(state.reflection||"").trim().length>=8;
  const p=state.plan;
- const action=discover&&!!p&&!state.planDraft&&["goal","behavior","practice","evidence","review"].every(k=>typeof p[k]==="string"&&p[k].trim().length>0);
+ const action=discover&&!!p&&!state.planDraft&&!state.planNeedsReview&&["goal","behavior","practice","evidence","review"].every(k=>typeof p[k]==="string"&&p[k].trim().length>0);
  return {discover,insight,action,score:(discover?30:0)+(insight?30:0)+(action?40:0)};
 }
 function updateRewards(){
@@ -319,7 +319,7 @@ function buildIdpFields(data){
  const optional=PLAN_FIELDS.filter(([id])=>!core.includes(id));
  el("selfIdpFields").innerHTML=primary.map(field).join("")+
  '<details class="bp-self-idp-optional"><summary>تکمیل اختیاری برنامه: موقعیت تمرین، پشتیبان و موانع</summary><div class="bp-self-idp-optional-grid">'+optional.map(field).join("")+'</div></details>';
- el("selfIdpStatus").textContent=state.planDraft?"پیش‌نویس قبلی شما بازیابی شد؛ برای نهایی‌شدن آن را ذخیره کنید.":state.plan?"برنامه ذخیره‌شده بازیابی شد؛ در صورت اصلاح دوباره ذخیره کنید.":"پیشنهاد اولیه آماده است؛ آن را با شرایط واقعی کارتان هماهنگ کنید.";
+ el("selfIdpStatus").textContent=state.planNeedsReview?"پاسخ‌ها تغییر کرده‌اند. لطفاً برنامه قبلی را بازبینی و دوباره ذخیره کنید.":state.planDraft?"پیش‌نویس قبلی شما بازیابی شد؛ برای نهایی‌شدن آن را ذخیره کنید.":state.plan?"برنامه ذخیره‌شده بازیابی شد؛ در صورت اصلاح دوباره ذخیره کنید.":"پیشنهاد اولیه آماده است؛ آن را با شرایط واقعی کارتان هماهنگ کنید.";
 }
 function currentPlan(){
  const target=el("selfIdpTarget").value;const data={target};
@@ -332,13 +332,20 @@ function savePlan(){
  if(!p.goal||!p.behavior||!p.practice||!p.evidence||!p.review){
   el("selfIdpStatus").textContent="برای تکمیل IDP، هدف، رفتار قابل مشاهده، تمرین، شاهد پیشرفت و زمان بازبینی را مشخص کنید.";return;
  }
- state.plan=p;state.planDraft=null;
- const saved=save();updateRewards();
- el("selfIdpStatus").textContent=saved?"IDP نهایی شما در مرورگر همین گوشی ذخیره شد. اکنون نسخه گزارش را نگه دارید.":"ذخیره روی دستگاه ممکن نشد؛ گزارش را کپی یا به PDF تبدیل کنید.";
+ const previous={plan:state.plan,planDraft:state.planDraft,planNeedsReview:state.planNeedsReview};
+ state.plan=p;state.planDraft=null;state.planNeedsReview=false;
+ const saved=save();
+ if(!saved){
+  state.plan=previous.plan;state.planDraft=p;state.planNeedsReview=previous.planNeedsReview;
+  el("selfIdpStatus").textContent="ذخیره روی دستگاه ممکن نشد؛ نشان تکمیل IDP فعال نشده است. لطفاً گزارش را کپی یا به PDF تبدیل کنید.";
+  el("selfCompletion").hidden=true;updateRewards();return;
+ }
+ updateRewards();
+ el("selfIdpStatus").textContent="IDP نهایی شما در مرورگر همین گوشی ذخیره شد. اکنون نسخه گزارش را نگه دارید.";
  el("selfCompletionText").textContent="حوزه توسعه: "+(AREAS.find(d=>d.id===p.target)?.name||"")+"؛ بازبینی: "+p.review;
  el("selfCompletion").hidden=false;
  setStage("idp");
- if(saved)el("selfCompletion").scrollIntoView({block:"nearest",behavior:"smooth"});
+ el("selfCompletion").scrollIntoView({block:"nearest",behavior:"smooth"});
 }
 function reportText(){
  const rows=["به‌پرور | کارگاه توسعه شایستگی‌های معطوف به خود","پروفایل فردی و برنامه توسعه (IDP)","تاریخ: "+new Date().toLocaleDateString("fa-IR"),"نام / کد شرکت‌کننده: "+(state.personName||"درج نشده"),"مسیر: "+ROLE_LABEL[role],"مبنای ارزیابی: چهار هفته اخیر | پرسشنامه آموزشی، نه آزمون روان‌سنجی", "","پروفایل شایستگی‌ها"];
@@ -387,11 +394,14 @@ function setup(){
  el("selfDimNav").addEventListener("click",e=>{const b=e.target.closest("[data-dim]");if(!b)return;activeDim=Number(b.dataset.dim);renderQuestions(true);});
  el("selfQuestions").addEventListener("change",e=>{
  if(!e.target.matches("[data-answer]"))return;
- state.answers[e.target.dataset.answer]=Number(e.target.value);
+ const key=e.target.dataset.answer,next=Number(e.target.value);
+ if(state.answers[key]===next)return;
+ state.answers[key]=next;
  state.profileViewed=false;
+ if(state.plan)state.planNeedsReview=true;
  if(!save())el("selfMessage").textContent="مرورگر اجازه ذخیره نداده است؛ پاسخ‌ها تا بازبودن صفحه باقی می‌مانند.";
  updateProgress();renderNav();
- if(!el("results").hidden){el("results").hidden=true;el("selfMessage").textContent="پس از اصلاح پاسخ‌ها، دکمه مشاهده پروفایل را بزنید تا تحلیل تازه محاسبه شود.";}
+ if(!el("results").hidden){el("results").hidden=true;el("selfMessage").textContent="پاسخ تغییر کرد؛ پروفایل را دوباره ببینید و در صورت داشتن IDP، برنامه را بازبینی و مجدداً ذخیره کنید.";}
  });
  el("selfQuestions").addEventListener("input",e=>{
  if(e.target.id==="selfNote"){state.notes[AREAS[activeDim].id]=e.target.value;save();}
@@ -423,7 +433,7 @@ function setup(){
  el("selfClearAll").addEventListener("click",()=>{
  if(!confirm("تمام پاسخ‌ها و برنامه توسعه فردی همین مسیر روی این دستگاه پاک شوند؟"))return;
  try{localStorage.removeItem(STORAGE+role);}catch(e){}
- state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false};el("selfPersonName").value="";el("selfReflection").value="";el("selfCompletion").hidden=true;profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
+ state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};el("selfPersonName").value="";el("selfReflection").value="";el("selfCompletion").hidden=true;profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
  });
  if(totalDone()===24)el("selfMessage").textContent="پاسخ‌های قبلی شما بازیابی شدند. برای دیدن تحلیل، «مشاهده پروفایل و IDP» را انتخاب کنید.";
 }

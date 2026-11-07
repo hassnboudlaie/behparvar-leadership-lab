@@ -283,12 +283,12 @@ function drawRadar(rows){
  if(!valid){place.innerHTML='<div class="bp-self-radar-empty">برای رسم نمودار شعاعی، در همه شش شایستگی حداقل سه رفتار قابل مشاهده لازم است. نمودارهای میله‌ایِ حوزه‌های دارای شواهد کافی در ادامه نمایش داده شده‌اند.</div>';return;}
  const cx=300,cy=215,r=130,coords=(n,i)=>{const angle=(-90+i*60)*Math.PI/180;return [(cx+Math.cos(angle)*n).toFixed(1),(cy+Math.sin(angle)*n).toFixed(1)];};
  const short=["خودآگاهی","خودکارآمدی","مدیریت زمان","حل مسئله","قضاوت حرفه‌ای","یادگیری مستمر"];
- let out='<svg viewBox="0 0 600 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="نمودار شعاعی شش شایستگی، با محورهای یک تا پنج" focusable="false">';
+ let out='<svg viewBox="65 0 470 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="نمودار شعاعی شش شایستگی، با محورهای یک تا پنج" focusable="false">';
  for(let n=1;n<=5;n++){out+='<polygon points="'+rows.map((_,i)=>coords(r*n/5,i).join(",")).join(" ")+'" fill="'+(n%2===0?"#edf3fa":"none")+'" stroke="#cfdae9" stroke-width="1.3"/>';}
  rows.forEach((d,i)=>{const [x,y]=coords(r,i);out+='<line x1="'+cx+'" y1="'+cy+'" x2="'+x+'" y2="'+y+'" stroke="#c2d0e1" stroke-width="1.5"/>';});
  out+='<polygon points="'+rows.map((d,i)=>coords(r*d.mean/5,i).join(",")).join(" ")+'" fill="#467daa" fill-opacity=".24" stroke="#194c7b" stroke-width="3.5" stroke-linejoin="round"/>';
  rows.forEach((d,i)=>{let [x,y]=coords(r*d.mean/5,i);out+='<circle cx="'+x+'" cy="'+y+'" r="5" fill="#17487b" stroke="#fff" stroke-width="2"/>';});
- short.forEach((s,i)=>{let [x,y]=coords(r+48,i);out+='<text x="'+x+'" y="'+y+'" text-anchor="middle" font-size="17" font-weight="700" fill="#17376c" direction="rtl">'+esc(s)+'</text>';});
+ short.forEach((s,i)=>{let [x,y]=coords(r+48,i);out+='<text x="'+x+'" y="'+y+'" text-anchor="middle" font-size="20" font-weight="700" fill="#17376c" direction="rtl">'+esc(s)+'</text>';});
  out+='<text x="'+cx+'" y="'+(cy-r-11)+'" text-anchor="start" font-size="14" fill="#546983">۵</text></svg>';
  place.innerHTML=out;
 }
@@ -497,7 +497,7 @@ function buildPrintableReport(){
  const observed=rows.reduce((sum,d)=>sum+d.answered,0);
  const label=state.personName||"پروفایل فردی بدون نام";
  const date=new Date().toLocaleDateString("fa-IR");
- const badge=isFinal?"برنامه توسعه ثبت‌شده":"پیش‌نویس قابل بازبینی";
+ const badge=isFinal?"برنامه توسعه ثبت‌شده":"پیش‌نویس · نیازمند شخصی‌سازی";
  const valueOf=d=>d.mean===null?"—":(Math.round(d.mean*10)/10).toLocaleString("fa-IR");
  const barOf=d=>'<div class="bp-pdf-score-row"><div class="bp-pdf-score-label"><strong>'+esc(d.name)+'</strong><span>'+(d.mean===null?"شواهد کافی نیست":valueOf(d)+" از ۵")+'</span></div><div class="bp-pdf-bar"><i style="width:'+(d.mean===null?0:Math.round(d.mean/5*100))+'%"></i></div><small>'+fa(d.answered)+" پاسخ از ۴ رفتار"+'</small></div>';
  const radar=el("selfRadarChart").innerHTML;
@@ -511,7 +511,7 @@ function buildPrintableReport(){
   '<p><strong>پیامد مشاهده‌شده:</strong> '+esc(d.outcome||"ثبت نشده")+'</p>'+
   '<p class="bp-pdf-evidence-status">'+esc(d.status)+'. '+esc(d.interpretation)+'</p>'+
   '<p><strong>پرسش تحلیلی:</strong> '+esc(d.question)+'</p></article>').join(""):
-  '<p class="bp-pdf-empty">در این نوبت شاهد رفتاری مکتوب ثبت نشده است. تحلیل عددی بر مبنای پاسخ‌های پرسشنامه است؛ برای غنی‌تر شدن آن می‌توان در آینده مثال واقعی و بازخورد تکمیل کرد.</p>';
+  '<div class="bp-pdf-evidence-prompt"><strong>برای تبدیل نتیجه به یادگیری واقعی:</strong><p>یک اتفاق کاری مشخص انتخاب کنید و سه چیز را ثبت کنید: چه اتفاقی افتاد؟ شما چه کردید؟ نتیجه یا بازخورد چه بود؟</p><p>فعلاً هیچ شاهد مکتوبی وارد نشده است؛ بنابراین نتیجه عددی فقط بر مبنای خودگزارشی است و با مشاهده مستقل تأیید نشده است.</p></div>';
  const required=["goal","behavior","practice","evidence","review"];
  const fields=PLAN_FIELDS.map(([id,title])=>'<div class="bp-pdf-idp-item'+(required.includes(id)?" critical":"")+'"><span>'+esc(title)+'</span><p>'+esc(plan[id]||"تکمیل نشده")+'</p></div>').join("");
  const summary=[

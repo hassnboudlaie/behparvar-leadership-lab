@@ -339,3 +339,60 @@
  .bp-pdf-follow p{font-size:9pt;color:#315b4c;margin:2px 0 0}
  .bp-pdf-footer{border-top:1px solid #b5c6d8;margin-top:13px;padding:7px 0 0;display:flex;justify-content:space-between;gap:8px;color:#65778d;font-size:8pt}
 }
+
+/* 2026-11-07: practical item wording, visible response anchors and IDP ownership */
+.bp-self-scale-reminder{font-size:16px!important;line-height:1.85;background:#edf3fa;border-radius:10px;padding:10px 13px;color:#204876!important;margin:11px 0 0!important}
+.bp-idp-case-hint{grid-column:1/-1;font-size:16px;color:#3d5a7d;line-height:1.85;background:#f0f5fb;border-radius:10px;padding:12px 14px;margin:0}
+.bp-idp-practice-insight{padding:12px 14px;background:#f4f7fb;border-right:4px solid #466d9b;border-radius:9px;font-size:17px;line-height:1.85;color:#234567}
+.bp-self-legacy{margin:16px 0;padding:14px 16px;background:#f7f9fd;border:1px solid #d1deec;border-radius:12px}
+.bp-self-legacy summary{cursor:pointer;font-size:17px;font-weight:800;color:#1c487c}
+.bp-self-legacy p{font-size:15px;line-height:1.9}
+.bp-self-legacy table{border-collapse:collapse;width:100%;font-size:15px;margin:10px 0}
+.bp-self-legacy th,.bp-self-legacy td{border-bottom:1px solid #d5dfeb;padding:8px;text-align:right}
+@media(max-width:650px){
+ .bp-self-scale-reminder{font-size:15px!important;padding:9px 11px}
+ .bp-idp-case-hint,.bp-idp-practice-insight{font-size:15px}
+}
+
+/* Final PDF legibility and evidence gap redesign, preserving A4 page margins */
+@media print{
+ body > #selfPrintPlan{font-size:10.8pt!important;line-height:1.7}
+ .bp-pdf-head h1{font-size:19.5pt}
+ .bp-pdf-brand{font-size:9.5pt}
+ .bp-pdf-status{font-size:9.3pt}
+ .bp-pdf-meta{font-size:10pt}
+ .bp-pdf-metric strong{font-size:18pt}
+ .bp-pdf-metric small{font-size:9.3pt}
+ .bp-pdf-metrics{margin-bottom:16px}
+ .bp-pdf-section-title h2{font-size:14pt}
+ .bp-pdf-section-title span{font-size:9.2pt}
+ .bp-pdf-radar{min-height:220px}
+ .bp-pdf-radar svg{max-height:240px}
+ .bp-pdf-score-label strong{font-size:10pt}
+ .bp-pdf-score-label span{font-size:9.6pt}
+ .bp-pdf-score-row small{font-size:8.6pt}
+ .bp-pdf-score-row{padding:7px 9px}
+ .bp-pdf-narrative p{font-size:10pt;line-height:1.8}
+ .bp-pdf-summary h3{font-size:10pt}
+ .bp-pdf-summary p{font-size:9.6pt;line-height:1.75}
+ .bp-pdf-method{font-size:9pt}
+ .bp-pdf-minihead strong{font-size:13pt}
+ .bp-pdf-minihead span{font-size:10pt}
+ .bp-pdf-lead{font-size:10pt}
+ .bp-pdf-evidence h3{font-size:11.2pt}
+ .bp-pdf-evidence p{font-size:10pt;line-height:1.7}
+ .bp-pdf-reflection h3,.bp-pdf-idp-item span{font-size:10pt}
+ .bp-pdf-reflection p,.bp-pdf-idp-item p{font-size:10.4pt;line-height:1.8}
+ .bp-pdf-idp-item{padding:11px 12px}
+ .bp-pdf-idp-grid{gap:9px}
+ .bp-pdf-focus{font-size:11pt}
+ .bp-pdf-specific{background:#f3f7fb;border:1px solid #cad8e7;border-right:4px solid #315f92;border-radius:8px;padding:10px 13px;margin:9px 0;break-inside:avoid}
+ .bp-pdf-specific strong{font-size:10.6pt;color:#204778}
+ .bp-pdf-specific p{font-size:10pt;line-height:1.75;margin:3px 0 0}
+ .bp-pdf-evidence-prompt{border:1px solid #ceddea;background:#f3f7fb;border-radius:9px;padding:14px 17px;color:#2e5078;break-inside:avoid}
+ .bp-pdf-evidence-prompt strong{font-size:11pt;color:#1b497e}
+ .bp-pdf-evidence-prompt p{font-size:10.4pt;line-height:1.85;margin:7px 0 0}
+ .bp-pdf-follow strong{font-size:10pt}
+ .bp-pdf-follow p{font-size:10pt}
+ .bp-pdf-footer{font-size:9pt}
+}

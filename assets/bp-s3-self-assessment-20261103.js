@@ -405,15 +405,27 @@ function savePlan(){
  el("selfCompletion").scrollIntoView({block:"nearest",behavior:"smooth"});
 }
 function reportText(){
- const rows=["به‌پرور | کارگاه توسعه شایستگی‌های معطوف به خود","پروفایل فردی و برنامه توسعه (IDP)","تاریخ: "+new Date().toLocaleDateString("fa-IR"),"نام / کد شرکت‌کننده: "+(state.personName||"درج نشده"),"مسیر: "+ROLE_LABEL[role],"مبنای ارزیابی: چهار هفته اخیر | پرسشنامه آموزشی، نه آزمون روان‌سنجی", "","پروفایل شایستگی‌ها"];
- (profile||compute()).forEach(d=>rows.push(d.name+": "+(d.mean===null?"شواهد کافی نیست":(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+" از ۵") ));
- rows.push("","بازاندیشی فردی",state.reflection||"ثبت نشده");
- rows.push("","شواهد رفتاری اختیاری");AREAS.forEach(d=>{if(String(state.notes[d.id]||"").trim())rows.push(d.name+": "+state.notes[d.id]);});
- rows.push("","جمع‌بندی","نقطه اتکا: "+el("selfStrengthText").textContent,"فرصت توسعه: "+el("selfOpportunityText").textContent,"","برنامه توسعه فردی");
- const p=currentPlan(),d=AREAS.find(x=>x.id===p.target);rows.push("حوزه: "+(d?.name||""));
- PLAN_FIELDS.forEach(([id,label])=>rows.push(label+": "+(p[id]||"تکمیل نشده")));
- rows.push("","این گزارش صرفاً برای یادگیری و گفت‌وگوی بازخوردی تهیه شده است.");
- return rows.join("\n");
+ const rows=profile||compute(),records=evidenceRecords(rows);
+ const parts=["به‌پرور | گزارش توسعه شایستگی‌های معطوف به خود","پروفایل فردی و برنامه توسعه (IDP)",
+ "نام / کد: "+(state.personName||"درج نشده"),"مسیر: "+ROLE_LABEL[role],
+ "تاریخ: "+new Date().toLocaleDateString("fa-IR"),
+ "مبنای داده: خودگزارشی رفتاری چهار هفته اخیر؛ نه آزمون روان‌سنجی",
+ "","داشبورد شش شایستگی"];
+ for(const d of rows)parts.push(d.name+": "+(d.mean===null?"شواهد کافی نیست":(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+" از ۵")+" | "+fa(d.answered)+" پاسخ قابل محاسبه");
+ parts.push("","تفسیر نتایج");narrativeParagraphs(rows).forEach(v=>parts.push(v));
+ parts.push("","شواهد رفتاری و پرسش‌های بازاندیشی");
+ for(const d of records.filter(x=>x.situation||x.outcome)){
+  parts.push(d.name,"موقعیت و رفتار: "+(d.situation||"ثبت نشده"),"پیامد: "+(d.outcome||"ثبت نشده"),"تحلیل توصیفی: "+d.status+"؛ "+d.interpretation,"پرسش بازاندیشی: "+d.question);
+ }
+ if(!records.some(x=>x.situation||x.outcome))parts.push("برای این اجرا شاهد رفتاری مکتوب وارد نشده است.");
+ parts.push("","بازاندیشی فردی",state.reflection||"ثبت نشده","",
+ "خلاصه نقاط اتکا و اولویت‌ها","نقطه اتکا: "+el("selfStrengthText").textContent,"فرصت توسعه: "+el("selfOpportunityText").textContent);
+ const p=currentPlan(),d=AREAS.find(x=>x.id===p.target);
+ parts.push("","برنامه توسعه فردی","اولویت: "+(d?.name||"تعیین نشده"));
+ PLAN_FIELDS.forEach(([id,label])=>parts.push(label+": "+(p[id]||"تکمیل نشده")));
+ parts.push("","مسئول تحلیل نهایی و تصمیم توسعه‌ای: خود فرد؛ با امکان دریافت بازخورد از مدرس یا همکار به انتخاب فرد.",
+ "این گزارش با قواعد توصیفی تولید شده است؛ محتوای متن آزاد، تأیید یا نمره‌دهی خودکار نمی‌شود.");
+ return parts.join("\n");
 }
 function copyReport(){
  const v=reportText(),preview=el("selfReportPreview");preview.value=v;preview.hidden=false;

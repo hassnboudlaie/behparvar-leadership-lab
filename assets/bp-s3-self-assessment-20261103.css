@@ -231,3 +231,11 @@
  .bp-self-rewards{display:none!important}
 }
 @media(prefers-reduced-motion:reduce){#selfRewardFill{transition:none}}
+
+/* Audit: concise explicit learner confirmation, one consolidated milestone navigation */
+.bp-idp-ownership{grid-column:1/-1;display:flex;align-items:flex-start;gap:11px;background:#f3f7fc;border:1px solid #cad8eb;border-radius:12px;padding:15px 17px;font-size:17px;font-weight:750;color:#244876;line-height:1.75;cursor:pointer}
+.bp-idp-ownership input{width:22px;height:22px;flex-shrink:0;margin:4px 0 0;accent-color:#204c80;cursor:pointer}
+.bp-reward-badge[aria-current="step"]{border:2px solid #8ca7c9;background:#f1f6fc}
+.bp-reward-badge.earned[aria-current="step"]{border-color:#7ba990;background:#e8f5ed}
+@media(max-width:650px){.bp-idp-ownership{font-size:16px;padding:12px 13px}}
+@media print{.bp-idp-ownership{display:none!important}}

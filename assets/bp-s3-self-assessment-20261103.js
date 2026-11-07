@@ -179,7 +179,7 @@ function initialRole(){
 }
 function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:2,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null,planDraft:v.planDraft&&typeof v.planDraft==="object"?v.planDraft:null,reflection:typeof v.reflection==="string"?v.reflection:"",personName:typeof v.personName==="string"?v.personName:"",profileViewed:v.profileViewed===true,planNeedsReview:v.planNeedsReview===true};}catch(e){}return {schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};}
 function save(){try{localStorage.setItem(STORAGE+role,JSON.stringify(state));return true;}catch(e){return false;}}
-function setStage(name){document.querySelectorAll("[data-stage]").forEach(x=>x.classList.toggle("active",x.dataset.stage===name));}
+function setStage(name){const badge={assessment:"discover",profile:"insight",idp:"action"}[name];document.querySelectorAll("[data-reward]").forEach(x=>x.setAttribute("aria-current",x.dataset.reward===badge?"step":"false"));}
 function countDone(dim){return AREAS[dim].questions.reduce((n,_,i)=>n+(Object.prototype.hasOwnProperty.call(state.answers,k(AREAS[dim].id,i))?1:0),0);}
 function totalDone(){return AREAS.reduce((s,_,i)=>s+countDone(i),0);}
 /* Three personal milestones, not a ranking or competency score. */

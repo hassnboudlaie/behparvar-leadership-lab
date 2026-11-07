@@ -502,7 +502,7 @@ function buildPrintableReport(){
  const barOf=d=>'<div class="bp-pdf-score-row"><div class="bp-pdf-score-label"><strong>'+esc(d.name)+'</strong><span>'+(d.mean===null?"شواهد کافی نیست":valueOf(d)+" از ۵")+'</span></div><div class="bp-pdf-bar"><i style="width:'+(d.mean===null?0:Math.round(d.mean/5*100))+'%"></i></div><small>'+fa(d.answered)+" پاسخ از ۴ رفتار"+'</small></div>';
  const radar=el("selfRadarChart").innerHTML;
  const metrics=[
-  ["۶","حوزه شایستگی"],["۲۴","رفتار بررسی‌شده"],[fa(observed),"پاسخ قابل محاسبه"],[fa(known),"حوزه با شواهد کافی"]
+  ["۶","حوزه شایستگی"],["۲۴","رفتار بررسی‌شده"],[fa(observed),"پاسخ قابل محاسبه"],[fa(known),"حوزه با پاسخ کافی"]
  ].map(([number,title])=>'<div class="bp-pdf-metric"><strong>'+number+'</strong><small>'+title+'</small></div>').join("");
  const narratives=narrativeParagraphs(rows).map(txt=>'<p>'+esc(txt)+'</p>').join("");
  const evidences=records.filter(d=>d.situation||d.outcome);

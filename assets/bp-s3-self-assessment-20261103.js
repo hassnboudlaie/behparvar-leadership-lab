@@ -419,7 +419,7 @@ function buildIdpFields(data){
  const optional=PLAN_FIELDS.filter(([id])=>!core.includes(id));
  el("selfIdpFields").innerHTML=primary.map(field).join("")+
  '<p class="bp-idp-case-hint">برای اینکه برنامه واقعاً شخصی باشد، یک موقعیت مشخص از کار خودتان را بنویسید. نمونه موقعیت: '+esc(IDEAS[data.target][role==="managers"?"m":"s"][2])+'</p>'+
- '<details class="bp-self-idp-optional"><summary>تکمیل اختیاری برنامه: موقعیت تمرین، پشتیبان و موانع</summary><div class="bp-self-idp-optional-grid">'+optional.map(field).join("")+'</div></details>';
+ '<details class="bp-self-idp-optional"><summary>جزئیات اختیاری برنامه: فرد حمایت‌کننده و موانع</summary><div class="bp-self-idp-optional-grid">'+optional.map(field).join("")+'</div></details>';
  el("selfIdpStatus").textContent=state.planNeedsReview?"پاسخ‌ها تغییر کرده‌اند. لطفاً برنامه قبلی را بازبینی و دوباره ذخیره کنید.":state.planDraft?"پیش‌نویس قبلی شما بازیابی شد؛ برای نهایی‌شدن آن را ذخیره کنید.":state.plan?"برنامه ذخیره‌شده بازیابی شد؛ در صورت اصلاح دوباره ذخیره کنید.":"پیشنهاد اولیه آماده است؛ آن را با شرایط واقعی کارتان هماهنگ کنید.";
 }
 function currentPlan(){
@@ -437,7 +437,7 @@ function savePlan(){
  if(el("results").hidden||!el("selfIdpFields").querySelector("[data-plan]"))return;
  const p=currentPlan();
  if(!p.goal||!p.behavior||!p.practice||!p.evidence||!p.review){
-  el("selfIdpStatus").textContent="برای تکمیل IDP، هدف، رفتار قابل مشاهده، تمرین، شاهد پیشرفت و زمان بازبینی را مشخص کنید.";return;
+  el("selfIdpStatus").textContent="برای تکمیل IDP، هدف، رفتار قابل مشاهده، تمرین، یک موقعیت واقعی، شاهد پیشرفت و زمان بازبینی را مشخص کنید.";return;
  }
  if(!hasPersonalCase(p)){
   el("selfIdpStatus").textContent="برای شخصی‌سازی IDP، یک موقعیت واقعی از کار خودتان (حداقل یک جمله کوتاه) در بخش «موقعیت کاری تمرین» بنویسید؛ نمونه پیشنهادی آماده کافی نیست.";return;

@@ -196,3 +196,38 @@
  .bp-self-idp-optional-grid label.wide{grid-column:auto}
 }
 @media print{.bp-self-peer,.bp-self-idp-optional{display:none!important}}
+
+/* Session 3 light gamification: three meaningful milestones, no competition */
+.bp-self-rewards{margin:12px 0 18px;padding:15px 18px;border:1px solid #d3dfed;border-radius:16px;background:#fff}
+.bp-reward-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#1a3a68;font-size:17px}
+.bp-reward-heading strong{font-size:18px}
+#selfRewardScore{font-size:17px;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.bp-reward-track{margin:12px 0 15px;height:9px;border-radius:99px;background:#e5ebf3;overflow:hidden}
+#selfRewardFill{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#5b7ead,#2b608e);transition:width .25s ease}
+.bp-reward-badges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.bp-reward-badge{display:flex;gap:3px;align-items:center;justify-content:center;flex-direction:column;min-width:0;min-height:86px;padding:10px 5px;border:1px solid #d8e0ec;border-radius:12px;background:#f7f8fb;color:#6b7789;filter:grayscale(.75)}
+.bp-reward-badge>span{font-size:24px;line-height:1.2}
+.bp-reward-badge strong{font-size:15px;font-weight:800;text-align:center;line-height:1.4}
+.bp-reward-badge small{font-size:14px}
+.bp-reward-badge.earned{border-color:#abcab9;background:#edf7f1;color:#1c6147;filter:none}
+.bp-reward-badge.earned small{font-weight:750}
+.bp-reward-badge.earned:after{content:"✓ دریافت شد";font-size:12px;color:#27674e;font-weight:800}
+.bp-reward-hint{margin:12px 0 4px;font-size:16px;color:#365677;font-weight:650;line-height:1.75}
+.bp-reward-disclaimer{display:block;color:#68788f;font-size:13px;line-height:1.6}
+.bp-reward-final{font-weight:800;color:#215b48}
+@media(max-width:650px){
+ .bp-self-rewards{padding:13px 12px}
+ .bp-reward-heading{font-size:16px}
+ .bp-reward-heading strong{font-size:16px}
+ #selfRewardScore{font-size:15px}
+ .bp-reward-badges{gap:5px}
+ .bp-reward-badge{min-height:78px;padding:8px 3px}
+ .bp-reward-badge>span{font-size:23px}
+ .bp-reward-badge strong{font-size:13px}
+ .bp-reward-badge small{font-size:12px}
+ .bp-reward-hint{font-size:15px}
+}
+@media print{
+ .bp-self-rewards{display:none!important}
+}
+@media(prefers-reduced-motion:reduce){#selfRewardFill{transition:none}}

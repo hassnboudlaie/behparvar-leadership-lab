@@ -25,6 +25,17 @@
 <button type="button" data-self-role="supervisors">سرپرستان</button>
 <button type="button" data-self-role="managers">مدیران</button></div></div>
 <div class="bp-self-journey" aria-label="سه گام اصلی کارگاه"><span data-stage="assessment" class="active"><b>۱</b> شناخت رفتارهای من</span><span data-stage="profile"><b>۲</b> پروفایل فردی</span><span data-stage="idp"><b>۳</b> برنامه توسعه و خروجی</span></div>
+<section class="bp-self-rewards" aria-label="امتیاز و نشان‌های مسیر توسعه فردی">
+<div class="bp-reward-heading"><strong>🏅 مسیر توسعه من</strong><span id="selfRewardScore" aria-live="polite">۰ از ۱۰۰ امتیاز</span></div>
+<div class="bp-reward-track" role="progressbar" aria-label="پیشرفت تکمیل مسیر توسعه" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="selfRewardTrack"><span id="selfRewardFill"></span></div>
+<div class="bp-reward-badges" id="selfRewardBadges" aria-label="سه نشان مسیر">
+<div class="bp-reward-badge" data-reward="discover"><span aria-hidden="true">🧭</span><strong>شناخت خود</strong><small>۳۰ امتیاز</small></div>
+<div class="bp-reward-badge" data-reward="insight"><span aria-hidden="true">💡</span><strong>بینش فردی</strong><small>۳۰ امتیاز</small></div>
+<div class="bp-reward-badge" data-reward="action"><span aria-hidden="true">🎯</span><strong>برنامه اقدام</strong><small>۴۰ امتیاز</small></div>
+</div>
+<p id="selfRewardHint" class="bp-reward-hint" aria-live="polite">با پاسخ به ۲۴ پرسش، نشان اول را دریافت می‌کنید.</p>
+<small class="bp-reward-disclaimer">امتیازها فقط برای تکمیل مراحل کارگاه‌اند و نمره شایستگی یا رتبه افراد نیستند.</small>
+</section>
 <details class="panel bp-self-workshop" aria-label="برنامه پیشنهادی مدرس برای دو ساعت"><summary>🗺️ برنامه پیشنهادی مدرس برای کارگاه ۱۲۰ دقیقه‌ای</summary>
 <p>هر شرکت‌کننده با موبایل خودش پاسخ می‌دهد و در پایان، یک پروفایل و برنامه توسعه متعلق به خودش دارد.</p>
 <div class="bp-self-workshop-steps">
@@ -71,7 +82,7 @@
 <h3>💬 یک دقیقه بازاندیشی</h3>
 <label for="selfReflection">چه چیزی در نتیجه برایتان جالب یا غافلگیرکننده بود؟ در چه موقعیتی این رفتار را دیده‌اید؟</label>
 <textarea id="selfReflection" rows="3" placeholder="مثلاً تصور می‌کردم اولویت‌بندی‌ام قوی‌تر است؛ اما در هفته گذشته چند کار مهم را به‌خاطر درخواست‌های فوری عقب انداختم."></textarea>
-<small>اختیاری؛ پاسخ فقط روی همین دستگاه ذخیره می‌شود.</small>
+<small>اختیاری؛ با نوشتن یک جمله کوتاه درباره نتیجه، نشان «بینش فردی» را دریافت می‌کنید. متن فقط روی همین دستگاه ذخیره می‌شود.</small>
 </div>
 <details class="bp-self-method"><summary>روش محاسبه و محدودیت تفسیر نتیجه</summary>
 <p>این پروفایل برای مشاهده الگوهای گزارش‌شده و طراحی گفت‌وگوی بازخوردی است؛ نمره پایین‌تر الزاماً «ضعف ثابت» فرد نیست. برای هر حوزه، میانگین پاسخ‌های ۱ تا ۵ محاسبه می‌شود. «فرصت مشاهده نداشتم» از میانگین کنار گذاشته می‌شود. برای ارائه نتیجه قابل‌تفسیر هر حوزه، حداقل سه پاسخ مشاهده‌پذیر از چهار مورد لازم است. نتایج صرفاً بازتاب گزارش فرد در چهار هفته اخیر است؛ این ابزار آزمون روان‌سنجی اعتبارسنجی‌شده، تشخیص شخصیت، ارزیابی ۳۶۰ درجه یا تأیید صلاحیت شغلی نیست. حوزه «خودکارآمدی و پیگیری» فقط رفتارهای آغازکردن و ادامه‌دادن کار را مرور می‌کند و جایگزین مقیاس استاندارد خودکارآمدی نیست. برای قضاوت توسعه‌ای، نمونه‌های واقعی و بازخورد افراد مرتبط نیز اهمیت دارند.</p>
@@ -96,7 +107,7 @@
 <button type="button" id="selfCopyReport" class="secondary">📋 کپی پروفایل و برنامه</button>
 <button type="button" id="selfPrintReport" class="secondary">🖨️ چاپ / ذخیره PDF</button>
 </div>
-<p id="selfIdpStatus" class="bp-self-message" role="status" aria-live="polite"></p><section id="selfCompletion" class="bp-self-completion" hidden aria-live="polite"><h3>✅ برنامه توسعه من ثبت شد</h3><p id="selfCompletionText"></p><p>گام بعدی: در محیط کار تمرین کنید و پس از دو هفته پیشرفت خود را مرور کنید. نسخه PDF یا متن گزارش را برای خود نگه دارید.</p></section><div id="selfPrintPlan" class="bp-self-print-plan" aria-label="نسخه چاپی برنامه فردی"></div>
+<p id="selfIdpStatus" class="bp-self-message" role="status" aria-live="polite"></p><section id="selfCompletion" class="bp-self-completion" hidden aria-live="polite"><h3>✅ برنامه توسعه من ثبت شد</h3><p id="selfCompletionText"></p><p>گام بعدی: در محیط کار تمرین کنید و پس از دو هفته پیشرفت خود را مرور کنید. نسخه PDF یا متن گزارش را برای خود نگه دارید.</p><p id="selfRewardFinal" class="bp-reward-final"></p></section><div id="selfPrintPlan" class="bp-self-print-plan" aria-label="نسخه چاپی برنامه فردی"></div>
 <textarea id="selfReportPreview" readonly hidden rows="10" aria-label="گزارش برای کپی دستی"></textarea>
 </div>
 </section>

@@ -354,6 +354,7 @@ function setup(){
  a.href=path+"?audience="+encodeURIComponent(role)+(fragment?"#"+fragment:"");
  });
  renderNav();renderQuestions();
+ el("selfReflection").addEventListener("input",e=>{state.reflection=e.target.value;save();});
  el("selfDimNav").addEventListener("click",e=>{const b=e.target.closest("[data-dim]");if(!b)return;activeDim=Number(b.dataset.dim);renderQuestions(true);});
  el("selfQuestions").addEventListener("change",e=>{
  if(!e.target.matches("[data-answer]"))return;
@@ -366,20 +367,33 @@ function setup(){
  if(e.target.id==="selfNote"){state.notes[AREAS[activeDim].id]=e.target.value;save();}
  });
  el("selfPrev").addEventListener("click",()=>{if(activeDim>0){activeDim--;renderQuestions(true);}});
- el("selfNext").addEventListener("click",()=>{if(activeDim<5){activeDim++;renderQuestions(true);}else if(totalDone()===24)showResult();else el("selfMessage").textContent="برای مشاهده گزارش، ابتدا همه حوزه‌ها را پاسخ دهید.";});
+ el("selfNext").addEventListener("click",()=>{
+  if(countDone(activeDim)<4){el("selfMessage").textContent="در این حوزه هنوز چند پاسخ باقی مانده است. برای موارد تجربه‌نشده، گزینه «فرصت مشاهده نداشتم» را بزنید.";return;}
+  if(activeDim<5){activeDim++;renderQuestions(true);}else showResult();
+ });
  el("selfViewResult").addEventListener("click",showResult);
- el("selfEditAnswers").addEventListener("click",()=>{el("assessment").scrollIntoView({block:"start",behavior:"smooth"});});
- el("selfGenerateIdp").addEventListener("click",()=>{
- if(!el("selfIdpTarget").value)return;
- const target=el("selfIdpTarget").value;state.plan=null;buildIdpFields(recommend(target));el("selfIdpStatus").textContent="پیشنهاد تازه جایگزین متن فرم شد؛ برای نگهداری آن «ذخیره IDP» را بزنید.";
+ el("selfEditAnswers").addEventListener("click",()=>{setStage("assessment");el("assessment").scrollIntoView({block:"start",behavior:"smooth"});});
+ function suggestIdp(){
+  const target=el("selfIdpTarget").value;if(!target)return;
+  const draft=recommend(target);state.planDraft=draft;save();buildIdpFields(draft);
+  el("selfCompletion").hidden=true;
+  el("selfIdpStatus").textContent="پیشنهاد متناسب با این حوزه آماده شد. آن را ویرایش و سپس ذخیره کنید.";
+ }
+ el("selfIdpTarget").addEventListener("change",suggestIdp);
+ el("selfGenerateIdp").addEventListener("click",suggestIdp);
+ el("selfIdpFields").addEventListener("input",e=>{
+  if(!e.target.matches("[data-plan]"))return;
+  state.planDraft=currentPlan();save();
+  el("selfCompletion").hidden=true;
+  el("selfIdpStatus").textContent="تغییرات به‌صورت پیش‌نویس نگهداری می‌شوند. برای نهایی‌شدن، «ذخیره IDP» را بزنید.";
  });
  el("selfSaveIdp").addEventListener("click",savePlan);
  el("selfCopyReport").addEventListener("click",copyReport);
- el("selfPrintReport").addEventListener("click",()=>{if(!el("results").hidden)window.print();});
+ el("selfPrintReport").addEventListener("click",()=>{if(el("results").hidden)return;buildPrintableReport();window.print();});
  el("selfClearAll").addEventListener("click",()=>{
  if(!confirm("تمام پاسخ‌ها و برنامه توسعه فردی همین مسیر روی این دستگاه پاک شوند؟"))return;
  try{localStorage.removeItem(STORAGE+role);}catch(e){}
- state={schema:1,answers:{},notes:{},plan:null,personName:""};el("selfPersonName").value="";profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
+ state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:""};el("selfPersonName").value="";el("selfReflection").value="";el("selfCompletion").hidden=true;profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
  });
  if(totalDone()===24)el("selfMessage").textContent="پاسخ‌های قبلی شما بازیابی شدند. برای دیدن تحلیل، «مشاهده پروفایل و IDP» را انتخاب کنید.";
 }

@@ -190,7 +190,7 @@ function updateLanding(){
  }
  const card=document.querySelector('#course .course-session[data-course-session="2"] small');
  if(card)card.textContent="مدل شایستگی‌های مدیریتی";
- const titles=["رهبری","مدل شایستگی‌های مدیریتی","شایستگی‌های معطوف به خود","شایستگی‌های معطوف به دیگران","شایستگی‌های معطوف به نتایج کسب‌وکار","مدیریت پیشرفته"];
+ const titles=["رهبری","مدل شایستگی‌های مدیریتی","کارگاه توسعه شایستگی‌های معطوف به خود","شایستگی‌های معطوف به دیگران","شایستگی‌های معطوف به نتایج کسب‌وکار","مدیریت پیشرفته"];
  document.querySelectorAll("#course .course-session[data-course-session]").forEach(x=>{const i=Number(x.dataset.courseSession)-1,small=x.querySelector("small");if(i>=0&&i<6&&small)small.textContent=titles[i]});
 }
 /* Revised cross-unit item bank uses independent attempt v2; retain historical v1 answers. */

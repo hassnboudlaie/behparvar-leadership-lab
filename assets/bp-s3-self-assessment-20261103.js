@@ -434,15 +434,58 @@ function copyReport(){
  else status.textContent="متن گزارش در کادر پایین برای کپی دستی آماده است.";
 }
 function buildPrintableReport(){
- const p=currentPlan(),chosen=AREAS.find(d=>d.id===p.target);
- const rows=profile||compute();
- el("selfPrintPlan").innerHTML='<h2>کارگاه توسعه شایستگی‌های معطوف به خود</h2><p>پروفایل فردی و برنامه توسعه (IDP)</p>'+
- '<p><strong>نام / کد:</strong> '+esc(state.personName||"درج نشده")+' | <strong>مسیر:</strong> '+ROLE_LABEL[role]+' | <strong>تاریخ:</strong> '+new Date().toLocaleDateString("fa-IR")+'</p>'+
- '<h3>نتایج خودگزارشی شش شایستگی</h3><div class="bp-self-print-scores">'+rows.map(d=>'<p>'+d.icon+' <strong>'+esc(d.name)+':</strong> '+(d.mean===null?'شواهد کافی نیست':(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+' از ۵')+'</p>').join("")+'</div>'+
- '<h3>بازاندیشی</h3><p>'+esc(state.reflection||"ثبت نشده")+'</p>'+
- '<h3>برنامه توسعه فردی · '+esc(chosen?.name||"")+'</h3>'+
- PLAN_FIELDS.map(([id,label])=>'<div class="bp-self-print-field"><strong>'+esc(label)+'</strong><p>'+esc(p[id]||"تکمیل نشده")+'</p></div>').join("")+
- '<p class="bp-self-print-foot">این سند صرفاً برای یادگیری و پیگیری شخصی است و نشان‌دهنده رتبه یا صلاحیت رسمی فرد نیست.</p>';
+ const rows=profile||compute(),records=evidenceRecords(rows);
+ const plan=currentPlan(),selected=AREAS.find(d=>d.id===plan.target);
+ const isFinal=!!state.plan&&!state.planDraft&&!state.planNeedsReview;
+ const known=rows.filter(d=>d.mean!==null).length;
+ const observed=rows.reduce((sum,d)=>sum+d.answered,0);
+ const label=state.personName||"پروفایل فردی بدون نام";
+ const date=new Date().toLocaleDateString("fa-IR");
+ const badge=isFinal?"برنامه توسعه ثبت‌شده":"پیش‌نویس قابل بازبینی";
+ const valueOf=d=>d.mean===null?"—":(Math.round(d.mean*10)/10).toLocaleString("fa-IR");
+ const barOf=d=>'<div class="bp-pdf-score-row"><div class="bp-pdf-score-label"><strong>'+esc(d.name)+'</strong><span>'+(d.mean===null?"شواهد کافی نیست":valueOf(d)+" از ۵")+'</span></div><div class="bp-pdf-bar"><i style="width:'+(d.mean===null?0:Math.round(d.mean/5*100))+'%"></i></div><small>'+fa(d.answered)+" پاسخ از ۴ رفتار"+'</small></div>';
+ const radar=el("selfRadarChart").innerHTML;
+ const metrics=[
+  ["۶","حوزه شایستگی"],["۲۴","رفتار بررسی‌شده"],[fa(observed),"پاسخ قابل محاسبه"],[fa(known),"حوزه با شواهد کافی"]
+ ].map(([number,title])=>'<div class="bp-pdf-metric"><strong>'+number+'</strong><small>'+title+'</small></div>').join("");
+ const narratives=narrativeParagraphs(rows).map(txt=>'<p>'+esc(txt)+'</p>').join("");
+ const evidences=records.filter(d=>d.situation||d.outcome);
+ const evidenceCards=evidences.length?evidences.map(d=>'<article class="bp-pdf-evidence">'+
+  '<h3>'+d.icon+' '+esc(d.name)+'</h3><p><strong>موقعیت و اقدام:</strong> '+esc(d.situation||"ثبت نشده")+'</p>'+
+  '<p><strong>پیامد مشاهده‌شده:</strong> '+esc(d.outcome||"ثبت نشده")+'</p>'+
+  '<p class="bp-pdf-evidence-status">'+esc(d.status)+'. '+esc(d.interpretation)+'</p>'+
+  '<p><strong>پرسش تحلیلی:</strong> '+esc(d.question)+'</p></article>').join(""):
+  '<p class="bp-pdf-empty">در این نوبت شاهد رفتاری مکتوب ثبت نشده است. تحلیل عددی بر مبنای پاسخ‌های پرسشنامه است؛ برای غنی‌تر شدن آن می‌توان در آینده مثال واقعی و بازخورد تکمیل کرد.</p>';
+ const required=["goal","behavior","practice","evidence","review"];
+ const fields=PLAN_FIELDS.map(([id,title])=>'<div class="bp-pdf-idp-item'+(required.includes(id)?" critical":"")+'"><span>'+esc(title)+'</span><p>'+esc(plan[id]||"تکمیل نشده")+'</p></div>').join("");
+ const summary=[
+  ["نقطه اتکای نسبی",el("selfStrengthText").textContent],
+  ["اولویت احتمالی توسعه",el("selfOpportunityText").textContent]
+ ].map(([heading,content])=>'<section class="bp-pdf-summary"><h3>'+esc(heading)+'</h3><p>'+esc(content)+'</p></section>').join("");
+ el("selfPrintPlan").innerHTML=
+ '<div class="bp-pdf-page bp-pdf-dashboard">'+
+ '<header class="bp-pdf-head"><div><span class="bp-pdf-brand">به‌پرور | MY MANAGEMENT LAB</span><h1>گزارش توسعه شایستگی‌های معطوف به خود</h1><p>Personal Competency Development Profile · IDP</p></div><span class="bp-pdf-status">'+badge+'</span></header>'+
+ '<div class="bp-pdf-meta"><span><b>شرکت‌کننده:</b> '+esc(label)+'</span><span><b>مسیر:</b> '+esc(ROLE_LABEL[role])+'</span><span><b>تاریخ:</b> '+date+'</span></div>'+
+ '<div class="bp-pdf-metrics">'+metrics+'</div>'+
+ '<div class="bp-pdf-section-title"><h2>داشبورد شش شایستگی</h2><span>مقیاس فراوانی رفتار ۱ تا ۵</span></div>'+
+ '<div class="bp-pdf-charts"><div class="bp-pdf-radar">'+radar+'</div><div class="bp-pdf-bars">'+rows.map(barOf).join("")+'</div></div>'+
+ '<div class="bp-pdf-section-title"><h2>تفسیر نتایج</h2><span>تحلیل توصیفی خودگزارشی</span></div>'+
+ '<div class="bp-pdf-narrative">'+narratives+'</div>'+
+ '<div class="bp-pdf-summaries">'+summary+'</div>'+
+ '<p class="bp-pdf-method">روش محاسبه: میانگین پاسخ‌های قابل مشاهده هر حوزه؛ حداقل ۳ پاسخ از ۴ برای نمایش امتیاز. این یک ابزار آموزشی خودگزارشی است و آزمون روان‌سنجی یا ارزیابی عملکرد سازمانی محسوب نمی‌شود.</p>'+
+ '</div>'+
+ '<div class="bp-pdf-page bp-pdf-development">'+
+ '<header class="bp-pdf-minihead"><strong>به‌پرور · گزارش فردی توسعه</strong><span>'+esc(label)+' | '+date+'</span></header>'+
+ '<div class="bp-pdf-section-title"><h2>شواهد رفتاری و تحلیل بازاندیشانه</h2><span>'+fa(evidences.length)+' حوزه دارای شاهد مکتوب</span></div>'+
+ '<p class="bp-pdf-lead">شواهد توسط شرکت‌کننده نوشته شده‌اند؛ تحلیل زیر، آن‌ها را در کنار امتیازهای رفتاری قرار می‌دهد و پرسش‌های بررسی بیشتر را ارائه می‌کند. صحت و کیفیت روایت بدون مشاهده یا بازخورد مستقل تأیید نمی‌شود.</p>'+
+ '<div class="bp-pdf-evidence-grid">'+evidenceCards+'</div>'+
+ '<section class="bp-pdf-reflection"><h3>برداشت و بازاندیشی فردی</h3><p>'+esc(state.reflection||"ثبت نشده")+'</p></section>'+
+ '<div class="bp-pdf-section-title"><h2>برنامه توسعه فردی (IDP)</h2><span>'+badge+'</span></div>'+
+ '<div class="bp-pdf-focus"><strong>شایستگی اولویت‌دار:</strong> '+esc(selected?.name||"انتخاب نشده")+'</div>'+
+ '<div class="bp-pdf-idp-grid">'+fields+'</div>'+
+ '<div class="bp-pdf-follow"><strong>Follow-through | اقدام بعدی</strong><p>تمرین رفتار انتخاب‌شده را در محیط واقعی شروع کنید؛ پس از دو هفته شواهد پیشرفت را مرور و در پایان هفته چهارم هدف را بازبینی کنید.</p></div>'+
+ '<footer class="bp-pdf-footer"><span>محرمانه برای توسعه فردی · بدون ارسال خودکار به مدرس</span><span>خروجی آموزشی به‌پرور</span></footer>'+
+ '</div>';
 }
 function setup(){
  role=initialRole();state=read();el("selfRoleName").textContent=ROLE_LABEL[role];

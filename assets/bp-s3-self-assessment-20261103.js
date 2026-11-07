@@ -167,7 +167,7 @@ const PLAN_FIELDS=[
 ["obstacle","مانع محتمل و راه مواجهه","textarea",false],
 ["review","زمان بررسی پیشرفت","text",false]
 ];
-let role="supervisors",state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false},activeDim=0,profile=null;
+let role="supervisors",state={schema:2,answers:{},notes:{},outcomes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false},activeDim=0,profile=null;
 const el=id=>document.getElementById(id),k=(id,i)=>id+"-"+i;
 const fa=n=>String(n).replace(/\d/g,c=>"۰۱۲۳۴۵۶۷۸۹"[+c]);
 const esc=v=>String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -177,7 +177,7 @@ function initialRole(){
  try{const raw=JSON.parse(localStorage.getItem("behparvar_session1_v4")||"{}");if(ROLE_LABEL[raw.audience])return raw.audience;}catch(e){}
  return "supervisors";
 }
-function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:2,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null,planDraft:v.planDraft&&typeof v.planDraft==="object"?v.planDraft:null,reflection:typeof v.reflection==="string"?v.reflection:"",personName:typeof v.personName==="string"?v.personName:"",profileViewed:v.profileViewed===true,planNeedsReview:v.planNeedsReview===true};}catch(e){}return {schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};}
+function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:2,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},outcomes:v.outcomes&&typeof v.outcomes==="object"?v.outcomes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null,planDraft:v.planDraft&&typeof v.planDraft==="object"?v.planDraft:null,reflection:typeof v.reflection==="string"?v.reflection:"",personName:typeof v.personName==="string"?v.personName:"",profileViewed:v.profileViewed===true,planNeedsReview:v.planNeedsReview===true};}catch(e){}return {schema:2,answers:{},notes:{},outcomes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};}
 function save(){try{localStorage.setItem(STORAGE+role,JSON.stringify(state));return true;}catch(e){return false;}}
 function setStage(name){const badge={assessment:"discover",profile:"insight",idp:"action"}[name];document.querySelectorAll("[data-reward]").forEach(x=>x.setAttribute("aria-current",x.dataset.reward===badge?"step":"false"));}
 function countDone(dim){return AREAS[dim].questions.reduce((n,_,i)=>n+(Object.prototype.hasOwnProperty.call(state.answers,k(AREAS[dim].id,i))?1:0),0);}
@@ -223,7 +223,13 @@ function renderQuestions(focus=false){
  const options=[1,2,3,4,5,0];
  return '<fieldset class="bp-self-question"><legend>'+fa(i+1)+'. '+esc(title)+'</legend><div class="bp-self-answers">'+options.map(v=>'<label'+(v===0?' class="na"':'')+'><input type="radio" name="self-'+id+'" data-answer="'+esc(id)+'" value="'+v+'" aria-label="'+(v===0?"فرصت مشاهده نداشتم":fa(v)+"، "+LEVEL_LABELS[v-1])+'"'+(value===v?' checked':'')+'><span>'+(v===0?"فرصت مشاهده نداشتم":fa(v))+'</span></label>').join("")+'</div></fieldset>';
  }).join("")+
- '<details class="bp-self-note"><summary>📝 یک نمونه واقعی از رفتارم (اختیاری)</summary><label for="selfNote">یک موقعیت واقعی و کوتاه بنویسید؛ از اطلاعات محرمانه استفاده نکنید.</label><textarea id="selfNote" rows="2" placeholder="موقعیت واقعی‌ای را که این رفتار را در آن دیده‌اید، کوتاه بنویسید.">'+esc(state.notes[d.id]||"")+'</textarea></details>';
+ '<details class="bp-self-note"><summary>📝 شاهد رفتاری من؛ موقعیت و نتیجه (اختیاری)</summary>'+
+ '<p>برای تحلیل قابل اتکا، یک رفتار مشخص و نتیجه قابل مشاهده آن را بنویسید. این دو نوشته به امتیاز شما اضافه نمی‌کنند و محرمانه روی همین دستگاه می‌مانند.</p>'+
+ '<label for="selfNote">موقعیت و اقدام من: چه اتفاقی افتاد و من دقیقاً چه کردم؟</label>'+
+ '<textarea id="selfNote" rows="3" maxlength="900" placeholder="مثلاً در یک گفت‌وگوی دشوار، پیش از پاسخ سؤال روشن‌کننده پرسیدم.">'+esc(state.notes[d.id]||"")+'</textarea>'+
+ '<label for="selfOutcome">پیامد قابل مشاهده: چه تغییری رخ داد یا چه بازخوردی گرفتم؟</label>'+
+ '<textarea id="selfOutcome" rows="2" maxlength="700" placeholder="مثلاً همکارم اطلاعات تازه‌ای گفت و توانستیم تصمیم را اصلاح کنیم.">'+esc((state.outcomes||{})[d.id]||"")+'</textarea>'+
+ '<p class="bp-self-evidence-disclaimer">تحلیل نتیجه در پروفایل فردی نمایش داده می‌شود؛ برنامه کیفیت متن شما را به‌صورت خودکار قضاوت نمی‌کند.</p></details>';
  el("selfPrev").disabled=activeDim===0;
  el("selfNext").textContent=activeDim===AREAS.length-1?"مشاهده پروفایل من ←":"حوزه بعدی ←";
  renderNav();updateProgress();setStage("assessment");
@@ -408,7 +414,12 @@ function setup(){
  if(!el("results").hidden){el("results").hidden=true;el("selfMessage").textContent="پاسخ تغییر کرد؛ پروفایل را دوباره ببینید و در صورت داشتن IDP، برنامه را بازبینی و مجدداً ذخیره کنید.";}
  });
  el("selfQuestions").addEventListener("input",e=>{
- if(e.target.id==="selfNote"){state.notes[AREAS[activeDim].id]=e.target.value;save();}
+ if(e.target.id==="selfNote"||e.target.id==="selfOutcome"){
+  const id=AREAS[activeDim].id;
+  if(e.target.id==="selfNote")state.notes[id]=e.target.value;
+  else{state.outcomes=state.outcomes||{};state.outcomes[id]=e.target.value;}
+  save();
+}
  });
  el("selfPrev").addEventListener("click",()=>{if(activeDim>0){activeDim--;renderQuestions(true);}});
  el("selfNext").addEventListener("click",()=>{
@@ -438,7 +449,7 @@ function setup(){
  el("selfClearAll").addEventListener("click",()=>{
  if(!confirm("تمام پاسخ‌ها و برنامه توسعه فردی همین مسیر روی این دستگاه پاک شوند؟"))return;
  try{localStorage.removeItem(STORAGE+role);}catch(e){}
- state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};el("selfPersonName").value="";el("selfReflection").value="";el("selfCompletion").hidden=true;el("selfPlanOwnership").checked=false;profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
+ state={schema:2,answers:{},notes:{},outcomes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};el("selfPersonName").value="";el("selfReflection").value="";el("selfCompletion").hidden=true;el("selfPlanOwnership").checked=false;profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
  });
  if(totalDone()===24)el("selfMessage").textContent="پاسخ‌های قبلی شما بازیابی شدند. برای دیدن تحلیل، «مشاهده پروفایل و IDP» را انتخاب کنید.";
 }

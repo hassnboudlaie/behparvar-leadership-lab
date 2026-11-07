@@ -548,6 +548,7 @@ function setup(){
  el("selfSaveIdp").addEventListener("click",savePlan);
  el("selfCopyReport").addEventListener("click",copyReport);
  el("selfPrintReport").addEventListener("click",()=>{if(el("results").hidden)return;buildPrintableReport();window.print();});
+ window.addEventListener("beforeprint",()=>{if(!el("results").hidden)buildPrintableReport();});
  el("selfClearAll").addEventListener("click",()=>{
  if(!confirm("تمام پاسخ‌ها و برنامه توسعه فردی همین مسیر روی این دستگاه پاک شوند؟"))return;
  try{localStorage.removeItem(STORAGE+role);}catch(e){}

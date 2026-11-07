@@ -74,9 +74,17 @@
 <p id="selfParticipantLabel" class="bp-self-participant"></p>
 <p id="selfEvidenceNote" class="bp-self-muted"></p><p class="bp-self-interpretation">امتیازها برای بازاندیشی شخصی‌اند؛ مقایسه با دیگران یا تشخیص قطعی قوت و ضعف نیستند.</p>
 <div id="selfProfileChart" class="bp-self-chart" role="group" aria-label="پروفایل شش شایستگی"></div><details class="bp-self-radar-details"><summary>📊 نمایش نمودار شش‌محوری من</summary><figure class="bp-self-radar"><div id="selfRadarChart" role="group" aria-label="نمایه تصویری شش شایستگی"></div><figcaption>در این نمودار، فقط میزان تکرار رفتارهای گزارش‌شده خودتان نمایش داده می‌شود.</figcaption></figure></details>
-<details class="bp-self-method" id="selfExamplesDetails" hidden><summary>📝 نمونه‌های رفتاری ثبت‌شده توسط من</summary><div id="selfEvidenceExamples"></div></details>
+<section class="bp-self-evidence-review" id="selfExamplesDetails" hidden aria-label="تحلیل شواهد رفتاری">
+<h3>📝 شواهد رفتاری من؛ چه چیزی را مشاهده کردم؟</h3>
+<p>این بخش، نمونه‌های شما را در کنار نتیجه همان حوزه قرار می‌دهد و پرسش بازاندیشی پیشنهاد می‌کند. تحلیل توسط قواعد شفاف برنامه و مرور خودتان انجام می‌شود؛ متن آزاد توسط AI قضاوت یا نمره‌دهی نمی‌شود.</p>
+<div id="selfEvidenceExamples" class="bp-self-evidence-list"></div>
+</section>
 <div class="bp-self-insight-grid"><article><h3>✨ نقطه اتکای من</h3><p id="selfStrengthText"></p></article>
 <article><h3>🌱 فرصت توسعه من</h3><p id="selfOpportunityText"></p></article></div>
+<section class="bp-self-narrative" aria-labelledby="selfNarrativeTitle">
+<h3 id="selfNarrativeTitle">🔎 تفسیر حرفه‌ای نتایج من</h3>
+<div id="selfNarrativeText"></div>
+</section>
 <div class="bp-self-reflection">
 <h3>💬 یک دقیقه بازاندیشی</h3>
 <label for="selfReflection">چه چیزی در نتیجه برایتان جالب یا غافلگیرکننده بود؟ در چه موقعیتی این رفتار را دیده‌اید؟</label>
@@ -105,9 +113,10 @@
 <div class="bp-self-actions">
 <button type="button" id="selfSaveIdp">💾 ذخیره IDP</button>
 <button type="button" id="selfCopyReport" class="secondary">📋 کپی پروفایل و برنامه</button>
-<button type="button" id="selfPrintReport" class="secondary">🖨️ چاپ / ذخیره PDF</button>
+<button type="button" id="selfPrintReport" class="secondary">📄 دریافت گزارش حرفه‌ای PDF</button>
 </div>
-<p id="selfIdpStatus" class="bp-self-message" role="status" aria-live="polite"></p><section id="selfCompletion" class="bp-self-completion" hidden aria-live="polite"><h3>✅ برنامه توسعه من ثبت شد</h3><p id="selfCompletionText"></p><p>گام بعدی: در محیط کار تمرین کنید و پس از دو هفته پیشرفت خود را مرور کنید. نسخه PDF یا متن گزارش را برای خود نگه دارید.</p><p id="selfRewardFinal" class="bp-reward-final"></p></section><div id="selfPrintPlan" class="bp-self-print-plan" aria-label="نسخه چاپی برنامه فردی"></div>
+<p class="bp-self-pdf-hint">گزارش شامل داشبورد شش شایستگی، تحلیل، شواهد رفتاری و IDP است. در پنجره چاپ گوشی، گزینه «Save as PDF / ذخیره به‌صورت PDF» را انتخاب کنید.</p>
+<p id="selfIdpStatus" class="bp-self-message" role="status" aria-live="polite"></p><section id="selfCompletion" class="bp-self-completion" hidden aria-live="polite"><h3>✅ برنامه توسعه من ثبت شد</h3><p id="selfCompletionText"></p><p>گام بعدی: در محیط کار تمرین کنید و پس از دو هفته پیشرفت خود را مرور کنید. نسخه PDF یا متن گزارش را برای خود نگه دارید.</p><p id="selfRewardFinal" class="bp-reward-final"></p></section>
 <textarea id="selfReportPreview" readonly hidden rows="10" aria-label="گزارش برای کپی دستی"></textarea>
 </div>
 </section>
@@ -115,6 +124,8 @@
 <p>پاسخ‌ها، یادداشت بازاندیشی و IDP در مرورگر همین دستگاه و جداگانه برای هر مسیر ذخیره می‌شوند؛ به مدرس یا سرور ارسال نمی‌شوند. برای نگهداری بلندمدت، در پایان گزارش را به PDF ذخیره کنید. روی دستگاه مشترک اطلاعات محرمانه وارد نکنید.</p>
 <button type="button" id="selfClearAll" class="secondary">پاک‌کردن پاسخ‌ها و IDP همین مسیر</button>
 </section>
-</main><footer class="wrap"><a href="index.html#course" data-role-return>⌂ فهرست جلسات</a><span>به‌پرور · یادگیری مبتنی بر رفتار و بازخورد</span></footer>
+</main>
+<article id="selfPrintPlan" class="bp-self-print-plan" aria-label="گزارش چاپی جامع شایستگی‌ها و IDP"></article>
+<footer class="wrap"><a href="index.html#course" data-role-return>⌂ فهرست جلسات</a><span>به‌پرور · یادگیری مبتنی بر رفتار و بازخورد</span></footer>
 <script defer src="assets/bp-s3-self-assessment-20261103.js?v=5"></script>
 </body></html>

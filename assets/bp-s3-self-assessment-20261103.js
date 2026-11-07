@@ -167,7 +167,8 @@ const PLAN_FIELDS=[
 ["obstacle","مانع محتمل و راه مواجهه","textarea",false],
 ["review","زمان بررسی پیشرفت","text",false]
 ];
-let role="supervisors",state={schema:2,answers:{},notes:{},outcomes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false},activeDim=0,profile=null;
+const QUESTION_VERSION="20261107-practical-v2";
+let role="supervisors",state={schema:2,questionVersion:QUESTION_VERSION,legacySnapshot:null,answers:{},notes:{},outcomes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false},activeDim=0,profile=null;
 const el=id=>document.getElementById(id),k=(id,i)=>id+"-"+i;
 const fa=n=>String(n).replace(/\d/g,c=>"۰۱۲۳۴۵۶۷۸۹"[+c]);
 const esc=v=>String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -177,8 +178,41 @@ function initialRole(){
  try{const raw=JSON.parse(localStorage.getItem("behparvar_session1_v4")||"{}");if(ROLE_LABEL[raw.audience])return raw.audience;}catch(e){}
  return "supervisors";
 }
-function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:2,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},outcomes:v.outcomes&&typeof v.outcomes==="object"?v.outcomes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null,planDraft:v.planDraft&&typeof v.planDraft==="object"?v.planDraft:null,reflection:typeof v.reflection==="string"?v.reflection:"",personName:typeof v.personName==="string"?v.personName:"",profileViewed:v.profileViewed===true,planNeedsReview:v.planNeedsReview===true};}catch(e){}return {schema:2,answers:{},notes:{},outcomes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};}
+function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:2,questionVersion:typeof v.questionVersion==="string"?v.questionVersion:"legacy",legacySnapshot:v.legacySnapshot&&typeof v.legacySnapshot==="object"?v.legacySnapshot:null,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},outcomes:v.outcomes&&typeof v.outcomes==="object"?v.outcomes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null,planDraft:v.planDraft&&typeof v.planDraft==="object"?v.planDraft:null,reflection:typeof v.reflection==="string"?v.reflection:"",personName:typeof v.personName==="string"?v.personName:"",profileViewed:v.profileViewed===true,planNeedsReview:v.planNeedsReview===true};}catch(e){}return {schema:2,questionVersion:QUESTION_VERSION,legacySnapshot:null,answers:{},notes:{},outcomes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};}
 function save(){try{localStorage.setItem(STORAGE+role,JSON.stringify(state));return true;}catch(e){return false;}}
+
+function migrateQuestionsIfNeeded(){
+ if(state.questionVersion===QUESTION_VERSION)return "";
+ const hadAnswers=Object.keys(state.answers||{}).length>0;
+ const previous=JSON.parse(JSON.stringify(state));
+ if(hadAnswers&&!state.legacySnapshot){
+   state.legacySnapshot={version:previous.questionVersion||"legacy",answers:previous.answers||{},plan:previous.plan||previous.planDraft||null,reflection:previous.reflection||"",date:new Date().toLocaleDateString("fa-IR")};
+ }
+ state.answers={};state.profileViewed=false;state.reflection="";
+ if(state.plan||state.planDraft){
+  state.planDraft=state.planDraft||state.plan;
+  state.plan=null;
+ }
+ state.planNeedsReview=false;state.questionVersion=QUESTION_VERSION;
+ if(!save()){state=previous;return "مرورگر امکان ذخیره نسخه تازه را نداد. برای جلوگیری از نسبت‌دادن پاسخ‌های قدیمی به سؤال‌های جدید، لطفاً از مرورگر دیگری استفاده کنید.";}
+ return hadAnswers?"سؤال‌های این کارگاه ساده‌تر و کاربردی‌تر شده‌اند. پاسخ‌های نسخه قبلی در بخش «سوابق نسخه قبل» حفظ شده‌اند؛ برای پروفایل به‌روز، پرسش‌های جدید را پاسخ دهید.":"";
+}
+function renderLegacySnapshot(){
+ const box=el("selfLegacy");
+ if(!box)return;
+ const old=state.legacySnapshot;
+ box.hidden=!old;
+ if(!old)return;
+ const total=Object.keys(old.answers||{}).length;
+ const records=AREAS.map(d=>{
+  const scores=d.questions.map((_,i)=>old.answers[k(d.id,i)]).filter(n=>Number.isInteger(n)&&n>=1&&n<=5);
+  const mean=scores.length>=3?(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1):"—";
+  return '<tr><th>'+esc(d.name)+'</th><td>'+fa(scores.length)+'</td><td>'+fa(mean)+'</td></tr>';
+ });
+ el("selfLegacyRecords").innerHTML='<p>پاسخ‌های '+fa(total)+' پرسشِ نسخه پیشین حفظ شده است. این اعداد با پرسش‌های بازنویسی‌شده فعلی قابل مقایسه مستقیم نیستند.</p>'+
+ '<table><thead><tr><th>حوزه</th><th>پاسخ معتبر</th><th>میانگین نسخه قبل</th></tr></thead><tbody>'+records.join("")+'</tbody></table>'+
+ (old.plan?'<p>یک IDP قدیمی نیز در سوابق مرورگر محفوظ است؛ لازم است با نتایج جدید بازبینی شود.</p>':"");
+}
 function setStage(name){const badge={assessment:"discover",profile:"insight",idp:"action"}[name];document.querySelectorAll("[data-reward]").forEach(x=>x.setAttribute("aria-current",x.dataset.reward===badge?"step":"false"));}
 function countDone(dim){return AREAS[dim].questions.reduce((n,_,i)=>n+(Object.prototype.hasOwnProperty.call(state.answers,k(AREAS[dim].id,i))?1:0),0);}
 function totalDone(){return AREAS.reduce((s,_,i)=>s+countDone(i),0);}
@@ -488,7 +522,7 @@ function buildPrintableReport(){
  '</div>';
 }
 function setup(){
- role=initialRole();state=read();el("selfRoleName").textContent=ROLE_LABEL[role];
+ role=initialRole();state=read();const versionNotice=migrateQuestionsIfNeeded();el("selfRoleName").textContent=ROLE_LABEL[role];renderLegacySnapshot();
  el("selfPersonName").value=state.personName||"";
  el("selfPersonName").addEventListener("input",e=>{state.personName=e.target.value.trim().slice(0,60);save();if(profile)el("selfParticipantLabel").textContent=state.personName?"پروفایل شخصی: "+state.personName:"پروفایل شخصی بدون نام";});
  document.querySelectorAll("[data-self-role]").forEach(b=>{
@@ -501,7 +535,7 @@ function setup(){
  const original=a.getAttribute("href");const [path,fragment]=original.split("#");
  a.href=path+"?audience="+encodeURIComponent(role)+(fragment?"#"+fragment:"");
  });
- renderNav();renderQuestions();
+ renderNav();renderQuestions();if(versionNotice)el("selfMessage").textContent=versionNotice;
  el("selfReflection").addEventListener("input",e=>{state.reflection=e.target.value;save();updateRewards();});
  el("selfDimNav").addEventListener("click",e=>{const b=e.target.closest("[data-dim]");if(!b)return;activeDim=Number(b.dataset.dim);renderQuestions(true);});
  el("selfQuestions").addEventListener("change",e=>{
@@ -552,7 +586,7 @@ function setup(){
  el("selfClearAll").addEventListener("click",()=>{
  if(!confirm("تمام پاسخ‌ها و برنامه توسعه فردی همین مسیر روی این دستگاه پاک شوند؟"))return;
  try{localStorage.removeItem(STORAGE+role);}catch(e){}
- state={schema:2,answers:{},notes:{},outcomes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};el("selfPersonName").value="";el("selfReflection").value="";el("selfCompletion").hidden=true;el("selfPlanOwnership").checked=false;profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
+ state={schema:2,questionVersion:QUESTION_VERSION,legacySnapshot:null,answers:{},notes:{},outcomes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};el("selfPersonName").value="";el("selfReflection").value="";el("selfCompletion").hidden=true;el("selfPlanOwnership").checked=false;profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
  });
  if(totalDone()===24)el("selfMessage").textContent="پاسخ‌های قبلی شما بازیابی شدند. برای دیدن تحلیل، «مشاهده پروفایل و IDP» را انتخاب کنید.";
 }

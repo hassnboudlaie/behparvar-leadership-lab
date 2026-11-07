@@ -319,6 +319,16 @@ function evidenceMarkup(rec){
  '<p><strong>تفسیر پرسشنامه:</strong> '+esc(rec.interpretation)+'</p>'+
  '<p><strong>پرسش بازاندیشی:</strong> '+esc(rec.question)+'</p></article>';
 }
+function practiceIndicator(target){
+ const area=AREAS.find(d=>d.id===target);
+ if(!area)return "هنوز شایستگی اولویت‌دار مشخص نشده است.";
+ const items=area.questions.map((q,i)=>({score:state.answers[k(area.id,i)],text:role==="managers"?q.m:q.s})).filter(v=>Number.isInteger(v.score)&&v.score>=1&&v.score<=5);
+ if(items.length<3)return "در این حوزه هنوز پاسخ قابل مشاهده کافی وجود ندارد؛ ابتدا موقعیت‌های واقعی را ثبت کنید.";
+ const low=Math.min(...items.map(v=>v.score)),high=Math.max(...items.map(v=>v.score));
+ if(low===high)return "پاسخ‌های این حوزه به هم نزدیک‌اند. برای انتخاب تمرین، به مهم‌ترین چالش واقعی خود و بازخورد همکاران نگاه کنید.";
+ const item=items.find(v=>v.score===low);
+ return "در پاسخ‌های شما، این رفتار کمتر از بعضی رفتارهای دیگر همین حوزه تکرار شده است: «"+item.text+"» ("+fa(low)+" از ۵). این فقط سرنخی برای انتخاب تمرین است، نه برچسب ضعف.";
+}
 function narrativeParagraphs(rows){
  const valid=rows.filter(d=>d.mean!==null).sort((a,b)=>a.mean-b.mean);
  const total=rows.reduce((n,d)=>n+d.answered,0);
@@ -400,7 +410,9 @@ function recommend(target){
 }
 function buildIdpFields(data){
  const chosen=AREAS.find(x=>x.id===data.target);
- el("selfIdpRecommendation").innerHTML='<strong>اولویت پیشنهادی: '+(chosen?chosen.icon+" "+esc(chosen.name):"")+'</strong><p>این پیشنهاد یک نقطه شروع است، نه نسخه قطعی. آن را با مسئولیت شغلی، بازخورد همکار و محدودیت زمانی خود تطبیق دهید.</p>';
+ el("selfIdpRecommendation").innerHTML='<strong>حوزه انتخابی: '+(chosen?chosen.icon+" "+esc(chosen.name):"")+'</strong>'+
+ '<p>این پیشنهاد نقطه شروع است؛ آن را با مسئولیت شغلی و تجربه واقعی خودتان هماهنگ کنید.</p>'+
+ '<p class="bp-idp-practice-insight"><strong>رفتار مشخص برای بررسی:</strong> '+esc(practiceIndicator(data.target))+'</p>';
  const field=([id,label,type,wide])=>'<label'+(wide||id==="review"?' class="wide"':'')+'>'+esc(label)+(type==="textarea"?'<textarea data-plan="'+id+'" rows="'+(id==="situation"?"3":"2")+'" placeholder="'+(id==="situation"?"یک موقعیت واقعی از کار خودتان را با جزئیات کافی بنویسید؛ بدون اطلاعات محرمانه.":"")+'">'+esc(data[id]||"")+'</textarea>':'<input data-plan="'+id+'" value="'+esc(data[id]||"")+'">')+'</label>';
  const core=["goal","behavior","practice","situation","evidence","review"];
  const primary=PLAN_FIELDS.filter(([id])=>core.includes(id));
@@ -526,6 +538,7 @@ function buildPrintableReport(){
  '<section class="bp-pdf-reflection"><h3>برداشت و بازاندیشی فردی</h3><p>'+esc(state.reflection||"ثبت نشده")+'</p></section>'+
  '<div class="bp-pdf-section-title"><h2>برنامه توسعه فردی (IDP)</h2><span>'+badge+'</span></div>'+
  '<div class="bp-pdf-focus"><strong>شایستگی اولویت‌دار:</strong> '+esc(selected?.name||"انتخاب نشده")+'</div>'+
+ '<div class="bp-pdf-specific"><strong>سرنخ رفتاری برگرفته از پاسخ‌ها</strong><p>'+esc(practiceIndicator(plan.target))+'</p></div>'+
  '<div class="bp-pdf-idp-grid">'+fields+'</div>'+
  '<div class="bp-pdf-follow"><strong>Follow-through | اقدام بعدی</strong><p>تمرین رفتار انتخاب‌شده را در محیط واقعی شروع کنید؛ پس از دو هفته شواهد پیشرفت را مرور و در پایان هفته چهارم هدف را بازبینی کنید.</p></div>'+
  '<footer class="bp-pdf-footer"><span>محرمانه برای توسعه فردی · بدون ارسال خودکار به مدرس</span><span>خروجی آموزشی به‌پرور</span></footer>'+

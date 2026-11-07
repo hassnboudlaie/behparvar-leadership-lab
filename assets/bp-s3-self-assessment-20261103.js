@@ -167,7 +167,7 @@ const PLAN_FIELDS=[
 ["obstacle","مانع محتمل و راه مواجهه","textarea",false],
 ["review","زمان بررسی پیشرفت","text",false]
 ];
-let role="supervisors",state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:""},activeDim=0,profile=null;
+let role="supervisors",state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false},activeDim=0,profile=null;
 const el=id=>document.getElementById(id),k=(id,i)=>id+"-"+i;
 const fa=n=>String(n).replace(/\d/g,c=>"۰۱۲۳۴۵۶۷۸۹"[+c]);
 const esc=v=>String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -177,15 +177,38 @@ function initialRole(){
  try{const raw=JSON.parse(localStorage.getItem("behparvar_session1_v4")||"{}");if(ROLE_LABEL[raw.audience])return raw.audience;}catch(e){}
  return "supervisors";
 }
-function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:1,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null,planDraft:v.planDraft&&typeof v.planDraft==="object"?v.planDraft:null,reflection:typeof v.reflection==="string"?v.reflection:"",personName:typeof v.personName==="string"?v.personName:""};}catch(e){}return {schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:""};}
+function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:2,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null,planDraft:v.planDraft&&typeof v.planDraft==="object"?v.planDraft:null,reflection:typeof v.reflection==="string"?v.reflection:"",personName:typeof v.personName==="string"?v.personName:"",profileViewed:v.profileViewed===true};}catch(e){}return {schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false};}
 function save(){try{localStorage.setItem(STORAGE+role,JSON.stringify(state));return true;}catch(e){return false;}}
 function setStage(name){document.querySelectorAll("[data-stage]").forEach(x=>x.classList.toggle("active",x.dataset.stage===name));}
 function countDone(dim){return AREAS[dim].questions.reduce((n,_,i)=>n+(Object.prototype.hasOwnProperty.call(state.answers,k(AREAS[dim].id,i))?1:0),0);}
 function totalDone(){return AREAS.reduce((s,_,i)=>s+countDone(i),0);}
+/* Three personal milestones, not a ranking or competency score. */
+function rewardStatus(){
+ const discover=totalDone()===24;
+ const insight=discover&&state.profileViewed===true&&String(state.reflection||"").trim().length>=8;
+ const p=state.plan;
+ const action=discover&&!!p&&!state.planDraft&&["goal","behavior","practice","evidence","review"].every(k=>typeof p[k]==="string"&&p[k].trim().length>0);
+ return {discover,insight,action,score:(discover?30:0)+(insight?30:0)+(action?40:0)};
+}
+function updateRewards(){
+ const r=rewardStatus();
+ el("selfRewardScore").textContent=fa(r.score)+" از ۱۰۰ امتیاز";
+ el("selfRewardFill").style.width=r.score+"%";
+ el("selfRewardTrack").setAttribute("aria-valuenow",String(r.score));
+ for(const [key,title] of [["discover","شناخت خود"],["insight","بینش فردی"],["action","برنامه اقدام"]]){
+  const item=document.querySelector('[data-reward="'+key+'"]');
+  if(!item)continue;
+  item.classList.toggle("earned",r[key]);
+  item.setAttribute("aria-label","نشان "+title+"، "+(r[key]?"دریافت شد":"هنوز دریافت نشده"));
+ }
+ el("selfRewardHint").textContent=!r.discover?"نشان اول: ۲۴ پرسش را کامل کنید.":!r.insight?"نشان دوم: پروفایل را ببینید و یک جمله درباره برداشتتان از نتیجه بنویسید.":!r.action?"نشان سوم: IDP را تکمیل و ذخیره کنید.":"🏅 هر سه نشان دریافت شدند؛ برنامه شما برای پیگیری آماده است.";
+ el("selfRewardFinal").textContent=r.score===100?"🏅 آفرین! سه نشان و ۱۰۰ امتیاز مسیر تکمیل شد.":r.action?"برنامه شما ثبت شد. برای دریافت نشان «بینش فردی»، یک جمله درباره پروفایل خود بنویسید.":"";
+}
 function updateProgress(){
  const done=totalDone();el("selfProgressPercent").textContent=fa(Math.round(100*done/24))+"٪";
  el("selfProgressFill").style.width=(done/24*100)+"%";
  el("selfCounter").textContent=fa(done)+" از ۲۴ پرسش پاسخ داده شده";
+ updateRewards();
  el("selfViewResult").hidden=done!==24;
  el("selfDimNav").querySelectorAll("button").forEach((b,i)=>{const n=countDone(i);b.dataset.complete=String(n===4);b.setAttribute("aria-current",i===activeDim?"step":"false");const small=b.querySelector("small");if(small)small.textContent=n===4?"✓ تکمیل شده":fa(n)+" از ۴ پاسخ";});
 }
@@ -234,6 +257,7 @@ function showResult(){
  const missing=AREAS.findIndex((d,i)=>countDone(i)<4);
  if(missing!==-1){activeDim=missing;renderQuestions(true);el("selfMessage").textContent="برای ساخت پروفایل، ابتدا به همه ۲۴ عبارت پاسخ دهید. در صورت نداشتن فرصت مشاهده، همان گزینه را انتخاب کنید.";return;}
  profile=compute();
+ state.profileViewed=true;save();updateRewards();
  const known=resultOrder(profile);
  el("selfMessage").textContent="";
  setStage("profile");
@@ -309,7 +333,7 @@ function savePlan(){
   el("selfIdpStatus").textContent="برای تکمیل IDP، هدف، رفتار قابل مشاهده، تمرین، شاهد پیشرفت و زمان بازبینی را مشخص کنید.";return;
  }
  state.plan=p;state.planDraft=null;
- const saved=save();
+ const saved=save();updateRewards();
  el("selfIdpStatus").textContent=saved?"IDP نهایی شما در مرورگر همین گوشی ذخیره شد. اکنون نسخه گزارش را نگه دارید.":"ذخیره روی دستگاه ممکن نشد؛ گزارش را کپی یا به PDF تبدیل کنید.";
  el("selfCompletionText").textContent="حوزه توسعه: "+(AREAS.find(d=>d.id===p.target)?.name||"")+"؛ بازبینی: "+p.review;
  el("selfCompletion").hidden=false;
@@ -359,11 +383,12 @@ function setup(){
  a.href=path+"?audience="+encodeURIComponent(role)+(fragment?"#"+fragment:"");
  });
  renderNav();renderQuestions();
- el("selfReflection").addEventListener("input",e=>{state.reflection=e.target.value;save();});
+ el("selfReflection").addEventListener("input",e=>{state.reflection=e.target.value;save();updateRewards();});
  el("selfDimNav").addEventListener("click",e=>{const b=e.target.closest("[data-dim]");if(!b)return;activeDim=Number(b.dataset.dim);renderQuestions(true);});
  el("selfQuestions").addEventListener("change",e=>{
  if(!e.target.matches("[data-answer]"))return;
  state.answers[e.target.dataset.answer]=Number(e.target.value);
+ state.profileViewed=false;
  if(!save())el("selfMessage").textContent="مرورگر اجازه ذخیره نداده است؛ پاسخ‌ها تا بازبودن صفحه باقی می‌مانند.";
  updateProgress();renderNav();
  if(!el("results").hidden){el("results").hidden=true;el("selfMessage").textContent="پس از اصلاح پاسخ‌ها، دکمه مشاهده پروفایل را بزنید تا تحلیل تازه محاسبه شود.";}
@@ -380,7 +405,7 @@ function setup(){
  el("selfEditAnswers").addEventListener("click",()=>{setStage("assessment");el("assessment").scrollIntoView({block:"start",behavior:"smooth"});});
  function suggestIdp(){
   const target=el("selfIdpTarget").value;if(!target)return;
-  const draft=recommend(target);state.planDraft=draft;save();buildIdpFields(draft);
+  const draft=recommend(target);state.planDraft=draft;save();buildIdpFields(draft);updateRewards();
   el("selfCompletion").hidden=true;
   el("selfIdpStatus").textContent="پیشنهاد متناسب با این حوزه آماده شد. آن را ویرایش و سپس ذخیره کنید.";
  }
@@ -388,7 +413,7 @@ function setup(){
  el("selfGenerateIdp").addEventListener("click",suggestIdp);
  el("selfIdpFields").addEventListener("input",e=>{
   if(!e.target.matches("[data-plan]"))return;
-  state.planDraft=currentPlan();save();
+  state.planDraft=currentPlan();save();updateRewards();
   el("selfCompletion").hidden=true;
   el("selfIdpStatus").textContent="تغییرات به‌صورت پیش‌نویس نگهداری می‌شوند. برای نهایی‌شدن، «ذخیره IDP» را بزنید.";
  });
@@ -398,7 +423,7 @@ function setup(){
  el("selfClearAll").addEventListener("click",()=>{
  if(!confirm("تمام پاسخ‌ها و برنامه توسعه فردی همین مسیر روی این دستگاه پاک شوند؟"))return;
  try{localStorage.removeItem(STORAGE+role);}catch(e){}
- state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:""};el("selfPersonName").value="";el("selfReflection").value="";el("selfCompletion").hidden=true;profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
+ state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false};el("selfPersonName").value="";el("selfReflection").value="";el("selfCompletion").hidden=true;profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
  });
  if(totalDone()===24)el("selfMessage").textContent="پاسخ‌های قبلی شما بازیابی شدند. برای دیدن تحلیل، «مشاهده پروفایل و IDP» را انتخاب کنید.";
 }

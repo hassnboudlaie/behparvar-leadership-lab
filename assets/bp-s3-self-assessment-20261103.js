@@ -221,7 +221,7 @@ function rewardStatus(){
  const discover=totalDone()===24;
  const insight=discover&&state.profileViewed===true&&String(state.reflection||"").trim().length>=8;
  const p=state.plan;
- const action=discover&&!!p&&!state.planDraft&&!state.planNeedsReview&&["goal","behavior","practice","evidence","review"].every(k=>typeof p[k]==="string"&&p[k].trim().length>0);
+ const action=discover&&!!p&&!state.planDraft&&!state.planNeedsReview&&["goal","behavior","practice","evidence","review"].every(k=>typeof p[k]==="string"&&p[k].trim().length>0)&&hasPersonalCase(p);
  return {discover,insight,action,score:(discover?30:0)+(insight?30:0)+(action?40:0)};
 }
 function updateRewards(){
@@ -251,13 +251,13 @@ function renderNav(){
 }
 function renderQuestions(focus=false){
  const d=AREAS[activeDim];
- el("selfQuestions").innerHTML='<div class="bp-self-domain-head"><span class="bp-self-area">'+esc(d.area)+'</span><h3 id="selfDimTitle" tabindex="-1">'+d.icon+' '+esc(d.name)+'</h3><p>'+esc(d.describe)+'</p></div>'+
+ el("selfQuestions").innerHTML='<div class="bp-self-domain-head"><span class="bp-self-area">'+esc(d.area)+'</span><h3 id="selfDimTitle" tabindex="-1">'+d.icon+' '+esc(d.name)+'</h3><p>'+esc(d.describe)+'</p><p class="bp-self-scale-reminder"><strong>یادآوری پاسخ‌ها:</strong> ۱ = تقریباً هرگز · ۲ = به‌ندرت · ۳ = گاهی · ۴ = اغلب · ۵ = تقریباً همیشه</p></div>'+
  d.questions.map((q,i)=>{
  const id=k(d.id,i),value=state.answers[id],title=role==="managers"?q.m:q.s;
  const options=[1,2,3,4,5,0];
  return '<fieldset class="bp-self-question"><legend>'+fa(i+1)+'. '+esc(title)+'</legend><div class="bp-self-answers">'+options.map(v=>'<label'+(v===0?' class="na"':'')+'><input type="radio" name="self-'+id+'" data-answer="'+esc(id)+'" value="'+v+'" aria-label="'+(v===0?"فرصت مشاهده نداشتم":fa(v)+"، "+LEVEL_LABELS[v-1])+'"'+(value===v?' checked':'')+'><span>'+(v===0?"فرصت مشاهده نداشتم":fa(v))+'</span></label>').join("")+'</div></fieldset>';
  }).join("")+
- '<details class="bp-self-note"><summary>📝 شاهد رفتاری من؛ موقعیت و نتیجه (اختیاری)</summary>'+
+ '<details class="bp-self-note"><summary>📝 نمونه واقعی از کار من (اختیاری)</summary>'+
  '<p>برای تحلیل قابل اتکا، یک رفتار مشخص و نتیجه قابل مشاهده آن را بنویسید. این دو نوشته به امتیاز شما اضافه نمی‌کنند و محرمانه روی همین دستگاه می‌مانند.</p>'+
  '<label for="selfNote">موقعیت و اقدام من: چه اتفاقی افتاد و من دقیقاً چه کردم؟</label>'+
  '<textarea id="selfNote" rows="3" maxlength="900" placeholder="مثلاً در یک گفت‌وگوی دشوار، پیش از پاسخ سؤال روشن‌کننده پرسیدم.">'+esc(state.notes[d.id]||"")+'</textarea>'+
@@ -392,7 +392,7 @@ function showResult(){
 }
 function recommend(target){
  const area=AREAS.find(x=>x.id===target)||AREAS[0],v=IDEAS[area.id][role==="managers"?"m":"s"];
- const goal=GOALS[area.id][role==="managers"?"m":"s"],behavior=v[0],practice=v[1],situation=v[2],evidence=v[3];
+ const goal=GOALS[area.id][role==="managers"?"m":"s"],behavior=v[0],practice=v[1],situation=String((state.notes||{})[area.id]||"").trim().slice(0,600),evidence=v[3];
  return {target,goal,behavior,practice,situation,evidence,
  support:role==="managers"?"یک مدیر همتا یا سرپرست مرتبط؛ بازخورد بر اساس رفتار مشاهده‌شده":"یکی از همکاران همتا یا مدیر مستقیم؛ بازخورد روی رفتار مشخص",
  obstacle:"اگر فشار کار یا تغییر اولویت مانع شد، دامنه تمرین را کاهش می‌دهم و زمان بازنگری را شفاف می‌کنم.",
@@ -401,11 +401,12 @@ function recommend(target){
 function buildIdpFields(data){
  const chosen=AREAS.find(x=>x.id===data.target);
  el("selfIdpRecommendation").innerHTML='<strong>اولویت پیشنهادی: '+(chosen?chosen.icon+" "+esc(chosen.name):"")+'</strong><p>این پیشنهاد یک نقطه شروع است، نه نسخه قطعی. آن را با مسئولیت شغلی، بازخورد همکار و محدودیت زمانی خود تطبیق دهید.</p>';
- const field=([id,label,type,wide])=>'<label'+(wide||id==="review"?' class="wide"':'')+'>'+esc(label)+(type==="textarea"?'<textarea data-plan="'+id+'" rows="2">'+esc(data[id]||"")+'</textarea>':'<input data-plan="'+id+'" value="'+esc(data[id]||"")+'">')+'</label>';
- const core=["goal","behavior","practice","evidence","review"];
+ const field=([id,label,type,wide])=>'<label'+(wide||id==="review"?' class="wide"':'')+'>'+esc(label)+(type==="textarea"?'<textarea data-plan="'+id+'" rows="'+(id==="situation"?"3":"2")+'" placeholder="'+(id==="situation"?"یک موقعیت واقعی از کار خودتان را با جزئیات کافی بنویسید؛ بدون اطلاعات محرمانه.":"")+'">'+esc(data[id]||"")+'</textarea>':'<input data-plan="'+id+'" value="'+esc(data[id]||"")+'">')+'</label>';
+ const core=["goal","behavior","practice","situation","evidence","review"];
  const primary=PLAN_FIELDS.filter(([id])=>core.includes(id));
  const optional=PLAN_FIELDS.filter(([id])=>!core.includes(id));
  el("selfIdpFields").innerHTML=primary.map(field).join("")+
+ '<p class="bp-idp-case-hint">برای اینکه برنامه واقعاً شخصی باشد، یک موقعیت مشخص از کار خودتان را بنویسید. نمونه موقعیت: '+esc(IDEAS[data.target][role==="managers"?"m":"s"][2])+'</p>'+
  '<details class="bp-self-idp-optional"><summary>تکمیل اختیاری برنامه: موقعیت تمرین، پشتیبان و موانع</summary><div class="bp-self-idp-optional-grid">'+optional.map(field).join("")+'</div></details>';
  el("selfIdpStatus").textContent=state.planNeedsReview?"پاسخ‌ها تغییر کرده‌اند. لطفاً برنامه قبلی را بازبینی و دوباره ذخیره کنید.":state.planDraft?"پیش‌نویس قبلی شما بازیابی شد؛ برای نهایی‌شدن آن را ذخیره کنید.":state.plan?"برنامه ذخیره‌شده بازیابی شد؛ در صورت اصلاح دوباره ذخیره کنید.":"پیشنهاد اولیه آماده است؛ آن را با شرایط واقعی کارتان هماهنگ کنید.";
 }
@@ -414,11 +415,20 @@ function currentPlan(){
  el("selfIdpFields").querySelectorAll("[data-plan]").forEach(x=>{data[x.dataset.plan]=x.value.trim();});
  return data;
 }
+function hasPersonalCase(p){
+ if(!p||!p.target)return false;
+ const text=String(p.situation||"").trim();
+ const sample=IDEAS[p.target]?.[role==="managers"?"m":"s"]?.[2]||"";
+ return text.length>=12&&text!==sample;
+}
 function savePlan(){
  if(el("results").hidden||!el("selfIdpFields").querySelector("[data-plan]"))return;
  const p=currentPlan();
  if(!p.goal||!p.behavior||!p.practice||!p.evidence||!p.review){
   el("selfIdpStatus").textContent="برای تکمیل IDP، هدف، رفتار قابل مشاهده، تمرین، شاهد پیشرفت و زمان بازبینی را مشخص کنید.";return;
+ }
+ if(!hasPersonalCase(p)){
+  el("selfIdpStatus").textContent="برای شخصی‌سازی IDP، یک موقعیت واقعی از کار خودتان (حداقل یک جمله کوتاه) در بخش «موقعیت کاری تمرین» بنویسید؛ نمونه پیشنهادی آماده کافی نیست.";return;
  }
  if(!el("selfPlanOwnership").checked){
   el("selfIdpStatus").textContent="پیش از ذخیره، برنامه را با شرایط شغلی خودتان بررسی و گزینه تأیید برنامه را انتخاب کنید.";return;
@@ -470,7 +480,7 @@ function copyReport(){
 function buildPrintableReport(){
  const rows=profile||compute(),records=evidenceRecords(rows);
  const plan=currentPlan(),selected=AREAS.find(d=>d.id===plan.target);
- const isFinal=!!state.plan&&!state.planDraft&&!state.planNeedsReview;
+ const isFinal=!!state.plan&&!state.planDraft&&!state.planNeedsReview&&hasPersonalCase(state.plan);
  const known=rows.filter(d=>d.mean!==null).length;
  const observed=rows.reduce((sum,d)=>sum+d.answered,0);
  const label=state.personName||"پروفایل فردی بدون نام";

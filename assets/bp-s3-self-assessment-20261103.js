@@ -348,14 +348,23 @@ function updateProgress(){
  el("selfCounter").textContent=fa(done)+" از ۲۴ پرسش پاسخ داده شده";
  updateRewards();
  el("selfViewResult").hidden=done!==24;
- el("selfDimNav").querySelectorAll("button").forEach((b,i)=>{const n=countDone(i);b.dataset.complete=String(n===4);b.setAttribute("aria-current",i===activeDim?"step":"false");const small=b.querySelector("small");if(small)small.textContent=n===4?"✓ تکمیل شده":fa(n)+" از ۴ پاسخ";});
+ el("selfDimNav").querySelectorAll("button[data-dim]").forEach((b,i)=>{const n=countDone(i);b.dataset.complete=String(n===4);b.setAttribute("aria-current",i===activeDim?"step":"false");const small=b.querySelector("small");if(small)small.textContent=n===4?"✓ تکمیل شده":fa(n)+" از ۴ پاسخ";});
 }
 function renderNav(){
- el("selfDimNav").innerHTML=AREAS.map((d,i)=>'<button type="button" data-dim="'+i+'" aria-current="'+(i===activeDim?"step":"false")+'"><span>'+d.icon+" "+esc(d.name)+'</span><small>'+fa(countDone(i))+' از ۴ پاسخ</small></button>').join("");
+ el("selfDimNav").innerHTML=AREAS.map((d,i)=>
+  '<div class="bp-self-nav-card" data-guide-card="'+i+'" data-active="'+(i===activeDim)+'">'+
+  '<button type="button" class="bp-self-nav-meaning" data-guide="'+d.id+'" aria-label="معنی و مصداق‌های '+esc(d.name)+'">'+
+  '<span>'+d.icon+' '+esc(d.name)+'</span><small>معنی و مثال‌ها ↗</small></button>'+
+  '<button type="button" class="bp-self-nav-questions" data-dim="'+i+'" aria-current="'+(i===activeDim?"step":"false")+'">'+
+  '<span>۴ پرسش این حوزه</span><small>'+fa(countDone(i))+' از ۴ پاسخ</small></button>'+
+  '</div>').join("");
 }
 function renderQuestions(focus=false){
  const d=AREAS[activeDim];
- el("selfQuestions").innerHTML='<div class="bp-self-domain-head"><span class="bp-self-area">'+esc(d.area)+'</span><h3 id="selfDimTitle" tabindex="-1">'+d.icon+' '+esc(d.name)+'</h3><p>'+esc(d.describe)+'</p><p class="bp-self-scale-reminder"><strong>یادآوری پاسخ‌ها:</strong> ۱ = تقریباً هرگز · ۲ = به‌ندرت · ۳ = گاهی · ۴ = اغلب · ۵ = تقریباً همیشه</p></div>'+
+ el("selfQuestions").innerHTML='<div class="bp-self-domain-head"><span class="bp-self-area">'+esc(d.area)+'</span>'+
+ '<h3 id="selfDimTitle" tabindex="-1"><button type="button" class="bp-self-current-guide" data-guide="'+d.id+'" aria-label="دیدن معنی و مصداق‌های '+esc(d.name)+'">'+
+ d.icon+' '+esc(d.name)+' <small>معنی و مثال‌ها ↗</small></button></h3>'+
+ '<p>'+esc(d.describe)+'</p><p class="bp-self-scale-reminder"><strong>یادآوری پاسخ‌ها:</strong> ۱ = تقریباً هرگز · ۲ = به‌ندرت · ۳ = گاهی · ۴ = اغلب · ۵ = تقریباً همیشه</p></div>'+
  d.questions.map((q,i)=>{
  const id=k(d.id,i),value=state.answers[id],title=role==="managers"?q.m:q.s;
  const options=[1,2,3,4,5,0];

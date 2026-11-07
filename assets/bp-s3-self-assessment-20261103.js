@@ -451,7 +451,7 @@ function buildPrintableReport(){
  const narratives=narrativeParagraphs(rows).map(txt=>'<p>'+esc(txt)+'</p>').join("");
  const evidences=records.filter(d=>d.situation||d.outcome);
  const evidenceCards=evidences.length?evidences.map(d=>'<article class="bp-pdf-evidence">'+
-  '<h3>'+d.icon+' '+esc(d.name)+'</h3><p><strong>موقعیت و اقدام:</strong> '+esc(d.situation||"ثبت نشده")+'</p>'+
+  '<h3>'+esc(d.name)+'</h3><p><strong>موقعیت و اقدام:</strong> '+esc(d.situation||"ثبت نشده")+'</p>'+
   '<p><strong>پیامد مشاهده‌شده:</strong> '+esc(d.outcome||"ثبت نشده")+'</p>'+
   '<p class="bp-pdf-evidence-status">'+esc(d.status)+'. '+esc(d.interpretation)+'</p>'+
   '<p><strong>پرسش تحلیلی:</strong> '+esc(d.question)+'</p></article>').join(""):

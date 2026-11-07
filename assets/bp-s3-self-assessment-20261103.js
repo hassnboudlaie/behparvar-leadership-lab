@@ -340,7 +340,11 @@ function narrativeParagraphs(rows){
  else{
   const gap=valid[valid.length-1].mean-valid[0].mean;
   if(gap<0.5)paragraphs.push("شش حوزه قابل مشاهده از نظر فراوانی رفتارها الگوی نسبتاً نزدیک به هم دارند. این تفاوت‌های کوچک مبنای مناسبی برای اعلام قوت یا ضعف قطعی نیستند.");
-  else paragraphs.push("در مقایسه درون‌فردی، رفتارهای «"+valid[valid.length-1].name+"» نسبتاً بیشتر و «"+valid[0].name+"» نسبتاً کمتر گزارش شده‌اند. این نتیجه یک فرضیه توسعه‌ای است که بهتر است با مثال و بازخورد بررسی شود.");
+  else{
+   const low=valid.filter(d=>d.mean<=valid[0].mean+0.1);
+   const high=valid.filter(d=>d.mean>=valid[valid.length-1].mean-0.1);
+   paragraphs.push("در مقایسه درون‌فردی، "+(high.length>1?fa(high.length)+" حوزه":"حوزه «"+high[0].name+"»")+" رفتارهای نسبتاً پرتکرارتری داشته‌اند. "+(low.length>2?fa(low.length)+" حوزه با امتیاز تقریباً یکسان در پایین دامنه قرار دارند؛ انتخاب یکی از آن‌ها بدون توجه به نیاز کار شما توجیهی ندارد.":"حوزه «"+low.map(x=>x.name).join(" و ")+"» نسبتاً کمتر تکرار شده است.")+" این نتیجه فقط فرضیه‌ای برای بازاندیشی است.");
+  }
  }
  if(valid.length<rows.length)paragraphs.push("در "+fa(rows.length-valid.length)+" حوزه تعداد رفتارهای قابل مشاهده کافی نبوده است؛ در این حوزه‌ها از ارائه امتیاز خودداری شده است.");
  const evidenceCount=rows.filter(d=>String((state.notes||{})[d.id]||"").trim()||String((state.outcomes||{})[d.id]||"").trim()).length;
@@ -368,32 +372,38 @@ function showResult(){
  el("selfEvidenceExamples").innerHTML=examples.length?examples.map(evidenceMarkup).join(""):"";
  el("selfNarrativeText").innerHTML=narrativeParagraphs(profile).map(p=>"<p>"+esc(p)+"</p>").join("");
  const gap=known.length>1?known[known.length-1].mean-known[0].mean:0;
- const strong=[...known].reverse().slice(0,2),opps=known.slice(0,2);
  if(!known.length){
-  el("selfStrengthText").textContent="برای دیدن الگوی رفتاری، در دست‌کم یک حوزه به شواهد بیشتری نیاز است.";
+  el("selfStrengthText").textContent="برای دیدن الگوی رفتاری، در دست‌کم یک حوزه به پاسخ قابل مشاهده بیشتری نیاز است.";
   el("selfOpportunityText").textContent="پس از مشاهده چند رفتار واقعی، یک حوزه را برای تمرین انتخاب کنید.";
  }else if(known.length===1){
   el("selfStrengthText").textContent="در حوزه «"+known[0].name+"» داده کافی برای بازاندیشی ثبت شده است.";
-  el("selfOpportunityText").textContent="برای سایر حوزه‌ها مشاهده کافی وجود ندارد. اولویت را بر اساس نیاز واقعی کارتان انتخاب کنید.";
+  el("selfOpportunityText").textContent="برای سایر حوزه‌ها پاسخ کافی وجود ندارد؛ اولویت را بر اساس نیاز واقعی کارتان انتخاب کنید.";
  }else if(gap<0.5){
   el("selfStrengthText").textContent="امتیاز حوزه‌ها به هم نزدیک‌اند؛ این تفاوت کوچک، قوت مشخصی را ثابت نمی‌کند. شواهد و بازخوردها را هم بررسی کنید.";
   el("selfOpportunityText").textContent="وقتی امتیازها نزدیک‌اند، اولویت توسعه را بر اساس مهم‌ترین چالش کاری انتخاب کنید، نه رتبه امتیازها.";
  }else{
-  el("selfStrengthText").textContent=strong.map(x=>x.name).join(" و ")+" در پاسخ‌های این دوره نسبتاً بیشتر گزارش شده‌اند؛ با مثال و بازخورد آن را بررسی کنید.";
-  el("selfOpportunityText").textContent=opps.map(x=>x.name).join(" و ")+" در این دوره کمتر گزارش شده‌اند؛ یکی از آن‌ها می‌تواند نقطه شروع تمرین باشد.";
+  const top=known.filter(x=>x.mean>=known[known.length-1].mean-0.1);
+  const low=known.filter(x=>x.mean<=known[0].mean+0.1);
+  el("selfStrengthText").textContent=top.map(x=>x.name).join(" و ")+" در پاسخ‌های شما نسبتاً بیشتر گزارش شده‌اند؛ با نمونه رفتار و بازخورد بررسی کنید.";
+  el("selfOpportunityText").textContent=low.length>=3?fa(low.length)+" حوزه از نظر فراوانی گزارش‌شده در یک سطح نزدیک‌تر به پایین قرار دارند و نمی‌توان از میان آن‌ها صرفاً براساس امتیاز یک اولویت را تعیین کرد. حوزه مهم‌تر برای کارتان را خودتان انتخاب کنید.":low.map(x=>x.name).join(" و ")+" نسبتاً کمتر گزارش شده‌اند؛ یکی از آن‌ها می‌تواند موضوع تمرین باشد، اما انتخاب نهایی با شماست.";
  }
  const target=el("selfIdpTarget");
- target.innerHTML=known.map(x=>'<option value="'+x.id+'">'+x.icon+" "+esc(x.name)+" — "+(Math.round(x.mean*10)/10).toLocaleString("fa-IR")+"</option>").join("");
+ target.innerHTML='<option value="">یک حوزه توسعه را خودتان انتخاب کنید…</option>'+known.map(x=>'<option value="'+x.id+'">'+x.icon+" "+esc(x.name)+" — "+(Math.round(x.mean*10)/10).toLocaleString("fa-IR")+"</option>").join("");
  if(!known.length){
  el("selfGenerateIdp").disabled=true;el("selfIdpRecommendation").textContent="برای ایجاد IDP مبتنی بر نتیجه، حداقل سه رفتار در یکی از حوزه‌ها باید قابل مشاهده باشد. می‌توانید پاسخ‌ها را اصلاح کنید.";
  el("selfIdpFields").innerHTML="";el("selfSaveIdp").disabled=true;
  }else{
- el("selfGenerateIdp").disabled=false;el("selfSaveIdp").disabled=false;
  const draft=state.planDraft&&known.some(x=>x.id===state.planDraft.target)?state.planDraft:null;
  const stored=state.plan&&known.some(x=>x.id===state.plan.target)?state.plan:null;
  const current=draft||stored;
- target.value=current?current.target:known[0].id;
- buildIdpFields(current||recommend(target.value));
+ target.value=current?current.target:"";
+ el("selfGenerateIdp").disabled=!current;
+ el("selfSaveIdp").disabled=!current;
+ if(current)buildIdpFields(current);
+ else{
+  el("selfIdpRecommendation").innerHTML="<p>امتیاز پایین به‌تنهایی اولویت توسعه را تعیین نمی‌کند. از میان شش حوزه، موردی را انتخاب کنید که تغییر آن بیشترین کمک را به کار واقعی شما می‌کند.</p>";
+  el("selfIdpFields").innerHTML="";
+ }
  el("selfCompletion").hidden=true;
  }
  el("selfPlanOwnership").checked=false;
@@ -589,7 +599,7 @@ function setup(){
  el("selfEditAnswers").addEventListener("click",()=>{setStage("assessment");el("assessment").scrollIntoView({block:"start",behavior:"smooth"});});
  function suggestIdp(){
   const target=el("selfIdpTarget").value;if(!target)return;
-  const draft=recommend(target);state.planDraft=draft;save();buildIdpFields(draft);updateRewards();
+  const draft=recommend(target);state.planDraft=draft;save();buildIdpFields(draft);el("selfGenerateIdp").disabled=false;el("selfSaveIdp").disabled=false;updateRewards();
   el("selfCompletion").hidden=true;el("selfPlanOwnership").checked=false;
   el("selfIdpStatus").textContent="پیشنهاد متناسب با این حوزه آماده شد. آن را ویرایش و سپس ذخیره کنید.";
  }

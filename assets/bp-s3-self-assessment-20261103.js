@@ -229,7 +229,7 @@ function renderQuestions(focus=false){
  '<textarea id="selfNote" rows="3" maxlength="900" placeholder="مثلاً در یک گفت‌وگوی دشوار، پیش از پاسخ سؤال روشن‌کننده پرسیدم.">'+esc(state.notes[d.id]||"")+'</textarea>'+
  '<label for="selfOutcome">پیامد قابل مشاهده: چه تغییری رخ داد یا چه بازخوردی گرفتم؟</label>'+
  '<textarea id="selfOutcome" rows="2" maxlength="700" placeholder="مثلاً همکارم اطلاعات تازه‌ای گفت و توانستیم تصمیم را اصلاح کنیم.">'+esc((state.outcomes||{})[d.id]||"")+'</textarea>'+
- '<p class="bp-self-evidence-disclaimer">تحلیل نتیجه در پروفایل فردی نمایش داده می‌شود؛ برنامه کیفیت متن شما را به‌صورت خودکار قضاوت نمی‌کند.</p></details>';
+ '<p class="bp-self-evidence-disclaimer">خروجی این نوشته پس از تکمیل پرسش‌ها در «پروفایل فردی ← شواهد رفتاری» و در گزارش PDF دیده می‌شود. برنامه کیفیت متن را به‌صورت خودکار قضاوت نمی‌کند.</p></details>';
  el("selfPrev").disabled=activeDim===0;
  el("selfNext").textContent=activeDim===AREAS.length-1?"مشاهده پروفایل من ←":"حوزه بعدی ←";
  renderNav();updateProgress();setStage("assessment");

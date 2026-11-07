@@ -246,9 +246,21 @@ function showResult(){
  '<div class="bp-self-chart-item"><div><strong>'+d.icon+" "+esc(d.name)+'</strong><small>'+(d.mean===null?"شواهد کافی نیست":fa(d.answered)+" پاسخ قابل محاسبه")+'</small></div><div class="bp-self-track" role="img" aria-label="'+esc(d.name)+" "+(d.mean===null?"داده کافی نیست":"میانگین "+(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+" از پنج")+'"><span style="width:'+(d.mean===null?0:Math.round(d.mean/5*100))+'%"></span></div><div class="bp-self-chart-number">'+(d.mean===null?"—":(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+" / ۵")+'</div></div>').join("");
  const examples=AREAS.filter(d=>String(state.notes[d.id]||"").trim());
  const evidenceBox=el("selfExamplesDetails");evidenceBox.hidden=!examples.length;el("selfEvidenceExamples").innerHTML=examples.map(d=>"<p><strong>"+d.icon+" "+esc(d.name)+":</strong> "+esc(state.notes[d.id])+"</p>").join("");
+ const gap=known.length>1?known[known.length-1].mean-known[0].mean:0;
  const strong=[...known].reverse().slice(0,2),opps=known.slice(0,2);
- el("selfStrengthText").textContent=strong.length?strong.map(x=>x.name).join(" و ")+" در این دوره بیشتر در رفتارهای گزارش‌شده دیده شده‌اند؛ از این ظرفیت‌ها برای تمرین حوزه دیگر کمک بگیرید.":"برای جمع‌بندی نقطه اتکا، شواهد قابل مشاهده بیشتری ثبت کنید.";
- el("selfOpportunityText").textContent=opps.length?opps.map(x=>x.name).join(" و ")+" در چهار هفته اخیر کمتر تکرار شده‌اند. این نتیجه برچسب ضعف نیست؛ می‌تواند مبنای انتخاب تمرین بعدی شما باشد.":"برای پیشنهاد یک اولویت توسعه، پاسخ قابل مشاهده بیشتری لازم است.";
+ if(!known.length){
+  el("selfStrengthText").textContent="برای دیدن الگوی رفتاری، در دست‌کم یک حوزه به شواهد بیشتری نیاز است.";
+  el("selfOpportunityText").textContent="پس از مشاهده چند رفتار واقعی، یک حوزه را برای تمرین انتخاب کنید.";
+ }else if(known.length===1){
+  el("selfStrengthText").textContent="در حوزه «"+known[0].name+"» داده کافی برای بازاندیشی ثبت شده است.";
+  el("selfOpportunityText").textContent="برای سایر حوزه‌ها مشاهده کافی وجود ندارد. اولویت را بر اساس نیاز واقعی کارتان انتخاب کنید.";
+ }else if(gap<0.5){
+  el("selfStrengthText").textContent="امتیاز حوزه‌ها به هم نزدیک‌اند؛ این تفاوت کوچک، قوت مشخصی را ثابت نمی‌کند. شواهد و بازخوردها را هم بررسی کنید.";
+  el("selfOpportunityText").textContent="وقتی امتیازها نزدیک‌اند، اولویت توسعه را بر اساس مهم‌ترین چالش کاری انتخاب کنید، نه رتبه امتیازها.";
+ }else{
+  el("selfStrengthText").textContent=strong.map(x=>x.name).join(" و ")+" در پاسخ‌های این دوره نسبتاً بیشتر گزارش شده‌اند؛ با مثال و بازخورد آن را بررسی کنید.";
+  el("selfOpportunityText").textContent=opps.map(x=>x.name).join(" و ")+" در این دوره کمتر گزارش شده‌اند؛ یکی از آن‌ها می‌تواند نقطه شروع تمرین باشد.";
+ }
  const target=el("selfIdpTarget");
  target.innerHTML=known.map(x=>'<option value="'+x.id+'">'+x.icon+" "+esc(x.name)+" — "+(Math.round(x.mean*10)/10).toLocaleString("fa-IR")+"</option>").join("");
  if(!known.length){
@@ -256,9 +268,12 @@ function showResult(){
  el("selfIdpFields").innerHTML="";el("selfSaveIdp").disabled=true;
  }else{
  el("selfGenerateIdp").disabled=false;el("selfSaveIdp").disabled=false;
+ const draft=state.planDraft&&known.some(x=>x.id===state.planDraft.target)?state.planDraft:null;
  const stored=state.plan&&known.some(x=>x.id===state.plan.target)?state.plan:null;
- target.value=stored?stored.target:known[0].id;
- buildIdpFields(stored||recommend(target.value));
+ const current=draft||stored;
+ target.value=current?current.target:known[0].id;
+ buildIdpFields(current||recommend(target.value));
+ el("selfCompletion").hidden=true;
  }
  el("results").hidden=false;
  el("results").scrollIntoView({block:"start",behavior:"smooth"});

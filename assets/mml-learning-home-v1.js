@@ -23,6 +23,14 @@ function sessionCards(){
  grid.querySelectorAll(".course-session[data-course-session]").forEach(function(card){
   var n=Number(card.dataset.courseSession);
   if(n<1||n>6)return;
+  if(n===3){
+   var label=card.querySelector("small");
+   if(label)label.textContent="کارگاه توسعه شایستگی‌های معطوف به خود";
+   card.classList.add("mml-course-tile");
+   card.setAttribute("aria-label","جلسه سوم؛ کارگاه توسعه شایستگی‌های معطوف به خود");
+   var prev=card.querySelector(".mml-course-progress");if(prev)prev.remove();
+   return;
+  }
   // Course cards, session introductions and reader use one canonical topic name.
   var library=window.MMLLessonLibrary;
   var subtitle=card.querySelector("small");

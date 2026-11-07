@@ -167,7 +167,7 @@ const PLAN_FIELDS=[
 ["obstacle","مانع محتمل و راه مواجهه","textarea",false],
 ["review","زمان بررسی پیشرفت","text",false]
 ];
-let role="supervisors",state={schema:1,answers:{},notes:{},plan:null,personName:""},activeDim=0,profile=null;
+let role="supervisors",state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:""},activeDim=0,profile=null;
 const el=id=>document.getElementById(id),k=(id,i)=>id+"-"+i;
 const fa=n=>String(n).replace(/\d/g,c=>"۰۱۲۳۴۵۶۷۸۹"[+c]);
 const esc=v=>String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -177,14 +177,16 @@ function initialRole(){
  try{const raw=JSON.parse(localStorage.getItem("behparvar_session1_v4")||"{}");if(ROLE_LABEL[raw.audience])return raw.audience;}catch(e){}
  return "supervisors";
 }
-function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:1,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null,personName:typeof v.personName==="string"?v.personName:""};}catch(e){}return {schema:1,answers:{},notes:{},plan:null};}
+function read(){try{const v=JSON.parse(localStorage.getItem(STORAGE+role)||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))return {schema:1,answers:v.answers&&typeof v.answers==="object"?v.answers:{},notes:v.notes&&typeof v.notes==="object"?v.notes:{},plan:v.plan&&typeof v.plan==="object"?v.plan:null,planDraft:v.planDraft&&typeof v.planDraft==="object"?v.planDraft:null,reflection:typeof v.reflection==="string"?v.reflection:"",personName:typeof v.personName==="string"?v.personName:""};}catch(e){}return {schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:""};}
 function save(){try{localStorage.setItem(STORAGE+role,JSON.stringify(state));return true;}catch(e){return false;}}
+function setStage(name){document.querySelectorAll("[data-stage]").forEach(x=>x.classList.toggle("active",x.dataset.stage===name));}
 function countDone(dim){return AREAS[dim].questions.reduce((n,_,i)=>n+(Object.prototype.hasOwnProperty.call(state.answers,k(AREAS[dim].id,i))?1:0),0);}
 function totalDone(){return AREAS.reduce((s,_,i)=>s+countDone(i),0);}
 function updateProgress(){
  const done=totalDone();el("selfProgressPercent").textContent=fa(Math.round(100*done/24))+"٪";
  el("selfProgressFill").style.width=(done/24*100)+"%";
- el("selfCounter").textContent=fa(done)+" از ۲۴ رفتار پاسخ داده شده";
+ el("selfCounter").textContent=fa(done)+" از ۲۴ پرسش پاسخ داده شده";
+ el("selfViewResult").hidden=done!==24;
  el("selfDimNav").querySelectorAll("button").forEach((b,i)=>{const n=countDone(i);b.dataset.complete=String(n===4);b.setAttribute("aria-current",i===activeDim?"step":"false");const small=b.querySelector("small");if(small)small.textContent=n===4?"✓ تکمیل شده":fa(n)+" از ۴ پاسخ";});
 }
 function renderNav(){
@@ -196,12 +198,12 @@ function renderQuestions(focus=false){
  d.questions.map((q,i)=>{
  const id=k(d.id,i),value=state.answers[id],title=role==="managers"?q.m:q.s;
  const options=[1,2,3,4,5,0];
- return '<fieldset class="bp-self-question"><legend>'+fa(i+1)+'. '+esc(title)+'</legend><div class="bp-self-answers">'+options.map(v=>'<label'+(v===0?' class="na"':'')+'><input type="radio" name="self-'+id+'" data-answer="'+esc(id)+'" value="'+v+'"'+(value===v?' checked':'')+'><span>'+(v===0?"فرصت مشاهده نداشتم":fa(v)+" · "+LEVEL_LABELS[v-1])+'</span></label>').join("")+'</div></fieldset>';
+ return '<fieldset class="bp-self-question"><legend>'+fa(i+1)+'. '+esc(title)+'</legend><div class="bp-self-answers">'+options.map(v=>'<label'+(v===0?' class="na"':'')+'><input type="radio" name="self-'+id+'" data-answer="'+esc(id)+'" value="'+v+'" aria-label="'+(v===0?"فرصت مشاهده نداشتم":fa(v)+"، "+LEVEL_LABELS[v-1])+'"'+(value===v?' checked':'')+'><span>'+(v===0?"فرصت مشاهده نداشتم":fa(v))+'</span></label>').join("")+'</div></fieldset>';
  }).join("")+
- '<details class="bp-self-note"><summary>📝 یک نمونه واقعی از رفتارم (اختیاری)</summary><label for="selfNote">یک موقعیت واقعی و کوتاه بنویسید؛ از اطلاعات محرمانه استفاده نکنید.</label><textarea id="selfNote" rows="2" placeholder="مثلاً در جلسه اخیر، پیش از تصمیم نظر واحد مالی را پرسیدم.">'+esc(state.notes[d.id]||"")+'</textarea></details>';
+ '<details class="bp-self-note"><summary>📝 یک نمونه واقعی از رفتارم (اختیاری)</summary><label for="selfNote">یک موقعیت واقعی و کوتاه بنویسید؛ از اطلاعات محرمانه استفاده نکنید.</label><textarea id="selfNote" rows="2" placeholder="موقعیت واقعی‌ای را که این رفتار را در آن دیده‌اید، کوتاه بنویسید.">'+esc(state.notes[d.id]||"")+'</textarea></details>';
  el("selfPrev").disabled=activeDim===0;
- el("selfNext").textContent=activeDim===AREAS.length-1?"مرور پاسخ‌ها":"حوزه بعدی ←";
- renderNav();updateProgress();
+ el("selfNext").textContent=activeDim===AREAS.length-1?"مشاهده پروفایل من ←":"حوزه بعدی ←";
+ renderNav();updateProgress();setStage("assessment");
  if(focus){el("selfDimTitle").focus({preventScroll:true});el("assessment").scrollIntoView({block:"start",behavior:"smooth"});}
 }
 function compute(){
@@ -234,6 +236,8 @@ function showResult(){
  profile=compute();
  const known=resultOrder(profile);
  el("selfMessage").textContent="";
+ setStage("profile");
+ el("selfReflection").value=state.reflection||"";
  el("selfParticipantLabel").textContent=state.personName?"پروفایل شخصی: "+state.personName:"پروفایل شخصی بدون نام";
  drawRadar(profile);
  const note=profile.filter(x=>x.mean===null);

@@ -290,22 +290,31 @@ function buildIdpFields(data){
  const chosen=AREAS.find(x=>x.id===data.target);
  el("selfIdpRecommendation").innerHTML='<strong>اولویت پیشنهادی: '+(chosen?chosen.icon+" "+esc(chosen.name):"")+'</strong><p>این پیشنهاد یک نقطه شروع است، نه نسخه قطعی. آن را با مسئولیت شغلی، بازخورد همکار و محدودیت زمانی خود تطبیق دهید.</p>';
  el("selfIdpFields").innerHTML=PLAN_FIELDS.map(([id,label,type,wide])=>'<label'+(wide?' class="wide"':'')+'>'+esc(label)+(type==="textarea"?'<textarea data-plan="'+id+'" rows="2">'+esc(data[id]||"")+'</textarea>':'<input data-plan="'+id+'" value="'+esc(data[id]||"")+'">')+'</label>').join("");
- el("selfIdpStatus").textContent=state.plan?"برنامه قبلی این مسیر نمایش داده شد؛ تغییرات جدید را ذخیره کنید.":"پیشنهاد اولیه آماده است؛ می‌توانید آن را ویرایش و ذخیره کنید.";
+ el("selfIdpStatus").textContent=state.planDraft?"پیش‌نویس قبلی شما بازیابی شد؛ برای نهایی‌شدن آن را ذخیره کنید.":state.plan?"برنامه ذخیره‌شده بازیابی شد؛ در صورت اصلاح دوباره ذخیره کنید.":"پیشنهاد اولیه آماده است؛ آن را با شرایط واقعی کارتان هماهنگ کنید.";
 }
 function currentPlan(){
  const target=el("selfIdpTarget").value;const data={target};
  el("selfIdpFields").querySelectorAll("[data-plan]").forEach(x=>{data[x.dataset.plan]=x.value.trim();});
  return data;
 }
-function savePlan(){if(el("results").hidden||!el("selfIdpFields").querySelector("[data-plan]"))return;
+function savePlan(){
+ if(el("results").hidden||!el("selfIdpFields").querySelector("[data-plan]"))return;
  const p=currentPlan();
- if(!p.goal||!p.practice||!p.evidence){el("selfIdpStatus").textContent="برای ذخیره، هدف، تمرین واقعی و شاهد پیشرفت را مشخص کنید.";return;}
- state.plan=p;
- el("selfIdpStatus").textContent=save()?"IDP همراه پاسخ‌ها در همین مرورگر و فقط برای این مسیر ذخیره شد.":"ذخیره مرورگر ممکن نشد؛ از گزینه کپی گزارش استفاده کنید.";
+ if(!p.goal||!p.behavior||!p.practice||!p.evidence||!p.review){
+  el("selfIdpStatus").textContent="برای تکمیل IDP، هدف، رفتار قابل مشاهده، تمرین، شاهد پیشرفت و زمان بازبینی را مشخص کنید.";return;
+ }
+ state.plan=p;state.planDraft=null;
+ const saved=save();
+ el("selfIdpStatus").textContent=saved?"IDP نهایی شما در مرورگر همین گوشی ذخیره شد. اکنون نسخه گزارش را نگه دارید.":"ذخیره روی دستگاه ممکن نشد؛ گزارش را کپی یا به PDF تبدیل کنید.";
+ el("selfCompletionText").textContent="حوزه توسعه: "+(AREAS.find(d=>d.id===p.target)?.name||"")+"؛ بازبینی: "+p.review;
+ el("selfCompletion").hidden=false;
+ setStage("idp");
+ if(saved)el("selfCompletion").scrollIntoView({block:"nearest",behavior:"smooth"});
 }
 function reportText(){
- const rows=["به‌پرور | پروفایل خودارزیابی و برنامه توسعه فردی (IDP)","نام / کد شرکت‌کننده: "+(state.personName||"درج نشده"),"مسیر: "+ROLE_LABEL[role],"مبنای ارزیابی: چهار هفته اخیر | پرسشنامه آموزشی، نه ارزیابی معتبر روان‌سنجی", "","پروفایل شایستگی‌ها"];
+ const rows=["به‌پرور | کارگاه توسعه شایستگی‌های معطوف به خود","پروفایل فردی و برنامه توسعه (IDP)","تاریخ: "+new Date().toLocaleDateString("fa-IR"),"نام / کد شرکت‌کننده: "+(state.personName||"درج نشده"),"مسیر: "+ROLE_LABEL[role],"مبنای ارزیابی: چهار هفته اخیر | پرسشنامه آموزشی، نه آزمون روان‌سنجی", "","پروفایل شایستگی‌ها"];
  (profile||compute()).forEach(d=>rows.push(d.name+": "+(d.mean===null?"شواهد کافی نیست":(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+" از ۵") ));
+ rows.push("","بازاندیشی فردی",state.reflection||"ثبت نشده");
  rows.push("","شواهد رفتاری اختیاری");AREAS.forEach(d=>{if(String(state.notes[d.id]||"").trim())rows.push(d.name+": "+state.notes[d.id]);});
  rows.push("","جمع‌بندی","نقطه اتکا: "+el("selfStrengthText").textContent,"فرصت توسعه: "+el("selfOpportunityText").textContent,"","برنامه توسعه فردی");
  const p=currentPlan(),d=AREAS.find(x=>x.id===p.target);rows.push("حوزه: "+(d?.name||""));
@@ -318,6 +327,17 @@ function copyReport(){
  const status=el("selfIdpStatus");
  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(v).then(()=>status.textContent="پروفایل و IDP کپی شدند.").catch(()=>status.textContent="کپی خودکار ممکن نشد؛ متن آماده در کادر پایین را دستی کپی کنید.");
  else status.textContent="متن گزارش در کادر پایین برای کپی دستی آماده است.";
+}
+function buildPrintableReport(){
+ const p=currentPlan(),chosen=AREAS.find(d=>d.id===p.target);
+ const rows=profile||compute();
+ el("selfPrintPlan").innerHTML='<h2>کارگاه توسعه شایستگی‌های معطوف به خود</h2><p>پروفایل فردی و برنامه توسعه (IDP)</p>'+
+ '<p><strong>نام / کد:</strong> '+esc(state.personName||"درج نشده")+' | <strong>مسیر:</strong> '+ROLE_LABEL[role]+' | <strong>تاریخ:</strong> '+new Date().toLocaleDateString("fa-IR")+'</p>'+
+ '<h3>نتایج خودگزارشی شش شایستگی</h3><div class="bp-self-print-scores">'+rows.map(d=>'<p>'+d.icon+' <strong>'+esc(d.name)+':</strong> '+(d.mean===null?'شواهد کافی نیست':(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+' از ۵')+'</p>').join("")+'</div>'+
+ '<h3>بازاندیشی</h3><p>'+esc(state.reflection||"ثبت نشده")+'</p>'+
+ '<h3>برنامه توسعه فردی · '+esc(chosen?.name||"")+'</h3>'+
+ PLAN_FIELDS.map(([id,label])=>'<div class="bp-self-print-field"><strong>'+esc(label)+'</strong><p>'+esc(p[id]||"تکمیل نشده")+'</p></div>').join("")+
+ '<p class="bp-self-print-foot">این سند صرفاً برای یادگیری و پیگیری شخصی است و نشان‌دهنده رتبه یا صلاحیت رسمی فرد نیست.</p>';
 }
 function setup(){
  role=initialRole();state=read();el("selfRoleName").textContent=ROLE_LABEL[role];

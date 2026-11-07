@@ -299,6 +299,7 @@ function showResult(){
  buildIdpFields(current||recommend(target.value));
  el("selfCompletion").hidden=true;
  }
+ el("selfPlanOwnership").checked=false;
  el("results").hidden=false;
  el("results").scrollIntoView({block:"start",behavior:"smooth"});
 }
@@ -331,6 +332,9 @@ function savePlan(){
  const p=currentPlan();
  if(!p.goal||!p.behavior||!p.practice||!p.evidence||!p.review){
   el("selfIdpStatus").textContent="برای تکمیل IDP، هدف، رفتار قابل مشاهده، تمرین، شاهد پیشرفت و زمان بازبینی را مشخص کنید.";return;
+ }
+ if(!el("selfPlanOwnership").checked){
+  el("selfIdpStatus").textContent="پیش از ذخیره، برنامه را با شرایط شغلی خودتان بررسی و گزینه تأیید برنامه را انتخاب کنید.";return;
  }
  const previous={plan:state.plan,planDraft:state.planDraft,planNeedsReview:state.planNeedsReview};
  state.plan=p;state.planDraft=null;state.planNeedsReview=false;
@@ -416,7 +420,7 @@ function setup(){
  function suggestIdp(){
   const target=el("selfIdpTarget").value;if(!target)return;
   const draft=recommend(target);state.planDraft=draft;save();buildIdpFields(draft);updateRewards();
-  el("selfCompletion").hidden=true;
+  el("selfCompletion").hidden=true;el("selfPlanOwnership").checked=false;
   el("selfIdpStatus").textContent="پیشنهاد متناسب با این حوزه آماده شد. آن را ویرایش و سپس ذخیره کنید.";
  }
  el("selfIdpTarget").addEventListener("change",suggestIdp);
@@ -424,6 +428,7 @@ function setup(){
  el("selfIdpFields").addEventListener("input",e=>{
   if(!e.target.matches("[data-plan]"))return;
   state.planDraft=currentPlan();save();updateRewards();
+  el("selfPlanOwnership").checked=false;
   el("selfCompletion").hidden=true;
   el("selfIdpStatus").textContent="تغییرات به‌صورت پیش‌نویس نگهداری می‌شوند. برای نهایی‌شدن، «ذخیره IDP» را بزنید.";
  });
@@ -433,7 +438,7 @@ function setup(){
  el("selfClearAll").addEventListener("click",()=>{
  if(!confirm("تمام پاسخ‌ها و برنامه توسعه فردی همین مسیر روی این دستگاه پاک شوند؟"))return;
  try{localStorage.removeItem(STORAGE+role);}catch(e){}
- state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};el("selfPersonName").value="";el("selfReflection").value="";el("selfCompletion").hidden=true;profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
+ state={schema:2,answers:{},notes:{},plan:null,planDraft:null,reflection:"",personName:"",profileViewed:false,planNeedsReview:false};el("selfPersonName").value="";el("selfReflection").value="";el("selfCompletion").hidden=true;el("selfPlanOwnership").checked=false;profile=null;activeDim=0;el("results").hidden=true;renderQuestions();el("selfMessage").textContent="اطلاعات این مسیر در صفحه پاک شدند.";el("assessment").scrollIntoView({block:"start",behavior:"auto"});
  });
  if(totalDone()===24)el("selfMessage").textContent="پاسخ‌های قبلی شما بازیابی شدند. برای دیدن تحلیل، «مشاهده پروفایل و IDP» را انتخاب کنید.";
 }

@@ -289,7 +289,12 @@ function recommend(target){
 function buildIdpFields(data){
  const chosen=AREAS.find(x=>x.id===data.target);
  el("selfIdpRecommendation").innerHTML='<strong>اولویت پیشنهادی: '+(chosen?chosen.icon+" "+esc(chosen.name):"")+'</strong><p>این پیشنهاد یک نقطه شروع است، نه نسخه قطعی. آن را با مسئولیت شغلی، بازخورد همکار و محدودیت زمانی خود تطبیق دهید.</p>';
- el("selfIdpFields").innerHTML=PLAN_FIELDS.map(([id,label,type,wide])=>'<label'+(wide?' class="wide"':'')+'>'+esc(label)+(type==="textarea"?'<textarea data-plan="'+id+'" rows="2">'+esc(data[id]||"")+'</textarea>':'<input data-plan="'+id+'" value="'+esc(data[id]||"")+'">')+'</label>').join("");
+ const field=([id,label,type,wide])=>'<label'+(wide||id==="review"?' class="wide"':'')+'>'+esc(label)+(type==="textarea"?'<textarea data-plan="'+id+'" rows="2">'+esc(data[id]||"")+'</textarea>':'<input data-plan="'+id+'" value="'+esc(data[id]||"")+'">')+'</label>';
+ const core=["goal","behavior","practice","evidence","review"];
+ const primary=PLAN_FIELDS.filter(([id])=>core.includes(id));
+ const optional=PLAN_FIELDS.filter(([id])=>!core.includes(id));
+ el("selfIdpFields").innerHTML=primary.map(field).join("")+
+ '<details class="bp-self-idp-optional"><summary>تکمیل اختیاری برنامه: موقعیت تمرین، پشتیبان و موانع</summary><div class="bp-self-idp-optional-grid">'+optional.map(field).join("")+'</div></details>';
  el("selfIdpStatus").textContent=state.planDraft?"پیش‌نویس قبلی شما بازیابی شد؛ برای نهایی‌شدن آن را ذخیره کنید.":state.plan?"برنامه ذخیره‌شده بازیابی شد؛ در صورت اصلاح دوباره ذخیره کنید.":"پیشنهاد اولیه آماده است؛ آن را با شرایط واقعی کارتان هماهنگ کنید.";
 }
 function currentPlan(){

@@ -88,3 +88,94 @@
 @media(max-width:720px){.bp-self-workshop-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.bp-self-workshop-steps article{min-height:125px;padding:12px}.bp-self-workshop-steps article strong{font-size:17px}}
 @media(max-width:390px){.bp-self-workshop-steps{grid-template-columns:1fr}.bp-self-radar{padding:2px}.bp-self-radar figcaption{padding:5px 12px}.bp-self-radar svg{min-width:320px}}
 @media print{.bp-self-workshop{display:none!important}.bp-self-radar{break-inside:avoid;max-width:530px}.bp-self-workshop-steps{display:none!important}}
+
+/* 2026-11-07 UX audit: three-stage, large-touch, calm workshop layout */
+#selfApp{max-width:1060px;margin-inline:auto}
+#selfApp .panel{margin-block:18px;border-radius:19px}
+#selfApp .bp-self-hero{background:linear-gradient(135deg,#173e77,#224e85);border-radius:19px;padding:28px 30px}
+#selfApp .bp-self-hero h1{font-size:clamp(27px,3.6vw,40px);line-height:1.45;margin-block:8px}
+#selfApp .bp-self-hero p{font-size:19px;line-height:1.85;max-width:70ch}
+#selfApp .rolebar{margin-block:15px 10px;padding:14px 20px;border:1px solid #d5dfec;border-radius:15px;background:#f7f9fe}
+#selfApp .rolebar button{min-height:48px;padding:9px 19px;font-weight:800;font-size:18px}
+.bp-self-journey{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:20px 0}
+.bp-self-journey span{display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid #d5e0ec;color:#435b79;padding:13px 10px;background:#f5f7fb;border-radius:13px;font-size:17px;font-weight:700;text-align:center}
+.bp-self-journey span b{display:inline-grid;place-items:center;flex:0 0 29px;height:29px;border-radius:50%;background:#e0e9f4;color:#193d71}
+.bp-self-journey span.active{border:2px solid #20518a;background:#eaf2fb;color:#173a70}
+.bp-self-journey span.active b{background:#20518a;color:white}
+.bp-self-workshop{border:1px solid #d8e1eb!important;border-right:4px solid #ac2a47!important;padding:14px 19px!important;background:#f7f9fd}
+.bp-self-workshop summary{font-size:19px;color:#23446e;font-weight:800;cursor:pointer;list-style-position:inside}
+.bp-self-workshop-steps article{min-height:105px}
+.bp-self-intro{border-right:4px solid #b52a48}
+.bp-self-intro h2{margin-block:0 12px;font-size:clamp(23px,2.7vw,29px)}
+.bp-self-intro p{line-height:1.95}
+.bp-self-helper{font-size:17px;color:#385574}
+.bp-self-start{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:#173e77;color:white;font-weight:800;text-decoration:none;padding:12px 22px;min-height:54px;margin:10px 0}
+.bp-self-start:hover,.bp-self-start:focus-visible{background:#254e86;color:white}
+.bp-self-scale{grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+.bp-self-scale span{font-size:15px;min-height:59px;display:flex;align-items:center;justify-content:center;line-height:1.55}
+.bp-self-progress-header h2{font-size:clamp(22px,2.7vw,29px)}
+.bp-self-dim-nav button{min-height:64px}
+.bp-self-dim-nav button span{font-size:17px}
+.bp-self-question{padding:17px 19px;margin:13px 0;background:#fff;box-shadow:0 2px 7px rgba(24,56,97,.035)}
+.bp-self-question legend{font-size:19px;font-weight:750;line-height:1.85}
+.bp-self-answers{gap:9px;margin-top:10px}
+.bp-self-answers label{min-height:64px;border-radius:12px;font-size:21px;font-weight:800;gap:4px;transition:border-color .15s,background .15s}
+.bp-self-answers input{accent-color:#154b82;width:20px;height:20px}
+.bp-self-answers label.na{min-height:48px;font-size:16px;font-weight:650}
+.bp-self-answers label:focus-within{outline:2px solid #2d77bb;outline-offset:2px}
+.bp-self-actions{gap:10px}
+.bp-self-actions button,.bp-self-idp-top button{cursor:pointer;min-height:55px;font-size:17px}
+.bp-self-actions button:disabled{opacity:.4;cursor:not-allowed}
+.bp-self-actions button[hidden]{display:none!important}
+.bp-self-chart-item{background:white;border-right:3px solid #d2deeb}
+.bp-self-chart-number{font-size:20px}
+.bp-self-interpretation{margin-block:15px;border-right:4px solid #af2f4a;background:#f4f7fc;padding:12px 16px;border-radius:10px;font-size:17px}
+.bp-self-radar-details{border:1px solid #d5e2ef;border-radius:12px;background:#fafcff;padding:12px 17px;margin:14px 0}
+.bp-self-radar-details summary{cursor:pointer;font-weight:750;color:#244975}
+.bp-self-reflection{background:#f3f7fc;border:1px solid #d3deed;border-radius:14px;padding:19px;margin:20px 0}
+.bp-self-reflection h3{margin:0 0 9px}
+.bp-self-reflection label{display:block;margin:5px 0 8px;font-weight:700}
+.bp-self-reflection textarea{width:100%;min-height:105px;border:1px solid #adbdd3;border-radius:11px;resize:vertical;font:inherit;padding:12px}
+.bp-self-reflection small{display:block;color:#596b85}
+.bp-self-completion{background:#ecf7f1;border:1px solid #bedcc9;border-right:5px solid #287459;border-radius:15px;padding:18px 21px;margin-top:20px}
+.bp-self-completion h3{margin:0 0 5px;color:#1c604b}
+.bp-self-completion p{margin:7px 0}
+.bp-self-print-plan{display:none}
+@media(max-width:650px){
+ #selfApp .bp-self-hero{padding:20px 18px}
+ #selfApp .bp-self-hero p{font-size:18px}
+ #selfApp .rolebar{padding:12px}
+ #selfApp .rolebar button{font-size:17px;padding:9px 13px}
+ .bp-self-journey{gap:5px}
+ .bp-self-journey span{flex-direction:column;gap:5px;font-size:13px;line-height:1.45;padding:9px 4px;min-height:78px}
+ .bp-self-journey span b{flex-basis:27px;height:27px}
+ .bp-self-workshop-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .bp-self-scale{grid-template-columns:repeat(5,minmax(0,1fr))}
+ .bp-self-scale span:last-child{grid-column:auto}
+ .bp-self-scale span{font-size:12px;min-height:62px;padding:6px 2px;overflow-wrap:anywhere}
+ .bp-self-question{padding:12px 10px}
+ .bp-self-question legend{font-size:18px}
+ .bp-self-answers label{min-height:58px;font-size:20px}
+ .bp-self-answers label.na{font-size:16px}
+ .bp-self-dim-nav button{min-height:65px}
+}
+@media print{
+ @page{size:A4;margin:14mm}
+ .top,#selfApp .hero,#selfApp .rolebar,.bp-self-journey,.bp-self-workshop,.bp-self-intro,.bp-self-workspace,.bp-self-data-policy,footer,.bp-self-report-head button,.bp-self-radar-details,.bp-self-method,.bp-self-reflection,.bp-self-insight-grid,#selfIdpRecommendation,.bp-self-idp-top,#selfIdpFields,.bp-self-idp-profile>p,.bp-self-completion,.bp-self-actions,.bp-self-message,#selfReportPreview{display:none!important}
+ body{background:#fff!important;color:#172a45!important;font-size:12pt!important}
+ #selfApp{max-width:100%!important}
+ #results{display:block!important;border:none!important;box-shadow:none!important;padding:0!important;margin:0!important}
+ #results .bp-self-report-head{margin-bottom:7mm}
+ #results .bp-self-report-head h2{font-size:18pt}
+ #results .bp-self-chart{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:12px 0}
+ #results .bp-self-chart-item{display:block!important;padding:8px;break-inside:avoid}
+ .bp-self-print-plan{display:block!important;break-before:page}
+ .bp-self-print-plan h2{font-size:20pt;color:#193c71}
+ .bp-self-print-plan h3{font-size:14pt;border-bottom:1px solid #a5b9d0;padding-bottom:5px;margin-block:12px}
+ .bp-self-print-scores{display:grid;grid-template-columns:repeat(2,1fr);gap:3px}
+ .bp-self-print-scores p{margin:3px 0}
+ .bp-self-print-field{break-inside:avoid;margin-bottom:9px}
+ .bp-self-print-field strong{font-size:11pt}
+ .bp-self-print-field p{margin:2px 0;white-space:pre-line}
+ .bp-self-print-foot{font-size:10pt;color:#54667d}
+}

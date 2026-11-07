@@ -28,6 +28,8 @@ function sessionCards(){
    if(label)label.textContent="کارگاه توسعه شایستگی‌های معطوف به خود";
    card.classList.add("mml-course-tile");
    card.setAttribute("aria-label","جلسه سوم؛ کارگاه توسعه شایستگی‌های معطوف به خود");
+   var icon=card.querySelector(".mml-course-tile-icon");
+   if(!icon){icon=document.createElement("span");icon.className="mml-course-tile-icon";icon.setAttribute("aria-hidden","true");icon.textContent="🌱";card.insertBefore(icon,card.firstChild)}
    var prev=card.querySelector(".mml-course-progress");if(prev)prev.remove();
    return;
   }

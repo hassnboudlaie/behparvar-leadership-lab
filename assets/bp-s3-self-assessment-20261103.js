@@ -259,6 +259,50 @@ function drawRadar(rows){
  place.innerHTML=out;
 }
 
+
+const EVIDENCE_QUESTIONS={
+ self:"در این موقعیت، کدام واکنش یا برداشت اولیه را تغییر دادید؟",
+ efficacy:"کدام گام نخست را انجام دادید و برای عبور از مانع از چه کمکی استفاده کردید؟",
+ time:"برای حفظ اولویت، چه کاری را به تعویق انداختید یا درباره زمان آن مذاکره کردید؟",
+ problem:"کدام شواهد، علت احتمالی را از نشانه ظاهری مسئله جدا کرد؟",
+ judgment:"کدام گزینه یا ریسک را بررسی کردید و با چه معیاری تصمیم گرفتید؟",
+ learning:"از چه بازخوردی استفاده کردید و در رفتار بعدی چه تغییری ایجاد شد؟"
+};
+function evidenceRecords(rows){
+ return rows.map(d=>{
+  const situation=String((state.notes||{})[d.id]||"").trim();
+  const outcome=String((state.outcomes||{})[d.id]||"").trim();
+  const status=!situation&&!outcome?"شاهد مکتوب ثبت نشده":!situation?"پیامد نوشته شده، اما موقعیت و اقدام مشخص نیست":!outcome?"موقعیت و اقدام ثبت شده، اما پیامد یا بازخورد هنوز روشن نیست":"موقعیت، اقدام و پیامد خودگزارش‌شده ثبت شده‌اند";
+  const interpretation=d.mean===null?"برای این حوزه، شواهد پرسشنامه برای نمره‌دهی کافی نیست.": "در پاسخ‌های چهار هفته اخیر، میانگین فراوانی رفتارهای این حوزه "+(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+" از ۵ بوده است.";
+  return {...d,situation,outcome,status,interpretation,question:EVIDENCE_QUESTIONS[d.id]};
+ });
+}
+function evidenceMarkup(rec){
+ return '<article class="bp-self-evidence-card"><h4>'+rec.icon+" "+esc(rec.name)+'</h4>'+
+ '<p class="bp-self-evidence-status">'+esc(rec.status)+'</p>'+
+ (rec.situation?'<p><strong>موقعیت و اقدام ثبت‌شده:</strong> '+esc(rec.situation)+'</p>':"")+
+ (rec.outcome?'<p><strong>پیامد گزارش‌شده:</strong> '+esc(rec.outcome)+'</p>':"")+
+ '<p><strong>تفسیر پرسشنامه:</strong> '+esc(rec.interpretation)+'</p>'+
+ '<p><strong>پرسش بازاندیشی:</strong> '+esc(rec.question)+'</p></article>';
+}
+function narrativeParagraphs(rows){
+ const valid=rows.filter(d=>d.mean!==null).sort((a,b)=>a.mean-b.mean);
+ const total=rows.reduce((n,d)=>n+d.answered,0);
+ const paragraphs=[
+ "این پروفایل از پاسخ‌های خود شما درباره رفتارهای چهار هفته اخیر ساخته شده است. "+fa(total)+" پاسخ قابل محاسبه از ۲۴ پرسش وجود دارد؛ امتیازها میزان فراوانی رفتارهای گزارش‌شده را نشان می‌دهند، نه رتبه یا کیفیت ذاتی فرد."
+ ];
+ if(!valid.length)paragraphs.push("برای تفسیر عددی هیچ‌یک از شش حوزه، شواهد کافی وجود ندارد. بهتر است ابتدا موقعیت‌های کاری بیشتری را مشاهده کنید.");
+ else if(valid.length===1)paragraphs.push("فقط برای «"+valid[0].name+"» امتیاز قابل تفسیر وجود دارد. از یک حوزه نمی‌توان نقاط قوت و نیازهای توسعه را با یکدیگر مقایسه کرد.");
+ else{
+  const gap=valid[valid.length-1].mean-valid[0].mean;
+  if(gap<0.5)paragraphs.push("شش حوزه قابل مشاهده از نظر فراوانی رفتارها الگوی نسبتاً نزدیک به هم دارند. این تفاوت‌های کوچک مبنای مناسبی برای اعلام قوت یا ضعف قطعی نیستند.");
+  else paragraphs.push("در مقایسه درون‌فردی، رفتارهای «"+valid[valid.length-1].name+"» نسبتاً بیشتر و «"+valid[0].name+"» نسبتاً کمتر گزارش شده‌اند. این نتیجه یک فرضیه توسعه‌ای است که بهتر است با مثال و بازخورد بررسی شود.");
+ }
+ if(valid.length<rows.length)paragraphs.push("در "+fa(rows.length-valid.length)+" حوزه تعداد رفتارهای قابل مشاهده کافی نبوده است؛ در این حوزه‌ها از ارائه امتیاز خودداری شده است.");
+ const evidenceCount=rows.filter(d=>String((state.notes||{})[d.id]||"").trim()||String((state.outcomes||{})[d.id]||"").trim()).length;
+ paragraphs.push("برای "+fa(evidenceCount)+" حوزه شاهد رفتاری مکتوب ثبت کرده‌اید. این شاهدها توسط سیستم به‌صورت توصیفی کنار امتیازها قرار می‌گیرند؛ درستی، کیفیت یا رابطه علت و معلولی متن آزاد بدون مشاهده و بازخورد مستقل قابل تأیید نیست.");
+ return paragraphs;
+}
 function showResult(){
  const missing=AREAS.findIndex((d,i)=>countDone(i)<4);
  if(missing!==-1){activeDim=missing;renderQuestions(true);el("selfMessage").textContent="برای ساخت پروفایل، ابتدا به همه ۲۴ عبارت پاسخ دهید. در صورت نداشتن فرصت مشاهده، همان گزینه را انتخاب کنید.";return;}
@@ -274,8 +318,11 @@ function showResult(){
  el("selfEvidenceNote").textContent="میانگین‌های زیر بر اساس گزارش رفتاری خود شما در چهار هفته اخیرند؛ مقایسه با دیگران یا گواهی شایستگی نیستند."+(note.length?" برای "+note.map(x=>x.name).join(" و ")+"، تعداد رفتارهای قابل مشاهده کمتر از سه مورد بوده و نمره ارائه نمی‌شود.":"");
  el("selfProfileChart").innerHTML=profile.map(d=>
  '<div class="bp-self-chart-item"><div><strong>'+d.icon+" "+esc(d.name)+'</strong><small>'+(d.mean===null?"شواهد کافی نیست":fa(d.answered)+" پاسخ قابل محاسبه")+'</small></div><div class="bp-self-track" role="img" aria-label="'+esc(d.name)+" "+(d.mean===null?"داده کافی نیست":"میانگین "+(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+" از پنج")+'"><span style="width:'+(d.mean===null?0:Math.round(d.mean/5*100))+'%"></span></div><div class="bp-self-chart-number">'+(d.mean===null?"—":(Math.round(d.mean*10)/10).toLocaleString("fa-IR")+" / ۵")+'</div></div>').join("");
- const examples=AREAS.filter(d=>String(state.notes[d.id]||"").trim());
- const evidenceBox=el("selfExamplesDetails");evidenceBox.hidden=!examples.length;el("selfEvidenceExamples").innerHTML=examples.map(d=>"<p><strong>"+d.icon+" "+esc(d.name)+":</strong> "+esc(state.notes[d.id])+"</p>").join("");
+ const records=evidenceRecords(profile);
+ const examples=records.filter(d=>d.situation||d.outcome);
+ const evidenceBox=el("selfExamplesDetails");evidenceBox.hidden=!examples.length;
+ el("selfEvidenceExamples").innerHTML=examples.length?examples.map(evidenceMarkup).join(""):"";
+ el("selfNarrativeText").innerHTML=narrativeParagraphs(profile).map(p=>"<p>"+esc(p)+"</p>").join("");
  const gap=known.length>1?known[known.length-1].mean-known[0].mean:0;
  const strong=[...known].reverse().slice(0,2),opps=known.slice(0,2);
  if(!known.length){

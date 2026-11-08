@@ -13,18 +13,18 @@ const AREAS=[
   "questions": [
    {
     "s": "وقتی از کارم انتقاد شد، قبل از جواب‌دادن پرسیدم دقیقاً کدام بخش باید بهتر شود.",
-    "m": "وقتی کسی با نظر من مخالفت کرد، قبل از پاسخ‌دادن دلیل مخالفتش را پرسیدم."
+    "m": "وقتی یکی از همکاران با نظر من مخالفت کرد، پیش از پاسخ، دلیل مخالفتش را پرسیدم."
    },
    {
-    "s": "وقتی از موضوعی در کار ناراحت شدم، قبل از صحبت کمی مکث کردم.",
+    "s": "وقتی از موضوعی در کار ناراحت شدم، پیش از پاسخ‌دادن کمی مکث کردم.",
     "m": "وقتی گفت‌وگوی کاری پرتنش شد، مکث کردم تا آرام‌تر و روشن‌تر پاسخ دهم."
    },
    {
     "s": "وقتی فکر کردم کسی کارش را درست انجام نداده، قبل از قضاوت از خودش توضیح خواستم.",
-    "m": "پیش از قضاوت درباره کار یک نفر، توضیح او را هم شنیدم."
+    "m": "پیش از قضاوت درباره کار یکی از همکاران، توضیح او را هم شنیدم."
    },
    {
-    "s": "بعد از گفت‌وگویی که خوب پیش نرفت، دفعه بعد شیوه صحبت‌کردنم را تغییر دادم.",
+    "s": "بعد از گفت‌وگویی که خوب پیش نرفت، در گفت‌وگوی بعدی شیوه صحبت‌کردنم را تغییر دادم.",
     "m": "بعد از جلسه‌ای که خوب پیش نرفت، در جلسه بعد یک رفتار خودم را تغییر دادم."
    }
   ]
@@ -38,11 +38,11 @@ const AREAS=[
   "questions": [
    {
     "s": "وقتی کاری سخت به من سپرده شد، اولین قدم مشخص را برای شروع آن برداشتم.",
-    "m": "وقتی با کاری تازه و سخت روبه‌رو شدم، یک قدم کوچک و کم‌خطر برای شروع آن مشخص کردم."
+    "m": "وقتی با کاری تازه و دشوار روبه‌رو شدم، اولین قدم مشخص را برای شروع آن انتخاب کردم."
    },
    {
     "s": "وقتی کار بزرگی داشتم، آن را به چند کار کوچک‌تر تقسیم کردم.",
-    "m": "برای پیش‌بردن یک هدف دشوار، چند قدم مشخص و زمان بررسی پیشرفت را تعیین کردم."
+    "m": "برای رسیدن به یک هدف دشوار، چند قدم مشخص و زمان بررسی پیشرفت را تعیین کردم."
    },
    {
     "s": "وقتی راه انجام کاری را نمی‌دانستم، از فرد مناسب کمک خواستم و کار را ادامه دادم.",
@@ -63,11 +63,11 @@ const AREAS=[
   "questions": [
    {
     "s": "در شروع روز کاری، دو کار مهم‌تر خودم را مشخص کردم.",
-    "m": "در شروع هفته، دو کار مهمی را که بیشترین اثر را بر نتیجه دارند، مشخص کردم."
+    "m": "در شروع هفته، دو کار مهمی را که بیشترین اثر را بر نتیجه کار تیم دارند، مشخص کردم."
    },
    {
-    "s": "برای انجام یک کار مهم، زمانی را کنار گذاشتم که کمتر کسی مزاحمم شود.",
-    "m": "برای کاری که به فکر و تمرکز نیاز داشت، زمانی را بدون جلسه یا وقفه کنار گذاشتم."
+    "s": "برای انجام یک کار مهم، زمانی را کنار گذاشتم که وقفه کمتری داشته باشم.",
+    "m": "برای کاری که نیاز به بررسی دقیق داشت، زمانی بدون جلسه یا وقفه کنار گذاشتم."
    },
    {
     "s": "قبل از قبول کار تازه، بررسی کردم برای انجام آن وقت کافی دارم یا نه.",
@@ -88,11 +88,11 @@ const AREAS=[
   "questions": [
    {
     "s": "وقتی مشکلی پیش آمد، قبل از پیشنهاد راه‌حل پرسیدم دقیقاً چه اتفاقی افتاده است.",
-    "m": "وقتی نتیجه کاری خوب نبود، قبل از تصمیم پرسیدم مشکل دقیقاً چه بوده است."
+    "m": "وقتی نتیجه کار تیم مطابق انتظار نبود، پیش از تصمیم پرسیدم دقیقاً چه اتفاقی افتاده است."
    },
    {
-    "s": "برای فهمیدن یک مشکل کاری، از فردی که موضوع را از نزدیک دیده بود سؤال کردم.",
-    "m": "برای فهم یک مشکل، از افرادی که با آن سروکار داشتند اطلاعات گرفتم."
+    "s": "برای فهمیدن یک مشکل کاری، از کسی که موضوع را از نزدیک دیده بود سؤال کردم.",
+    "m": "برای فهم یک مشکل، از افرادی که در تیم یا واحدهای دیگر با آن سروکار داشتند اطلاعات گرفتم."
    },
    {
     "s": "وقتی فکر کردم علت مشکل را پیدا کرده‌ام، یک دلیل دیگر را هم بررسی کردم.",
@@ -113,14 +113,14 @@ const AREAS=[
   "questions": [
    {
     "s": "قبل از یک تصمیم کاری، فکر کردم این تصمیم چه اثری بر کار یا افراد دیگر دارد.",
-    "m": "قبل از یک تصمیم مهم، بررسی کردم این تصمیم چه اثری بر افراد و نتیجه کار دارد."
+    "m": "پیش از یک تصمیم مهم، اثر آن را بر افراد، واحدهای مرتبط و نتیجه کار بررسی کردم."
    },
    {
-    "s": "وقتی دو راه برای انجام کاری داشتم، خوبی و دردسر هر راه را مقایسه کردم.",
-    "m": "وقتی چند راه برای تصمیم داشتم، فایده و خطر هر راه را مقایسه کردم."
+    "s": "وقتی برای انجام کاری دو راه داشتم، خوبی و دردسر احتمالی هر راه را مقایسه کردم.",
+    "m": "وقتی چند راه برای تصمیم‌گیری داشتم، فایده و خطر هر راه را مقایسه کردم."
    },
    {
-    "s": "وقتی تصمیمی از اختیارم خارج بود، آن را با توضیح کافی به مسئول مربوط ارجاع دادم.",
+    "s": "وقتی تصمیمی از اختیارم خارج بود، موضوع را با توضیح روشن به مسئول مربوط منتقل کردم.",
     "m": "وقتی تصمیمی از اختیارم خارج بود، اطلاعات لازم را برای فرد تصمیم‌گیرنده آماده کردم."
    },
    {
@@ -137,8 +137,8 @@ const AREAS=[
   "describe": "درباره کارم بازخورد می‌گیرم و آن را به تغییر واقعی رفتار تبدیل می‌کنم.",
   "questions": [
    {
-    "s": "از یک همکار پرسیدم کدام بخش رفتار کاری من می‌تواند بهتر شود.",
-    "m": "از همکار یا عضو تیم پرسیدم کدام رفتار مدیریتی من نیاز به بهترشدن دارد."
+    "s": "از یکی از همکاران پرسیدم کدام رفتار کاری من می‌تواند بهتر شود.",
+    "m": "از یکی از همکاران یا اعضای تیم پرسیدم کدام رفتار مدیریتی من نیاز به بهترشدن دارد."
    },
    {
     "s": "بعد از شنیدن بازخورد، مشخص کردم دفعه بعد چه کاری را متفاوت انجام می‌دهم.",
@@ -427,7 +427,7 @@ function renderQuestions(focus=false){
  return '<fieldset class="bp-self-question"><legend>'+fa(i+1)+'. '+esc(title)+'</legend><div class="bp-self-answers">'+options.map(v=>'<label'+(v===0?' class="na"':'')+'><input type="radio" name="self-'+id+'" data-answer="'+esc(id)+'" value="'+v+'" aria-label="'+(v===0?"فرصت مشاهده نداشتم":fa(v)+"، "+LEVEL_LABELS[v-1])+'"'+(value===v?' checked':'')+'><span>'+(v===0?"فرصت مشاهده نداشتم":fa(v))+'</span></label>').join("")+'</div></fieldset>';
  }).join("")+
  '<details class="bp-self-note"><summary>📝 نمونه واقعی از کار من (اختیاری)</summary>'+
- '<p>برای تحلیل قابل اتکا، یک رفتار مشخص و نتیجه قابل مشاهده آن را بنویسید. این دو نوشته به امتیاز شما اضافه نمی‌کنند و محرمانه روی همین دستگاه می‌مانند.</p>'+
+ '<p>برای بررسی دقیق‌تر، یک رفتار مشخص و نتیجه قابل مشاهده آن را بنویسید. این نوشته‌ها به امتیاز شما اضافه نمی‌شوند و فقط روی همین دستگاه ذخیره می‌شوند.</p>'+
  '<label for="selfNote">موقعیت و اقدام من: چه اتفاقی افتاد و من دقیقاً چه کردم؟</label>'+
  '<textarea id="selfNote" rows="3" maxlength="900" placeholder="مثلاً در یک گفت‌وگوی دشوار، پیش از پاسخ سؤال روشن‌کننده پرسیدم.">'+esc(state.notes[d.id]||"")+'</textarea>'+
  '<label for="selfOutcome">پیامد قابل مشاهده: چه تغییری رخ داد یا چه بازخوردی گرفتم؟</label>'+
@@ -508,7 +508,7 @@ function narrativeParagraphs(rows){
  else if(valid.length===1)paragraphs.push("فقط برای «"+valid[0].name+"» امتیاز قابل تفسیر وجود دارد. از یک حوزه نمی‌توان نقاط قوت و نیازهای توسعه را با یکدیگر مقایسه کرد.");
  else{
   const gap=valid[valid.length-1].mean-valid[0].mean;
-  if(gap<0.5)paragraphs.push("شش حوزه قابل مشاهده از نظر فراوانی رفتارها الگوی نسبتاً نزدیک به هم دارند. این تفاوت‌های کوچک مبنای مناسبی برای اعلام قوت یا ضعف قطعی نیستند.");
+  if(gap<0.5)paragraphs.push("حوزه‌های دارای پاسخ کافی، از نظر فراوانی رفتارها الگوی نسبتاً نزدیک به هم دارند. این تفاوت‌های کوچک مبنای مناسبی برای اعلام قوت یا ضعف قطعی نیستند.");
   else{
    const low=valid.filter(d=>d.mean<=valid[0].mean+0.1);
    const high=valid.filter(d=>d.mean>=valid[valid.length-1].mean-0.1);
@@ -522,7 +522,7 @@ function narrativeParagraphs(rows){
 }
 function showResult(){
  const missing=AREAS.findIndex((d,i)=>countDone(i)<4);
- if(missing!==-1){activeDim=missing;renderQuestions(true);el("selfMessage").textContent="برای ساخت پروفایل، ابتدا به همه ۲۴ عبارت پاسخ دهید. در صورت نداشتن فرصت مشاهده، همان گزینه را انتخاب کنید.";return;}
+ if(missing!==-1){activeDim=missing;renderQuestions(true);el("selfMessage").textContent="برای ساخت پروفایل، ابتدا به هر ۲۴ پرسش پاسخ دهید. اگر فرصتی برای مشاهده یک رفتار نداشته‌اید، گزینه «فرصت مشاهده نداشتم» را انتخاب کنید.";return;}
  profile=compute();
  state.profileViewed=true;save();updateRewards();
  const known=resultOrder(profile);
@@ -559,7 +559,7 @@ function showResult(){
  const target=el("selfIdpTarget");
  target.innerHTML='<option value="">یک حوزه توسعه را خودتان انتخاب کنید…</option>'+known.map(x=>'<option value="'+x.id+'">'+x.icon+" "+esc(x.name)+" — "+(Math.round(x.mean*10)/10).toLocaleString("fa-IR")+"</option>").join("");
  if(!known.length){
- el("selfGenerateIdp").disabled=true;el("selfIdpRecommendation").textContent="برای ایجاد IDP مبتنی بر نتیجه، حداقل سه رفتار در یکی از حوزه‌ها باید قابل مشاهده باشد. می‌توانید پاسخ‌ها را اصلاح کنید.";
+ el("selfGenerateIdp").disabled=true;el("selfIdpRecommendation").textContent="برای ساخت برنامه توسعه فردی بر پایه نتایج، باید در دست‌کم یک حوزه، سه رفتار قابل مشاهده داشته باشید. در صورت نیاز، پاسخ‌های خود را بازبینی کنید.";
  el("selfIdpFields").innerHTML="";el("selfSaveIdp").disabled=true;
  }else{
  const draft=state.planDraft&&known.some(x=>x.id===state.planDraft.target)?state.planDraft:null;
@@ -599,7 +599,7 @@ function buildIdpFields(data){
  el("selfIdpFields").innerHTML=primary.map(field).join("")+
  '<p class="bp-idp-case-hint">برای اینکه برنامه واقعاً شخصی باشد، یک موقعیت مشخص از کار خودتان را بنویسید. نمونه موقعیت: '+esc(IDEAS[data.target][role==="managers"?"m":"s"][2])+'</p>'+
  '<details class="bp-self-idp-optional"><summary>جزئیات اختیاری برنامه: فرد حمایت‌کننده و موانع</summary><div class="bp-self-idp-optional-grid">'+optional.map(field).join("")+'</div></details>';
- el("selfIdpStatus").textContent=state.planNeedsReview?"پاسخ‌ها تغییر کرده‌اند. لطفاً برنامه قبلی را بازبینی و دوباره ذخیره کنید.":state.planDraft?"پیش‌نویس قبلی شما بازیابی شد؛ برای نهایی‌شدن آن را ذخیره کنید.":state.plan?"برنامه ذخیره‌شده بازیابی شد؛ در صورت اصلاح دوباره ذخیره کنید.":"پیشنهاد اولیه آماده است؛ آن را با شرایط واقعی کارتان هماهنگ کنید.";
+ el("selfIdpStatus").textContent=state.planNeedsReview?"پاسخ‌ها تغییر کرده‌اند. لطفاً برنامه قبلی را بازبینی و دوباره ذخیره کنید.":state.planDraft?"پیش‌نویس قبلی شما بازیابی شد؛ برای نهایی‌شدن آن را ذخیره کنید.":state.plan?"برنامه ذخیره‌شده بازیابی شد؛ در صورت اصلاح دوباره ذخیره کنید.":"پیشنهاد اولیه آماده است. آن را با شرایط واقعی کارتان هماهنگ کنید.";
 }
 function currentPlan(){
  const target=el("selfIdpTarget").value;const data={target};
@@ -616,10 +616,10 @@ function savePlan(){
  if(el("results").hidden||!el("selfIdpFields").querySelector("[data-plan]"))return;
  const p=currentPlan();
  if(!p.goal||!p.behavior||!p.practice||!p.evidence||!p.review){
-  el("selfIdpStatus").textContent="برای تکمیل IDP، هدف، رفتار قابل مشاهده، تمرین، یک موقعیت واقعی، شاهد پیشرفت و زمان بازبینی را مشخص کنید.";return;
+  el("selfIdpStatus").textContent="برای تکمیل برنامه توسعه فردی، هدف، رفتار قابل مشاهده، تمرین، یک موقعیت واقعی، شاهد پیشرفت و زمان بازبینی را مشخص کنید.";return;
  }
  if(!hasPersonalCase(p)){
-  el("selfIdpStatus").textContent="برای شخصی‌سازی IDP، یک موقعیت واقعی از کار خودتان (حداقل یک جمله کوتاه) در بخش «موقعیت کاری تمرین» بنویسید؛ نمونه پیشنهادی آماده کافی نیست.";return;
+  el("selfIdpStatus").textContent="برای شخصی‌سازی برنامه توسعه فردی، در بخش «موقعیت کاری تمرین» دست‌کم یک جمله درباره یک موقعیت واقعی بنویسید. نمونه پیشنهادی به‌تنهایی کافی نیست.";return;
  }
  if(!el("selfPlanOwnership").checked){
   el("selfIdpStatus").textContent="پیش از ذخیره، برنامه را با شرایط شغلی خودتان بررسی و گزینه تأیید برنامه را انتخاب کنید.";return;
@@ -633,7 +633,7 @@ function savePlan(){
   el("selfCompletion").hidden=true;updateRewards();return;
  }
  updateRewards();
- el("selfIdpStatus").textContent="IDP نهایی شما در مرورگر همین گوشی ذخیره شد. اکنون نسخه گزارش را نگه دارید.";
+ el("selfIdpStatus").textContent="برنامه توسعه فردی شما در مرورگر همین گوشی ذخیره شد. حالا یک نسخه از گزارش را برای خودتان نگه دارید.";
  el("selfCompletionText").textContent="حوزه توسعه: "+(AREAS.find(d=>d.id===p.target)?.name||"")+"؛ بازبینی: "+p.review;
  el("selfCompletion").hidden=false;
  setStage("idp");
@@ -665,7 +665,7 @@ function reportText(){
 function copyReport(){
  const v=reportText(),preview=el("selfReportPreview");preview.value=v;preview.hidden=false;
  const status=el("selfIdpStatus");
- if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(v).then(()=>status.textContent="پروفایل و IDP کپی شدند.").catch(()=>status.textContent="کپی خودکار ممکن نشد؛ متن آماده در کادر پایین را دستی کپی کنید.");
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(v).then(()=>status.textContent="پروفایل و برنامه توسعه فردی کپی شدند.").catch(()=>status.textContent="کپی خودکار ممکن نشد؛ متن آماده در کادر پایین را دستی کپی کنید.");
  else status.textContent="متن گزارش در کادر پایین برای کپی دستی آماده است.";
 }
 function buildPrintableReport(){
@@ -759,7 +759,7 @@ function setup(){
  if(state.plan)state.planNeedsReview=true;
  if(!save())el("selfMessage").textContent="مرورگر اجازه ذخیره نداده است؛ پاسخ‌ها تا بازبودن صفحه باقی می‌مانند.";
  updateProgress();renderNav();
- if(!el("results").hidden){el("results").hidden=true;el("selfMessage").textContent="پاسخ تغییر کرد؛ پروفایل را دوباره ببینید و در صورت داشتن IDP، برنامه را بازبینی و مجدداً ذخیره کنید.";}
+ if(!el("results").hidden){el("results").hidden=true;el("selfMessage").textContent="پاسخ شما تغییر کرد. پروفایل را دوباره ببینید. اگر برنامه توسعه فردی ساخته‌اید، آن را هم بازبینی و دوباره ذخیره کنید.";}
  });
  el("selfQuestions").addEventListener("input",e=>{
  if(e.target.id==="selfNote"||e.target.id==="selfOutcome"){
@@ -780,7 +780,7 @@ function setup(){
   const target=el("selfIdpTarget").value;if(!target)return;
   const draft=recommend(target);state.planDraft=draft;save();buildIdpFields(draft);el("selfGenerateIdp").disabled=false;el("selfSaveIdp").disabled=false;updateRewards();
   el("selfCompletion").hidden=true;el("selfPlanOwnership").checked=false;
-  el("selfIdpStatus").textContent="پیشنهاد متناسب با این حوزه آماده شد. آن را ویرایش و سپس ذخیره کنید.";
+  el("selfIdpStatus").textContent="پیشنهاد این حوزه آماده شد. آن را متناسب با کار واقعی خودتان ویرایش و سپس ذخیره کنید.";
  }
  el("selfIdpTarget").addEventListener("change",suggestIdp);
  el("selfGenerateIdp").addEventListener("click",suggestIdp);
@@ -789,7 +789,7 @@ function setup(){
   state.planDraft=currentPlan();save();updateRewards();
   el("selfPlanOwnership").checked=false;
   el("selfCompletion").hidden=true;
-  el("selfIdpStatus").textContent="تغییرات به‌صورت پیش‌نویس نگهداری می‌شوند. برای نهایی‌شدن، «ذخیره IDP» را بزنید.";
+  el("selfIdpStatus").textContent="تغییرات به‌صورت پیش‌نویس ذخیره می‌شوند. برای نهایی‌کردن برنامه، دکمه «ذخیره برنامه توسعه فردی» را بزنید.";
  });
  el("selfSaveIdp").addEventListener("click",savePlan);
  el("selfCopyReport").addEventListener("click",copyReport);

@@ -30,7 +30,7 @@ assert(css.includes("@media screen and (max-width:650px)"),"Mobile responsive ru
 assert(css.includes("bp-self-workspace .bp-self-actions"),"Stable bottom navigation");
 assert(ui.includes('classList.add("bp-s3-enhanced")'),"Progressive enhancement");
 assert(!/localStorage\.|sessionStorage\.|indexedDB\./.test(ui),"Controller must not touch saved responses");
-assert(core.includes("const STORAGE="),"Existing local storage retained");
+assert(core.includes("STORAGE=")&&core.includes("localStorage"),"Existing local storage retained");
 assert(core.includes("const ROLE_LABEL=")&&core.includes('"supervisors"')&&core.includes('"managers"'),"Dual role assessment retained");
 assert(core.includes("function showResult()")&&core.includes("function savePlan("),"Report and IDP retained");
 assert(worker.includes("mml-root-20261108-session3-v55"),"PWA cache version refreshed");

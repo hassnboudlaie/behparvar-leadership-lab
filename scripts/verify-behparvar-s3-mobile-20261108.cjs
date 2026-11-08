@@ -1,0 +1,39 @@
+/* Regressions for the mobile presentation of Behparvar Session 3.
+   No scoring/storage/data changes are made by this visual enhancement. */
+"use strict";
+const fs=require("node:fs"),path=require("node:path"),vm=require("node:vm"),assert=require("node:assert/strict");
+const root=path.resolve(__dirname,"..");
+const read=p=>fs.readFileSync(path.join(root,p),"utf8");
+const html=read("session3-self-assessment.html");
+const css=read("assets/bp-s3-premium-mobile-20261108.css");
+const ui=read("assets/bp-s3-premium-mobile-20261108.js");
+const core=read("assets/bp-s3-self-assessment-20261103.js");
+const worker=read("sw.js");
+new vm.Script(core,{filename:"assessment.js"});
+new vm.Script(ui,{filename:"premium.js"});
+new vm.Script(worker,{filename:"sw.js"});
+assert(html.includes('lang="fa" dir="rtl"'),"RTL Persian page");
+assert(html.includes('name="viewport"'),"Mobile viewport");
+assert(html.includes('href="assets/bp-s3-premium-mobile-20261108.css?v=1"'),"New CSS linked");
+assert(html.includes('src="assets/bp-s3-premium-mobile-20261108.js?v=1"'),"New presentation controller linked");
+assert(html.indexOf('src="assets/bp-s3-self-assessment-20261103.js')<html.indexOf('src="assets/bp-s3-premium-mobile-20261108.js'),"Load original assessment first");
+const required=["selfApp","selfPersonName","assessment","selfCounter","selfProgressPercent","selfProgressFill","selfDimNav","selfQuestions","selfPrev","selfNext","selfViewResult","results","selfIdpTarget","selfSaveIdp","selfPrintReport","selfRewardScore","selfRewardBadges","selfBackToWelcome"];
+for(const id of required)assert(html.includes('id="'+id+'"'),"Missing existing control: "+id);
+assert(html.includes('class="bp3-nav-drawer"'),"Collapsible six-area navigation");
+assert(html.includes('class="bp3-hero-sticker"'),"Hero sticker");
+assert(html.includes('class="bp-self-start"'),"Explicit start button");
+assert(html.indexOf('class="bp-self-start"')<html.indexOf('class="bp-self-rewards"'),"Start appears before reward cards");
+assert(html.indexOf('class="bp-self-rewards"')<html.indexOf('id="assessment"'),"Rewards stay available");
+assert(css.includes("bp-s3-enhanced:not(.bp-s3-in-progress)"),"Progressive welcome visibility");
+assert(css.includes("bp-s3-in-progress"),"Assessment focus state");
+assert(css.includes("@media screen and (max-width:650px)"),"Mobile responsive rules");
+assert(css.includes("bp-self-workspace .bp-self-actions"),"Stable bottom navigation");
+assert(ui.includes('classList.add("bp-s3-enhanced")'),"Progressive enhancement");
+assert(!/localStorage\.|sessionStorage\.|indexedDB\./.test(ui),"Controller must not touch saved responses");
+assert(core.includes("STORAGE=")&&core.includes("localStorage"),"Existing local storage retained");
+assert(core.includes("const ROLE_LABEL=")&&core.includes('"supervisors"')&&core.includes('"managers"'),"Dual role assessment retained");
+assert(core.includes("function showResult()")&&core.includes("function savePlan("),"Report and IDP retained");
+assert(worker.includes("mml-root-20261108-session3-v55"),"PWA cache version refreshed");
+for(const asset of ["bp-s3-premium-mobile-20261108.css","bp-s3-premium-mobile-20261108.js"])
+ assert(worker.includes(asset),"New asset included in offline cache");
+console.log("PASS: Session 3 mobile visual design, core inputs, dual roles, autosave, IDP, PWA assets and JS syntax.");

@@ -465,3 +465,91 @@ body.bp-self-guide-open{overflow:hidden!important}
 }
 @media(prefers-reduced-motion:reduce){.bp-self-guide-screen{animation:none}}
 @media print{#selfCompetencyGuide,.bp-self-guide-screen{display:none!important}}
+
+
+/* Session 3 release: readable, professional mobile UX (screen-only).
+   Kept separate from print/PDF; no assessment mechanics or data keys change. */
+@media screen {
+  body { background:#f3f6fb; color:#182d4d; font-size:21px; line-height:1.9; }
+  .top { background:#fff; border-bottom:1px solid #cfdbec; }
+  .top a, .top span { font-size:17px; color:#23466f; }
+  #selfApp { direction:rtl; text-align:start; overflow-wrap:break-word; max-width:1060px; }
+  #selfApp .panel { border:1px solid #d3dfec; background:#fff; border-radius:20px;
+                    box-shadow:0 5px 22px rgba(18,46,83,.065); padding:clamp(20px,2.8vw,31px); }
+  #selfApp .bp-self-hero { background:linear-gradient(130deg,#102b5a 0%,#234e83 100%);
+                            border-radius:21px; box-shadow:0 10px 26px rgba(14,43,87,.13); }
+  #selfApp .bp-self-hero h1 { font-size:clamp(29px,3.7vw,42px); font-weight:900; line-height:1.5; }
+  #selfApp .bp-self-hero p { font-size:20px; font-weight:500; line-height:1.95; color:#f0f6ff; }
+  #selfApp .bp-self-hero small { color:#e4eefc; }
+  #selfApp h2 { font-size:clamp(25px,3vw,33px); font-weight:900; line-height:1.55; color:#153968; }
+  #selfApp h3 { font-size:clamp(22px,2.4vw,27px); font-weight:850; line-height:1.6; color:#193d68; }
+  #selfApp .panel > p, #selfApp .bp-self-muted, #selfApp .bp-self-helper,
+  #selfApp .bp-self-method p, #selfApp .bp-self-evidence-review p,
+  #selfApp .bp-self-peer p, #selfApp .bp-self-peer li,
+  #selfApp .bp-self-narrative p, #selfApp .bp-self-interpretation,
+  #selfApp .bp-self-pdf-hint, #selfApp .bp-self-idp-profile > p,
+  #selfApp .bp-self-data-policy p {
+    line-height:1.98; color:#28425f; overflow-wrap:break-word;
+  }
+  #selfApp .panel > p + p, #selfApp .bp-self-evidence-review p + p,
+  #selfApp .bp-self-method p + p, #selfApp .bp-self-idp-profile > p + p { margin-top:.72em; }
+  #selfApp .bp-self-intro > p, #selfApp .bp-self-method p,
+  #selfApp .bp-self-data-policy p { max-width:83ch; }
+  #selfApp .bp-self-question { background:#fff; border:1px solid #c8d9eb; border-radius:15px;
+                               box-shadow:0 3px 10px rgba(22,53,95,.045); }
+  #selfApp .bp-self-question legend { font-size:21px; font-weight:800; line-height:1.95; color:#102e55; }
+  #selfApp .bp-self-domain-head p { font-size:19px; line-height:1.9; color:#294665; }
+  #selfApp .bp-self-scale-reminder { color:#20456d !important; line-height:1.9; }
+  #selfApp .bp-self-answers label { border-color:#b8cee5; color:#133258; }
+  #selfApp .bp-self-answers label:has(input:checked) { background:#dfebfc; color:#082e60; border-color:#174a80; }
+  #selfApp .bp-self-dim-nav .bp-self-nav-meaning > span { color:#123f73; font-weight:850; }
+  #selfApp .bp-self-dim-nav .bp-self-nav-questions,
+  #selfApp .bp-self-dim-nav .bp-self-nav-questions > small { color:#294b71; }
+  #selfApp .bp-self-workshop-steps article { border-color:#c6d7e9; background:#f7faff; }
+  #selfApp .bp-self-workshop-steps article strong { color:#123a71; font-weight:850; }
+  #selfApp .bp-self-workshop-steps article small { font-size:16px; line-height:1.75; color:#31506f; }
+  #selfApp .bp-reward-disclaimer { font-size:15px; color:#425975; line-height:1.75; }
+  #selfApp .bp-reward-badge small { color:inherit; font-size:15px; }
+  #selfApp .bp-self-message { font-size:18px; color:#284968; line-height:1.85; }
+  #selfApp .bp-self-idp-fields label { font-weight:750; color:#193a63; line-height:1.8; }
+  #selfApp input, #selfApp textarea, #selfApp select { color:#173456; font-size:18px; line-height:1.7; }
+  #selfApp button, #selfApp summary, #selfApp input, #selfApp textarea,
+  #selfApp select { font-family:inherit; }
+  #selfApp .bp-self-actions button, #selfApp .bp-self-idp-top button,
+  #selfApp .bp-self-start { min-height:54px; font-size:18px; font-weight:850; }
+  #selfApp .bp-self-radar-details summary, #selfApp .bp-self-peer summary,
+  #selfApp .bp-self-method summary { color:#153e72; font-size:19px; font-weight:850; }
+  #selfApp .bp-self-interpretation { border-right:4px solid #9e2847; background:#f2f5fb; }
+  #selfCompetencyGuide .bp-self-guide-meaning p,
+  #selfCompetencyGuide .bp-self-guide-examples li,
+  #selfCompetencyGuide .bp-self-guide-distinction p {
+    font-size:19px; color:#233f5d; line-height:2; overflow-wrap:break-word;
+  }
+  #selfApp :is(button,a,input,textarea,select,summary):focus-visible {
+    outline:3px solid #a52b51; outline-offset:3px;
+  }
+}
+@media screen and (max-width:650px) {
+  body { font-size:20px; line-height:1.92; }
+  #selfApp .panel { padding:18px 15px; margin-block:15px; border-radius:17px; }
+  #selfApp .bp-self-hero { padding:23px 19px; }
+  #selfApp .bp-self-hero h1 { font-size:30px; line-height:1.52; }
+  #selfApp .bp-self-hero p { font-size:19px; line-height:1.92; }
+  #selfApp h2 { font-size:26px; }
+  #selfApp h3 { font-size:23px; }
+  #selfApp .bp-self-question { padding:15px 12px; }
+  #selfApp .bp-self-question legend { font-size:20px; line-height:2; }
+  #selfApp .bp-self-workshop-steps article small { font-size:16px; }
+  #selfApp .bp-self-answers label.na { font-size:17px; }
+  #selfApp .bp-self-dim-nav .bp-self-nav-meaning > span { font-size:17px; }
+  #selfApp .bp-self-dim-nav .bp-self-nav-questions > span { font-size:15px; }
+  #selfApp .bp-self-dim-nav .bp-self-nav-questions > small { font-size:14px; }
+  #selfApp .bp-self-rewards { padding:15px 13px; }
+  #selfApp .bp-self-start { width:100%; }
+  #selfApp .bp-self-actions button { flex-grow:1; }
+  #selfApp .bp-self-idp-fields textarea { min-height:105px; }
+  #selfApp .bp-self-method p, #selfApp .bp-self-evidence-review p,
+  #selfApp .bp-self-idp-profile > p, #selfApp .bp-self-data-policy p { font-size:18px; line-height:2; }
+  #selfCompetencyGuide .bp-self-guide-meaning p,
+  #selfCompetencyGuide .bp-self-guide-examples li { font-size:18px; }
+}

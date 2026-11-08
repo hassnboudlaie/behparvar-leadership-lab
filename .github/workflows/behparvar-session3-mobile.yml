@@ -1,0 +1,31 @@
+name: Behparvar Session 3 Mobile QA
+on:
+  push:
+    paths:
+      - 'session3-self-assessment.html'
+      - 'assets/bp-s3-*'
+      - 'sw.js'
+      - 'scripts/verify-behparvar-s3-mobile-20261108.cjs'
+      - '.github/workflows/behparvar-session3-mobile.yml'
+  pull_request:
+    paths:
+      - 'session3-self-assessment.html'
+      - 'assets/bp-s3-*'
+      - 'sw.js'
+      - 'scripts/verify-behparvar-s3-mobile-20261108.cjs'
+      - '.github/workflows/behparvar-session3-mobile.yml'
+jobs:
+  isolated-ui-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate source syntax
+        run: |
+          node --check assets/bp-s3-self-assessment-20261103.js
+          node --check assets/bp-s3-premium-mobile-20261108.js
+          node --check sw.js
+      - name: Verify Session 3 UI and PWA regression boundaries
+        run: node scripts/verify-behparvar-s3-mobile-20261108.cjs

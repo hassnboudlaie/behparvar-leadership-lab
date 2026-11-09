@@ -33,7 +33,18 @@ assert(!/localStorage\.|sessionStorage\.|indexedDB\./.test(ui),"Controller must 
 assert(core.includes("STORAGE=")&&core.includes("localStorage"),"Existing local storage retained");
 assert(core.includes("const ROLE_LABEL=")&&core.includes('"supervisors"')&&core.includes('"managers"'),"Dual role assessment retained");
 assert(core.includes("function showResult()")&&core.includes("function savePlan("),"Report and IDP retained");
-assert(worker.includes("mml-root-20261108-session3-v55"),"PWA cache version refreshed");
+assert(worker.includes("mml-root-20261109-teamship-v56"),"PWA cache version refreshed");
+assert(worker.includes("./session3-teamship.html"),"Teamship page precached");
+assert(html.includes('href="session3-teamship.html"'),"Teamship entry linked from session 3");
+const teamship=read("session3-teamship.html");
+assert(teamship.includes('lang="fa" dir="rtl"'),"Teamship RTL preserved");
+assert(teamship.includes('data-route="intro"'),"Clickable intro present");
+assert(teamship.includes("NeverLeadAlone-HC_3D-SIMP.png"),"Official book cover present");
+assert(teamship.includes("رفتار قابل مشاهده")&&teamship.includes("قبل از تحول")&&teamship.includes("بعد از تحول"),"Four learning layers present");
+assert((teamship.match(/"id":\\d+/g)||[]).length===10,"Exactly ten shifts");
+const pageScript=teamship.match(/<script>([\\s\\S]*?)<\\/script>/);
+assert(pageScript,"Teamship page controller available");
+new vm.Script(pageScript[1],{filename:"session3-teamship.html"});
 for(const asset of ["bp-s3-premium-mobile-20261108.css","bp-s3-premium-mobile-20261108.js"])
  assert(worker.includes(asset),"New asset included in offline cache");
 console.log("PASS: Session 3 mobile visual design, core inputs, dual roles, autosave, IDP, PWA assets and JS syntax.");

@@ -41,8 +41,8 @@ assert(teamship.includes('lang="fa" dir="rtl"'),"Teamship RTL preserved");
 assert(teamship.includes('data-route="intro"'),"Clickable intro present");
 assert(teamship.includes("NeverLeadAlone-HC_3D-SIMP.png"),"Official book cover present");
 assert(teamship.includes("رفتار قابل مشاهده")&&teamship.includes("قبل از تحول")&&teamship.includes("بعد از تحول"),"Four learning layers present");
-assert((teamship.match(/"id":\\d+/g)||[]).length===10,"Exactly ten shifts");
-const pageScript=teamship.match(/<script>([\\s\\S]*?)<\\/script>/);
+assert((teamship.match(/"id":\d+/g)||[]).length===10,"Exactly ten shifts");
+const pageScript=teamship.match(/<script>([\s\S]*?)<\/script>/);
 assert(pageScript,"Teamship page controller available");
 new vm.Script(pageScript[1],{filename:"session3-teamship.html"});
 for(const asset of ["bp-s3-premium-mobile-20261108.css","bp-s3-premium-mobile-20261108.js"])

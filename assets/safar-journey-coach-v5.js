@@ -63,7 +63,7 @@ function draw(msg){
   if(e)e.preventDefault();
   cover.remove();document.body.classList.remove("sf-coach-open");showing=false;
   try{lastFocus?.focus?.()}catch(e){}
-  const follow=msg.advance;
+  const follow=!!msg.advance&&e?.currentTarget?.id==="sfCoachContinue";
   if(follow){
    // The wizard's next action remains the authoritative navigation guard.
    setTimeout(()=>document.getElementById("sfNext")?.click(),30);

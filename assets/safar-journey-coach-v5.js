@@ -76,6 +76,18 @@ function draw(msg){
 }
 function showNext(){if(showing||!queue.length)return;draw(queue.shift())}
 function inform(msg){queue.push(msg);showNext()}
+function inlineFeedback(kind,title,message,tip){
+ const existing=document.getElementById("sfCoachInline");if(existing)existing.remove();
+ const root=document.getElementById("root"),anchor=root?.querySelector("#sfWizardCoach");
+ const note=document.createElement("div");note.id="sfCoachInline";
+ note.className="sf-coach-inline "+(kind==="correct"?"is-positive":"is-support");
+ note.setAttribute("role","status");note.setAttribute("aria-live","polite");
+ note.innerHTML='<strong>'+(kind==="correct"?"✨ ":"🌱 ")+escape(title)+'</strong>'+
+ '<p>'+escape(message)+'</p><small>💡 '+escape(tip)+'</small>'+
+ '<button type="button" id="sfCoachInlineClose" aria-label="بستن پیام">×</button>';
+ if(anchor)anchor.insertAdjacentElement("afterend",note);else root?.prepend(note);
+ note.querySelector("#sfCoachInlineClose")?.addEventListener("click",()=>note.remove(),{once:true});
+}
 function feedback(stage,q,answer){
  const s=data.stages[stage],base=s.tip,correct=q===1?answer.q1===s.c1:
  (answer.q2?.best===s.best&&answer.q2?.worst===s.worst);
@@ -88,6 +100,7 @@ function feedback(stage,q,answer){
  const text=correct?"پاسخ قطعی‌ات با معیار این مهارت هم‌راستاست. حالا می‌تونی با خیال راحت وارد موقعیت بعد بشی.":
  partial===1?"از دو تشخیصت، یکی دقیق بود. اینجا تفاوت میان چند اقدام قابل دفاع واقعاً ظریفه؛ در پایان تحلیل هر گزینه رو می‌بینی.":
  "این انتخاب بهینه نبود؛ اما هدف این سفر فقط نمره گرفتن نیست. تفاوت گزینه‌ها رو در پایان بررسی می‌کنیم و ازش برای گفت‌وگوی واقعی یاد می‌گیریم.";
+ if(q===1){inlineFeedback(correct?"correct":"retry",title,text,base);return}
  inform({kind:correct?"correct":"retry",icon:correct?"✨":"🌱",title,text,tip:base,correctness:true,advance:true});
 }
 function stageComplete(index){

@@ -25,7 +25,10 @@ function score(s){
  });
  return quiz+rp+resources+feedback;
 }
-function tier(value){return value>=90?"gold":value>=75?"silver":value>=60?"bronze":null}
+function quizScore(s){
+ let n=0;stages.forEach((stage,i)=>{const a=s.answers?.[i]||{};if(a.q1===stage.c1)n+=4;if(a.q2?.best===stage.best)n+=2;if(a.q2?.worst===stage.worst)n+=2});return n;
+}
+function tier(value,quiz=80){return value>=90&&quiz>=72?"gold":value>=75&&quiz>=60?"silver":value>=60&&quiz>=44?"bronze":null}
 function details(s,total){
  return{name:(s.name||"").trim()||"شرکت‌کننده به‌پرور",
  score:total,role:s.role,date:new Intl.DateTimeFormat("fa-IR",{year:"numeric",month:"long",day:"numeric"}).format(new Date(s.finishedAt||Date.now()))};
@@ -105,12 +108,12 @@ async function exportSeal(kind,format,opts){
 function resultPage(s){
  if(root.querySelector("#sfMedalFeature"))return;
  const hero=root.querySelector(".result-hero");if(!hero)return;
- const points=score(s),kind=tier(points),section=document.createElement("section");
+ const points=score(s),qpoints=quizScore(s),kind=tier(points,qpoints),section=document.createElement("section");
  hero.classList.add("sf-medal-result-hero");
  section.id="sfMedalFeature";section.className="sf-medal-feature";
  if(!kind){
    section.innerHTML='<h2>گزارش پایان سفر</h2><p>به حدنصاب نشان نرسیدی؛ امتیازت ثبت شده و پاسخنامه تحلیلی برای یادگیری در دسترس است.</p>'+
-   '<p class="sf-medal-disabled">حدنصاب دریافت نشان: برنزی ۶۰، سیمین ۷۵ و زرین ۹۰ امتیاز.</p>';
+   '<p class="sf-medal-disabled">حدنصاب نشان: برنزی ۶۰ مجموع و ۴۴ آزمون؛ سیمین ۷۵ مجموع و ۶۰ آزمون؛ زرین ۹۰ مجموع و ۷۲ از ۸۰ آزمون.</p>';
  }else{
   const p=D.palettes[kind];
   section.innerHTML='<h2>نشان '+p.name+' | '+p.title+'</h2>'+
@@ -119,7 +122,7 @@ function resultPage(s){
   '<div class="sf-medal-feature-actions"><button type="button" data-sf-export="png">دریافت تصویر PNG</button>'+
   '<button type="button" class="sf-medal-pdf" data-sf-export="pdf">دریافت فایل PDF</button>'+
   '<button type="button" class="sf-medal-svg" data-sf-export="svg">نسخه برداری SVG</button></div>'+
-  '<p class="sf-medal-note">لوگوی اصلی به‌پرور، نام شرکت‌کننده، مسیر، تاریخ و امتیاز روی نشان ثبت می‌شود. نشان آموزشی است، نه گواهی رسمی صلاحیت.</p>';
+  '<p class="sf-medal-note">لوگوی اصلی به‌پرور، نام شرکت‌کننده، مسیر، تاریخ و امتیاز روی نشان ثبت می‌شود. زرین علاوه بر ۹۰ امتیاز کل، دست‌کم ۷۲ از ۸۰ امتیاز آزمون می‌خواهد.</p>';
   section.addEventListener("click",async ev=>{
    const b=ev.target.closest("button[data-sf-export]");if(!b||b.disabled)return;
    const format=b.dataset.sfExport,caption=b.textContent;
@@ -144,5 +147,5 @@ const watch=new MutationObserver(()=>{
 });
 watch.observe(root,{childList:true,subtree:false});
 refresh();
-window.BP_SAFAR_MEDALS={tier,score,exportSeal,pdfFromJpeg};
+window.BP_SAFAR_MEDALS={tier,score,quizScore,exportSeal,pdfFromJpeg};
 })();

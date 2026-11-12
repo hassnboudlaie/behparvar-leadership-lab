@@ -1,0 +1,148 @@
+/* Behparvar / Safar Ertebatat - results integration + real downloads.
+ * Uses score rules identical to the existing in-page grading implementation.
+ */
+(()=>{"use strict";
+const root=document.querySelector("#root"),D=window.BP_SAFAR_BADGE_DESIGN;
+const stages=window.BP_SAFAR_DATA?.stages||[],incidents=window.BP_SAFAR_DATA?.incidents||[];
+if(!root||!D||stages.length!==10)return;
+const KEY="bp-communication-journey-v2",types=["gold","silver","bronze"];
+const fa=n=>Number(n??0).toLocaleString("fa-IR");
+function getState(){try{const s=JSON.parse(localStorage.getItem(KEY)||"null");return s?.version===2?s:null}catch(e){return null}}
+function score(s){
+ let quiz=0,rp=0,resources=0,feedback=0;
+ stages.forEach((stage,i)=>{
+  const a=s.answers?.[i]||{};
+  if(a.q1===stage.c1)quiz+=4;
+  if(a.q2?.best===stage.best)quiz+=2;
+  if(a.q2?.worst===stage.worst)quiz+=2;
+  if(s.rp?.[i])rp++;
+  if([2,7].includes(i)&&s.peer?.[i])feedback+=2;
+  const incident=incidents.find(x=>x.stage===i+1),v=s.alloc?.[i];
+  if(incident&&Array.isArray(v)){
+   const dist=v.reduce((n,val,j)=>n+Math.abs(val-incident.ideal[j]),0);
+   resources+=dist===0?2:dist<=2?1:0;
+  }
+ });
+ return quiz+rp+resources+feedback;
+}
+function tier(value){return value>=90?"gold":value>=75?"silver":value>=60?"bronze":null}
+function details(s,total){
+ return{name:(s.name||"").trim()||"شرکت‌کننده به‌پرور",
+ score:total,role:s.role,date:new Intl.DateTimeFormat("fa-IR",{year:"numeric",month:"long",day:"numeric"}).format(new Date(s.finishedAt||Date.now()))};
+}
+function gallery(){
+ if(root.querySelector("#sfMedalGallery"))return;
+ const stat=root.querySelector(".introgrid");if(!stat)return;
+ const item=document.createElement("section");item.id="sfMedalGallery";item.className="sf-medal-gallery";
+ item.innerHTML='<h2>نشان‌های سفر ارتباطات</h2><p>سه سطح با الهام از مهارت ارتباطی، همکاری و نظم صنعتی. نشان بر اساس امتیاز پایان سفر اعطا می‌شود.</p>'+
+ '<div class="sf-medal-gallery-grid">'+types.map(type=>{
+  const p=D.palettes[type];
+  return '<div class="sf-medal-mini '+type+'"><span class="sf-watermark">پیش‌نمایش</span>'+D.seal(type,{preview:true})+
+  '<strong>نشان '+p.name+'</strong><span>'+p.range+' امتیاز</span></div>';
+ }).join("")+'</div>';
+ stat.insertAdjacentElement("afterend",item);
+}
+function download(blob,name){
+ const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;
+ document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);
+}
+async function canvasFrom(svg){
+ if(document.fonts?.ready)try{await document.fonts.ready}catch(e){}
+ const link=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml;charset=utf-8"}));
+ const image=new Image();
+ try{
+  await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(new Error("SVG rendering failed"));image.src=link});
+  const c=document.createElement("canvas");c.width=1800;c.height=2360;
+  const ctx=c.getContext("2d");if(!ctx)throw Error("Canvas unavailable");
+  ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";
+  ctx.fillStyle="#f5f9fc";ctx.fillRect(0,0,c.width,c.height);
+  ctx.drawImage(image,0,0,1800,2360);
+  const original=document.querySelector("#brandlogo");
+  if(original?.complete&&original.naturalWidth){
+    ctx.fillStyle="#f5fafc";ctx.fillRect(590,107,620,176);
+    ctx.drawImage(original,618,130,564,148);
+  }
+  return c;
+ }finally{URL.revokeObjectURL(link)}
+}
+function pdfFromJpeg(jpeg,w,h){
+ const enc=new TextEncoder(),parts=[];let size=0;
+ const offsets=[0];
+ const put=b=>{parts.push(b);size+=b.length};
+ const txt=s=>put(enc.encode(s));
+ const obj=(num,fn)=>{offsets[num]=size;txt(num+" 0 obj\n");fn();txt("\nendobj\n")};
+ txt("%PDF-1.4\n");
+ obj(1,()=>txt("<< /Type /Catalog /Pages 2 0 R >>"));
+ obj(2,()=>txt("<< /Type /Pages /Count 1 /Kids [3 0 R] >>"));
+ obj(3,()=>txt("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /XObject << /Im1 4 0 R >> >> /Contents 5 0 R >>"));
+ obj(4,()=>{
+  txt("<< /Type /XObject /Subtype /Image /Width "+w+" /Height "+h+" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+jpeg.length+" >>\nstream\n");
+  put(jpeg);txt("\nendstream");
+ });
+ const command="q\n512 0 0 671.3 41.5 85.35 cm\n/Im1 Do\nQ\n";
+ obj(5,()=>txt("<< /Length "+enc.encode(command).length+" >>\nstream\n"+command+"endstream"));
+ const xref=size;
+ txt("xref\n0 6\n0000000000 65535 f \n");
+ for(let i=1;i<=5;i++)txt(String(offsets[i]).padStart(10,"0")+" 00000 n \n");
+ txt("trailer\n<< /Root 1 0 R /Size 6 >>\nstartxref\n"+xref+"\n%%EOF\n");
+ return new Blob(parts,{type:"application/pdf"});
+}
+async function exportSeal(kind,format,opts){
+ const svg=D.seal(kind,opts),stem="Behparvar-Safar-Ertebatat-"+kind+"-"+opts.score;
+ if(format==="svg"){download(new Blob([svg],{type:"image/svg+xml;charset=utf-8"}),stem+".svg");return}
+ const canvas=await canvasFrom(svg);
+ if(format==="png"){
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/png"));
+  if(!blob)throw Error("PNG conversion failed");
+  download(blob,stem+".png");return;
+ }
+ if(format==="pdf"){
+  const encoded=canvas.toDataURL("image/jpeg",.94).split(",")[1];
+  const raw=atob(encoded),binary=Uint8Array.from(raw,c=>c.charCodeAt(0));
+  download(pdfFromJpeg(binary,canvas.width,canvas.height),stem+".pdf");
+ }
+}
+function resultPage(s){
+ if(root.querySelector("#sfMedalFeature"))return;
+ const hero=root.querySelector(".result-hero");if(!hero)return;
+ const points=score(s),kind=tier(points),section=document.createElement("section");
+ hero.classList.add("sf-medal-result-hero");
+ section.id="sfMedalFeature";section.className="sf-medal-feature";
+ if(!kind){
+   section.innerHTML='<h2>گزارش پایان سفر</h2><p>به حدنصاب نشان نرسیدی؛ امتیازت ثبت شده و پاسخنامه تحلیلی برای یادگیری در دسترس است.</p>'+
+   '<p class="sf-medal-disabled">حدنصاب دریافت نشان: برنزی ۶۰، سیمین ۷۵ و زرین ۹۰ امتیاز.</p>';
+ }else{
+  const p=D.palettes[kind];
+  section.innerHTML='<h2>نشان '+p.name+' | '+p.title+'</h2>'+
+  '<p>طراحی‌شده برای به‌پرور با نماد چرخ‌دنده صنعتی، گفت‌وگوی سازنده و ارتباط میان افراد.</p>'+
+  '<div class="sf-medal-feature-preview">'+D.seal(kind,details(s,points))+'</div>'+
+  '<div class="sf-medal-feature-actions"><button type="button" data-sf-export="png">دریافت تصویر PNG</button>'+
+  '<button type="button" class="sf-medal-pdf" data-sf-export="pdf">دریافت فایل PDF</button>'+
+  '<button type="button" class="sf-medal-svg" data-sf-export="svg">نسخه برداری SVG</button></div>'+
+  '<p class="sf-medal-note">لوگوی اصلی به‌پرور، نام شرکت‌کننده، مسیر، تاریخ و امتیاز روی نشان ثبت می‌شود. نشان آموزشی است، نه گواهی رسمی صلاحیت.</p>';
+  section.addEventListener("click",async ev=>{
+   const b=ev.target.closest("button[data-sf-export]");if(!b||b.disabled)return;
+   const format=b.dataset.sfExport,caption=b.textContent;
+   b.disabled=true;b.textContent="در حال آماده‌سازی فایل…";
+   try{await exportSeal(kind,format,details(s,points))}
+   catch(e){console.error(e);alert("ساخت خروجی نشان با مشکل روبه‌رو شد. لطفاً دوباره امتحان کن.")}
+   finally{b.disabled=false;b.textContent=caption}
+  });
+ }
+ hero.insertAdjacentElement("afterend",section);
+}
+let scheduled=false;
+function refresh(){
+ const s=getState();
+ if(!s||!s.startedAt){gallery();return}
+ if(s.finished)resultPage(s);
+}
+const watch=new MutationObserver(()=>{
+ if(scheduled)return;
+ scheduled=true;
+ requestAnimationFrame(()=>{scheduled=false;refresh()});
+});
+watch.observe(root,{childList:true,subtree:false});
+refresh();
+window.BP_SAFAR_MEDALS={tier,score,exportSeal,pdfFromJpeg};
+})();

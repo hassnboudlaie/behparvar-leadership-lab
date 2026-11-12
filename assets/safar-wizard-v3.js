@@ -106,7 +106,7 @@ function renderTop(s){
  const seq=sequence(s),i=seq.indexOf(currentPhase),eligible=eligibility(s,currentPhase);
  const next=i===seq.length-1?(s.stage===9?"پایان سفر و مشاهده نتیجه":"ثبت مرحله و ورود به مرحله بعد"):"ادامه به "+labels[seq[i+1]];
  nav.innerHTML='<button type="button" id="sfPrev" class="btn previous-step" '+(i===0?"disabled":"")+'>→ گام قبل</button>'+
- '<small>'+(eligible?"آماده ادامه مسیر هستی.":"برای ادامه، ابتدا فعالیت این صفحه را کامل و ثبت کن.")+'</small>'+
+ '<small>'+(eligible?(skipNotice(s,currentPhase)?"فعالیت تکمیلی ثبت نشده؛ در صورت عبور، امتیاز آن منظور نمی‌شود.":"آماده ادامه مسیر هستی."):"برای ادامه، ابتدا فعالیت این صفحه را کامل و ثبت کن.")+'</small>'+
  '<button type="button" id="sfNext" class="btn primary-step" '+(!eligible?"disabled":"")+'>'+esc(next)+' ←</button>';
  root.append(nav);
  const wrap=document.createElement("section");
@@ -168,8 +168,9 @@ function forward(){
  const s=state();if(!s||s.finished)return;
  const seq=sequence(s),idx=seq.indexOf(currentPhase);
  if(!eligibility(s,currentPhase)){alert("ابتدا فعالیت این صفحه را ثبت کن تا گام بعد باز شود.");return}
+ // Optional activities can be skipped without repeated modal confirmations.
+ // The existing stage-completion check confirms any missing bonuses once.
  const notice=skipNotice(s,currentPhase);
- if(notice&&!confirm(notice))return;
  if(idx===seq.length-1){
   const coreNext=root.querySelector("#next");
   if(coreNext&&!coreNext.disabled)coreNext.click();

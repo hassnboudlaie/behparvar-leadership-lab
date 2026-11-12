@@ -3,6 +3,7 @@
 "use strict";
 const root=document.getElementById("root");
 const skills=window.BP_SAFAR_CLASSROOM?.content||[];
+const restored=window.BP_SAFAR_RESTORED_CONTENT?.content||[];
 const stages=window.BP_SAFAR_DATA?.stages||[];
 if(!root||skills.length!==10||stages.length!==10)return;
 const storageKey="bp-communication-journey-v2";
@@ -32,7 +33,9 @@ function decorateIntro(){
  cover.classList.add("sf-classroom-applied");
  const intro=root.querySelector(".introgrid");
  if(intro){
-  intro.insertAdjacentHTML("afterend",'<p class="sf-preview-notice"><strong>نقشه این سفر:</strong> هر مرحله با چند نکته کاربردی شروع می‌شود، سپس خودارزیابی، دو تصمیم قفل‌شونده و گفت‌وگوی دونفره دارد. کل زمان ۶۰ دقیقه است و نمره فقط در پایان نمایش داده می‌شود.</p>');
+  intro.insertAdjacentHTML("afterend",'<details class="sf-program-outline"><summary>📚 مهارت‌های ۱۰ ایستگاه سفر را ببین</summary><ol>'+
+   stages.map((stage,i)=>'<li><strong>'+escapeHTML(stage.title)+'</strong> <span>— '+escapeHTML(restored[i]?.outcome||"")+'</span></li>').join('')+
+   '</ol></details>');
  }
 }
 function decorateStage(s){
@@ -40,6 +43,7 @@ function decorateStage(s){
  const status=root.querySelector(".statusbar"),firstBullets=root.querySelector(".card .bullets");
  if(!status||!firstBullets)return;
  const c=getCur(s),stage=stages[s.stage],path=c[getRole(s)],answers=s.answers?.[s.stage]||{};
+ const rc=restored[s.stage]||null;
  const done=answers.q1!==undefined&&answers.q2!==undefined;
  const anchor=document.createElement("div");anchor.className="sf-classroom-applied";
  status.insertAdjacentElement("afterend",anchor);
@@ -54,6 +58,23 @@ function decorateStage(s){
   const title='<section class="sf-skill-card"><span class="pill teal">تکنیک ارتباطی این مرحله</span><h3>'+escapeHTML(c.skill)+'</h3><p>'+escapeHTML(c.definition)+'</p>'+
    '<div class="sf-pair"><div class="sf-do"><b>✓ بهتر است</b>'+escapeHTML(c.do)+'</div><div class="sf-avoid"><b>✕ خطای رایج</b>'+escapeHTML(c.avoid)+'</div></div></section>';
   firstBullets.insertAdjacentHTML("beforebegin",title);
+  if(rc){
+   const expanded='<div class="sf-learning-outcome"><strong>هدف رفتاری این مرحله</strong>'+escapeHTML(rc.outcome)+'</div>'+
+    '<div class="sf-competency-techniques"><h3>سه تکنیک کاربردی</h3>'+
+    rc.tools.map((tool,i)=>'<details class="sf-technique" '+(i===0?'open':'')+'><summary>'+(i+1)+' · '+escapeHTML(tool[0])+'</summary>'+
+     '<div class="sf-technique-content"><p>'+escapeHTML(tool[1])+'</p><div class="sf-technique-example"><b>مثال در گفت‌وگو</b>'+escapeHTML(tool[2])+'</div></div></details>').join('')+'</div>';
+   firstBullets.insertAdjacentHTML("beforebegin",expanded);
+   const review=document.createElement("details");review.className="sf-lesson-summary";
+   review.innerHTML='<summary>مرور نکته‌های تکمیلی</summary>';
+   firstBullets.parentElement.insertBefore(review,firstBullets);review.append(firstBullets);
+   const example=rc.compare?.[getRole(s)];
+   if(example?.length===2){
+    const paired='<details class="sf-role-comparison"><summary>یک نمونه: قبل و بعد از تغییر رفتار</summary><div class="sf-comparison-grid">'+
+    '<div class="sf-less-effective"><b>کم‌اثرتر</b>'+escapeHTML(example[0])+'</div>'+
+    '<div class="sf-more-effective"><b>مؤثرتر</b>'+escapeHTML(example[1])+'</div></div></details>';
+    lesson.querySelector(".case")?.insertAdjacentHTML("afterend",paired);
+   }
+  }
  }
  // From Alborz session four: observable self-check instead of abstract technique recall.
  const selfItems=root.querySelectorAll(".self-item>p");
@@ -64,7 +85,10 @@ function decorateStage(s){
  if(practice){
   practice.id="sf-practice";
   const chars=practice.querySelectorAll(".charrow .character");
-  chars.forEach((el,i)=>{if(!path.roles?.[i])return;const b=el.querySelector("b");if(b)b.textContent=path.roles[i]});
+  chars.forEach((el,i)=>{if(!path.roles?.[i])return;
+   const b=el.querySelector("b");if(b)b.textContent=path.roles[i];
+   const brief=rc?.role?.[getRole(s)]?.[i];
+   if(brief)el.insertAdjacentHTML("beforeend",'<details class="sf-role-brief"><summary>اطلاعات اختصاصی نقش</summary><p class="sf-private-note">فقط شخص اجراکننده این نقش بخواند.</p><p>'+escapeHTML(brief)+'</p></details>')});
   const checks=practice.querySelectorAll(".checkrow");
   checks.forEach((el,i)=>{
    if(!c.observer?.[i])return;
@@ -82,7 +106,16 @@ function decorateStage(s){
     '<p class="sf-reflection"><strong>برای تحلیل جمعی</strong>'+escapeHTML(c.question)+'</p></details>':
     '<div class="sf-preview-notice">🔒 گفت‌وگوی نمونه پس از ثبت قطعی هر دو پاسخ باز می‌شود؛ تحلیل پاسخنامه تا پایان سفر پنهان است.</div>';
   const verify=practice.querySelector(".locked")||practice.querySelector("#peername")||practice.querySelector(".sf-skill-moment");
-  if(verify)verify.insertAdjacentHTML("beforebegin",example);
+  if(verify){
+   verify.insertAdjacentHTML("beforebegin",example);
+   if(rc){
+    const debrief='<details class="sf-debrief"><summary><strong>پرسش‌های تحلیل و انتقال مهارت</strong></summary>'+
+      rc.debrief.map((v,i)=>'<p>'+(i+1)+' · '+escapeHTML(v)+'</p>').join('')+
+      '<div class="sf-common-trap"><strong>خطای رایج</strong> '+escapeHTML(rc.trap)+'</div>'+
+      '<div class="sf-next-practice"><strong>تمرین در محیط کار:</strong> '+escapeHTML(rc.transfer)+'</div></details>';
+    verify.insertAdjacentHTML("beforebegin",debrief);
+   }
+  }
  }
  const endActions=root.querySelector(".actions:last-of-type");
  const reflection='<div class="sf-reflection"><strong>این یادت بمونه!</strong>'+escapeHTML(stage.tip)+'<p class="smaller">برای گفت‌وگوی واقعی بعدی‌ات چه رفتاری را می‌خواهی تغییر بدهی؟</p></div>';

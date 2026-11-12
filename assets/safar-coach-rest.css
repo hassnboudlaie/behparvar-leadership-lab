@@ -1,0 +1,52 @@
+/* Behparvar communication journey: reflective rest stations and an empathetic coach. */
+.sf-rest-station{border:1px solid #8bb7c1;border-radius:22px;overflow:hidden;background:linear-gradient(115deg,#e0efed,#e9eff5);box-shadow:0 7px 18px #1445571a;margin:8px 0 15px}
+.sf-rest-canvas{position:relative;min-height:285px;overflow:hidden;background:#28586a}
+.sf-rest-photo{width:100%;height:310px;display:block;object-fit:cover;object-position:15% 49%;filter:saturate(.95) brightness(.92)}
+.sf-rest-canvas.rest-two .sf-rest-photo{object-position:92% 50%;transform:scale(1.03);filter:saturate(.9) contrast(.96)}
+.sf-rest-shade{position:absolute;inset:0;padding:25px 28px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;background:linear-gradient(0deg,#103948dc 0%,#143c4f70 45%,#13344c08 100%);color:#fff}
+.sf-rest-kicker{display:inline-block;background:#e6c27a;color:#2b3d4e;padding:3px 12px;border-radius:99px;font-size:14px;font-weight:850}
+.sf-rest-shade h3{font-size:33px;margin:8px 0 3px;color:white}
+.sf-rest-shade p{font-size:18px;line-height:1.85;max-width:680px;margin:0;color:#f1f9fd}
+.sf-rest-body{padding:19px 23px;display:grid;grid-template-columns:110px 1fr;gap:23px;align-items:center}
+.sf-rest-seconds{min-height:108px;min-width:108px;border:6px solid #2f8995;border-left-color:#e4bc73;border-radius:50%;display:grid;place-content:center;text-align:center;background:#f3f9f8;color:#1f5b74}
+.sf-rest-seconds span{font-family:Tahoma,Arial,sans-serif;font-variant-numeric:tabular-nums;font-size:39px;line-height:1.2;font-weight:900}
+.sf-rest-seconds small{display:block;font-size:12px;font-weight:800}
+.sf-rest-body strong{font-size:19px;color:#1c5367}
+.sf-rest-body p{font-size:17px;margin:4px 0 9px;color:#355e71}
+.sf-rest-breathe{background:#1e697c;color:white;border:none;padding:9px 16px;border-radius:12px;min-height:43px;font-size:16px;font-weight:800}
+.sf-rest-breathe.acknowledged{background:#40817b}
+.sf-rest-foot{padding:0 22px 15px;margin:0;color:#516c7a;font-size:14px}
+.sf-coach-overlay{position:fixed;inset:0;z-index:999;display:grid;place-items:center;padding:20px;background:#102747ba;backdrop-filter:blur(3px);animation:sfFade .16s ease-out}
+.sf-coach-dialog{background:linear-gradient(125deg,#e5f0f4,#e7efed 70%,#eeeaf2);border-radius:25px;box-shadow:0 19px 50px #05283c45;border:1px solid #a4ccd5;width:min(480px,100%);padding:25px;position:relative;text-align:right;color:#193b54}
+.sf-coach-eyebrow{display:flex;gap:7px;align-items:center;flex-wrap:wrap;font-size:14px;font-weight:850;color:#437087}
+.sf-coach-spark{display:inline-grid;place-items:center;width:59px;height:59px;border-radius:17px;background:#dae8ec;border:1px solid #aac8cd;font-size:29px;margin:8px 0 5px}
+.sf-coach-dialog.correct .sf-coach-spark{background:#d8f0df;color:#1b7b61}
+.sf-coach-dialog.retry .sf-coach-spark{background:#f3e2ce;color:#9b6442}
+.sf-coach-dialog.milestone .sf-coach-spark{background:#f2e6c7;color:#aa8045}
+.sf-coach-dialog.event .sf-coach-spark{background:#f3ded6;color:#a75847}
+.sf-coach-dialog h3{font-size:25px;color:#173f61;line-height:1.5;margin:4px 0 8px}
+.sf-coach-dialog p{font-size:17px;line-height:1.95;margin:6px 0 13px}
+.sf-coach-note{background:#d6e9e9;border-right:4px solid #2d8994;padding:11px 14px;border-radius:11px;font-size:16px;line-height:1.85;color:#21536a;margin:11px 0 17px}
+.sf-coach-dialog button{width:100%;padding:10px 18px;border:none;background:#1d647c;color:white;border-radius:13px;font-weight:900;font-size:18px;min-height:51px}
+.sf-coach-dialog .close-icon{position:absolute;top:11px;left:12px;border-radius:99px;width:34px;height:34px;min-height:34px;padding:0;background:#d5e4ed;color:#3c6277;font-size:19px}
+.sf-coach-dialog .sf-status{font-size:13px;font-weight:800;color:#32677d}
+.sf-coach-progress{height:8px;width:100%;background:#cadce5;border-radius:99px;overflow:hidden;margin-top:15px}
+.sf-coach-progress span{display:block;height:100%;background:linear-gradient(90deg,#36a092,#d5b372);transition:width .2s ease}
+body.sf-coach-open{overflow:hidden}
+@keyframes sfFade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@media(max-width:700px){
+ .sf-rest-canvas{min-height:220px}
+ .sf-rest-photo{height:265px}
+ .sf-rest-shade{padding:19px}
+ .sf-rest-shade h3{font-size:25px}
+ .sf-rest-shade p{font-size:16px}
+ .sf-rest-body{padding:14px;grid-template-columns:86px 1fr;gap:12px}
+ .sf-rest-seconds{min-width:84px;min-height:84px;border-width:4px}
+ .sf-rest-seconds span{font-size:31px}
+ .sf-rest-body p{font-size:15px}
+ .sf-coach-dialog{padding:20px}
+ .sf-coach-dialog h3{font-size:22px}
+ .sf-coach-dialog p{font-size:16px}
+ .sf-coach-dialog button{font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){.sf-coach-overlay,.sf-coach-progress span{animation:none!important;transition:none!important}}

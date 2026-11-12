@@ -39,6 +39,8 @@ body{
 #root[data-sf-wizard="on"] > .statusbar.sf-wizard-visible{display:flex!important}
 #root[data-sf-wizard="on"] > .progressrow.sf-wizard-visible{display:flex!important}
 #root[data-sf-wizard="on"] > .minibanner.sf-wizard-visible{display:flex!important}
+#root[data-sf-wizard="on"] > .sf-wizard-nav.sf-wizard-visible{display:flex!important}
+#root[data-sf-wizard="on"] > .sf-wrap-card.sf-wizard-visible{display:grid!important}
 .sf-wizard-head{
  background:linear-gradient(119deg,#16466a 0%,#315779 52%,#4a657e 100%);
  color:#f9fbff;border:1px solid #87afc1;border-radius:21px;padding:16px 22px;

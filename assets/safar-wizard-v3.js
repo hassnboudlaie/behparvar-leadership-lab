@@ -56,7 +56,7 @@ function ensureState(s){
 }
 function setPhase(s,p){
  if(!sequence(s).includes(p))return;
- currentPhase=p;persist({key:phaseKey(s),phase:p});if(p==="rest")restStart(s);
+ currentPhase=p;persist({key:phaseKey(s),phase:p});document.getElementById("sfCoachInline")?.remove();if(p==="rest")restStart(s);
  apply(true);
  window.scrollTo({top:0,behavior:window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches?"auto":"smooth"});
 }

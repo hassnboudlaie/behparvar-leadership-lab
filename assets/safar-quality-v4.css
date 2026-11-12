@@ -1,0 +1,45 @@
+/* Safar Ertebatat v4 — moderated coaching, transparent locked choices, and local multi-path continuity. */
+.sf-coach-inline{
+  position:relative;margin:10px 0 14px;padding:12px 42px 12px 16px;
+  border-radius:14px;border:1px solid #9ac4c8;background:linear-gradient(115deg,#dcece9,#e5eff4);
+  border-right:5px solid #338c91;color:#234a60;box-shadow:0 4px 13px #20495d12;
+  font-size:16px;line-height:1.85
+}
+.sf-coach-inline.is-support{background:linear-gradient(115deg,#f2e7d7,#e6eff0);border-color:#d4bc99;border-right-color:#bc8b58}
+.sf-coach-inline strong{display:block;font-size:18px;color:#1d5268;margin-bottom:3px}
+.sf-coach-inline p{margin:2px 0 6px}
+.sf-coach-inline small{font-size:14px;color:#476579}
+.sf-coach-inline button{
+ position:absolute;top:10px;left:11px;border:1px solid #b6cdd2;border-radius:99px;
+ width:29px;height:29px;background:#eff4f5;color:#29546a;padding:0;line-height:1;font-size:21px
+}
+.sf-locked-answer{background:#e0efe8;border-radius:9px;padding:9px 13px;margin-top:8px;color:#265a47;line-height:1.8;font-size:16px}
+.sf-locked-answer strong{display:block;font-size:14px;color:#185846}
+.locked small{display:block;margin-top:7px;font-size:13px;font-weight:500;color:#3d6b57}
+.sf-session-controls{
+ display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;
+ margin:19px 0;padding:15px;border:1px solid #a8c6d2;border-radius:18px;
+ background:linear-gradient(120deg,#dcebf0,#e4e9f4);
+}
+.sf-session-controls>.btn{background:#1f6077;box-shadow:none}
+.sf-history{
+ border:1px solid #bdcfd8;border-radius:14px;background:#edf3f6;padding:9px 15px;
+ width:min(750px,100%);margin:12px auto;color:#23526b
+}
+.sf-history>summary{cursor:pointer;font-size:16px;font-weight:850}
+.sf-history-row{
+ display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+ margin:9px 0;padding:10px 12px;border-radius:10px;background:#dce9ee
+}
+.sf-history-row strong{font-size:16px;display:block}
+.sf-history-row small{font-size:14px;color:#557083;display:block}
+.sf-history-row button{
+ background:#1d6175;color:#fff;font-size:14px;font-weight:800;padding:7px 14px;border:0;border-radius:10px;min-height:41px
+}
+.sf-history-note{font-size:13px;color:#547082}
+@media(max-width:680px){
+ .sf-session-controls{padding:11px;gap:7px}
+ .sf-coach-inline{padding:11px 39px 11px 11px;font-size:15px}
+ .sf-coach-inline strong{font-size:17px}
+ .sf-locked-answer{font-size:15px}
+}

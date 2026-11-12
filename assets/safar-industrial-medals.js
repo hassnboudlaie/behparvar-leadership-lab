@@ -33,8 +33,8 @@ function details(s,total){
 function gallery(){
  if(root.querySelector("#sfMedalGallery"))return;
  const stat=root.querySelector(".introgrid");if(!stat)return;
- const item=document.createElement("section");item.id="sfMedalGallery";item.className="sf-medal-gallery";
- item.innerHTML='<h2>نشان‌های سفر ارتباطات</h2><p>سه سطح با الهام از مهارت ارتباطی، همکاری و نظم صنعتی. نشان بر اساس امتیاز پایان سفر اعطا می‌شود.</p>'+
+ const item=document.createElement("details");item.id="sfMedalGallery";item.className="sf-medal-gallery";
+ item.innerHTML='<summary>🏅 آشنایی با سه نشان پایان سفر <span>زرین · سیمین · برنزی</span></summary><p>برای مشاهده پیش‌نمایش‌ها این بخش را باز کن. نشان بر اساس امتیاز پایان سفر اعطا می‌شود.</p>'+
  '<div class="sf-medal-gallery-grid">'+types.map(type=>{
   const p=D.palettes[type];
   return '<div class="sf-medal-mini '+type+'"><span class="sf-watermark">پیش‌نمایش</span>'+D.seal(type,{preview:true})+

@@ -80,7 +80,7 @@ function inlineFeedback(kind,title,message,tip){
  const existing=document.getElementById("sfCoachInline");if(existing)existing.remove();
  const root=document.getElementById("root"),anchor=root?.querySelector("#sfWizardCoach");
  const note=document.createElement("div");note.id="sfCoachInline";
- note.className="sf-coach-inline "+(kind==="correct"?"is-positive":"is-support");
+ note.className="sf-coach-inline sf-wizard-visible "+(kind==="correct"?"is-positive":"is-support");
  note.setAttribute("role","status");note.setAttribute("aria-live","polite");
  note.innerHTML='<strong>'+(kind==="correct"?"✨ ":"🌱 ")+escape(title)+'</strong>'+
  '<p>'+escape(message)+'</p><small>💡 '+escape(tip)+'</small>'+

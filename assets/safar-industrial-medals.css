@@ -1,0 +1,54 @@
+/* Safar Ertebatat: industrial interpersonal competency medals, v4.
+   Scope isolated to the session-four entry and result screens. */
+.sf-medal-gallery{
+ margin:18px 0 23px;padding:19px;border-radius:23px;
+ background:linear-gradient(120deg,#dce9f0,#e8edf3 58%,#dce9e5);
+ border:1px solid #b0cbd4;box-shadow:0 5px 17px #193e551c;
+}
+.sf-medal-gallery h2{margin:0;color:#1b4261;font-size:25px}
+.sf-medal-gallery p{margin:5px 0 15px;color:#52697c;font-size:16px;line-height:1.85}
+.sf-medal-gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.sf-medal-mini{background:#f3f7f9;border-radius:18px;padding:10px 7px 13px;text-align:center;border:1px solid #b9ced9;position:relative;overflow:hidden}
+.sf-medal-mini.gold{background:linear-gradient(130deg,#f4eddb,#f5f8f9)}
+.sf-medal-mini.silver{background:linear-gradient(130deg,#e9eef3,#f4f8fa)}
+.sf-medal-mini.bronze{background:linear-gradient(130deg,#f2e6df,#f4f7f9)}
+.sf-medal-mini svg{display:block;margin:0 auto;width:100%;height:auto;max-width:215px}
+.sf-medal-mini strong{display:block;font-size:17px;color:#183d61;margin:7px 0 0}
+.sf-medal-mini span{display:block;font-size:14px;color:#536b7d}
+.sf-medal-mini .sf-watermark{position:absolute;top:12px;right:5px;background:#ffffffc9;border:1px solid #ffffff;border-radius:99px;padding:0 8px;color:#587183;font-size:11px;font-weight:800}
+.sf-medal-feature{
+ max-width:880px;margin:20px auto 0;padding:22px;
+ background:linear-gradient(120deg,#d9e7ed,#e2efe9 60%,#e4e8f2);
+ border:1px solid #91b9c4;border-radius:22px;box-shadow:0 5px 20px #13324d2b;
+ color:#1b3c58;text-align:center;
+}
+.sf-medal-feature h2{margin:0 0 8px;color:#1c4366;font-size:28px}
+.sf-medal-feature p{font-size:16px;max-width:610px;margin:6px auto 14px;color:#4c667a}
+.sf-medal-feature-preview{max-width:500px;margin:0 auto}
+.sf-medal-feature-preview svg{display:block;width:100%;height:auto;max-height:630px}
+.sf-medal-feature-actions{display:flex;gap:11px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.sf-medal-feature-actions button{flex:1;min-width:175px;max-width:240px;background:#1b5b74;border:none;border-radius:13px;color:#fff;font-weight:800;min-height:52px;padding:8px 17px;font-size:17px}
+.sf-medal-feature-actions button.sf-medal-pdf{background:#a6753e}
+.sf-medal-feature-actions button.sf-medal-svg{background:#ecf2f5;color:#234d67;border:1px solid #a9becd}
+.sf-medal-feature .sf-medal-note{font-size:13px;color:#557080;margin:12px auto 0}
+.sf-medal-feature .sf-medal-disabled{font-size:17px;color:#7b5335;margin:10px auto;background:#f2e4d5;border-radius:12px;padding:10px}
+#root .result-hero.sf-medal-result-hero{
+ background:linear-gradient(120deg,#154364,#2f5d73)!important;
+ padding-bottom:24px;
+}
+#root .result-hero.sf-medal-result-hero .badge-medal{display:none!important}
+#root .result-hero.sf-medal-result-hero #badgepng,
+#root .result-hero.sf-medal-result-hero #badgepdf{display:none!important}
+@media(max-width:730px){
+ .sf-medal-gallery{padding:12px}
+ .sf-medal-gallery-grid{gap:7px}
+ .sf-medal-mini{padding:6px 2px 9px;border-radius:13px}
+ .sf-medal-mini strong{font-size:14px}
+ .sf-medal-mini span{font-size:12px}
+ .sf-medal-mini svg{max-width:180px}
+ .sf-medal-feature{padding:13px}
+ .sf-medal-feature h2{font-size:23px}
+ .sf-medal-feature-actions button{min-width:120px;font-size:15px}
+}
+@media(prefers-reduced-motion:reduce){.sf-medal-gallery,.sf-medal-feature{animation:none!important;transition:none!important}}
+@media print{.sf-medal-gallery,.sf-medal-feature-actions{display:none!important}}

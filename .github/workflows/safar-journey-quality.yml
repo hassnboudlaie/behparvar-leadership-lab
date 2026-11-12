@@ -1,0 +1,28 @@
+name: Safar Ertebatat Quality Gate
+on:
+  push:
+    paths:
+      - 'session4-communication-journey.html'
+      - 'assets/safar-*.js'
+      - 'assets/safar-*.css'
+      - 'tests/safar-journey-quality.cjs'
+      - '.github/workflows/safar-journey-quality.yml'
+  pull_request:
+    paths:
+      - 'session4-communication-journey.html'
+      - 'assets/safar-*.js'
+      - 'assets/safar-*.css'
+      - 'tests/safar-journey-quality.cjs'
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate Safar Ertebatat learning journey
+        run: node tests/safar-journey-quality.cjs

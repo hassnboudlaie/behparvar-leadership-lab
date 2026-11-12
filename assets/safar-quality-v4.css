@@ -43,3 +43,22 @@
  .sf-coach-inline strong{font-size:17px}
  .sf-locked-answer{font-size:15px}
 }
+
+/* Final mobile readability pass: preserve the calm Behparvar gradients while avoiding microscopic controls. */
+#root[data-sf-wizard="on"]>.card.sf-wizard-pane{background:linear-gradient(127deg,#e0eff4 0%,#e6f1ec 52%,#e6e8f1 100%)}
+#root[data-sf-wizard="on"] .question .option{font-weight:560;line-height:1.9}
+#root[data-sf-wizard="on"] .field-label{color:#244e67}
+#root[data-sf-wizard="on"] .sf-wizard-nav .btn{font-weight:850}
+#root[data-sf-wizard="on"] .sf-skill-card{border-color:#94bbc9}
+#root[data-sf-wizard="on"] .sf-wizard-coach{border-color:#d2bb91}
+@media(max-width:740px){
+ .top-sub{font-size:14px}
+ .top .top-actions button,.top .top-actions a{font-size:13.5px;min-height:38px}
+ .sf-wizard-step{font-size:14px;min-height:49px}
+ .sf-wizard-mini-map summary{font-size:15px}
+ .sf-wizard-head small{font-size:14px}
+ #root[data-sf-wizard="on"] .question .option{font-size:17.5px}
+ #root[data-sf-wizard="on"] .field{font-size:17px}
+ #root[data-sf-wizard="on"] .sf-wizard-nav .btn{font-size:16px}
+ #root[data-sf-wizard="on"] .sf-technique summary{font-size:17px}
+}

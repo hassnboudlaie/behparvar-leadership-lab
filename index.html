@@ -1017,4 +1017,20 @@ restoreSelections();updateNoteStatus();openView(location.hash.slice(1)||'welcome
 <script defer src="assets/bp-s2-group-cases-20261101.js?v=2"></script>
 <script defer src="assets/bp-simple-roleplays-20261102.js?v=6"></script>
 <script defer src="assets/bp-pwa-install-20261102.js?v=1"></script>
-</body></html>
+<script>
+(function(){
+  const target="session4-communication-journey.html";
+  function legacy(s){return /^(?:session4(?:-.+)?|bp-c-focus-4)$/.test(s||"")}
+  document.addEventListener("click",function(ev){
+    const a=ev.target.closest&&ev.target.closest("a");if(!a)return;
+    const route=a.getAttribute("data-open")||"";
+    const url=a.getAttribute("href")||"";
+    const hash=url.charAt(0)==="#"?url.slice(1):"";
+    if(legacy(route)||legacy(hash)||a.getAttribute("data-course-session")==="4"){
+      ev.preventDefault();ev.stopImmediatePropagation();window.location.assign(target);
+    }
+  },true);
+  window.addEventListener("hashchange",function(){if(legacy(location.hash.slice(1)))location.replace(target)});
+  if(legacy(location.hash.slice(1)))location.replace(target);
+})();
+</script></body></html>

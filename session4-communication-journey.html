@@ -70,12 +70,12 @@ h2{font-size:31px;margin:4px 0 15px;line-height:1.5}.card{background:#fff;border
 (function(){
 "use strict";
 const stages=window.BP_SAFAR_DATA.stages, incidents=window.BP_SAFAR_DATA.incidents;
-const K="bp-communication-journey-v2", D=3600000;
+const K="bp-communication-journey-v3", D=3600000;
 const $=(selector)=>document.querySelector(selector);
 const E=(s)=>String(s==null?"":s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
 const fa=(n)=>Number(n||0).toLocaleString("fa-IR");
 let saved;try{saved=JSON.parse(localStorage.getItem(K)||"null")}catch(e){saved=null}
-let state=saved&&saved.version===2?saved:{version:2,role:"",name:"",startedAt:0,stage:0,answers:{},self:{},alloc:{},rp:{},peer:{},events:[],finished:false,finishedAt:0,sound:false};
+let state=saved&&saved.version===3?saved:{version:3,role:"",name:"",startedAt:0,stage:0,answers:{},self:{},alloc:{},rp:{},peer:{},events:[],finished:false,finishedAt:0,sound:false};
 let transient={role:state.role,q1:null,best:null,worst:null,alloc:[2,1,2,1],evidence:"",observer:"",note:"",checks:[false,false,false],feedback:"",suggestion:""};
 const save=()=>{try{localStorage.setItem(K,JSON.stringify(state))}catch(e){console.warn("Save unavailable",e)}};
 const timefmt=(ms)=>{let s=Math.max(0,Math.floor(ms/1000));return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")};

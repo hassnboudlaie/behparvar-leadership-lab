@@ -51,7 +51,9 @@ function download(blob,name){
 }
 async function canvasFrom(svg){
  if(document.fonts?.ready)try{await document.fonts.ready}catch(e){}
- const link=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml;charset=utf-8"}));
+ // Raster output draws the logo separately: nested data-URI images inside an SVG can break canvas export on some mobile browsers.
+ const rasterSvg=svg.replace(/<image\b[^>]*\/>/g,"");
+ const link=URL.createObjectURL(new Blob([rasterSvg],{type:"image/svg+xml;charset=utf-8"}));
  const image=new Image();
  try{
   await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(new Error("SVG rendering failed"));image.src=link});
@@ -61,6 +63,7 @@ async function canvasFrom(svg){
   ctx.fillStyle="#f5f9fc";ctx.fillRect(0,0,c.width,c.height);
   ctx.drawImage(image,0,0,1800,2360);
   const original=document.querySelector("#brandlogo");
+  if(original && !original.complete){try{await original.decode()}catch(e){}}
   if(original?.complete&&original.naturalWidth){
     ctx.fillStyle="#f5fafc";ctx.fillRect(590,107,620,176);
     ctx.drawImage(original,618,130,564,148);

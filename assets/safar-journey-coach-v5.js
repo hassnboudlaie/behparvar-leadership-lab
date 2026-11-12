@@ -6,12 +6,12 @@
 const root=document.getElementById("root");
 const data=window.BP_SAFAR_DATA;
 if(!root||!data?.stages||data.stages.length!==10)return;
-const KEY="bp-communication-journey-v2";
+const KEY="bp-communication-journey-v3";
 const lessons=window.BP_SAFAR_RESTORED_CONTENT?.content||[];
 const skills=window.BP_SAFAR_CLASSROOM?.content||[];
 const fa=n=>Number(n||0).toLocaleString("fa-IR");
 const escape=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const state=()=>{try{const s=JSON.parse(localStorage.getItem(KEY)||"null");return s?.version===2?s:null}catch(e){return null}};
+const state=()=>{try{const s=JSON.parse(localStorage.getItem(KEY)||"null");return s?.version===3?s:null}catch(e){return null}};
 const queue=[];let showing=false,lastFocus=null,lastStage=-1,lastPhase="";
 const starts=["اول مسیر، به کیفیت شروع گفت‌وگو توجه کن.","هدف جلسه را با احترام و زمان‌بندی روشن نگه دار.","قبل از راه‌حل، تجربه و برداشت مخاطب را بشنو.","در پیام حساس، لحن و مکث هم بخشی از معنا هستند.","بازخورد به یک رفتار مشخص و قابل تغییر مربوط است.","اختلاف را از شخصیت جدا کن و راه عملی پیدا کن.","محدودیت واحد مقابل را به‌جای حدس‌زدن بپرس.","نهِ محترمانه، بهتر از وعده غیرقابل اجراست.","اعتماد با اطلاع‌رسانی و پیگیری به دست می‌آید.","توافق زمانی ارزش دارد که به اجرا برسد."];
 const completion=[

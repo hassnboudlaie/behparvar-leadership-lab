@@ -5,9 +5,9 @@
 const root=document.querySelector("#root"),D=window.BP_SAFAR_BADGE_DESIGN;
 const stages=window.BP_SAFAR_DATA?.stages||[],incidents=window.BP_SAFAR_DATA?.incidents||[];
 if(!root||!D||stages.length!==10)return;
-const KEY="bp-communication-journey-v2",types=["gold","silver","bronze"];
+const KEY="bp-communication-journey-v3",types=["gold","silver","bronze"];
 const fa=n=>Number(n??0).toLocaleString("fa-IR");
-function getState(){try{const s=JSON.parse(localStorage.getItem(KEY)||"null");return s?.version===2?s:null}catch(e){return null}}
+function getState(){try{const s=JSON.parse(localStorage.getItem(KEY)||"null");return s?.version===3?s:null}catch(e){return null}}
 function score(s){
  let quiz=0,rp=0,resources=0,feedback=0;
  stages.forEach((stage,i)=>{

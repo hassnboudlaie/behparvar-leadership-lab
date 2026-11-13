@@ -9,13 +9,14 @@ const KEY="bp-communication-journey-v3",types=["gold","silver","bronze"];
 const fa=n=>Number(n??0).toLocaleString("fa-IR");
 function getState(){try{const s=JSON.parse(localStorage.getItem(KEY)||"null");return s?.version===3?s:null}catch(e){return null}}
 function score(s){
- let quiz=0,rp=0,resources=0,feedback=0;
+ let quiz=0,rp=0,reflect=0,resources=0,feedback=0;
  stages.forEach((stage,i)=>{
   const a=s.answers?.[i]||{};
   if(a.q1===stage.c1)quiz+=4;
   if(a.q2?.best===stage.best)quiz+=2;
   if(a.q2?.worst===stage.worst)quiz+=2;
-  if(s.rp?.[i])rp++;
+  if(s.rp?.[i])rp+=0.5;
+  const ratings=s.self?.[i]||[];if(ratings.length===3&&ratings.every(n=>Number.isInteger(n)&&n>=1&&n<=4))reflect+=0.5;
   if([2,7].includes(i)&&s.peer?.[i])feedback+=2;
   const incident=incidents.find(x=>x.stage===i+1),v=s.alloc?.[i];
   if(incident&&Array.isArray(v)){
@@ -23,7 +24,7 @@ function score(s){
    resources+=dist===0?2:dist<=2?1:0;
   }
  });
- return quiz+rp+resources+feedback;
+ return quiz+rp+reflect+resources+feedback;
 }
 function quizScore(s){
  let n=0;stages.forEach((stage,i)=>{const a=s.answers?.[i]||{};if(a.q1===stage.c1)n+=4;if(a.q2?.best===stage.best)n+=2;if(a.q2?.worst===stage.worst)n+=2});return n;

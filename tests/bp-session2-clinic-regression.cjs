@@ -111,8 +111,15 @@ assert.ok(!app.includes("data-s2-decision"),"no gated quiz inside dialogue");
 assert.ok(!app.includes("localStorage.removeItem"));
 assert.ok(read("assets/bp-upgrade-20261102.css").includes("@media(max-width:760px)"));
 const PARTS=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
-for(let n=1;n<=6;n++)for(const p of PARTS){
- const id=n===1?p:"session"+n+"-"+p;
- assert.ok(html.includes('id="'+id+'"'),"legacy route "+id);
+for(let n=1;n<=6;n++){
+ if(n===3||n===4){
+  const url=n===3?"session3-self-assessment.html":"session4-communication-journey.html";
+  assert.ok(html.includes('id="session'+n+'"')&&html.includes(url),"standalone workshop "+n);
+  continue;
+ }
+ for(const p of PARTS){
+  const id=n===1?p:"session"+n+"-"+p;
+  assert.ok(html.includes('id="'+id+'"'),"legacy route "+id);
+ }
 }
-console.log("PASS: cross-unit peer-only characters in 10 role-specific conversations; visible role assumptions, full dialogues, target skills and debrief; no gated navigation, unchanged 42 course routes.");
+console.log("PASS: cross-unit peer-only characters in 10 role-specific conversations; visible role assumptions, full dialogues, target skills and debrief; no gated navigation, standalone Sessions 3/4 and unchanged legacy learning routes.");

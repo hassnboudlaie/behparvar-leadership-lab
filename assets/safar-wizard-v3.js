@@ -136,7 +136,10 @@ function renderTop(s){
  const wrap=document.createElement("section");
  wrap.id="sfWizardWrap";
  wrap.className="sf-wrap-card sf-wizard-visible";
- wrap.innerHTML='<div class="soft-icon">✓</div><h3>مرحله '+fa(s.stage+1)+' تکمیل شد</h3><p>پاسخ‌های این مرحله ثبت شدند. برای مرور تحلیلی و دریافت امتیاز، سفر ۱۰مرحله‌ای را کامل کن.</p>'+
+ const p=window.BP_SAFAR_STEP_POINTS?.pts(s,s.stage),total=window.BP_SAFAR_STEP_POINTS?.progress(s);
+ const notice=p?'از '+fa(p.max)+' امتیاز ممکن این مرحله، '+fa(p.earned)+' امتیاز گرفتی. مجموع سفر: '+fa(total.sum)+' از ۱۰۰.':
+ 'پاسخ‌ها ثبت شدند؛ امتیاز مرحله در حال محاسبه است و کلید در پایان سفر باز می‌شود.';
+ wrap.innerHTML='<div class="soft-icon">✓</div><h3>مرحله '+fa(s.stage+1)+' تکمیل شد</h3><p>'+notice+'</p>'+
  ([2,5,9].includes(s.stage)?'<span class="sf-milestone">✦ نقطه عطف سفر</span>':"");
  nav.insertAdjacentElement("beforebegin",wrap);
  if([2,6].includes(s.stage)){

@@ -12,17 +12,18 @@ const read=(key)=>{try{return JSON.parse(localStorage.getItem(key)||"null")}catc
 const current=()=>read(MAIN);
 const records=()=>{const x=read(HISTORY);return Array.isArray(x)?x:[]};
 function grade(s){
- let quiz=0,roles=0,resources=0,feedback=0;
+ let quiz=0,roles=0,selfPoints=0,resources=0,feedback=0;
  stages.forEach((stage,i)=>{
   const a=s.answers?.[i]||{};
   quiz+=(a.q1===stage.c1?4:0)+(a.q2?.best===stage.best?2:0)+(a.q2?.worst===stage.worst?2:0);
-  roles+=s.rp?.[i]?1:0;
+  roles+=s.rp?.[i]?0.5:0;
+  const ratings=s.self?.[i]||[];if(ratings.length===3&&ratings.every(n=>Number.isInteger(n)&&n>=1&&n<=4))selfPoints+=0.5;
   feedback+=s.peer?.[i]&&[2,7].includes(i)?2:0;
   const inc=window.BP_SAFAR_DATA.incidents?.find(x=>x.stage===i+1);
   const v=s.alloc?.[i];
   if(inc&&Array.isArray(v)){const dif=v.reduce((n,val,j)=>n+Math.abs(val-inc.ideal[j]),0);resources+=dif===0?2:dif<=2?1:0;}
  });
- return {quiz,roles,resources,feedback,total:quiz+roles+resources+feedback};
+ return {quiz,roles,selfPoints,resources,feedback,total:quiz+roles+selfPoints+resources+feedback};
 }
 function badge(s){const p=grade(s),x=p.total,q=p.quiz;return x>=90&&q>=72?"زرین":x>=75&&q>=60?"سیمین":x>=60&&q>=44?"برنزی":"بدون نشان"}
 function storeHistory(s){
@@ -41,7 +42,7 @@ function newJourney(){
  "سفر فعلی هنوز کامل نشده است. اگر سفر جدیدی شروع کنی، پاسخ‌های ثبت‌شده فعلی جایگزین می‌شوند. ادامه می‌دهی؟";
  if(!confirm(msg))return;
  if(s.finished)storeHistory(s);
- const fresh={version:3,role:"",name:s.name||"",startedAt:0,stage:0,answers:{},orders:{},self:{},alloc:{},rp:{},peer:{},events:[],finished:false,finishedAt:0,sound:!!s.sound};
+ const fresh={version:3,curriculumV4:4,role:"",name:s.name||"",startedAt:0,stage:0,answers:{},orders:{},self:{},alloc:{},rp:{},peer:{},events:[],finished:false,finishedAt:0,sound:!!s.sound};
  try{localStorage.setItem(MAIN,JSON.stringify(fresh));sessionStorage.removeItem(NAV)}catch(e){alert("ذخیره‌سازی مرورگر فعال نیست؛ امکان شروع ایمن سفر جدید وجود ندارد.");return}
  window.location.reload();
 }

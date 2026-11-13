@@ -1,0 +1,92 @@
+/* Session 4 content quality and assessment UX: RTL, legibility and self-paced celebration. */
+.sf-classroom-qr-link{
+ display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:13px;
+ margin:19px 0 22px;padding:18px 21px;background:linear-gradient(125deg,#e4f3e7,#f8f5ea);
+ border:1px solid #c9dfcf;border-radius:20px;box-shadow:0 9px 23px #17433212
+}
+.sf-classroom-qr-link a{
+ padding:13px 20px;background:#135f4b;color:#fff;border:1px solid #15684f;
+ border-radius:13px;font-size:19px;font-weight:900;text-decoration:none;min-height:51px
+}
+.sf-classroom-qr-link a:hover{background:#0f7157}
+.sf-classroom-qr-link span{color:#416251;font-size:16px;font-weight:750}
+.sf-question-context{
+ margin:16px 0 20px;padding:19px 21px;border-radius:18px;
+ background:linear-gradient(120deg,#f0f6eb,#fffdf6);
+ border:1px solid #cddfd1;border-right:6px solid #17745c;
+}
+.sf-question-context strong{
+ font-size:19px!important;font-weight:900;color:#19523d
+}
+.sf-question-context p{
+ font-size:clamp(18px,2vw,21px)!important;line-height:2!important;
+ color:#244838!important;margin:7px 0 0!important;
+}
+.sf-self-feedback{
+ display:grid;gap:8px;grid-template-columns:1fr auto;
+ margin:20px 0 0;padding:20px;border:1px solid #add2be;
+ border-radius:19px;background:linear-gradient(130deg,#def0e5,#f8f4e8);
+ box-shadow:0 8px 22px #1156360b
+}
+.sf-self-feedback strong{font-size:24px;font-weight:950;color:#12533e}
+.sf-self-feedback span{
+ font-size:16px;font-weight:850;color:#146c52;
+ background:#fffdf6;padding:6px 13px;border:1px solid #cee0d2;border-radius:99px;
+ align-self:center;
+}
+.sf-self-feedback p{
+ grid-column:1/-1;margin:8px 0 0!important;color:#2d5543!important;
+ border-top:1px solid #c4ddce;padding-top:13px;font-size:19px!important;line-height:1.95!important
+}
+.sf-self-hint{margin:15px 0 0!important;color:#536d5b;font-size:16px}
+.sf-coach-dialog:has(.sf-celebration-image){
+ max-width:min(650px,calc(100vw - 26px))!important;
+ border-radius:25px!important;background:linear-gradient(150deg,#fffefa,#eef5e9)!important;
+ padding:20px 23px 25px!important;
+}
+.sf-celebration-image{
+ width:100%;height:auto;max-height:245px;object-fit:cover;border-radius:18px;
+ margin:7px auto 13px;display:block;
+ box-shadow:0 12px 28px #0a3d321e;border:2px solid #e5d8af
+}
+.sf-coach-dialog:has(.sf-celebration-image) h3{
+ color:#15533e!important;font-weight:950;font-size:clamp(24px,3vw,33px)!important
+}
+.sf-coach-dialog:has(.sf-celebration-image) p{font-size:19px!important;color:#315943!important}
+.sf-coach-dialog:has(.sf-celebration-image) .sf-coach-note{
+ background:#e6f2e7;border-color:#bddfca;color:#24523d
+}
+.sf-final-answer-status{
+ display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:13px 0;
+ border-radius:13px;border:1px solid #d9e3d9;padding:12px 16px;
+ font-size:18px!important;font-weight:850!important
+}
+.sf-final-answer-status.correct{background:#e4f3e8;color:#126447;border-color:#b6d9bd}
+.sf-final-answer-status.incorrect{background:#fff0e2;color:#874a25;border-color:#eccdb9}
+.sf-final-answer-status span{font-size:17px}
+.sf-final-self-note{
+ margin:17px 0 0!important;padding:13px;border-radius:12px;background:#f0f6eb;
+ border:1px solid #d4e2d2;color:#42644e;font-size:17px!important
+}
+.sf-final-review-notice{
+ padding:18px 22px;margin:12px 0 18px;
+ border-radius:18px;background:linear-gradient(115deg,#e1f1e5,#fbf5e8);
+ border:1px solid #c1d9c5;border-right:5px solid #198161
+}
+.sf-final-review-notice strong{font-size:22px;color:#14573e;font-weight:900}
+.sf-final-review-notice p{margin:8px 0 0;font-size:18px;color:#315b45}
+@media(max-width:700px){
+ .sf-classroom-qr-link{padding:15px 13px;margin:12px 0 18px}
+ .sf-classroom-qr-link a{font-size:16px;width:100%;text-align:center}
+ .sf-classroom-qr-link span{font-size:14px}
+ .sf-question-context{padding:15px 17px;margin:13px 0}
+ .sf-question-context p{font-size:18px!important}
+ .sf-self-feedback{grid-template-columns:1fr;padding:15px}
+ .sf-self-feedback strong{font-size:22px}
+ .sf-self-feedback span{justify-self:start}
+ .sf-self-feedback p{font-size:17px!important}
+ .sf-celebration-image{max-height:180px}
+ .sf-coach-dialog:has(.sf-celebration-image){padding:14px 15px 20px!important}
+ .sf-coach-dialog:has(.sf-celebration-image) p{font-size:17px!important}
+}
+@media(prefers-reduced-motion:reduce){.sf-celebration-image{animation:none!important}}

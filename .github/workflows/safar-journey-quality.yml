@@ -5,7 +5,7 @@ on:
       - 'session4-communication-journey.html'
       - 'assets/safar-*.js'
       - 'assets/safar-*.css'
-      - 'tests/safar-journey-quality.cjs'
+      - 'tests/safar-*.cjs'
       - '.github/workflows/safar-journey-quality.yml'
   pull_request:
     paths:
@@ -26,3 +26,5 @@ jobs:
           node-version: '20'
       - name: Validate Safar Ertebatat learning journey
         run: node tests/safar-journey-quality.cjs
+      - name: Verify score and private appreciation integration
+        run: node tests/safar-peer-recognition-quality.cjs

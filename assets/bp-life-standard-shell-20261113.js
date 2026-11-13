@@ -48,12 +48,18 @@ ready(()=>{
    const install=home.querySelector(".bp-install-panel");
    const grid=home.querySelector(".bp-welcome-grid");
    if(install&&grid&&!home.querySelector("#bpInstallDisclosure")){
-     const details=document.createElement("details");
-     details.id="bpInstallDisclosure";details.className="bp-install-disclosure";
-     const summary=document.createElement("summary");
-     summary.textContent="نصب اپلیکیشن";
-     details.append(summary,install);
-     grid.insertAdjacentElement("afterend",details);
+     // Keep the existing install button visible and clickable on mobile.
+     // Collapse only the longer explanatory copy; keep its original text.
+     grid.insertAdjacentElement("afterend",install);
+     const copy=install.querySelector(".bp-install-copy");
+     if(copy){
+       const details=document.createElement("details");
+       details.id="bpInstallDisclosure";details.className="bp-install-disclosure";
+       const summary=document.createElement("summary");
+       summary.textContent="راهنمای نصب";
+       copy.insertAdjacentElement("beforebegin",details);
+       details.append(summary,copy);
+     }
    }
    let scheduled=false;
    function sync(){
@@ -82,8 +88,12 @@ ready(()=>{
        const clean=title.replace(/\s+/g," ").trim();
        crumbs.hidden=id==="welcome";
        if(!crumbs.hidden){
+         // Reuse the legacy Home control so existing shortcuts, tests
+         // and keyboard listeners still work; it is no longer floating.
+         const back=document.getElementById("bp-global-home")||document.createElement("a");
          crumbs.replaceChildren();
-         const back=document.createElement("a");back.href="#welcome";back.textContent="خانه";
+         back.href="#welcome";back.textContent="خانه";
+         back.classList.add("bp-trail-home");
          const marker=document.createElement("span");marker.textContent="‹";marker.setAttribute("aria-hidden","true");
          const current=document.createElement("strong");current.textContent=clean.length>65?clean.slice(0,64)+"…":clean;
          crumbs.append(back,marker,current);

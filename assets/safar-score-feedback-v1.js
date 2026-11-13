@@ -13,7 +13,7 @@ function pts(s,i){
  const role=s.rp?.[i]?0.5:0,peer=[2,7].includes(i)&&s.peer?.[i]?2:0;
  return{one,two,resources,role,peer,max:9+(inc?2:0)+([2,7].includes(i)?2:0),earned:one+two+resources+reflection+role+peer,reflection};
 }
-function progress(s){let sum=0,quiz=0;for(let i=0;i<10;i++){let p=pts(s,i);sum+=p.earned;quiz+=p.one+p.two}return{sum,quiz}}
+function progress(s){let sum=0,quiz=0;for(let i=0;i<10;i++){let p=pts(s,i);sum+=p.earned;quiz+=p.one+p.two}const raw=sum,penalty=window.BP_SAFAR_OVERTIME?.penalty(s)||0;return{sum:Math.max(0,raw-penalty),raw,penalty,quiz}}
 function nextMedal(s){
  const p=progress(s),tiers=[["برنزی",60,44],["سیمین",75,60],["زرین",90,72]];
  const next=tiers.find(x=>p.sum<x[1]||p.quiz<x[2]);
@@ -28,9 +28,9 @@ function strip(s){
  box.innerHTML='<div><span>مرحله جاری</span><strong>'+fa(p.earned)+' از '+fa(p.max)+'</strong></div>'+
  '<div><span>امتیاز سفر</span><strong>'+fa(t.sum)+' از ۱۰۰</strong></div>'+
  '<div class="sf-score-track"><span style="width:'+Math.max(0,Math.min(100,t.sum))+'%"></span></div>'+
- '<small>'+nextMedal(s)+'</small>';
+ '<small>'+(t.penalty?'امتیاز خام '+fa(t.raw)+' − کسر وقت اضافه '+fa(t.penalty)+' = '+fa(t.sum)+' امتیاز نهایی · ':'')+nextMedal(s)+'</small>';
  const wrap=root.querySelector("#sfWizardWrap p");
- if(wrap)wrap.textContent="این مرحله: "+fa(p.earned)+" امتیاز از "+fa(p.max)+" امتیاز ممکن. مجموع سفر: "+fa(t.sum)+" از ۱۰۰.";
+ if(wrap)wrap.textContent="این مرحله: "+fa(p.earned)+" امتیاز از "+fa(p.max)+" امتیاز ممکن. مجموع سفر پس از کسر وقت اضافه: "+fa(t.sum)+" از ۱۰۰.";
 }
 function announce(s,phase,stage){
  const anchor=root.querySelector("#sfWizardCoach");if(!anchor)return;
@@ -43,11 +43,12 @@ function announce(s,phase,stage){
  const m=map[phase],label=phase==="wrap"?"مرحله "+fa(stage+1)+": "+fa(p.earned)+" از "+fa(p.max)+" امتیاز":m?m[2]+": "+fa(m[0])+" از "+fa(m[1])+" امتیاز":"گام آموزشی تکمیل شد";
  const el=document.createElement("div");el.id="sfEarnedStep";el.className="sf-step-feedback sf-wizard-visible";
  el.setAttribute("role","status");el.setAttribute("aria-live","polite");
- el.innerHTML='<strong>'+label+'</strong><span>مجموع: '+fa(r.sum)+' از ۱۰۰</span><small>'+nextMedal(s)+'</small>';
+ el.innerHTML='<strong>'+label+'</strong><span>مجموع: '+fa(r.sum)+' از ۱۰۰</span><small>'+(r.penalty?'کسر وقت اضافه: '+fa(r.penalty)+' · ':'')+nextMedal(s)+'</small>';
  anchor.insertAdjacentElement("afterend",el);
 }
 let pending=false;
 const sync=()=>{const s=state();if(s?.startedAt&&!s.finished)strip(s)};
+window.addEventListener("bp-safar-time-extended",sync);
 new MutationObserver(()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;sync()})}).observe(root,{childList:true,subtree:false});
 document.addEventListener("click",e=>{
  const b=e.target.closest("#sfNext");if(!b||b.disabled)return;

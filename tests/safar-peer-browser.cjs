@@ -17,6 +17,15 @@ async function closeCoach(page){
   const sender=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,locale:"fa-IR"});
   await sender.addInitScript(()=>{
    Object.defineProperty(navigator,"share",{configurable:true,value:async payload=>{window.__sampleShare=payload;}});
+   // End-to-end QA tests the classroom flow, not individual coaching modals.
+   // Close expected coaching notifications without invoking their auto-advance button.
+   document.addEventListener("DOMContentLoaded",()=>{
+    const watcher=new MutationObserver(()=>{
+     const close=document.querySelector("#sfCoachClose");
+     if(close)close.click();
+    });
+    watcher.observe(document.body,{childList:true,subtree:true});
+   });
   });
   const page=await sender.newPage(),errors=[];
   page.on("pageerror",e=>errors.push(String(e)));

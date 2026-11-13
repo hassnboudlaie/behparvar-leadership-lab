@@ -28,16 +28,19 @@ const scoreCtx={document:dom,window:{BP_SAFAR_DATA:D},localStorage:store,Mutatio
 vm.runInNewContext(source.score,scoreCtx);
 const g=scoreCtx.window.BP_SAFAR_STEP_POINTS;
 assert(g);
-const answers={},alloc={},rp={},peer={};
+const answers={},alloc={},rp={},peer={},self={};
 D.stages.forEach((st,i)=>{
  answers[i]={q1:st.c1,q2:{best:st.best,worst:st.worst}};
  rp[i]={peerRating:2,at:Date.now()};
+ self[i]=[4,4,4];
 });
 D.incidents.forEach(x=>{alloc[x.stage-1]=x.ideal.slice()});
 peer[2]={f:"x",s:"y"};peer[7]={f:"x",s:"y"};
-const best={version:3,role:"managers",stage:9,answers,alloc,rp,peer};
+const best={version:3,role:"managers",stage:9,answers,alloc,rp,peer,self};
 assert.equal(g.progress(best).sum,100,"Max remains exactly 100");
 assert.equal(g.progress(best).quiz,80,"Quiz remains exactly 80");
+assert.equal(g.pts(best,0).reflection,0.5,"Each completed self-assessment has small weight");
+assert.equal(g.pts(best,0).role,0.5,"Pair practice awards 0.5 points");
 assert.equal(Array.from({length:10},(_,i)=>g.pts(best,i).max).reduce((a,b)=>a+b,0),100);
 assert.equal(g.pts(best,0).max,9);assert.equal(g.pts(best,2).max,11);
 assert.equal(g.progress({answers:{},rp:{},peer:{},alloc:{}}).sum,0);

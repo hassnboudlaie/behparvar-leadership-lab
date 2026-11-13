@@ -14,7 +14,7 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   page.on("pageerror",e=>errors.push(String(e)));
   page.on("dialog",dialog=>dialog.accept());
   await page.goto(new URL("session4-communication-journey.html",base).href,{waitUntil:"domcontentloaded"});
-  await page.locator("#sfMedalGallery summary").click();
+  await page.locator("#sfMedalGallery > summary").click();
   assert.equal(await page.locator("#sfMedalGallery .sf-medal-mini").count(),3);
   assert.equal(await page.locator("#sfMedalGallery .sf-medal-rule").count(),3);
   await page.locator("#sfMedalGallery .sf-medal-rule").last().locator("summary").click();

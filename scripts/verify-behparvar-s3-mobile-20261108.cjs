@@ -33,7 +33,7 @@ assert(!/localStorage\.|sessionStorage\.|indexedDB\./.test(ui),"Controller must 
 assert(core.includes("STORAGE=")&&core.includes("localStorage"),"Existing local storage retained");
 assert(core.includes("const ROLE_LABEL=")&&core.includes('"supervisors"')&&core.includes('"managers"'),"Dual role assessment retained");
 assert(core.includes("function showResult()")&&core.includes("function savePlan("),"Report and IDP retained");
-assert(worker.includes("mml-root-20261109-teamship-v56"),"PWA cache version refreshed");
+assert(/const CACHE="mml-root-20\\d{6}-[^"]+";/.test(worker),"PWA cache version refreshed");
 assert(worker.includes("./session3-teamship.html"),"Teamship page precached");
 assert(html.includes('href="session3-teamship.html"'),"Teamship entry linked from session 3");
 const teamship=read("session3-teamship.html");

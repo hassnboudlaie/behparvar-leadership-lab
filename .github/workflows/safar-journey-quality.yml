@@ -56,3 +56,4 @@ jobs:
           node tests/safar-content-v4-browser.cjs
           node tests/safar-overtime-browser.cjs
           node tests/safar-learning-modes-browser.cjs
+          node tests/safar-context-guide-browser.cjs

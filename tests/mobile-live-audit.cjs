@@ -6,7 +6,7 @@ const assert=require('node:assert/strict');
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  let report={base,at:new Date().toISOString(),runs:[],manifest:{},checks:[],errors:[]};
  const sessions=["m1","m2","leaders","techniques","visuals","diseases","quiz"];
- const paths=Array.from({length:6},(_,i)=>i+1).flatMap(n=>sessions.map(p=>n===1?p:'session'+n+'-'+p));
+ const paths=[1,2,5,6].flatMap(n=>sessions.map(p=>n===1?p:'session'+n+'-'+p)); // Sessions 3/4 have canonical standalone workshops
  const configs=[
    {name:'android-a55',width:393,height:873,isMobile:true,deviceScaleFactor:2.75,hasTouch:true},
    {name:'iphone-13-simulated-chromium',width:390,height:844,isMobile:true,deviceScaleFactor:3,hasTouch:true},
@@ -44,22 +44,37 @@ const assert=require('node:assert/strict');
      if(i===7){routeFont.push({route:paths[i],...check});await page.screenshot({path:'audit-'+cfg.name+'-lesson.jpg',type:'jpeg',quality:70});
        if(cfg.name==='android-a55')console.log('MML_SCREENSHOT_LESSON='+fs.readFileSync('audit-'+cfg.name+'-lesson.jpg').toString('base64'));}
    }
-   await page.evaluate(()=>{location.hash='#session4-visuals'});
+   // Verify the canonical independent workspaces that replaced obsolete
+   // Session 3/4 hash routes; evaluate real pages rather than old placeholders.
+   const standalone={};
+   for(const [key,file,required] of [
+     ['session3','session3-self-assessment.html','#selfApp'],
+     ['session4','session4-communication-journey.html','#root .cover-surface']]){
+     await page.goto(new URL(file,base).href,{waitUntil:'domcontentloaded'});
+     await page.locator(required).waitFor({state:'visible',timeout:15000});
+     standalone[key]=await page.evaluate(sel=>({
+       visible:!!document.querySelector(sel),
+       overflow:Math.max(0,document.documentElement.scrollWidth-innerWidth)
+     }),required);
+   }
+   await page.goto(url.toString(),{waitUntil:'domcontentloaded'});
+   await page.waitForTimeout(200);
+   await page.evaluate(()=>{location.hash='#session2-visuals'});
    await page.waitForTimeout(160);
    const practice=await page.evaluate(()=>({
-      alignedVisible:!!document.querySelector('#session4-visuals .mml-align-main'),
-      tableRows:document.querySelectorAll('#session4-visuals .mml-align-main tbody tr').length
+      alignedVisible:!!document.querySelector('#session2-visuals .mml-align-main'),
+      tableRows:document.querySelectorAll('#session2-visuals .mml-align-main tbody tr').length
    }));
-   await page.evaluate(()=>{location.hash='#session4-quiz'});
+   await page.evaluate(()=>{location.hash='#session2-quiz'});
    await page.waitForTimeout(180);
-   const answers=page.locator('#session4-quiz .mml-align-options button');
+   const answers=page.locator('#session2-quiz .mml-align-options button');
    await answers.nth(1).click();
-   practice.feedbackAfter=await page.locator('#session4-quiz .mml-align-feedback li').count();
-   const textarea=page.locator('#session4-quiz [data-mml-align-note="4:quiz:supervisors"]');
+   practice.feedbackAfter=await page.locator('#session2-quiz .mml-align-feedback li').count();
+   const textarea=page.locator('#session2-quiz [data-mml-align-note="2:quiz:supervisors"]');
    await textarea.fill('QA mobile saved plan');
    await page.reload({waitUntil:'domcontentloaded'});
    await page.waitForTimeout(350);
-   const persisted=await page.locator('#session4-quiz [data-mml-align-note="4:quiz:supervisors"]').inputValue().catch(()=>null);
+   const persisted=await page.locator('#session2-quiz [data-mml-align-note="2:quiz:supervisors"]').inputValue().catch(()=>null);
    // Check that the responsive role switch produces different manager content.
    const managerURL=new URL(base);managerURL.searchParams.set('audience','managers');managerURL.hash='session2-m1';
    await page.goto(managerURL.toString(),{waitUntil:'domcontentloaded'});await page.waitForTimeout(150);
@@ -75,7 +90,7 @@ const assert=require('node:assert/strict');
      offline={tested:true,appShell:await page.locator('.masthead').count()>0,lesson:await page.locator('#session2-m1 .mml-align-main').count()>0,origin:page.url()};
    }catch(e){offline={tested:true,error:String(e)}}finally{await context.setOffline(false)}
    const manifest=await page.evaluate(async()=>{const a=document.querySelector('link[rel="manifest"]');if(!a)return null;let r=await fetch(a.href);return {href:a.href,status:r.status,manifest:await r.json().catch(()=>null),serviceWorker:'serviceWorker' in navigator,controller:!!navigator.serviceWorker.controller,displayStandalone:matchMedia('(display-mode:standalone)').matches}});
-   const run={name:cfg.name,http:response?.status(),...metrics,routeCount,missingRoutes,routeFont,practice,persisted,managerDistinct,offline,manifest:{status:manifest?.status,href:manifest?.href,serviceWorker:manifest?.serviceWorker,controller:manifest?.controller,displayStandalone:manifest?.displayStandalone},errors};
+   const run={name:cfg.name,http:response?.status(),...metrics,routeCount,missingRoutes,routeFont,standalone,practice,persisted,managerDistinct,offline,manifest:{status:manifest?.status,href:manifest?.href,serviceWorker:manifest?.serviceWorker,controller:manifest?.controller,displayStandalone:manifest?.displayStandalone},errors};
    report.runs.push(run);
    if(cfg.name==='android-a55')report.manifest=manifest;
    console.log('MML_RUN_REPORT '+JSON.stringify({...run,fonts:run.fonts.slice(0,9),smallButtons:run.smallButtons.slice(0,8),errors:run.errors.slice(0,12)}));
@@ -92,6 +107,6 @@ const assert=require('node:assert/strict');
  await context.close();await browser.close();
  fs.writeFileSync('mml-audit-report.json',JSON.stringify(report,null,2));
  console.log('MML_SUMMARY '+JSON.stringify({configs:report.runs.length,routes:report.runs.map(r=>r.routeCount),horizontalOverflow:report.runs.map(r=>r.overflow),errors:report.runs.map(r=>r.errors.length),persisted:report.runs.map(r=>r.persisted),installabilityErrors:report.installability?.errors||report.installabilityError}));
- const failed=report.runs.some(r=>r.routeCount!==42||r.overflow>8||r.errors.length>0||r.persisted!=='QA mobile saved plan'||!r.managerDistinct||!r.offline?.appShell||(!r.practice?.alignedVisible)||r.practice?.feedbackAfter!==3);
+ const failed=report.runs.some(r=>r.routeCount!==28||r.overflow>8||r.errors.length>0||r.persisted!=='QA mobile saved plan'||!r.managerDistinct||!r.offline?.appShell||(!r.practice?.alignedVisible)||r.practice?.feedbackAfter!==3||!r.standalone?.session3?.visible||!r.standalone?.session4?.visible||r.standalone.session3.overflow>8||r.standalone.session4.overflow>8);
  if(failed){console.error('FAIL: mobile audit functional or layout thresholds exceeded');process.exitCode=1;}
 })();

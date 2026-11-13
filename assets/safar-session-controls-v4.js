@@ -42,7 +42,7 @@ function newJourney(){
  "سفر فعلی هنوز کامل نشده است. اگر سفر جدیدی شروع کنی، پاسخ‌های ثبت‌شده فعلی جایگزین می‌شوند. ادامه می‌دهی؟";
  if(!confirm(msg))return;
  if(s.finished)storeHistory(s);
- const fresh={version:3,role:"",name:s.name||"",startedAt:0,stage:0,answers:{},orders:{},self:{},alloc:{},rp:{},peer:{},events:[],finished:false,finishedAt:0,sound:!!s.sound};
+ const fresh={version:3,curriculumV4:4,role:"",name:s.name||"",startedAt:0,stage:0,answers:{},orders:{},self:{},alloc:{},rp:{},peer:{},events:[],finished:false,finishedAt:0,sound:!!s.sound};
  try{localStorage.setItem(MAIN,JSON.stringify(fresh));sessionStorage.removeItem(NAV)}catch(e){alert("ذخیره‌سازی مرورگر فعال نیست؛ امکان شروع ایمن سفر جدید وجود ندارد.");return}
  window.location.reload();
 }

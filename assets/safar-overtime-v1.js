@@ -9,7 +9,7 @@ const fa=n=>Number(n||0).toLocaleString("fa-IR");
 function grants(s){return Array.isArray(s?.overtime?.grants)?s.overtime.grants:[];}
 function spentMinutes(s){return grants(s).reduce((sum,g)=>sum+(Number.isInteger(g.minutes)&&g.minutes>0?g.minutes:0),0);}
 function penalty(s){return Math.min(100,grants(s).reduce((sum,g)=>sum+(Number.isInteger(g.penalty)&&g.penalty>0?g.penalty:0),0));}
-function remainingMs(s){if(!s?.startedAt)return BASE_MS;return BASE_MS+spentMinutes(s)*60000+(Number(s.overtime?.pauseMs)||0)-(Date.now()-s.startedAt);}
+function remainingMs(s){if(!s?.startedAt)return BASE_MS;const p=s.pause||{},cap=300000,spent=Math.max(0,Math.min(cap,Number(p.spentMs)||0)),active=p.since?Math.max(0,Math.min(cap-spent,Date.now()-p.since)):0;return BASE_MS+spentMinutes(s)*60000+(Number(s.overtime?.pauseMs)||0)+spent+active-(Date.now()-s.startedAt);}
 function expired(s){return !!s?.startedAt&&!s.finished&&remainingMs(s)<=0;}
 function cleanInput(value){return Number(String(value??"").replace(/[۰-۹]/g,c=>String(c.charCodeAt(0)-1776)).replace(/[٠-٩]/g,c=>String(c.charCodeAt(0)-1632)));}
 function price(minutes){return Number.isInteger(minutes)&&minutes>=1&&minutes<=MAX_REQUEST_MINUTES?Math.ceil(minutes/BLOCK_MINUTES)*POINTS_PER_BLOCK:null;}
@@ -73,7 +73,7 @@ function sync(s){
  live=s;
  const clock=document.getElementById("clock");
  if(clock){clock.classList.toggle("sf-overtime-active",spentMinutes(s)>0&&!!s?.startedAt&&!s.finished);clock.classList.toggle("sf-overtime-ended",expired(s));}
- if(!s?.startedAt||s.finished){hide();return;}
+ if(s?.mode==="study"||!s?.startedAt||s.finished){hide();return;}
  if(expired(s))show(s);else hide();
 }
 window.BP_SAFAR_OVERTIME={remainingMs,expired,penalty,spentMinutes,price,sync};

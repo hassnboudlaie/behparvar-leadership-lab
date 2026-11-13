@@ -51,4 +51,6 @@ jobs:
           sleep 2
           curl -fsSI http://127.0.0.1:8765/
       - name: Test classroom peer rating and recognition handoff
-        run: node tests/safar-peer-browser.cjs
+        run: |
+          node tests/safar-peer-browser.cjs
+          node tests/safar-content-v4-browser.cjs

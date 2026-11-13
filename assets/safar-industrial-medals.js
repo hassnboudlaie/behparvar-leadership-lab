@@ -36,12 +36,13 @@ function details(s,total){
 function gallery(){
  if(root.querySelector("#sfMedalGallery"))return;
  const stat=root.querySelector(".introgrid");if(!stat)return;
- const item=document.createElement("details");item.id="sfMedalGallery";item.className="sf-medal-gallery";
- item.innerHTML='<summary>🏅 آشنایی با سه نشان پایان سفر <span>زرین · سیمین · برنزی</span></summary><p>برای مشاهده پیش‌نمایش‌ها این بخش را باز کن. نشان بر اساس امتیاز پایان سفر اعطا می‌شود.</p>'+
- '<div class="sf-medal-gallery-grid">'+types.map(type=>{
+ const item=document.createElement("details");
+ item.id="sfMedalGallery";item.className="sf-medal-gallery";
+ item.innerHTML='<summary>نشان‌های پایان سفر</summary>'+
+ '<div class="sf-medal-gallery-grid" aria-label="پیش‌نمایش نشان‌ها">'+types.map(type=>{
   const p=D.palettes[type];
-  return '<div class="sf-medal-mini '+type+'"><span class="sf-watermark">پیش‌نمایش</span>'+D.seal(type,{preview:true})+
-  '<strong>نشان '+p.name+'</strong><span>'+p.range+' امتیاز</span></div>';
+  return '<figure class="sf-medal-mini '+type+'" aria-label="نمونه نشان '+p.name+'" title="نشان '+p.name+'">'+
+  D.seal(type,{preview:true})+'<figcaption>'+p.name+'</figcaption></figure>';
  }).join("")+'</div>';
  stat.insertAdjacentElement("afterend",item);
 }
@@ -115,17 +116,16 @@ function resultPage(s){
  hero.classList.add("sf-medal-result-hero");
  section.id="sfMedalFeature";section.className="sf-medal-feature";
  if(!kind){
-   section.innerHTML='<h2>گزارش پایان سفر</h2><p>به حدنصاب نشان نرسیدی؛ امتیازت ثبت شده و پاسخنامه تحلیلی برای یادگیری در دسترس است.</p>'+
-   '<p class="sf-medal-disabled">حدنصاب نشان: برنزی ۶۰ مجموع و ۴۴ آزمون؛ سیمین ۷۵ مجموع و ۶۰ آزمون؛ زرین ۹۰ مجموع و ۷۲ از ۸۰ آزمون.</p>';
+   section.innerHTML='<h2>نشان پایان سفر</h2><p>امتیاز ثبت شد؛ این بار نشان دریافت نشد.</p>'+
+   '<details class="sf-medal-criteria"><summary>شرایط دریافت نشان‌ها</summary>'+
+   '<p>برنزی: ۶۰ امتیاز کل و ۴۴ آزمون · سیمین: ۷۵ کل و ۶۰ آزمون · زرین: ۹۰ کل و ۷۲ آزمون.</p></details>';
  }else{
   const p=D.palettes[kind];
-  section.innerHTML='<h2>نشان '+p.name+' | '+p.title+'</h2>'+
-  '<p>طراحی‌شده برای به‌پرور با نماد چرخ‌دنده صنعتی، گفت‌وگوی سازنده و ارتباط میان افراد.</p>'+
+  section.innerHTML='<h2>نشان '+p.name+'</h2>'+
   '<div class="sf-medal-feature-preview">'+D.seal(kind,details(s,points))+'</div>'+
-  '<div class="sf-medal-feature-actions"><button type="button" data-sf-export="png">دریافت تصویر PNG</button>'+
-  '<button type="button" class="sf-medal-pdf" data-sf-export="pdf">دریافت فایل PDF</button>'+
-  '<button type="button" class="sf-medal-svg" data-sf-export="svg">نسخه برداری SVG</button></div>'+
-  '<p class="sf-medal-note">لوگوی اصلی به‌پرور، نام شرکت‌کننده، مسیر، تاریخ و امتیاز روی نشان ثبت می‌شود. زرین علاوه بر ۹۰ امتیاز کل، دست‌کم ۷۲ از ۸۰ امتیاز آزمون می‌خواهد.</p>';
+  '<div class="sf-medal-feature-actions"><button type="button" data-sf-export="png">دریافت تصویر</button>'+
+  '<button type="button" class="sf-medal-pdf" data-sf-export="pdf">دریافت PDF</button>'+
+  '<button type="button" class="sf-medal-svg" data-sf-export="svg">دریافت SVG</button></div>';
   section.addEventListener("click",async ev=>{
    const b=ev.target.closest("button[data-sf-export]");if(!b||b.disabled)return;
    const format=b.dataset.sfExport,caption=b.textContent;

@@ -14,6 +14,18 @@ on:
       - 'qa-mml-browser.cjs'
       - 'verify-aligned-curriculum.cjs'
       - '.github/workflows/mml-ux-check.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'session3-*.html'
+      - 'session4-*.html'
+      - 'assets/mml-*.js'
+      - 'assets/mml-*.css'
+      - 'assets/bp-*.js'
+      - 'assets/bp-*.css'
+      - 'qa-mml-browser.cjs'
+      - '.github/workflows/mml-ux-check.yml'
   workflow_dispatch:
 permissions:
   contents: read

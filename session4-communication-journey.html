@@ -114,7 +114,7 @@ function selfView(){
  '<button type="button" class="scalebtn '+(vals[i]===j+1?"selected":"")+'" data-scale="'+i+'" data-val="'+(j+1)+'">'+k+'</button>'
  ).join('')+'</div></div>').join('')+'</div>'+
  (complete?'<div class="sf-self-feedback" role="status"><strong>خودارزیابی: '+fa(sum)+' از ۱۲</strong>'+
- '<span>اعتبار تکمیل: ۰٫۵ امتیاز</span><p>پیام مربی: '+E(mentor)+'</p></div>':
+ '<span>اعتبار تکمیل: ۰٫۵ امتیاز</span><p>پیام مربی: '+E(mentor+" "+st.tip)+'</p></div>':
  '<p class="sf-self-hint">پس از پاسخ به سه مورد، نتیجه و پیام مربی را می‌بینی.</p>')+
  '</section>';
 }

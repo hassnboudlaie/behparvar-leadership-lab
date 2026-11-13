@@ -42,7 +42,7 @@ function gallery(){
  '<div class="sf-medal-gallery-grid" aria-label="پیش‌نمایش نشان‌ها">'+types.map(type=>{
   const p=D.palettes[type];
   return '<figure class="sf-medal-mini '+type+'" aria-label="نمونه نشان '+p.name+'" title="نشان '+p.name+'">'+
-  D.seal(type,{preview:true})+'<figcaption>'+p.name+'</figcaption></figure>';
+  D.seal(type,{preview:true})+'</figure>';
  }).join("")+'</div>';
  stat.insertAdjacentElement("afterend",item);
 }

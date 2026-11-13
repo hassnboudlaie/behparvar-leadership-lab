@@ -3,6 +3,14 @@
 "use strict";
 const assert=require("node:assert/strict"),{chromium}=require("playwright");
 const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
+async function closeCoach(page){
+ for(let i=0;i<7;i++){
+  const overlay=page.locator("#sfCoachOverlay");
+  if(!(await overlay.count()))return;
+  await page.locator("#sfCoachClose").click();
+  await page.waitForTimeout(90);
+ }
+}
 (async()=>{
  const browser=await chromium.launch({headless:true,args:["--no-sandbox"]});
  try{
@@ -23,32 +31,40 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   await page.locator('[data-role="supervisors"]').click();
   await page.locator("#start").click();
   await page.locator("#sfWizardHead").waitFor();
+  await closeCoach(page);
   await page.locator("#sfScoreStrip").waitFor();
   assert.equal(await page.locator("#sfScoreStrip").getAttribute("id"),"sfScoreStrip");
   await page.locator("#sfNext").click();
   await page.waitForFunction(()=>document.querySelector("#sfWizardHead")?.dataset.phase==="self");
-  for(let i=0;i<3;i++)await page.locator('[data-scale="'+i+'"][data-val="2"]').click();
+  await closeCoach(page);
+  for(let i=0;i<3;i++){await closeCoach(page);await page.locator('[data-scale="'+i+'"][data-val="2"]').click()}
   await page.locator("#sfNext").click();
   await page.waitForFunction(()=>document.querySelector("#sfWizardHead")?.dataset.phase==="decision1");
+  await closeCoach(page);
   await page.locator('.question input[name="q1"]').first().check();
   await page.locator('[data-saveq="1"]').click();
   await page.locator("#sfNext").click();
   await page.waitForFunction(()=>document.querySelector("#sfWizardHead")?.dataset.phase==="decision2");
+  await closeCoach(page);
   await page.locator("#best").selectOption("0");
   await page.locator("#worst").selectOption("1");
   await page.locator('[data-saveq="2"]').click();
+  await closeCoach(page);
   await page.locator("#sfNext").click();
   await page.waitForFunction(()=>document.querySelector("#sfWizardHead")?.dataset.phase==="role");
+  await closeCoach(page);
   await page.locator("#sfPrivateScore").waitFor();
   assert.equal(await page.locator(".sf-rating-options input").count(),5);
   await page.locator(".sf-rating-options label").nth(3).click();
   await page.locator("#saverp").click();
+  await closeCoach(page);
   const assessment=await page.evaluate(()=>{
    const s=JSON.parse(localStorage.getItem("bp-communication-journey-v3"));
    return s.rp[0];
   });
   assert.equal(assessment.peerRating,4);
   assert.equal(assessment.mode,"adjacent-peer-private");
+  await closeCoach(page);
   await page.locator("#sfPeerThanks summary").click();
   assert(await page.locator("#sfShareThanks").isEnabled(),"Optional giving enabled after assessment");
   await page.locator("#sfShareThanks").click();

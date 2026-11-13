@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 510" role="img" aria-label="جشن تکمیل مرحله یادگیری؛ مسیر طلایی ارتباطات">
+<defs><linearGradient id="sky" x1="0" x2=".95" y1="0" y2="1"><stop stop-color="#082e2a"/><stop offset=".54" stop-color="#0c6a54"/><stop offset="1" stop-color="#268467"/></linearGradient>
+<linearGradient id="glow" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#fff7ce"/><stop offset="1" stop-color="#d8ac61"/></linearGradient>
+<linearGradient id="hill" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#5eb49a"/><stop offset="1" stop-color="#124638"/></linearGradient>
+<radialGradient id="sun"><stop stop-color="#ffebb0" stop-opacity=".92"/><stop offset=".5" stop-color="#f9d78b" stop-opacity=".32"/><stop offset="1" stop-color="#ffc27f" stop-opacity="0"/></radialGradient>
+<filter id="shadow"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#071e18" flood-opacity=".38"/></filter></defs>
+<rect width="980" height="510" rx="35" fill="url(#sky)"/>
+<circle cx="700" cy="172" r="201" fill="url(#sun)"/><circle cx="700" cy="172" r="62" fill="#f7d38a" opacity=".85"/>
+<path d="M0 363C144 301 246 344 353 282 459 218 533 271 644 296 757 330 841 264 980 233V510H0Z" fill="#3d997c" opacity=".56"/>
+<path d="M0 407C136 354 239 397 361 342 467 294 573 366 714 334 813 308 900 345 980 296V510H0Z" fill="url(#hill)"/>
+<path d="M40 469C170 431 277 477 403 410 521 351 630 391 718 369 831 340 912 389 965 340" stroke="#f6dcaa" stroke-opacity=".65" stroke-width="10" stroke-linecap="round" stroke-dasharray="22 30" fill="none"/>
+<g filter="url(#shadow)"><circle cx="460" cy="242" r="118" fill="#093c33" stroke="#f2d9a6" stroke-width="5"/><circle cx="460" cy="242" r="103" fill="#175b4a" stroke="#f3d8a3" stroke-width="2"/>
+<path d="M460 155L541 240 460 326 379 240Z" fill="url(#glow)"/><path d="M460 189L510 240 460 292 410 240Z" fill="#1c6955"/>
+<path d="M332 232C365 167 407 154 436 170M488 316C536 306 575 266 593 220" fill="none" stroke="#ffe6b4" stroke-width="8" stroke-linecap="round"/></g>
+<g fill="#e7c784"><path d="M153 102l7 22 22 7-22 7-7 22-7-22-22-7 22-7z"/><path d="M817 78l5 15 15 5-15 5-5 15-5-15-15-5 15-5z"/><path d="M765 260l7 22 22 7-22 7-7 22-7-22-22-7 22-7z"/><path d="M232 304l4 12 12 4-12 4-4 12-4-12-12-4 12-4z"/></g>
+<g fill="#fff4d1" opacity=".8"><circle cx="119" cy="261" r="5"/><circle cx="273" cy="138" r="5"/><circle cx="664" cy="75" r="5"/><circle cx="853" cy="210" r="4"/><circle cx="925" cy="94" r="7"/></g>
+<g stroke="#e2c78b" stroke-width="4" stroke-linecap="round" opacity=".9"><path d="M224 50l13 18M270 94l21 3M736 40l-8 23M868 179l22 12M104 345l18-6M882 305l10 18"/></g>
+</svg>

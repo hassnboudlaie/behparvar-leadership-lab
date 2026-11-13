@@ -1,0 +1,49 @@
+/* Floating Safar contextual mentoring: RTL, readable and accessible.
+ * The floating control remains visible through all ten learning stages.
+ */
+.sf-guide-floating{
+ position:fixed!important;right:max(14px,env(safe-area-inset-right,14px));bottom:max(96px,calc(env(safe-area-inset-bottom,0px) + 86px));z-index:12000;
+ display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;
+ min-width:128px;max-width:178px;min-height:82px;padding:11px 14px;
+ background:linear-gradient(130deg,#195e50,#18443f)!important;color:#fff!important;
+ border:2px solid #d6bd7f!important;border-radius:20px!important;
+ font-family:inherit!important;cursor:pointer!important;box-shadow:0 12px 32px rgba(10,37,30,.26);
+ direction:rtl;text-align:center;line-height:1.45!important;
+}
+.sf-guide-floating .sf-guide-symbol{position:absolute;right:-9px;top:-10px;width:26px;height:26px;display:grid;place-items:center;background:#f9edc7;color:#27513d;border:2px solid #b79151;border-radius:50%;font-size:19px;font-weight:900}
+.sf-guide-floating .sf-guide-label{font-size:clamp(16px,2vw,19px);font-weight:900}
+.sf-guide-floating small{font-size:14px;font-weight:750;line-height:1.4;color:#f6eaca;white-space:normal}
+.sf-guide-floating:focus-visible{outline:4px solid #ecac38;outline-offset:4px}
+.sf-guide-floating:hover{transform:translateY(-2px)}
+.sf-guide-backdrop{position:fixed;inset:0;z-index:12001;display:flex;align-items:stretch;justify-content:flex-start;background:rgba(8,26,32,.56);backdrop-filter:blur(3px);direction:rtl}
+.sf-guide-drawer{width:min(100%,460px);max-height:100dvh;overflow-y:auto;overflow-x:hidden;background:#fcfefa;border-left:2px solid #bad4c5;box-shadow:-18px 0 60px rgba(9,37,33,.27);display:flex;flex-direction:column;font-family:inherit;color:#143e3b}
+.sf-guide-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:clamp(22px,4vw,30px);background:linear-gradient(110deg,#174c40,#286958);color:#fff}
+.sf-guide-heading span{font-size:17px;color:#def0df;font-weight:800}
+.sf-guide-heading h2{font-size:clamp(27px,4vw,33px)!important;line-height:1.4!important;margin:7px 0 6px;color:#fff!important;font-weight:950!important}
+.sf-guide-heading p{font-size:clamp(15px,2.5vw,18px);line-height:1.7;margin:0;color:#f1f8ee}
+.sf-guide-close{background:#ffffff27!important;color:white!important;border:1px solid #f0f8ef9e!important;width:48px;height:48px;border-radius:13px;font-size:32px!important;font-weight:700;cursor:pointer;flex:0 0 auto}
+.sf-guide-close:focus-visible,.sf-guide-reveal:focus-visible{outline:4px solid #e5a63f;outline-offset:2px}
+.sf-guide-body{padding:clamp(23px,4vw,30px);display:flex;flex-direction:column;gap:17px}
+.sf-guide-locked{background:#f6faf7;border:1.5px solid #c4dcd0;padding:20px;border-radius:18px;display:grid;gap:18px}
+.sf-guide-locked p{font-size:clamp(18px,2.8vw,21px);line-height:1.85;margin:0;color:#214c44}
+.sf-guide-price{border:1.5px solid #dec99d;background:#fff9eb;padding:16px;border-radius:14px;display:grid;gap:5px}
+.sf-guide-price strong{color:#825315;font-size:clamp(25px,4vw,31px);font-weight:950}
+.sf-guide-price span{color:#614b24;font-size:17px}
+.sf-guide-reveal{width:100%;padding:15px 18px;border:0;border-radius:14px;background:#1b6750!important;color:white!important;font-family:inherit;font-size:clamp(18px,2.7vw,21px)!important;font-weight:900!important;cursor:pointer;line-height:1.7}
+.sf-guide-reveal:hover{background:#11513d!important}
+.sf-guide-content{display:grid;gap:16px}
+.sf-guide-skill{font-size:clamp(19px,3vw,23px);font-weight:900;color:#164d3e;border-bottom:2px solid #d8e9dd;padding-bottom:12px}
+.sf-guide-idea,.sf-guide-reflect{padding:16px 19px;border-radius:15px;background:#f2f8f3;border-right:5px solid #28785f}
+.sf-guide-reflect{background:#fff7e9;border-right-color:#c09149}
+.sf-guide-idea b,.sf-guide-reflect b{font-size:19px;color:#174f3d;font-weight:900}
+.sf-guide-reflect b{color:#86591e}
+.sf-guide-idea p,.sf-guide-reflect p{font-size:clamp(18px,2.7vw,20px);line-height:1.9;margin:8px 0 0;color:#254340}
+.sf-guide-boundary{color:#526660;font-size:15px;line-height:1.8;margin:0}
+@media(max-width:700px){
+ .sf-guide-floating{right:10px;bottom:max(95px,calc(env(safe-area-inset-bottom,0px) + 90px));min-width:99px;max-width:128px;min-height:64px;border-radius:16px;padding:10px 8px}
+ .sf-guide-floating .sf-guide-label{font-size:16px}
+ .sf-guide-floating small{font-size:12px}
+ .sf-guide-drawer{width:min(100%,430px)}
+}
+@media(max-width:430px){.sf-guide-drawer{width:100%}.sf-guide-body{padding:20px}.sf-guide-floating{bottom:max(95px,calc(env(safe-area-inset-bottom,0px) + 90px))}}
+@media(prefers-reduced-motion:reduce){.sf-guide-floating:hover{transform:none}.sf-guide-backdrop{backdrop-filter:none}}

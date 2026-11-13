@@ -12,7 +12,7 @@ on:
       - 'session4-communication-journey.html'
       - 'assets/safar-*.js'
       - 'assets/safar-*.css'
-      - 'tests/safar-journey-quality.cjs'
+      - 'tests/safar-*.cjs'
   workflow_dispatch:
 jobs:
   audit:
@@ -54,3 +54,4 @@ jobs:
         run: |
           node tests/safar-peer-browser.cjs
           node tests/safar-content-v4-browser.cjs
+          node tests/safar-overtime-browser.cjs

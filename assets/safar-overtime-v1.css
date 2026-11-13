@@ -1,0 +1,32 @@
+/* Safar Ertebatat — accessible overtime decision gate, responsive RTL */
+.sf-overtime-locked{overflow:hidden!important}
+#clock.sf-overtime-active{border:2px solid #bd7a22!important;background:#fff3db!important;color:#653c08!important}
+#clock.sf-overtime-ended{background:#7c2540!important;color:#fff!important;border-color:#7c2540!important}
+.sf-overtime-overlay{position:fixed;inset:0;z-index:999999;background:rgba(10,24,37,.79);display:flex;align-items:center;justify-content:center;padding:clamp(12px,3vw,28px);overflow:auto;backdrop-filter:blur(5px)}
+.sf-overtime-dialog{width:min(100%,590px);max-height:calc(100dvh - 24px);overflow-y:auto;border:1px solid #cedad3;border-radius:24px;background:#fcfdfb;color:#172a34;box-shadow:0 30px 100px #061a226b;padding:clamp(22px,4vw,38px);font-family:inherit;text-align:right;line-height:1.8}
+.sf-overtime-symbol{font-size:46px;line-height:1.2;margin-bottom:6px}
+.sf-overtime-kicker{color:#a05c19;font-size:17px;font-weight:800;margin:0 0 8px}
+.sf-overtime-dialog h2{font-size:clamp(25px,4.5vw,36px)!important;line-height:1.45!important;font-weight:900!important;color:#153c3c!important;margin:0 0 12px}
+.sf-overtime-dialog p{font-size:clamp(17px,2.6vw,20px);margin:0 0 16px}
+.sf-overtime-rule{background:#eef6f2;border:1px solid #c8dfd3;padding:14px 18px;border-radius:15px;display:grid;gap:3px;margin-bottom:20px}
+.sf-overtime-rule b{font-size:20px;color:#165a49}
+.sf-overtime-rule span{font-size:17px}
+.sf-overtime-dialog form{display:grid;gap:10px}
+.sf-overtime-dialog label{font-weight:900;color:#172e38;font-size:20px}
+.sf-overtime-inputline{display:flex;align-items:center;gap:15px}
+.sf-overtime-inputline input{appearance:auto;width:min(55%,210px);max-width:100%;height:62px;border:2px solid #657f73;border-radius:12px;background:white;color:#132e35;text-align:center;font-size:32px!important;font-weight:800!important;direction:ltr}
+.sf-overtime-inputline input:focus{outline:3px solid #66ad8f;outline-offset:2px}
+.sf-overtime-inputline span{font-size:20px;font-weight:700}
+.sf-overtime-preview{display:grid;gap:4px;background:#fffbef;border:1px solid #e4c986;border-radius:15px;padding:14px 18px;font-size:18px;color:#513915}
+.sf-overtime-preview strong{font-size:26px;color:#133e32}
+.sf-overtime-preview.invalid{color:#9d243f;background:#fff0f3;border-color:#e8b8c3}
+.sf-overtime-confirm{width:100%;min-height:64px;padding:12px 16px;border:0;border-radius:14px;background:#13644f!important;color:#fff!important;font-size:clamp(18px,3vw,22px)!important;font-weight:900!important;cursor:pointer}
+.sf-overtime-confirm:disabled{opacity:.55;cursor:not-allowed}
+.sf-overtime-confirm:not(:disabled):hover{background:#0c513e!important}
+.sf-overtime-dialog .sf-overtime-foot{font-size:15px;color:#435c60;margin:8px 0 0;line-height:1.8}
+.sf-overtime-breakdown{display:flex;justify-content:center;flex-wrap:wrap;gap:7px 15px;align-items:center;background:rgba(255,255,255,.14);padding:12px 14px;margin:10px auto 18px;border-radius:14px;font-size:clamp(17px,2vw,20px);font-weight:700}
+.sf-overtime-breakdown b{font-size:1.12em;color:#fff}
+.sf-overtime-breakdown .deduct{color:#ffe4b3}
+.sf-overtime-toast{position:fixed;z-index:1000000;bottom:24px;left:50%;transform:translateX(-50%);width:min(93%,600px);background:#124d3e;color:#fff;border-radius:14px;padding:16px 20px;box-shadow:0 12px 45px #0005;text-align:center;font-size:18px;font-weight:800;direction:rtl}
+@media(max-width:480px){.sf-overtime-overlay{align-items:flex-start;padding:10px}.sf-overtime-dialog{border-radius:17px;max-height:calc(100dvh - 20px)}.sf-overtime-inputline input{height:56px}}
+@media(prefers-reduced-motion:reduce){.sf-overtime-overlay{backdrop-filter:none}}

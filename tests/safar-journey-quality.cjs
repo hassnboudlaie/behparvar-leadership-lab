@@ -16,7 +16,7 @@ for(const file of scripts.concat(styles))assert(fs.existsSync(path.join(dir,file
 for(const file of scripts)try{new vm.Script(read(file));successes.push("Syntax "+file)}catch(e){errors.push("Syntax "+file+" "+e.message)}
 if(core)try{new vm.Script(core);successes.push("Syntax inline core")}catch(e){errors.push("Syntax inline core "+e.message)}
 const scope={window:{}};
-for(const file of ["assets/safar-ertebatat-data.js","assets/safar-quiz-hardening-v2.js","assets/safar-classroom-upgrade-data.js","assets/safar-content-restoration-data.js"])vm.runInNewContext(read(file),scope,{filename:file});
+for(const file of ["assets/safar-ertebatat-data.js","assets/safar-quiz-hardening-v2.js","assets/safar-classroom-upgrade-data.js","assets/safar-content-restoration-data.js","assets/safar-content-quality-v4.js"])vm.runInNewContext(read(file),scope,{filename:file});
 const d=scope.window.BP_SAFAR_DATA,st=d.stages,extra=scope.window.BP_SAFAR_CLASSROOM.content,lessons=scope.window.BP_SAFAR_RESTORED_CONTENT.content;
 assert(st.length===10&&extra.length===10&&lessons.length===10,"10 stages and complementary curriculum layers");
 assert(st.reduce((a,x)=>a+x.time,0)===55,"55-minute instructional segment");
@@ -33,7 +33,7 @@ assert(core.includes("انتخاب شما:")&&core.includes("بهترین اقد
 assert(core.includes("quiz>=72"),"Gold badge requires minimum 72/80 quiz mastery");
 const wiz=read("assets/safar-wizard-v3.js");
 assert(wiz.includes("REST_MS=30000")&&wiz.includes('[2,6].includes(s.stage)?["rest"]'),"Two 30-second scenic pauses");
-assert(read("assets/safar-journey-coach-v5.js").includes('if(q===1){inlineFeedback'),"Contextual nonmodal coaching for first choice");
+assert(read("assets/safar-journey-coach-v5.js").includes('if(q===1)inlineFeedback'),"Contextual nonmodal coaching for first choice");
 assert(read("assets/safar-session-controls-v4.js").includes("storeHistory"),"New journeys archive prior achievements");
 assert(read("assets/safar-industrial-medals.js").includes("rasterSvg=svg.replace"),"Mobile badge raster export safety");
 assert(!html.includes('id="session4-m1"'),"Obsolete session-four content is absent");

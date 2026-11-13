@@ -66,6 +66,17 @@ function historyView(){
 }
 function decorate(){
  const s=current(),hero=root.querySelector(".result-hero");
+ // Keep an in-progress legacy journey unchanged, but make the new curriculum accessible on request.
+ if(s?.startedAt&&!s.finished&&!s.appliedCurriculumV2){
+  const actions=document.querySelector(".top-actions");
+  if(actions&&!document.querySelector("#sfUpgradeFresh")){
+   const b=document.createElement("button");b.type="button";b.id="sfUpgradeFresh";
+   b.textContent="↻ شروع نسخه محتوایی جدید";
+   b.title="سفر فعلی محفوظ می‌ماند مگر پس از تأیید شما سفر جدید شروع شود";
+   b.style.fontWeight="800";b.style.fontSize="13px";
+   actions.prepend(b);
+  }
+ }
  if(hero){
   if(!root.querySelector("#sfNewJourney")){
    if(s?.finished)storeHistory(s);
@@ -81,7 +92,7 @@ function decorate(){
  }
 }
 document.addEventListener("click",e=>{
- if(e.target.closest("#sfStartAgain")){e.preventDefault();newJourney()}
+ if(e.target.closest("#sfStartAgain")||e.target.closest("#sfUpgradeFresh")){e.preventDefault();newJourney()}
  const b=e.target.closest("[data-sf-restore]");
  if(b){e.preventDefault();restore(b.dataset.sfRestore)}
 });

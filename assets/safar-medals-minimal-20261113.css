@@ -1,0 +1,119 @@
+/* Session 4 recognition / gallery — minimalist premium presentation.
+   Decorative styling only; original downloadable SVG and score logic preserved. */
+#sfMedalGallery.sf-medal-gallery{
+  background:linear-gradient(135deg,#f7f6ef 0%,#edf4eb 100%);
+  border:1px solid #d7e3d7;border-radius:23px;
+  box-shadow:0 9px 29px rgba(10,57,43,.09);
+  padding:14px 18px;margin:22px 0 26px;
+}
+#sfMedalGallery>summary{
+  color:#194c3c;font-size:21px;font-weight:900;
+  line-height:1.65;cursor:pointer;padding:6px 4px;
+  list-style:none;display:flex;align-items:center;gap:11px;
+}
+#sfMedalGallery>summary::before{
+  content:"";width:10px;height:10px;flex:none;
+  transform:rotate(45deg);background:linear-gradient(135deg,#eed5a1,#b78540);
+  border:1px solid #f5e7c8;border-radius:2px;
+}
+#sfMedalGallery>summary::after{
+  content:"⌄";color:#8d794e;font:800 24px/1 Tahoma,sans-serif;margin-right:auto;
+  transition:transform .2s ease;
+}
+#sfMedalGallery[open]>summary::after{transform:rotate(180deg)}
+#sfMedalGallery>summary::-webkit-details-marker{display:none}
+#sfMedalGallery.sf-medal-gallery:not([open]){padding:12px 18px}
+#sfMedalGallery .sf-medal-gallery-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;padding:18px 1px 5px;border-top:1px solid #e1e9dc;
+  margin-top:10px;min-width:0;
+}
+#sfMedalGallery .sf-medal-mini,
+#sfMedalGallery .sf-medal-mini.gold,
+#sfMedalGallery .sf-medal-mini.silver,
+#sfMedalGallery .sf-medal-mini.bronze{
+  min-width:0;margin:0;padding:16px 13px 12px;
+  display:flex;flex-direction:column;align-items:center;gap:11px;
+  background:#fffef9;border:1px solid #d8e4d8;border-radius:18px;
+  box-shadow:0 8px 19px rgba(16,58,42,.07);overflow:visible;
+}
+#sfMedalGallery .sf-medal-mini svg{
+  width:100%;max-width:260px;height:auto;aspect-ratio:900/1180;
+  display:block;filter:drop-shadow(0 7px 10px rgba(8,48,36,.17));
+  border-radius:10px;
+}
+#sfMedalGallery .sf-medal-mini figcaption{
+  color:#1b513f;font-size:18px;font-weight:900;line-height:1.5;
+  padding:0 2px 1px;text-align:center;
+}
+#sfMedalFeature.sf-medal-feature{
+  max-width:740px;margin:25px auto;padding:clamp(20px,3vw,34px);
+  background:linear-gradient(135deg,#fdfbf4,#eff5ed);
+  border:1px solid #d6e3d6;border-radius:27px;
+  box-shadow:0 12px 34px rgba(15,59,43,.12);
+}
+#sfMedalFeature h2{
+  color:#155440;font-size:clamp(26px,3.1vw,34px);
+  margin:3px 0 21px;font-weight:900;
+}
+#sfMedalFeature .sf-medal-feature-preview{
+  max-width:430px;min-width:0;margin:0 auto;
+}
+#sfMedalFeature .sf-medal-feature-preview svg{
+  width:100%;height:auto;max-height:none;
+  border-radius:14px;filter:drop-shadow(0 18px 19px rgba(4,47,36,.17));
+}
+#sfMedalFeature .sf-medal-feature-actions{gap:11px;margin:25px 0 0}
+#sfMedalFeature .sf-medal-feature-actions button{
+  background:linear-gradient(112deg,#0c614d,#0d7b60);
+  border:1px solid #0b6a52;border-radius:13px;min-height:54px;
+  padding:10px 15px;color:white;font-size:17px;font-weight:900;
+  flex:1;min-width:146px;max-width:none;
+}
+#sfMedalFeature .sf-medal-feature-actions .sf-medal-pdf{
+  background:linear-gradient(115deg,#c39b60,#b58b4f);
+  border-color:#b18b56;color:#163d31;
+}
+#sfMedalFeature .sf-medal-feature-actions .sf-medal-svg{
+  background:#e7f0e8;border-color:#bbd2c2;color:#195540;
+}
+#sfMedalFeature .sf-medal-criteria{
+  text-align:right;margin:12px 0;border:1px solid #d6e3d9;
+  border-radius:12px;padding:10px 15px;background:#f5f8f1;
+}
+#sfMedalFeature .sf-medal-criteria summary{
+  cursor:pointer;font-size:17px;color:#20523e;font-weight:800;
+}
+#sfMedalFeature .sf-medal-criteria p{font-size:16px;line-height:1.9}
+@media(max-width:720px){
+  #sfMedalGallery.sf-medal-gallery{padding:12px 14px;margin:16px 0 21px}
+  #sfMedalGallery>summary{font-size:19px}
+  #sfMedalGallery .sf-medal-gallery-grid{
+    display:grid;grid-auto-flow:column;grid-auto-columns:minmax(205px,72%);
+    grid-template-columns:none;gap:12px;
+    overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+    scroll-padding-inline:2px;padding:17px 2px 18px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;scrollbar-color:#b4c4b1 #edf2eb;
+  }
+  #sfMedalGallery .sf-medal-mini{scroll-snap-align:start}
+  #sfMedalGallery .sf-medal-mini svg{max-width:250px}
+  #sfMedalGallery .sf-medal-mini figcaption{font-size:18px}
+  #sfMedalFeature.sf-medal-feature{padding:18px 13px;border-radius:22px}
+  #sfMedalFeature h2{font-size:26px}
+  #sfMedalFeature .sf-medal-feature-preview{max-width:min(390px,100%)}
+  #sfMedalFeature .sf-medal-feature-actions{gap:8px}
+  #sfMedalFeature .sf-medal-feature-actions button{
+    min-width:0;flex:1 1 calc(50% - 8px);font-size:16px;min-height:53px;
+  }
+}
+@media(max-width:370px){
+  #sfMedalGallery .sf-medal-gallery-grid{grid-auto-columns:minmax(190px,82%)}
+  #sfMedalFeature .sf-medal-feature-actions button{flex-basis:100%}
+}
+@media(prefers-reduced-motion:reduce){
+  #sfMedalGallery>summary::after{transition:none}
+}
+@media print{
+  #sfMedalGallery,#sfMedalFeature .sf-medal-feature-actions{display:none!important}
+}

@@ -5,7 +5,7 @@ on:
       - 'session4-communication-journey.html'
       - 'assets/safar-*.js'
       - 'assets/safar-*.css'
-      - 'tests/safar-journey-quality.cjs'
+      - 'tests/safar-*.cjs'
       - '.github/workflows/safar-journey-quality.yml'
   pull_request:
     paths:
@@ -26,3 +26,27 @@ jobs:
           node-version: '20'
       - name: Validate Safar Ertebatat learning journey
         run: node tests/safar-journey-quality.cjs
+      - name: Verify score and private appreciation integration
+        run: node tests/safar-peer-recognition-quality.cjs
+  browser-peer:
+    needs: audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install test-only browser dependencies
+        run: |
+          npm install --no-save --package-lock=false playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Serve same-origin PWA locally
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/safar-peer-browser.log 2>&1 &
+          sleep 2
+          curl -fsSI http://127.0.0.1:8765/
+      - name: Test classroom peer rating and recognition handoff
+        run: node tests/safar-peer-browser.cjs

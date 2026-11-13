@@ -33,18 +33,40 @@ function details(s,total){
  return{name:(s.name||"").trim()||"شرکت‌کننده به‌پرور",
  score:total,role:s.role,date:new Intl.DateTimeFormat("fa-IR",{year:"numeric",month:"long",day:"numeric"}).format(new Date(s.finishedAt||Date.now()))};
 }
+const rules={
+ bronze:{total:60,quiz:44},silver:{total:75,quiz:60},gold:{total:90,quiz:72}
+};
+function medalCards(s){
+ const current=s?score(s):0,quiz=s?quizScore(s):0;
+ return '<div class="sf-medal-gallery-grid" aria-label="نشان‌های قابل دریافت">'+types.map(type=>{
+  const p=D.palettes[type],r=rules[type],ok=s?.finished&&current>=r.total&&quiz>=r.quiz;
+  const progressing=s?.startedAt&&!s.finished&&current>0;
+  const status=ok?"کسب شده":progressing?"در حال پیشرفت":"قفل";
+  const state=ok?"earned":progressing?"ongoing":"locked";
+  return '<article class="sf-medal-mini '+type+' '+state+'" aria-label="نشان '+p.name+'، '+status+'">'+
+   '<div class="sf-medal-art">'+D.seal(type,{preview:true})+'</div>'+
+   '<div class="sf-medal-caption"><strong>نشان '+p.name+'</strong><span class="sf-medal-state '+state+'">'+status+'</span></div>'+
+   '<details class="sf-medal-rule"><summary>شرایط کسب نشان</summary>'+
+   '<div class="sf-medal-rule-content"><p><b>'+fa(r.total)+'</b> امتیاز از ۱۰۰ امتیاز کل</p>'+
+   '<p><b>'+fa(r.quiz)+'</b> امتیاز از ۸۰ امتیاز آزمون</p>'+
+   '<p>پایان سفر ۱۰مرحله‌ای</p></div></details>'+
+   '</article>';
+ }).join("")+'</div>';
+}
 function gallery(){
  if(root.querySelector("#sfMedalGallery"))return;
  const stat=root.querySelector(".introgrid");if(!stat)return;
- const item=document.createElement("details");
- item.id="sfMedalGallery";item.className="sf-medal-gallery";
- item.innerHTML='<summary>نشان‌های پایان سفر</summary>'+
- '<div class="sf-medal-gallery-grid" aria-label="پیش‌نمایش نشان‌ها">'+types.map(type=>{
-  const p=D.palettes[type];
-  return '<figure class="sf-medal-mini '+type+'" aria-label="نمونه نشان '+p.name+'" title="نشان '+p.name+'">'+
-  D.seal(type,{preview:true})+'</figure>';
- }).join("")+'</div>';
+ const item=document.createElement("details");item.id="sfMedalGallery";item.className="sf-medal-gallery";
+ item.innerHTML='<summary>نشان‌های پایان سفر</summary>'+medalCards(getState());
  stat.insertAdjacentElement("afterend",item);
+}
+function finalGallery(s){
+ if(root.querySelector("#sfFinalMedalGallery"))return;
+ const featured=root.querySelector("#sfMedalFeature");
+ if(!featured)return;
+ const item=document.createElement("section");item.id="sfFinalMedalGallery";item.className="sf-medal-gallery sf-final-gallery";
+ item.innerHTML='<h3>نشان‌ها و شرایط دریافت</h3>'+medalCards(s);
+ featured.insertAdjacentElement("afterend",item);
 }
 function download(blob,name){
  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;
@@ -118,7 +140,7 @@ function resultPage(s){
  if(!kind){
    section.innerHTML='<h2>نشان پایان سفر</h2><p>امتیاز ثبت شد؛ این بار نشان دریافت نشد.</p>'+
    '<details class="sf-medal-criteria"><summary>شرایط دریافت نشان‌ها</summary>'+
-   '<p>برنزی: ۶۰ امتیاز کل و ۴۴ آزمون · سیمین: ۷۵ کل و ۶۰ آزمون · زرین: ۹۰ کل و ۷۲ آزمون.</p></details>';
+   '<p>برای دیدن شرایط دقیق هر نشان، کارت‌های پایین را باز کن.</p></details>';
  }else{
   const p=D.palettes[kind];
   section.innerHTML='<h2>نشان '+p.name+'</h2>'+
@@ -141,7 +163,7 @@ let scheduled=false;
 function refresh(){
  const s=getState();
  if(!s||!s.startedAt){gallery();return}
- if(s.finished)resultPage(s);
+ if(s.finished){resultPage(s);finalGallery(s)}
 }
 const watch=new MutationObserver(()=>{
  if(scheduled)return;

@@ -52,12 +52,14 @@ document.addEventListener("click",e=>{
  const b=e.target.closest("#sfNext");if(!b||b.disabled)return;
  const before=state(),h=root.querySelector("#sfWizardHead");if(!before||!h)return;
  const phase=h.dataset.phase,stage=before.stage,start=before.startedAt;
- requestAnimationFrame(()=>{
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  // The wizard rebuilds its header in a MutationObserver-driven animation frame.
+  // Announce only after that update, especially on a new major stage.
   const after=state();if(!after||after.startedAt!==start||after.finished)return;
   const newHead=root.querySelector("#sfWizardHead");
   if(after.stage!==stage)announce(after,"wrap",stage);
   else if(newHead&&newHead.dataset.phase!==phase)announce(after,phase,stage);
- });
+ }));
 },true);
 sync();
 window.BP_SAFAR_STEP_POINTS={pts,progress,nextMedal};

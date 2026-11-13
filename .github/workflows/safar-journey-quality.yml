@@ -30,7 +30,7 @@ jobs:
         run: node tests/safar-peer-recognition-quality.cjs
   browser-peer:
     needs: audit
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     permissions:
       contents: read

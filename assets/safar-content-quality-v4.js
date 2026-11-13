@@ -7,6 +7,17 @@
 (()=>{"use strict";
 const d=window.BP_SAFAR_DATA,c=window.BP_SAFAR_CLASSROOM?.content,r=window.BP_SAFAR_RESTORED_CONTENT?.content;
 if(!d||d.stages?.length!==10||!c||!r)return;
+const oldStage2=JSON.parse(JSON.stringify(d.stages[1]));
+const oldClassroom2=JSON.parse(JSON.stringify(c[1]));
+const oldRestored2=JSON.parse(JSON.stringify(r[1]));
+// Existing journeys answered the old Stage 2 questions. Never reinterpret their
+// immutable option indices using new questions. Only new journeys get v4 keys.
+let legacyStarted=false;
+try{
+ const persisted=JSON.parse(localStorage.getItem("bp-communication-journey-v3")||"null");
+ legacyStarted=!!(persisted?.startedAt&&!persisted.curriculumV4);
+}catch(e){}
+
 const content=[
 {
  title:"شروع حرفه‌ای و ایجاد اعتماد",
@@ -239,5 +250,10 @@ r[1].debrief=[
 ];
 r[1].trap="ارسال همه پیام‌های قبلی، جایگزین تأیید صریح خروجی و مسئول و موعد نیست.";
 r[1].transfer="در درخواست بعدی از همکارت بخواه خروجی، مسئول، موعد و شرط را یک بار بازگو کند.";
+if(legacyStarted){
+ d.stages[1]=oldStage2;
+ c[1]=oldClassroom2;
+ r[1]=oldRestored2;
+}
 window.BP_SAFAR_CURRICULUM_V4={source:"Alborz 10-session interpersonal communications + Behparvar applied scenarios",version:4,stages:content.map(x=>x.title)};
 })();

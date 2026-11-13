@@ -57,11 +57,10 @@ function seal(type,opts={}){
  '<g fill="'+p.glint+'"><circle cx="383" cy="477" r="8"/><circle cx="422" cy="477" r="8"/><circle cx="461" cy="477" r="8"/></g>'+
  '</g>'+
  '<text x="450" y="769" text-anchor="middle" direction="rtl" '+font+' font-size="70" font-weight="900" fill="'+p.light+'">نشان '+typeName+'</text>'+
- '<text x="450" y="821" text-anchor="middle" direction="rtl" '+font+' font-size="27" font-weight="650" fill="#E9E7D7">'+escape(p.title)+'</text>'+
+ (preview?"":'<text x="450" y="821" text-anchor="middle" direction="rtl" '+font+' font-size="27" font-weight="650" fill="#E9E7D7">'+escape(p.title)+'</text>')+
  (preview?
- '<path d="M205 895 H695" stroke="'+p.mid+'" opacity=".38"/>'+
- '<text x="450" y="951" text-anchor="middle" direction="rtl" '+font+' font-size="31" font-weight="750" fill="#DCE9E1">جلسه چهارم</text>'+
- '<text x="450" y="1089" text-anchor="middle" direction="rtl" '+font+' font-size="23" fill="#D7DCCC">نمونه نشان</text>':
+ '<path d="M260 875 H640" stroke="'+p.mid+'" opacity=".42"/>'+
+ '<text x="450" y="982" text-anchor="middle" direction="rtl" '+font+' font-size="27" font-weight="650" fill="#DDE8D9">نمونه نشان</text>':
  '<rect x="129" y="865" width="642" height="111" rx="18" fill="#F9F8F1"/>'+
  '<text x="450" y="932" text-anchor="middle" direction="rtl" '+font+' font-size="'+(rawName.length>35?27:rawName.length>25?33:39)+'" font-weight="850" fill="#16483D">'+name+'</text>'+
  '<text x="637" y="1035" text-anchor="middle" direction="rtl" '+font+' font-size="27" font-weight="750" fill="#F5E7C6">'+score+' از ۱۰۰</text>'+

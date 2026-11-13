@@ -1,0 +1,10 @@
+.sf-decision-context{background:linear-gradient(118deg,#d8eaf0,#e3eeec);border:1px solid #a9c9d0;border-right:5px solid #28868d;border-radius:15px;padding:13px 17px;margin:11px 0 16px;color:#23495d;box-shadow:0 2px 8px #193e5810}
+.sf-decision-context-head{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;align-items:center}
+.sf-decision-context-head strong{font-size:19px;color:#194a67}
+.sf-decision-context-head span{font-size:14px;color:#416e7b;font-weight:800}
+.sf-decision-context p{font-size:17px;line-height:1.94;margin:7px 0 11px}
+.sf-decision-context small{font-size:13px;line-height:1.65;color:#547182}
+.sf-decision-lens{background:#e9f1f3;border-radius:9px;border:1px solid #bfd1d8;margin:8px 0 7px}
+.sf-decision-lens summary{padding:7px 11px;cursor:pointer;font-size:15px;font-weight:800;color:#2b596c}
+.sf-decision-lens p{padding:0 11px 10px;margin:0;font-size:15px}
+@media(max-width:720px){.sf-decision-context{padding:11px 12px;margin:9px 0 14px}.sf-decision-context p{font-size:16px;line-height:1.86}.sf-decision-context-head strong{font-size:18px}}

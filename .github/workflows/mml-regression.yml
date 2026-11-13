@@ -31,12 +31,14 @@ jobs:
           node --check assets/bp-simple-roleplays-20261102.js
           node --check assets/bp-curriculum-alignment-20261102.js
           node --check assets/bp-pwa-install-20261102.js
+          node --check assets/bp-life-standard-shell-20261113.js
       - name: Check content and data compatibility
         run: |
           node tests/mml-guided-regression.cjs
           node tests/bp-competency-regression.cjs
           node tests/bp-practice-first-regression.cjs
           node tests/bp-session2-clinic-regression.cjs
+          node tests/bp-design-system-regression.cjs
       - name: Existing six-session navigation regressions
         run: |
           node verify-six-sessions.js

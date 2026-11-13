@@ -9,15 +9,26 @@ const {webkit}=require('playwright');const assert=require('node:assert/strict');
  await page.goto(base+'?audience=managers#course',{waitUntil:'domcontentloaded'});
  await page.waitForTimeout(350);
  const home=await page.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,scrollY,homeVisible:!!document.querySelector('.mml-hub h1'),tiles:document.querySelectorAll('#course [data-course-session]').length}));
- await page.evaluate(()=>location.hash='#session4-m2');await page.waitForTimeout(200);
- const lesson=await page.evaluate(()=>{const x=document.querySelector('#session4-m2 .mml-align-main');const p=x?.querySelector('p');return {visible:!!x&&getComputedStyle(x).display!=='none',bodyText:x?.textContent.length,bodyFont:p?getComputedStyle(p).fontSize:null,overflow:document.documentElement.scrollWidth-innerWidth,oldAccordion:!!document.querySelector('#session4-m2 details.mml-legacy'),hasTabs:document.querySelectorAll('#session4-m2 .mml-mode-controls button').length}});
+ // Session 4 now has an official independent workshop; do not hash-navigate
+ // to a removed legacy #session4-m2 route (which deliberately redirects).
+ await page.goto(new URL('session4-communication-journey.html',base).href,{waitUntil:'domcontentloaded'});
+ await page.locator('#root .cover-surface').waitFor({state:'visible'});
+ const lesson=await page.evaluate(()=>{
+  const x=document.querySelector('#root'),intro=document.querySelector('#root .cover-surface');
+  const c=document.querySelector('#root .card');
+  return {visible:!!intro&&getComputedStyle(intro).display!=='none',
+   bodyText:x?.textContent.length,bodyFont:c?getComputedStyle(c).fontSize:null,
+   overflow:document.documentElement.scrollWidth-innerWidth,
+   badgeGallery:!!document.querySelector('#sfMedalGallery'),
+   clock:!!document.querySelector('#clock')};
+ });
  console.log('MML_WEBKIT '+JSON.stringify({home,lesson,errors}));
  await browser.close();
  assert.equal(home.width,390);
  assert.equal(home.tiles,6);
  assert.equal(home.scrollWidth,390);
- assert.ok(lesson.visible&&lesson.bodyText>80&&lesson.oldAccordion&&lesson.hasTabs===0);
- assert.ok(parseFloat(lesson.bodyFont)>=20);
+ assert.ok(lesson.visible&&lesson.bodyText>80&&lesson.badgeGallery&&lesson.clock);
+ assert.ok(parseFloat(lesson.bodyFont)>=16);
  assert.ok(lesson.overflow<=0);
  assert.equal(errors.length,0);
 })().catch(e=>{console.error(e);process.exit(1)});

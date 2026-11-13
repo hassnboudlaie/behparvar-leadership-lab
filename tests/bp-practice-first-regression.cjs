@@ -56,6 +56,12 @@ assert.ok(css.includes("@media(max-width:800px)"));
 assert.ok(css.includes("prefers-reduced-motion"));
 assert.ok(appSource.includes("aria-pressed"));
 for(let n=1;n<=6;n++){
+ if(n===3||n===4){
+  const url=n===3?"session3-self-assessment.html":"session4-communication-journey.html";
+  assert.ok(html.includes('id="session'+n+'"'),"preserve session overview "+n);
+  assert.ok(html.includes(url),"canonical workshop entry "+n);
+  continue;
+ }
  for(const part of ["m1","m2","leaders","techniques","visuals","diseases","quiz"]){
   const id=n===1?part:"session"+n+"-"+part;
   assert.ok(html.includes('id="'+id+'"'),"preserve legacy route "+id);
@@ -65,4 +71,4 @@ const profileUI=read("assets/bp-competency-path-20261101.js");
 assert.ok(profileUI.includes("مثال برای مدیران"));
 assert.ok(profileUI.includes("مثال برای سرپرستان"));
 assert.ok(profileUI.includes("پاسخ شما بدون نمایش کلید"));
-console.log("PASS: 6 role-specific scenarios; 24 dialogue scripts for 12 competencies; 42 routes; independent action keys; diagnostic blinding; local-first assets.");
+console.log("PASS: 6 role-specific scenarios; 24 dialogue scripts for 12 competencies; canonical Sessions 3/4 and legacy routed sessions; independent action keys; diagnostic blinding; local-first assets.");

@@ -37,6 +37,11 @@ for(const role of ['managers','supervisors']){
  const a=boot({audience:role});assert.equal(a.active(),'welcome');assert.equal(a.all('[data-course-session]').length,6);assert.equal(a.all('#home .module-card').length,7);
  const untouched=JSON.stringify(a.test.getState());
  for(let n=2;n<=6;n++){
+  if(n===3||n===4){
+   assert.equal(a.q('[data-course-session="'+n+'"]').getAttribute('href'),
+    n===3?'session3-self-assessment.html':'session4-communication-journey.html');
+   continue;
+  }
   a.q('[data-course-session="'+n+'"]').click();assert.equal(a.active(),'session'+n);assert.equal(a.all('#workshopNavigation a').length,7);assert.equal(a.q('#workshopSidebar').hidden,false);
   for(const part of parts){
    a.q('.site-nav [data-open="session'+n+'-'+part+'"]').click();assert.equal(a.active(),'session'+n+'-'+part);assert.equal(a.q('#workshopSidebar').hidden,false);assert.equal(a.all('#workshopNavigation a').length,7);assert.ok(a.q('.sidebar-eyebrow').textContent.includes(words[n-1]));assert.ok(a.doc.title.includes('جلسه '+words[n-1]));assert.equal(a.q('#sidebarHome').dataset.open,'session'+n);assert.equal(a.q('#reset').hidden,true);assert.ok(a.all('[data-first-session-resource]').every(x=>x.hidden));assert.equal(a.q('.site-nav [aria-current="page"]').dataset.open,'session'+n+'-'+part);assert.ok(a.q('#session'+n+'-'+part).textContent.includes('یادداشت من برای این بخش'));
@@ -52,17 +57,17 @@ const seed={schema:5,audience:'managers',legacyClaimed:true,legacyState:{},roleS
 const data={[firstKey]:JSON.stringify(seed)},snapshot=data[firstKey];
 const a=boot({audience:'managers',hash:'#session2-m1',data});
 const note2=a.q('#future-note-2-m1');note2.value='یادداشت مدیران جلسه دوم';note2.fire('input');assert.equal(data[firstKey],snapshot);
-a.q('[data-course-session="3"]').click();a.q('.site-nav [data-open="session3-m1"]').click();const note3=a.q('#future-note-3-m1');assert.equal(note3.value,'');note3.value='یادداشت جلسه سوم';note3.fire('input');assert.equal(data[firstKey],snapshot);
-assert.equal(JSON.parse(data.behparvar_session2_v1).roleStates.managers.notes.m1,note2.value);assert.equal(JSON.parse(data.behparvar_session3_v1).roleStates.managers.notes.m1,note3.value);
+a.q('[data-course-session="5"]').click();a.q('.site-nav [data-open="session5-m1"]').click();const note5=a.q('#future-note-5-m1');assert.equal(note5.value,'');note5.value='یادداشت جلسه پنجم';note5.fire('input');assert.equal(data[firstKey],snapshot);
+assert.equal(JSON.parse(data.behparvar_session2_v1).roleStates.managers.notes.m1,note2.value);assert.equal(JSON.parse(data.behparvar_session5_v1).roleStates.managers.notes.m1,note5.value);
 const role2=boot({audience:'supervisors',hash:'#session2-m1',data});assert.equal(role2.q('#future-note-2-m1').value,'');role2.q('#future-note-2-m1').value='یادداشت سرپرستان جلسه دوم';role2.q('#future-note-2-m1').fire('input');assert.equal(data[firstKey],snapshot);
-const resumed=boot({audience:'managers',hash:'#session2-m1',data});assert.equal(resumed.q('#future-note-2-m1').value,note2.value);assert.equal(resumed.q('#future-note-3-m1').value,note3.value);assert.equal(resumed.q('#future-note-2-m2').value,'');
+const resumed=boot({audience:'managers',hash:'#session2-m1',data});assert.equal(resumed.q('#future-note-2-m1').value,note2.value);assert.equal(resumed.q('#future-note-5-m1').value,note5.value);assert.equal(resumed.q('#future-note-2-m2').value,'');
 resumed.q('#reset').click();assert.equal(data[firstKey],snapshot,'session-one reset cannot run from a future session');assert.equal(JSON.parse(data.behparvar_session2_v1).roleStates.supervisors.notes.m1,'یادداشت سرپرستان جلسه دوم');
 const first=boot({audience:'managers',hash:'#action',data});assert.equal(first.q('#actionWhen').value,'یادداشت جلسه اول');assert.equal(first.q('[data-question="conversation"][data-value="clear"]').getAttribute('aria-pressed'),'true');assert.equal(first.q('.scale-options button[data-index="0"][data-value="5"]').getAttribute('aria-pressed'),'true');
-for(let n=2;n<=6;n++){
+for(let n of [2,5,6]){
  const gate=boot({audience:null,hash:'#session'+n+'-quiz'});assert.equal(gate.active(),'session'+n);assert.ok(gate.q('#session'+n+'Prompt').textContent.includes('ابتدا'));gate.q('#session'+n+' [data-session-audience="supervisors"]').click();assert.equal(gate.location.hash,'#session'+n+'-quiz');assert.equal(new URL(gate.location.href).searchParams.get('audience'),'supervisors');
 }
 const mobile=boot({audience:'managers',width:390,hash:'#session6-techniques'});mobile.q('#sidebarToggle').click();assert.equal(mobile.q('#sidebarToggle').getAttribute('aria-expanded'),'true');assert.ok(mobile.q('#sidebarToggle').getAttribute('aria-label').includes('ششم'));assert.equal(mobile.q('#main').getAttribute('inert'),'');mobile.q('.site-nav [data-open="session6-quiz"]').click();assert.equal(mobile.active(),'session6-quiz');assert.equal(mobile.q('#sidebarBackdrop').hidden,true);assert.equal(mobile.q('#main').getAttribute('inert'),undefined);mobile.q('#sidebarHome').click();assert.equal(mobile.active(),'session6');
-const blocked=boot({audience:'managers',hash:'#session4-m2',blocked:true});blocked.q('#future-note-4-m2').value='یادداشت موقت';blocked.q('#future-note-4-m2').fire('input');assert.ok(blocked.q('#future-note-4-m2-status').textContent.includes('در دسترس نیست'));assert.equal(blocked.active(),'session4-m2');
+const blocked=boot({audience:'managers',hash:'#session5-m2',blocked:true});blocked.q('#future-note-5-m2').value='یادداشت موقت';blocked.q('#future-note-5-m2').fire('input');assert.ok(blocked.q('#future-note-5-m2-status').textContent.includes('در دسترس نیست'));assert.equal(blocked.active(),'session5-m2');
 const broken=boot({audience:'managers',hash:'#session5-quiz',data:{behparvar_session5_v1:'{"roleStates":{"managers":{"notes":["invalid"]}}}'}});assert.equal(broken.q('#future-note-5-quiz').value,'');
 const ids=a.all('[id]').map(e=>e.id);assert.equal(new Set(ids).size,ids.length);for(const link of a.all('a')){const href=link.getAttribute('href')||'';if(href.startsWith('#'))assert.ok(a.q(href),'broken link '+href)}
-console.log('PASS: seven sections in all six sessions; 70 future-section visits for both audiences; session-aware sidebar/roles/deep links; per-session/role/section notes; first-session content and storage preserved; reset isolation; mobile drawer; blocked/malformed storage; unique IDs and links.');
+console.log('PASS: legacy seven-part sessions and dedicated Session 3/4 workshops; future-section visits for both audiences; session-aware sidebar/roles/deep links; per-session/role/section notes; first-session content and storage preserved; reset isolation; mobile drawer; blocked/malformed storage; unique IDs and links.');

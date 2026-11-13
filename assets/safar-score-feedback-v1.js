@@ -9,8 +9,9 @@ function pts(s,i){
  const st=data.stages[i],a=s.answers?.[i]||{},inc=data.incidents.find(x=>x.stage===i+1),alloc=s.alloc?.[i];
  const one=a.q1===st.c1?4:0,two=(a.q2?.best===st.best?2:0)+(a.q2?.worst===st.worst?2:0);
  let resources=0;if(inc&&Array.isArray(alloc)){const diff=alloc.reduce((sum,n,j)=>sum+Math.abs(n-inc.ideal[j]),0);resources=diff===0?2:diff<=2?1:0}
- const role=s.rp?.[i]?1:0,peer=[2,7].includes(i)&&s.peer?.[i]?2:0;
- return{one,two,resources,role,peer,max:9+(inc?2:0)+([2,7].includes(i)?2:0),earned:one+two+resources+role+peer};
+ const self=s.self?.[i]||[],reflection=self.length===3&&self.every(v=>Number.isInteger(v)&&v>=1&&v<=4)?0.5:0;
+ const role=s.rp?.[i]?0.5:0,peer=[2,7].includes(i)&&s.peer?.[i]?2:0;
+ return{one,two,resources,role,peer,max:9+(inc?2:0)+([2,7].includes(i)?2:0),earned:one+two+resources+reflection+role+peer,reflection};
 }
 function progress(s){let sum=0,quiz=0;for(let i=0;i<10;i++){let p=pts(s,i);sum+=p.earned;quiz+=p.one+p.two}return{sum,quiz}}
 function nextMedal(s){
@@ -37,7 +38,7 @@ function announce(s,phase,stage){
  const p=pts(s,stage),r=progress(s),map={
   decision1:[p.one,4,"تصمیم اول"],decision2:[p.two,4,"تصمیم دوم"],
   resource:[p.resources,2,"تخصیص منابع"],role:[p.role,1,"گفت‌وگوی دونفره"],
-  peer:[p.peer,2,"بازخورد تکمیلی"]
+  peer:[p.peer,2,"بازخورد تکمیلی"],self:[p.reflection,0.5,"خودارزیابی"]
  };
  const m=map[phase],label=phase==="wrap"?"مرحله "+fa(stage+1)+": "+fa(p.earned)+" از "+fa(p.max)+" امتیاز":m?m[2]+": "+fa(m[0])+" از "+fa(m[1])+" امتیاز":"گام آموزشی تکمیل شد";
  const el=document.createElement("div");el.id="sfEarnedStep";el.className="sf-step-feedback sf-wizard-visible";

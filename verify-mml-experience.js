@@ -22,15 +22,28 @@ check("course card labels are canonical session topics",()=>{
   const at=html.indexOf('data-course-session="'+n+'"');
   assert.ok(at>=0);
   const nearby=html.slice(at,at+320);
-  assert.ok(nearby.includes(lib.DATA[n-1].name),"Card "+n+" differs from course");
+  if(n===4){
+   // Canonical Session 4 is the dedicated communication journey rather
+   // than its older generic competency label.
+   assert.ok(nearby.includes("سفر ارتباطات"),"Card 4 must identify the communication journey");
+   assert.ok(html.includes('href="session4-communication-journey.html"'),"Canonical Session 4 link");
+  }else assert.ok(nearby.includes(lib.DATA[n-1].name),"Card "+n+" differs from course");
  }
  assert.ok(homeJS.includes("SHORT[n-1]"));
  assert.deepEqual(Array.from(lib.DATA,x=>x.name),["رهبری","مدل شایستگی‌های مدیریتی","شایستگی‌های معطوف به خود","شایستگی‌های معطوف به دیگران","شایستگی‌های معطوف به نتایج کسب‌وکار","مدیریت پیشرفته"]);
 });
-check("42 routes remain in HTML",()=>{
- for(let n=1;n<=6;n++)for(let p of PARTS){
-  const route=n===1?p:"session"+n+"-"+p;
-  assert.ok(html.includes('id="'+route+'"'),"Missing hash route "+route);
+check("canonical session navigation and preserved lesson routes",()=>{
+ for(let n=1;n<=6;n++){
+  if(n===3||n===4){
+   const page=n===3?"session3-self-assessment.html":"session4-communication-journey.html";
+   assert.ok(html.includes('id="session'+n+'"'),"Missing session overview "+n);
+   assert.ok(html.includes('href="'+page+'"'),"Missing canonical workshop "+n);
+   continue;
+  }
+  for(const p of PARTS){
+   const route=n===1?p:"session"+n+"-"+p;
+   assert.ok(html.includes('id="'+route+'"'),"Missing hash route "+route);
+  }
  }
 });
 check("84 authored page renders with accessible tables",()=>{

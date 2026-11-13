@@ -50,6 +50,7 @@ function draw(msg){
  '<button class="close-icon" id="sfCoachClose" type="button" aria-label="بستن پیام">×</button>'+
  '<div class="sf-coach-eyebrow">همراه سفر ارتباطات · به‌پرور'+(s?.stage>=0?' · مرحله '+fa(s.stage+1):"")+'</div>'+
  '<div class="sf-coach-spark" aria-hidden="true">'+(msg.icon||"✨")+'</div>'+
+ (msg.celebrate?'<img class="sf-celebration-image" src="assets/safar-stage-celebration.svg" alt="مسیر پیشرفت و نشان موفقیت، ویژه به‌پرور" loading="eager">':"")+
  '<h3>'+escape(msg.title)+'</h3><p>'+escape(msg.text)+'</p>'+
  (msg.tip?'<div class="sf-coach-note">💡 '+escape(msg.tip)+'</div>':"")+
  (pct!==null?'<div class="sf-coach-progress" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><span style="width:'+pct+'%"></span></div>':"")+
@@ -89,25 +90,26 @@ function inlineFeedback(kind,title,message,tip){
  note.querySelector("#sfCoachInlineClose")?.addEventListener("click",()=>note.remove(),{once:true});
 }
 function feedback(stage,q,answer){
- const s=data.stages[stage],base=s.tip,correct=q===1?answer.q1===s.c1:
- (answer.q2?.best===s.best&&answer.q2?.worst===s.worst);
- const partial=q===2?Number(answer.q2?.best===s.best)+Number(answer.q2?.worst===s.worst):undefined;
- const valid=q===1?Number.isInteger(answer.q1):!!answer.q2;
+ // Do not leak correctness, the answer key or option rationale before the final review.
+ const st=data.stages[stage],valid=q===1?Number.isInteger(answer.q1):!!answer.q2;
  if(!valid)return;
- const title=correct?
- ["آفرین، انتخاب دقیقی بود!","چه خوب به ظرافت موقعیت توجه کردی!","عالی، یک تصمیم سنجیده ثبت شد!"][stage%3]:
- partial===1?"این تصمیم، یک بخش درست داشت.":"این‌بار جا برای یادگیری بیشتر داریم.";
- const text=correct?"پاسخ قطعی‌ات با معیار این مهارت هم‌راستاست. حالا می‌تونی با خیال راحت وارد موقعیت بعد بشی.":
- partial===1?"از دو تشخیصت، یکی دقیق بود. اینجا تفاوت میان چند اقدام قابل دفاع واقعاً ظریفه؛ در پایان تحلیل هر گزینه رو می‌بینی.":
- "این انتخاب بهینه نبود؛ اما هدف این سفر فقط نمره گرفتن نیست. تفاوت گزینه‌ها رو در پایان بررسی می‌کنیم و ازش برای گفت‌وگوی واقعی یاد می‌گیریم.";
- if(q===1){inlineFeedback(correct?"correct":"retry",title,text,base);return}
- inform({kind:correct?"correct":"retry",icon:correct?"✨":"🌱",title,text,tip:base,correctness:true,advance:true});
+ const title=q===1?"تصمیم اول ثبت شد":"تصمیم دوم ثبت شد";
+ const text="انتخابت ثبت و قفل شد. با پایان هر مرحله امتیاز کسب‌شده‌ات را می‌بینی؛ کلید و درست/غلط پاسخ‌ها فقط پس از پایان سفر باز می‌شوند.";
+ if(q===1)inlineFeedback("support",title,text,st.tip);
+ else inform({kind:"info",icon:"🧭",title,text,tip:"برای رشد حرفه‌ای، قبل از دیدن کلید تلاش کن معیار تصمیم را خودت توضیح بده.",correctness:false,advance:false});
 }
 function stageComplete(index){
- inform({kind:"milestone",icon:[2,5,9].includes(index)?"🏅":"⭐",
- title:index===9?"به پایان سفر رسیدی!":"آفرین، مرحله "+fa(index+1)+" را پشت سر گذاشتی!",
- text:completion[index],tip:index===9?"حالا وقت مرور پاسخ‌ها و دریافت نشان متناسب با عملکردته.":fullTip(index),
- progress:(index+1)*10,action:index===9?"مشاهده نتایج":"شروع مرحله بعد"});
+ const s=state();
+ const p=window.BP_SAFAR_STEP_POINTS?.pts(s,index);
+ const total=window.BP_SAFAR_STEP_POINTS?.progress(s);
+ const earned=p?"از "+fa(p.max)+" امتیاز ممکن این مرحله، "+fa(p.earned)+" امتیاز به دست آوردی. ":"";
+ const collected=total?" مجموع تا اینجا: "+fa(total.sum)+" از ۱۰۰. ":"";
+ const closer=window.BP_SAFAR_STEP_POINTS?.nextMedal(s)||"به مسیر بعدی نزدیک‌تر شده‌ای.";
+ inform({kind:"milestone",icon:"✦",celebrate:true,
+ title:index===9?"سفر ارتباطات را کامل کردی!":"مرحله "+fa(index+1)+" را با موفقیت به پایان رساندی!",
+ text:earned+collected+closer,
+ tip:completion[index]+" "+fullTip(index),
+ progress:(index+1)*10,action:index===9?"مشاهده تحلیل و نشان":"ورود به مرحله بعد"});
 }
 function eventMessage(i,startedAt){
  const incident=data.incidents?.find(x=>x.stage===i+1);
@@ -151,7 +153,7 @@ document.addEventListener("click",e=>{
      tip:"گاهی هنر مدیریت، انتخاب‌کردن مهم‌ترین اقدام و کنارگذاشتن کارهای کم‌اولویت‌تر است.",action:"ادامه سفر"});
   if(name==="saverp"&&!beforeRP&&after.rp?.[at])
    return inform({kind:"milestone",icon:"🤝",title:"گفت‌وگوی واقعی ثبت شد!",
-     text:"این بار فقط یک گزینه انتخاب نکردی؛ مهارتت را با یک همکار تمرین کردی و شاهد رفتاری ثبت شد.",
+     text:"این بار با همکار کناری گفت‌وگو کردی و ارزیابی محرمانه را در گوشی خودت ثبت کردی.",
      tip:fullTip(at),action:"ادامه تمرین"});
   if(name==="savepeer"&&!beforePeer&&after.peer?.[at])
    return inform({kind:"milestone",icon:"🔎",title:"بازخورد همکارت ثبت شد!",

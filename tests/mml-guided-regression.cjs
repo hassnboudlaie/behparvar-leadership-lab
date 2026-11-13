@@ -27,10 +27,11 @@ assert.match(lab,/mml_competency_v1/);
 assert.match(lab,/behparvar_app_v1/);
 assert.match(html,/behparvar_session1_v4/);
 for(let n=2;n<=6;n++){
- if(n===3){
-  // Session 3 has a canonical, independent self-assessment entry, not seven obsolete legacy routes.
-  assert.ok(html.includes('id="session3"'),"missing session 3 overview");
-  assert.ok(html.includes('session3-self-assessment.html'),"missing canonical Session 3 workshop");
+ if(n===3||n===4){
+  // Sessions 3 and 4 are independent full workshops, not obsolete seven-part placeholder routes.
+  assert.ok(html.includes('id="session'+n+'"'),"missing session "+n+" overview");
+  const canonical=n===3?"session3-self-assessment.html":"session4-communication-journey.html";
+  assert.ok(html.includes(canonical),"missing canonical standalone workshop "+n);
   continue;
  }
  for(const section of ["m1","m2","leaders","techniques","visuals","diseases","quiz"])

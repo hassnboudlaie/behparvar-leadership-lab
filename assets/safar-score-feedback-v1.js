@@ -48,7 +48,7 @@ function announce(s,phase,stage){
 }
 let pending=false;
 const sync=()=>{const s=state();if(s?.startedAt&&!s.finished)strip(s)};
-window.addEventListener("bp-safar-time-extended",sync);
+window.addEventListener?.("bp-safar-time-extended",sync);
 new MutationObserver(()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;sync()})}).observe(root,{childList:true,subtree:false});
 document.addEventListener("click",e=>{
  const b=e.target.closest("#sfNext");if(!b||b.disabled)return;

@@ -24,7 +24,7 @@ function score(s){
    resources+=dist===0?2:dist<=2?1:0;
   }
  });
- return quiz+rp+reflect+resources+feedback;
+ return Math.max(0,quiz+rp+reflect+resources+feedback-(window.BP_SAFAR_OVERTIME?.penalty(s)||0));
 }
 function quizScore(s){
  let n=0;stages.forEach((stage,i)=>{const a=s.answers?.[i]||{};if(a.q1===stage.c1)n+=4;if(a.q2?.best===stage.best)n+=2;if(a.q2?.worst===stage.worst)n+=2});return n;

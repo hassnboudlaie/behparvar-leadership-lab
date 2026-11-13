@@ -1,0 +1,64 @@
+/* Safar curriculum v4 — source-backed 10-stage content, self scoring, 100-point integrity, QR. */
+"use strict";
+const assert=require("node:assert/strict"),fs=require("node:fs"),vm=require("node:vm");
+const read=p=>fs.readFileSync(p,"utf8"),ctx={window:{}};
+for(const p of [
+ "assets/safar-ertebatat-data.js","assets/safar-quiz-hardening-v2.js",
+ "assets/safar-classroom-upgrade-data.js","assets/safar-content-restoration-data.js",
+ "assets/safar-content-quality-v4.js"])vm.runInNewContext(read(p),ctx,{filename:p});
+const data=ctx.window.BP_SAFAR_DATA,st=data.stages,cl=ctx.window.BP_SAFAR_CLASSROOM.content,lesson=ctx.window.BP_SAFAR_RESTORED_CONTENT.content;
+assert.equal(st.length,10);
+assert(st.every(x=>x.selfItems?.length===3),"10 distinct three-item behavioral self checks");
+assert(st.every(x=>x.lesson.length===3&&x.lesson.every(t=>t.includes("مثال:"))),"Techniques must describe actual behaviors with examples");
+assert(lesson.every(x=>x.tools.length===3),"30 actionable techniques");
+assert(cl.every(x=>x.observer.length===3),"30 observation criteria");
+assert(st.every(x=>x.q1Context.length===2&&x.q2Context.length===2),"Each decision must carry its own context");
+assert(st.every(x=>x.sup.length>60&&x.mgr.length>60),"Role-specific real-world Behparvar context");
+assert(!st[1].title.includes("زمان")&&!st[1].title.includes("جلسه"),"Stage 2 must teach interpersonal clarification");
+assert(st[1].title.includes("سوءتفاهم"));
+assert(st[1].q1[0].includes("بارگیری")&&st[1].q1[1].includes("موجودی"),"Stage 2 question must include full scene");
+assert.deepEqual([st[1].c1,st[1].best,st[1].worst],[1,1,3],"Stage 2 right/wrong choices and analysis aligned");
+assert(cl[1].supervisor.dialogue.length===6&&cl[1].manager.dialogue.length===6);
+assert(lesson[1].debrief.join(" ").includes("سوءتفاهم"));
+const positions=["c1","best","worst"].map(k=>[0,1,2,3].map(i=>st.filter(x=>x[k]===i).length));
+assert(positions.every(a=>Math.max(...a)-Math.min(...a)<=2),"Answer positions balanced");
+const html=read("session4-communication-journey.html");
+const inline=html.match(/<script>\s*([\s\S]*?)<\/script>/)?.[1];
+assert(inline);new vm.Script(inline);
+assert(inline.includes("0.5")&&inline.includes("selfPoints"),"Low-weight participation scoring");
+assert(inline.includes("خودارزیابی: ")&&inline.includes("از ۱۲"),"Reflection score visible once complete");
+assert(inline.includes("پیام مربی:"),"Score-calibrated mentor feedback");
+assert(inline.includes("s.q1Context")&&inline.includes("s.q2Context"),"Full question stem and context displayed");
+assert(!inline.includes('if(!state.rp[state.stage]&&!confirm('),"No role-play approval gate");
+assert(!inline.includes('if(inc&&!state.alloc[state.stage]&&!confirm('),"No resource allocation approval gate");
+assert(inline.includes("state.stage++"),"Unsupervised stage progression");
+const coach=read("assets/safar-journey-coach-v5.js");
+assert(!coach.includes('kind:correct?"correct":"retry"'),"Never reveal correctness before final review");
+assert(coach.includes("celebrate:true")&&coach.includes("safar-stage-celebration.svg"),"Image for every completed stage");
+assert(coach.includes("p.earned"),"Exact stage score included in completion message");
+const final=read("assets/safar-final-review-v4.js");
+assert(final.includes("if(!s?.finished)return"),"Correctness shown only after full completion");
+assert(final.includes("a.q1===st.c1")&&final.includes("a.q2?.best===st.best")&&final.includes("a.q2?.worst===st.worst"));
+assert(html.includes("safar-final-review-v4.js"),"Final answer explanations loaded");
+assert(html.includes('href="session4-classroom-qr.html"'),"Projected classroom QR entry");
+const qr=read("assets/safar-session4-qr.svg"),landing=read("session4-classroom-qr.html");
+assert(qr.includes("data:image/png;base64,"),"QR is bundled locally");
+assert(landing.includes("safar-session4-qr.svg"));
+assert(landing.includes("https://hassnboudlaie.github.io/behparvar-leadership-lab/session4-communication-journey.html"));
+const sw=read("sw.js");
+for(const name of ["safar-content-quality-v4.js","safar-stage-celebration.svg","safar-final-review-v4.js","session4-classroom-qr.html"])assert(sw.includes(name),"PWA offline "+name);
+const pts=read("assets/safar-score-feedback-v1.js");
+const sample={window:{BP_SAFAR_DATA:data},document:{getElementById:()=>({querySelector:()=>null}),addEventListener:()=>{}},
+localStorage:{getItem:()=>null},MutationObserver:class{observe(){}},requestAnimationFrame:()=>{}};
+vm.runInNewContext(pts,sample);
+const points=sample.window.BP_SAFAR_STEP_POINTS,answers={},rp={},self={},peer={},alloc={};
+st.forEach((s,i)=>{answers[i]={q1:s.c1,q2:{best:s.best,worst:s.worst}};rp[i]={at:1};self[i]=[3,3,3]});
+data.incidents.forEach(x=>alloc[x.stage-1]=x.ideal);
+peer[2]={f:"test"};peer[7]={f:"test"};
+const perfect={answers,self,rp,alloc,peer};
+assert.equal(points.progress(perfect).sum,100,"Exact 100-point perfect journey");
+assert.equal(points.progress(perfect).quiz,80,"80 knowledge decision points");
+assert.equal(points.pts(perfect,1).reflection,0.5);
+assert.equal(points.pts({...perfect,self:{}},1).earned,8.5);
+assert.equal(Array.from({length:10},(_,i)=>points.pts(perfect,i).max).reduce((a,b)=>a+b,0),100);
+console.log("PASS: 10 practical competencies, complete question stems, 30 techniques, 12-point reflection, mentor feedback, 100-point rubric, stage festival and projector QR.");

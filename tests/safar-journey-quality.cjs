@@ -16,7 +16,10 @@ for(const file of scripts.concat(styles))assert(fs.existsSync(path.join(dir,file
 for(const file of scripts)try{new vm.Script(read(file));successes.push("Syntax "+file)}catch(e){errors.push("Syntax "+file+" "+e.message)}
 if(core)try{new vm.Script(core);successes.push("Syntax inline core")}catch(e){errors.push("Syntax inline core "+e.message)}
 const scope={window:{}};
-for(const file of ["assets/safar-ertebatat-data.js","assets/safar-quiz-hardening-v2.js","assets/safar-classroom-upgrade-data.js","assets/safar-content-restoration-data.js","assets/safar-applied-curriculum-20261113.js","assets/safar-applied-curriculum-adapter-20261113.js"])vm.runInNewContext(read(file),scope,{filename:file});
+for(const file of ["assets/safar-ertebatat-data.js","assets/safar-quiz-hardening-v2.js"])vm.runInNewContext(read(file),scope,{filename:file});
+const originalKeys=JSON.stringify(scope.window.BP_SAFAR_DATA.stages.map(s=>({a1:s.a1,a2:s.a2,c1:s.c1,best:s.best,worst:s.worst})));
+for(const file of ["assets/safar-classroom-upgrade-data.js","assets/safar-content-restoration-data.js","assets/safar-applied-curriculum-20261113.js","assets/safar-applied-curriculum-adapter-20261113.js"])vm.runInNewContext(read(file),scope,{filename:file});
+assert(originalKeys===JSON.stringify(scope.window.BP_SAFAR_DATA.stages.map(s=>({a1:s.a1,a2:s.a2,c1:s.c1,best:s.best,worst:s.worst}))),"Instructional enrichment preserves 20 question options and score keys");
 const d=scope.window.BP_SAFAR_DATA,st=d.stages,extra=scope.window.BP_SAFAR_CLASSROOM.content,lessons=scope.window.BP_SAFAR_RESTORED_CONTENT.content;
 assert(st.length===10&&extra.length===10&&lessons.length===10,"10 stages and complementary curriculum layers");
 const applied=scope.window.BP_SAFAR_APPLIED?.units||[];
@@ -26,7 +29,7 @@ assert(applied.every((x,i)=>x.tools.length===3&&x.sup.dialogue.length===6&&x.mgr
 assert(applied.every((x,i)=>x.sup.roleBriefs.length===2&&x.mgr.roleBriefs.length===2&&x.debrief.length===2),"Every route includes role-specific constraints and debriefing");
 assert(st.every(x=>x.sup.length>=180&&x.mgr.length>=180),"Decision contexts contain substantive facts and constraints");
 assert(html.includes("safar-applied-quiz-context-20261113.js"),"Quiz pages receive their full situational context");
-assert(read("assets/safar-applied-quiz-context-20261113.js").includes('id="sfDecisionContext"'),"Scenario context stays visible without navigating back");
+assert(read("assets/safar-applied-quiz-context-20261113.js").includes('brief.id="sfDecisionContext"'),"Scenario context stays visible without navigating back");
 assert(read("assets/safar-applied-curriculum-adapter-20261113.js").includes('d.appliedCurriculumVersion=2'),"Curriculum extension does not replace the assessment engine");
 assert(st.reduce((a,x)=>a+x.time,0)===55,"55-minute instructional segment");
 assert(st.every(x=>x.a1.length===4&&x.a2.length===4&&x.why1.length===4&&x.why2.length===4),"20 quiz items / 80 options, each analyzed");

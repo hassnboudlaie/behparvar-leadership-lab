@@ -66,3 +66,6 @@
 .sf-mode-toast{position:fixed;z-index:1000003;bottom:20px;left:50%;transform:translateX(-50%);background:#155d48;color:white;padding:14px 21px;border-radius:13px;text-align:center;font-size:18px;font-weight:850;min-width:min(85vw,400px)}
 @media(max-width:700px){.sf-mode-choices,.sf-study-indexgrid{grid-template-columns:1fr}.sf-mode-controls{width:100%;justify-content:start}.sf-mode-controls button{font-size:15px}.sf-study-shell{margin-top:10px;padding:0 3px}.sf-study-hero{border-radius:18px}.sf-study-pager button{font-size:17px!important;padding:10px 12px;min-height:50px}}
 @media(prefers-reduced-motion:reduce){.sf-mode-pause-backdrop{backdrop-filter:none}}
+
+/* The free-reading path deliberately has no sound/countdown affordance. */
+.sf-study-mode #sound[hidden]{display:none!important}

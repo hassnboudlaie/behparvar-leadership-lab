@@ -2,10 +2,12 @@
  * Light-touch, after the established Behparvar visual standard.
  */
 :root {
-  --bp-ux-forest: #154b3d;
-  --bp-ux-link: #155b47;
-  --bp-ux-muted: #456358;
-  --bp-ux-divider: #cfdfd1;
+  /* Shared brand palette is the single source of truth. Fall back safely
+     when this stylesheet is previewed independently of the studio shell. */
+  --bp-ux-forest: var(--bp-pr-forest, #154b3d);
+  --bp-ux-link: var(--bp-pr-green, #155b47);
+  --bp-ux-muted: var(--bp-pr-muted, #456358);
+  --bp-ux-divider: var(--bp-pr-stroke, #cfdfd1);
 }
 .bp-learning-skip {
   position: fixed;

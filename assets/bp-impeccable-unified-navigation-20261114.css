@@ -153,15 +153,15 @@ body.bp-app-premium[data-bp-page="s3"] main details > summary {
 
 /* Remaining keyboard/touch audit edge cases. */
 body.bp-app-premium[data-bp-page="s3"] footer a[data-role-return] {
-  display: inline-flex;
+  display: inline-flex !important;
   align-items: center;
-  min-height: 46px;
+  min-height: 46px !important;
   padding-block: 7px;
   box-sizing: border-box;
 }
 @media (max-width:700px) {
   body.bp-app-premium[data-bp-page="s4"] .top .logos {
-    min-height: 46px;
+    min-height: 46px !important;
     align-items: center;
   }
 }

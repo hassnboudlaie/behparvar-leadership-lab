@@ -4,8 +4,14 @@
  */
 (() => {
   "use strict";
-  const ready = fn => document.readyState === "loading"
-    ? document.addEventListener("DOMContentLoaded", fn, { once: true }) : fn();
+  // The existing navigation shell is a deferred script. Run after its
+  // DOMContentLoaded setup so the standalone bottom navigation exists.
+  const ready = fn => {
+    const afterShell = () => requestAnimationFrame(fn);
+    if (document.readyState === "loading")
+      document.addEventListener("DOMContentLoaded", afterShell, { once: true });
+    else afterShell();
+  };
 
   ready(() => {
     const filename = location.pathname.split("/").pop() || "index.html";

@@ -1,0 +1,120 @@
+/* Behparvar — unified session navigation + readability (Impeccable).
+ * Light-touch, after the established Behparvar visual standard.
+ */
+:root {
+  --bp-ux-forest: #154b3d;
+  --bp-ux-link: #155b47;
+  --bp-ux-muted: #456358;
+  --bp-ux-divider: #cfdfd1;
+}
+.bp-learning-skip {
+  position: fixed;
+  top: -120px;
+  right: 14px;
+  z-index: 30000;
+  border: 2px solid var(--bp-ux-forest);
+  border-radius: 12px;
+  padding: 10px 18px;
+  background: #fffefa;
+  color: var(--bp-ux-forest);
+  font: 800 17px/1.7 Vazirmatn,Tahoma,sans-serif;
+  text-decoration: none;
+}
+.bp-learning-skip:focus-visible { top: 12px; outline: 3px solid #ad8745; }
+#bpLearningMain:focus, #root[tabindex="-1"]:focus { outline: none; }
+body.bp-app-premium .bp-learning-trail {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  width: min(100%, 1050px);
+  margin: 0 auto 16px;
+  padding: 10px 0 13px;
+  border-bottom: 1px solid var(--bp-ux-divider);
+  color: var(--bp-ux-muted);
+  direction: rtl;
+  line-height: 1.65;
+  font-size: 16px;
+}
+body.bp-app-premium .bp-learning-trail :is(a,strong) {
+  font: 800 16px/1.7 Vazirmatn,Tahoma,sans-serif;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+body.bp-app-premium .bp-learning-trail a {
+  color: var(--bp-ux-link);
+  text-decoration: underline;
+  text-decoration-color: #9bbdaf;
+  text-underline-offset: 5px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+body.bp-app-premium .bp-learning-trail strong {
+  color: var(--bp-ux-forest);
+  font-weight: 900;
+}
+body.bp-app-premium .bp-learning-separator { color: #769889; font-weight: 900; }
+body.bp-app-premium .bp-cross-nav a svg {
+  display: block;
+  width: 23px;
+  height: 23px;
+  flex: none;
+}
+body.bp-app-premium .bp-cross-nav a span[aria-hidden="true"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+body.bp-app-premium[data-bp-page="teamship"] main :is(h1,h2),
+body.bp-app-premium[data-bp-page="assessment"] main :is(h1,h2),
+body.bp-app-premium[data-bp-page="s3"] main :is(h1,h2) {
+  overflow-wrap: anywhere;
+}
+body.bp-app-premium[data-bp-page="teamship"] main p,
+body.bp-app-premium[data-bp-page="assessment"] main p,
+body.bp-app-premium[data-bp-page="s3"] main p {
+  line-height: 1.85;
+}
+body.bp-app-premium[data-bp-page="teamship"] .tile,
+body.bp-app-premium[data-bp-page="assessment"] .item {
+  min-width: 0;
+}
+@media (max-width:700px) {
+  body.bp-app-premium .bp-learning-trail {
+    gap: 6px;
+    padding: 6px 0 10px;
+    margin-bottom: 15px;
+    font-size: 15px;
+  }
+  body.bp-app-premium .bp-learning-trail :is(a,strong) {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  body.bp-app-premium .bp-learning-trail a { min-height: 44px; }
+  body.bp-app-premium .bp-cross-nav a {
+    min-height: 52px;
+    gap: 5px;
+  }
+  body.bp-app-premium .bp-cross-nav a svg {
+    width: 21px;
+    height: 21px;
+  }
+  body.bp-app-premium[data-bp-page="teamship"] .tiles {
+    grid-template-columns: 1fr;
+  }
+  body.bp-app-premium[data-bp-page="teamship"] .tile {
+    min-height: 93px;
+  }
+  body.bp-app-premium[data-bp-page="teamship"] main {
+    padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px));
+  }
+  body.bp-app-premium[data-bp-page="s3"] main,
+  body.bp-app-premium[data-bp-page="assessment"] main {
+    padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px));
+  }
+  #root[tabindex="-1"] { scroll-margin-top: 130px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior: auto; }
+}

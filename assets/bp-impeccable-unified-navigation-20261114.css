@@ -118,3 +118,50 @@ body.bp-app-premium[data-bp-page="assessment"] .item {
 @media (prefers-reduced-motion:reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* Final polish: touch target, mobile reading scale and legible tab labels.
+   Keep focus and content visible; do not alter instructional states. */
+body.bp-app-premium[data-bp-page="s3"] .top-inner a[data-role-return],
+body.bp-app-premium[data-bp-page="teamship"] .backlink,
+body.bp-app-premium[data-bp-page="assessment"] main header > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding-block: 7px;
+  box-sizing: border-box;
+}
+body.bp-app-premium[data-bp-page="s3"] main details > summary {
+  min-height: 44px;
+  padding-block: 8px;
+  box-sizing: border-box;
+}
+@media (max-width: 700px) {
+  body.bp-app-premium[data-bp-page="teamship"] {
+    font-size: 19px !important;
+  }
+  body.bp-app-premium #app .bp-studio-link {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    min-height: 62px !important;
+    white-space: normal !important;
+    text-align: center;
+  }
+  body.bp-app-premium #app .bp-studio-link span {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Remaining keyboard/touch audit edge cases. */
+body.bp-app-premium[data-bp-page="s3"] footer a[data-role-return] {
+  display: inline-flex !important;
+  align-items: center;
+  min-height: 46px !important;
+  padding-block: 7px;
+  box-sizing: border-box;
+}
+@media (max-width:700px) {
+  body.bp-app-premium[data-bp-page="s4"] .top .logos {
+    min-height: 46px !important;
+    align-items: center;
+  }
+}

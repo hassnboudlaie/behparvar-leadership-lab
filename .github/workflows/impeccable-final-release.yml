@@ -1,0 +1,54 @@
+name: Impeccable — Final WCAG, PWA & Browser Release Gate
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'session3-*.html'
+      - 'session4-*.html'
+      - 'sw.js'
+      - 'assets/**'
+      - 'tests/impeccable-*'
+      - '.github/workflows/impeccable-final-release.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'session3-*.html'
+      - 'session4-*.html'
+      - 'sw.js'
+      - 'assets/**'
+      - 'tests/impeccable-*'
+      - '.github/workflows/impeccable-final-release.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  accessibility-offline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install reproducible browser and accessibility audit packages
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1 @axe-core/playwright@4.14.0
+          npx playwright install --with-deps chromium webkit
+      - name: Start local same-origin web server
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/impeccable-server.log 2>&1 &
+          echo $! > /tmp/impeccable-server.pid
+          sleep 2
+          curl -fsSI http://127.0.0.1:8765/
+      - name: Run WCAG 2.2 AA automation, offline install and cross-browser QA
+        run: node tests/impeccable-final-release.cjs
+      - name: Save evidence report and device screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: impeccable-release-evidence
+          path: audit-artifacts/
+          if-no-files-found: warn
+          retention-days: 30

@@ -94,7 +94,7 @@
     const syncSound = () => {
       const label = sound.textContent.trim();
       sound.setAttribute("aria-label", label);
-      sound.setAttribute("data-sound-icon", label.split(/\\s+/)[0] || "🔕");
+      sound.setAttribute("data-sound-icon", label.split(/\s+/)[0] || "🔕");
     };
     new MutationObserver(syncSound).observe(sound, { childList: true, subtree: true });
     syncSound();

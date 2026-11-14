@@ -72,7 +72,33 @@
 
     // Session 4 already has a bespoke wizard header and timer. No extra
     // visible navigation is added to that dense mobile interface.
-    if (isJourney) return;
+    if (isJourney) {
+      // The welcome screen and competitive wizard use styled headings
+      // rather than visible H1 tags. Expose a level-one heading without
+      // changing the established learning-content HTML.
+      let pending = false;
+      const markHeading = () => {
+        pending = false;
+        const visibleH1 = [...main.querySelectorAll("h1")].some(
+          n => n.getClientRects().length > 0
+        );
+        if (visibleH1) return;
+        const heading = main.querySelector("#sfWizardHead h2") ||
+          [...main.querySelectorAll(".card .section-head")]
+            .find(n => /سلام|خوش اومدی|سفر ارتباطات/.test(n.textContent));
+        if (heading) {
+          heading.setAttribute("role", "heading");
+          heading.setAttribute("aria-level", "1");
+        }
+      };
+      new MutationObserver(() => {
+        if (pending) return;
+        pending = true;
+        requestAnimationFrame(markHeading);
+      }).observe(main, { childList: true });
+      markHeading();
+      return;
+    }
 
     const chain = pages[filename];
     const trail = document.createElement("nav");

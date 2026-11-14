@@ -56,7 +56,10 @@
     const anchorId = main.id || "bpLearningMain";
     if (!main.id) main.id = anchorId;
     if (!main.hasAttribute("tabindex")) main.setAttribute("tabindex", "-1");
-    if (isJourney) main.setAttribute("aria-label", "محتوای سفر ارتباطات");
+    if (isJourney) {
+      main.setAttribute("role", "main");
+      main.setAttribute("aria-label", "محتوای سفر ارتباطات");
+    }
 
     // Keep the skip control invisible except while keyboard-focused.
     if (!document.querySelector(".bp-learning-skip")) {

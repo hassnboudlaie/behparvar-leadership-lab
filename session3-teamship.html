@@ -23,7 +23,7 @@ main{padding-block:25px 65px}.eyebrow{display:inline-flex;align-items:center;gap
 @media print{.topbar,.nav-actions,.tiles,.intro-link,.cover-sticker{display:none!important}body{background:white}.content-card{break-inside:avoid;box-shadow:none}}
 </style>
 <link rel="stylesheet" href="assets/bp-life-standard-system-20261113.css?v=20261113a">
-<link rel="stylesheet" href="assets/bp-impeccable-unified-navigation-20261114.css?v=3">
+<link rel="stylesheet" href="assets/bp-impeccable-unified-navigation-20261114.css?v=4">
 </head>
 <body>
 <header class="topbar"><div class="shell top-inner"><span class="brand">📘 آزمایشگاه مدیریت به‌پرور</span><a class="backlink" id="returnSession3" href="session3-self-assessment.html">→ بازگشت به جلسه سوم</a></div></header>
@@ -41,7 +41,7 @@ main{padding-block:25px 65px}.eyebrow{display:inline-flex;align-items:center;gap
       <div class="cover-sticker" aria-hidden="true">✨</div>
     </div>
   </div>
-  <button type="button" class="intro-link" data-route="intro" aria-label="بازکردن معرفی و ایده اصلی کتاب">
+  <button type="button" class="intro-link" data-route="intro">
     <span class="intro-icon" aria-hidden="true">📖</span><span class="intro-copy"><strong>ابتدا بخوانیم: ایده اصلی کتاب چیست؟</strong><small>معنای Teamship، تفاوت با مدیریت سنتی و کاربرد آن در به‌پرور</small></span><span class="go" aria-hidden="true">←</span>
   </button>
   <div class="group-head"><div><h2>🧭 ده تحول Teamship</h2><p>روی هر کارت بزنید تا تعریف، رفتار قابل‌مشاهده، قبل/بعد و مثال را بخوانید.</p></div></div>
@@ -70,7 +70,7 @@ if(!['managers','supervisors'].includes(audience)){try{const ref=new URL(documen
 const target='session3-self-assessment.html'+(['managers','supervisors'].includes(audience)?'?audience='+audience:'');
 document.getElementById('returnSession3').href=target;
 document.getElementById('detailSessionReturn').href=target;
-tiles.innerHTML=shifts.map(s=>'<button class="tile" type="button" data-route="shift-'+s.id+'" aria-label="بازکردن تحول '+s.id+': '+escapeHtml(s.title)+'"><span class="sticker" aria-hidden="true">'+escapeHtml(s.icon)+'</span><span style="flex:1"><span class="number">تحول '+s.id+' از ۱۰</span><h3>'+escapeHtml(s.title)+'</h3><small lang="en" dir="ltr">'+escapeHtml(s.en)+'</small></span><span class="tail" aria-hidden="true">←</span></button>').join('');
+tiles.innerHTML=shifts.map(s=>'<button class="tile" type="button" data-route="shift-'+s.id+'"><span class="sticker" aria-hidden="true">'+escapeHtml(s.icon)+'</span><span style="flex:1"><span class="number">تحول '+s.id+' از ۱۰</span><h3>'+escapeHtml(s.title)+'</h3><small lang="en" dir="ltr">'+escapeHtml(s.en)+'</small></span><span class="tail" aria-hidden="true">←</span></button>').join('');
 function render(){
   const key=decodeURIComponent(location.hash.replace(/^#/,''))||'overview';
   if(key==='overview'||(key!=='intro'&&!/^shift-(?:10|[1-9])$/.test(key))){main.hidden=false;detail.hidden=true;document.title='پرونده ویژه: هرگز تنهایی رهبری نکن | به‌پرور';window.scrollTo(0,0);return;}
@@ -101,5 +101,6 @@ window.addEventListener('hashchange',render);render();
 </script>
 <script defer src="assets/bp-life-standard-shell-20261113.js?v=20261113a"></script>
 <script src="assets/bp-impeccable-unified-navigation-20261114.js?v=2"></script>
+<script defer src="assets/bp-pwa-register-20261114.js?v=1"></script>
 </body>
 </html>

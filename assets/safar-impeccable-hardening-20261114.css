@@ -1,0 +1,187 @@
+/* Impeccable / Safar UI hardening: preserve the established Behparvar palette.
+   Scope: session-four keyboard, storage alert, mobile header, compact coach. */
+.sf-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.sf-storage-warning[hidden] { display: none !important; }
+.sf-storage-warning {
+  position: relative;
+  z-index: 65;
+  width: min(100%, 1120px);
+  margin: 10px auto 16px;
+  border: 1px solid #b66d39;
+  border-radius: 14px;
+  background: #fff5e9;
+  color: #633b1a;
+  padding: 14px 18px;
+  box-shadow: 0 7px 20px rgba(80, 49, 19, .10);
+}
+.sf-storage-warning p { margin: 0 0 10px; line-height: 1.8; }
+.sf-storage-warning button {
+  min-height: 44px;
+  padding: 8px 15px;
+  border: 1px solid #906237;
+  border-radius: 10px;
+  background: #fff;
+  color: #5b3719;
+  font: inherit;
+  font-weight: 800;
+}
+#root .role-card[aria-pressed="true"] {
+  border-color: #175e49;
+  background: #e9f5ee;
+  box-shadow: inset 0 0 0 2px rgba(23,94,73,.12);
+}
+#root .role-card[aria-pressed="true"]::after {
+  content: "✓ انتخاب شد";
+  display: block;
+  color: #185a46;
+  font-size: 15px;
+  margin-top: 8px;
+  font-weight: 800;
+}
+#root [data-scale][aria-pressed="true"] {
+  outline: 2px solid #145b48;
+  outline-offset: 2px;
+}
+#root h1[tabindex="-1"]:focus,
+#root h2[tabindex="-1"]:focus {
+  outline: 3px solid #ba8d3f;
+  outline-offset: 5px;
+}
+@media (max-width: 700px) {
+  .top {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 44px 80px;
+    grid-template-rows: 46px 46px;
+    gap: 4px 6px;
+    align-items: center;
+    padding: 7px 9px !important;
+    min-height: unset !important;
+  }
+  .top > .logos {
+    grid-column: 1 / 3;
+    grid-row: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .top .logos img {
+    width: clamp(94px, 28vw, 118px) !important;
+    max-height: 35px;
+    object-fit: contain;
+  }
+  .top .logos .top-sub {
+    font-size: 14px !important;
+    padding-right: 6px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .top > .top-actions { display: contents !important; }
+  .top .top-actions > #clock {
+    grid-column: 3;
+    grid-row: 1;
+    min-width: 0;
+    width: 100%;
+    padding: 7px 2px;
+    border-radius: 10px;
+    background: #eaf2ed;
+    text-align: center;
+    font-size: 15px !important;
+    color: #184c3e;
+  }
+  .top .top-actions > #sfModeControls {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    width: 100%;
+    min-width: 0;
+    gap: 5px;
+    padding: 1px 0;
+  }
+  .top .top-actions > #sfModeControls button {
+    flex: 0 0 auto;
+    min-height: 44px;
+    font-size: 14px !important;
+    padding: 7px 10px !important;
+    white-space: nowrap;
+  }
+  .top .top-actions > #sound {
+    grid-column: 2;
+    grid-row: 2;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px !important;
+    padding: 4px !important;
+    font-size: 0 !important;
+  }
+  .top .top-actions > #sound::after {
+    content: attr(data-sound-icon);
+    font-size: 20px;
+    line-height: 1;
+  }
+  .top .top-actions > a[href] {
+    grid-column: 3;
+    grid-row: 2;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 44px !important;
+    padding: 5px 3px !important;
+    font-size: 13px !important;
+    white-space: nowrap;
+  }
+  .sf-guide-floating {
+    right: max(12px, env(safe-area-inset-right, 12px)) !important;
+    bottom: max(14px, env(safe-area-inset-bottom, 0px)) !important;
+    min-width: 92px !important;
+    max-width: 104px !important;
+    min-height: 52px !important;
+    padding: 7px 9px !important;
+    gap: 0 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 5px 17px rgba(10, 37, 30, .22) !important;
+  }
+  .sf-guide-floating .sf-guide-label { font-size: 15px !important; line-height: 1.5; }
+  .sf-guide-floating small { display: none !important; }
+  .sf-guide-floating .sf-guide-symbol {
+    width: 22px !important;
+    height: 22px !important;
+    font-size: 15px !important;
+    right: -5px !important;
+    top: -8px !important;
+  }
+  #root { padding-bottom: calc(85px + env(safe-area-inset-bottom, 0px)); }
+  #root .sf-study-index > summary,
+  #root .sf-study-reflect > summary,
+  #root details > summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  #root .sf-study-hero { scroll-margin-top: 125px; }
+  #sfWizardHead { scroll-margin-top: 125px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #root h1[tabindex="-1"], #root h2[tabindex="-1"] { scroll-behavior: auto; }
+}

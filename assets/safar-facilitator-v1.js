@@ -209,6 +209,7 @@ function updateClock(){
  let ms=Math.max(0,state.remainingMs);
  const secs=Math.ceil(ms/1000),m=String(Math.floor(secs/60)).padStart(2,"0"),s=String(secs%60).padStart(2,"0");
  $("#facClock").textContent=m+":"+s;
+ $("#facSummaryClock").textContent=m+":"+s;
  $("#facClockStatus").textContent=ms<=0?"زمان تمام شده؛ مرور مراحل همچنان آزاد است":state.running?"در حال شمارش":"متوقف / آماده";
  $("#facTimerToggle").textContent=state.running?"توقف زمان":ms<=0?"شروع زمان تازه":"شروع / ادامه زمان";
  $("#facTimerToggle").setAttribute("aria-pressed",String(state.running));

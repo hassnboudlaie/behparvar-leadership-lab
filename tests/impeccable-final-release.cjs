@@ -82,9 +82,13 @@ async function evaluateOffline(browser) {
     await page.evaluate(async()=>{ if(!("serviceWorker" in navigator))throw Error("Worker not supported");
       await navigator.serviceWorker.ready;});
     await page.waitForFunction(() => !!navigator.serviceWorker.controller,{timeout:30000});
-    const assets = await page.evaluate(async()=>{
+    const swText=fs.readFileSync(path.resolve(__dirname,"../sw.js"),"utf8");
+    const expectedCache=swText.match(/^const CACHE="([^"]+)"/m)?.[1];
+    const cssVersion=swText.match(/\.\/assets\/bp-mobile-first-ux-20261115\.css\?v=(\d+)/)?.[1];
+    assert.ok(expectedCache&&cssVersion,"Expected cache name and stylesheet version in the SW");
+    const assets = await page.evaluate(async({expectedCache,cssVersion})=>{
       const names=await caches.keys();
-      const current=names.find(n=>n.includes("20261115-mobile-ux-v61"));
+      const current=names.find(n=>n===expectedCache);
       if(!current)return{names,current:null};
       const c=await caches.open(current);
       const checks=["./index.html","./session3-teamship.html",
@@ -92,11 +96,11 @@ async function evaluateOffline(browser) {
         "./assets/bp-impeccable-unified-navigation-20261114.css",
         "./assets/safar-impeccable-accessibility-20261114.js",
         "./assets/bp-pwa-register-20261114.js",
-        "./assets/bp-mobile-first-ux-20261115.css?v=1"];
+        "./assets/bp-mobile-first-ux-20261115.css?v="+cssVersion];
       const present={};
       for(const p of checks)present[p]=!!(await c.match(p));
       return{names,current,present};
-    });
+    },{expectedCache,cssVersion});
     report.offline.cache=assets;
     assert.ok(assets.current,"Current SW cache absent");
     for(const [item,present] of Object.entries(assets.present)) assert.ok(present,"Uncached "+item);

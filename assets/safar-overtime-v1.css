@@ -30,3 +30,10 @@
 .sf-overtime-toast{position:fixed;z-index:1000000;bottom:24px;left:50%;transform:translateX(-50%);width:min(93%,600px);background:#124d3e;color:#fff;border-radius:14px;padding:16px 20px;box-shadow:0 12px 45px #0005;text-align:center;font-size:18px;font-weight:800;direction:rtl}
 @media(max-width:480px){.sf-overtime-overlay{align-items:flex-start;padding:10px}.sf-overtime-dialog{border-radius:17px;max-height:calc(100dvh - 20px)}.sf-overtime-inputline input{height:56px}}
 @media(prefers-reduced-motion:reduce){.sf-overtime-overlay{backdrop-filter:none}}
+
+/* Visible, reachable recovery actions in the expired-time modal. */
+.sf-overtime-recovery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:13px 0 5px}
+.sf-overtime-recovery button{min-height:50px;padding:10px 12px;background:#f3f8f5;color:#174c3d;border:1px solid #a6c7b7;border-radius:12px;font:800 16px/1.6 inherit;cursor:pointer}
+.sf-overtime-recovery button:last-child{grid-column:1/-1;background:#fffefa;color:#394c47;border-color:#c8d4cf}
+.sf-overtime-recovery button:focus-visible{outline:3px solid #a87630;outline-offset:2px}
+@media(max-width:430px){.sf-overtime-recovery{grid-template-columns:1fr}.sf-overtime-recovery button:last-child{grid-column:auto}}

@@ -29,7 +29,7 @@ async function run(){
   const fac=await small.newPage(),errors=[];
   fac.on("pageerror",e=>errors.push("Facilitator "+e.message));
   let response=await fac.goto(FAC,{waitUntil:"domcontentloaded"});
-  await fac.locator("#facStage option").first().waitFor();
+  await fac.locator("#facStage option").first().waitFor({state:"attached"});
   assert.equal(response.status(),200);
   assert.equal(await fac.locator("#facStage option").count(),10,"all 10 stages are available");
   assert.equal(await fac.locator("#facRole option").count(),2,"both role pathways available");
@@ -60,7 +60,7 @@ async function run(){
   await fac.locator("#facTimerReset").click();
   assert.equal(await fac.locator("#facClock").innerText(),"05:00","timer can reset to arbitrary duration");
   await fac.reload({waitUntil:"domcontentloaded"});
-  await fac.locator("#facStage option").first().waitFor();
+  await fac.locator("#facStage option").first().waitFor({state:"attached"});
   assert.equal(await fac.locator("#facClock").innerText(),"05:00","timer state persists in facilitator-only session storage");
   const hasOverflow=await fac.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1);
   assert(!hasOverflow,"facilitator mobile viewport no overflow");
@@ -95,7 +95,7 @@ async function run(){
   await setupExpired(p);
   const before=await p.evaluate(k=>localStorage.getItem(k),KEY);
   await p.goto(FAC,{waitUntil:"domcontentloaded"});
-  await p.locator("#facStage option").first().waitFor();
+  await p.locator("#facStage option").first().waitFor({state:"attached"});
   const after=await p.evaluate(k=>localStorage.getItem(k),KEY);
   assert.equal(after,before,"facilitator does not overwrite participant answers, score or timer");
   assert.equal(await p.locator("#sfOvertimeOverlay").count(),0,"facilitator remains available on a blocked participant device");

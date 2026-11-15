@@ -67,6 +67,7 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   await page.waitForFunction(()=>JSON.parse(localStorage.getItem("bp-communication-journey-v3")).stage===2);
   await page.locator("#sfCoachOverlay .sf-celebration-image").waitFor({state:"visible",timeout:10000});
   assert(await page.locator("#sfCoachOverlay").innerText().then(x=>x.includes("۸٫۵")),"Stage celebration shows points");
+  await page.waitForFunction(()=>{const img=document.querySelector(".sf-celebration-image");return img?.complete&&img.naturalWidth>0;},{timeout:10000});
   assert(await page.locator(".sf-celebration-image").evaluate(e=>e.complete&&e.naturalWidth>0),"Stage celebration illustration loads");
   // Simulate a finished learning history to verify the answer key is end-only.
   await page.evaluate(()=>{

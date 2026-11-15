@@ -1,0 +1,57 @@
+name: Behparvar Session 4 — Playwright Browser Regression
+
+on:
+  pull_request:
+    paths:
+      - 'session4-communication-journey.html'
+      - 'assets/safar-*'
+      - 'assets/bp-*'
+      - 'scripts/verify-session4-browser.cjs'
+      - '.github/workflows/session4-browser-regression.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'session4-communication-journey.html'
+      - 'assets/safar-*'
+      - 'assets/bp-*'
+      - 'scripts/verify-session4-browser.cjs'
+      - '.github/workflows/session4-browser-regression.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  session4-ui:
+    name: RTL, roles, study and competitive paths — mobile and laptop
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Run isolated local-browser QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/behparvar-session4-qa.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..20}; do
+            if curl -fsS --max-time 3 http://127.0.0.1:4173/session4-communication-journey.html > /dev/null; then break; fi
+            sleep 1
+          done
+          BEHPARVAR_URL=http://127.0.0.1:4173/session4-communication-journey.html \
+            node scripts/verify-session4-browser.cjs
+      - name: Save mobile, laptop and JSON QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: behparvar-session4-playwright-evidence
+          path: artifacts/session4-browser/
+          if-no-files-found: warn

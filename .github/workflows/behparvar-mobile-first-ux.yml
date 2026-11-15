@@ -19,7 +19,7 @@ on:
       - 'scripts/verify-bp-mobile-*'
 jobs:
   integrity:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -27,13 +27,13 @@ jobs:
           node-version: '22'
       - run: node scripts/verify-bp-mobile-first.cjs
   browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install --no-save --no-package-lock playwright@1.56.1
+      - run: npm install --no-save --no-package-lock playwright
       - run: npx playwright install --with-deps chromium
       - run: node scripts/verify-bp-mobile-browser.cjs
       - if: always()

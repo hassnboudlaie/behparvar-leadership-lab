@@ -84,14 +84,15 @@ async function evaluateOffline(browser) {
     await page.waitForFunction(() => !!navigator.serviceWorker.controller,{timeout:30000});
     const assets = await page.evaluate(async()=>{
       const names=await caches.keys();
-      const current=names.find(n=>n.includes("impeccable-final-v60"));
+      const current=names.find(n=>n.includes("20261115-mobile-ux-v61"));
       if(!current)return{names,current:null};
       const c=await caches.open(current);
       const checks=["./index.html","./session3-teamship.html",
         "./session4-communication-journey.html",
         "./assets/bp-impeccable-unified-navigation-20261114.css",
         "./assets/safar-impeccable-accessibility-20261114.js",
-        "./assets/bp-pwa-register-20261114.js"];
+        "./assets/bp-pwa-register-20261114.js",
+        "./assets/bp-mobile-first-ux-20261115.css?v=1"];
       const present={};
       for(const p of checks)present[p]=!!(await c.match(p));
       return{names,current,present};

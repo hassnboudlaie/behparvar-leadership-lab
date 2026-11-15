@@ -1,0 +1,44 @@
+name: Behparvar Mobile-first UX QA
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'session3-*.html'
+      - 'session4-communication-journey.html'
+      - 'assets/bp-mobile-first-ux-20261115.css'
+      - 'sw.js'
+      - 'scripts/verify-bp-mobile-*'
+      - '.github/workflows/behparvar-mobile-first-ux.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'assets/bp-mobile-first-ux-20261115.css'
+      - 'index.html'
+      - 'session4-communication-journey.html'
+      - 'sw.js'
+      - 'scripts/verify-bp-mobile-*'
+jobs:
+  integrity:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/verify-bp-mobile-first.cjs
+  browser:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock playwright
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/verify-bp-mobile-browser.cjs
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: behparvar-mobile-ux-screenshots
+          path: qa-artifacts/mobile-first-20261115/*.png
+          if-no-files-found: ignore

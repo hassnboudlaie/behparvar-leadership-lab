@@ -1,0 +1,152 @@
+/* Behparvar · Mobile-first UX v1 · 15 Nov 2026
+ * Presentation only: do not change course stages, timers, scoring, badges, approvals or storage.
+ * Reuses the existing forest/ivory Behparvar design system and Vazirmatn.
+ */
+:root{--bp-mob-deep:#123f38;--bp-mob-border:#cfdfd5;--bp-mob-paper:#fffefa}
+html[dir="rtl"]{scroll-padding-top:96px}
+html[dir="rtl"] body :is(button,a,summary,input,textarea,select):focus-visible{
+ outline:3px solid #b88945;outline-offset:3px
+}
+html[dir="rtl"] :is(.bp-welcome-tile,.course-session,.card,.role-card,.option,.choice-grid>*,
+.bp-recognition-badge,.sf-mode-choice){min-width:0}
+html[dir="rtl"] :is(.view,.page,.shell,#root,#app){overflow-wrap:break-word}
+@media(min-width:701px) and (max-width:1024px){
+ body.bp-app-premium #app .bp-welcome-grid{gap:12px}
+ body.bp-app-premium #app .course-sessions{gap:12px}
+ .shell{max-width:100%;padding-inline:clamp(15px,3vw,26px)}
+}
+@media(max-width:700px){
+ html[dir="rtl"] body{overflow-x:clip}
+ body.bp-app-premium #app{min-width:0}
+ body.bp-app-premium #app.wrap{padding-inline:10px;padding-bottom:calc(105px + env(safe-area-inset-bottom,0px))}
+ body.bp-app-premium #app .masthead{min-height:63px!important;padding:9px 10px!important;gap:8px}
+ body.bp-app-premium #app .masthead .brand{gap:8px}
+ body.bp-app-premium #app .masthead .brand img{width:116px!important;max-width:34vw;max-height:43px}
+ body.bp-app-premium #app .masthead .brand span{font-size:13px!important;padding-right:7px}
+ body.bp-app-premium #app .masthead .session-label{min-height:44px;padding:8px 10px;font-size:14px;white-space:normal}
+ body.bp-app-premium #app .bp-welcome-intro{gap:10px;margin-block:10px 12px}
+ body.bp-app-premium #app #welcome .bp-welcome-hero{
+   height:clamp(208px,62vw,270px)!important;border-width:2px;border-radius:18px;box-shadow:none
+ }
+ body.bp-app-premium #app #welcome .bp-welcome-hero-text{
+   padding:17px 17px 19px;max-width:100%
+ }
+ body.bp-app-premium #app #welcome .bp-welcome-hero-text :is(h1,h2){font-size:clamp(24px,6vw,29px)!important;line-height:1.45}
+ body.bp-app-premium #app #welcome .bp-welcome-hero-text p{font-size:16px!important;line-height:1.75!important}
+ body.bp-app-premium #app #welcome .bp-hero-process{max-width:100%;gap:5px}
+ body.bp-app-premium #app #welcome .bp-welcome-grid{
+   display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:8px!important;margin-top:14px
+ }
+ body.bp-app-premium #app #welcome .bp-welcome-grid .bp-welcome-tile,
+ body.bp-app-premium #app #welcome .bp-welcome-grid .bp-welcome-tile:nth-child(n+4),
+ body.bp-app-premium #app #welcome .bp-welcome-grid .bp-welcome-tile:last-child{
+   grid-column:1/-1!important;min-height:75px!important;display:grid!important;
+   grid-template-columns:54px minmax(0,1fr);grid-template-rows:auto auto;
+   align-content:center;align-items:center;justify-items:start;column-gap:12px;row-gap:0;
+   padding:12px 14px!important;border-radius:15px;box-shadow:none;
+   background:var(--bp-mob-paper);border:1px solid var(--bp-mob-border);
+   text-align:right;transform:none
+ }
+ body.bp-app-premium #app #welcome .bp-welcome-grid .bp-welcome-tile:hover{
+   box-shadow:none;transform:none
+ }
+ body.bp-app-premium #app #welcome .bp-welcome-grid .bp-tile-illustration{
+   grid-column:1;grid-row:1/3;width:50px!important;height:50px!important;min-height:50px;
+   max-width:50px;margin:0!important;display:grid;place-items:center;
+   background:#eef5ee;border-radius:12px
+ }
+ body.bp-app-premium #app #welcome .bp-welcome-grid .bp-tile-illustration svg{
+   width:43px!important;height:43px!important;max-width:100%;max-height:100%
+ }
+ body.bp-app-premium #app #welcome .bp-welcome-grid .bp-welcome-tile strong{
+   grid-column:2;grid-row:1;margin:0;align-self:end;font-size:20px!important;line-height:1.5!important
+ }
+ body.bp-app-premium #app #welcome .bp-welcome-grid .bp-welcome-tile small{
+   grid-column:2;grid-row:2;font-size:14px;line-height:1.6;align-self:start
+ }
+ body.bp-app-premium #app .bp-studio-nav{
+   bottom:calc(7px + env(safe-area-inset-bottom,0px));padding:6px 5px;gap:4px;
+   border-radius:17px;box-shadow:0 6px 18px #103c321d
+ }
+ body.bp-app-premium #app .bp-studio-link{min-height:53px!important;line-height:1.45!important}
+ body.bp-app-premium #app .bp-cross-nav{box-shadow:0 6px 18px #103c321a}
+ body.bp-app-premium #app .bp-cross-nav a{min-height:52px;font-size:13px;line-height:1.5;padding:6px 4px}
+ body.bp-app-premium #app .course-heading h1{font-size:clamp(25px,6.5vw,31px)}
+ body.bp-app-premium #app .course-heading p{font-size:17px}
+ body.bp-app-premium #app .course-sessions{grid-template-columns:minmax(0,1fr)!important;gap:9px}
+ body.bp-app-premium #app .course-session{min-height:84px;padding:12px 14px;gap:11px;border-radius:15px;box-shadow:none}
+ body.bp-app-premium #app .course-session-number{flex-shrink:0}
+ body.bp-app-premium #app .course-session strong{font-size:19px;line-height:1.55}
+ body.bp-app-premium #app .course-session small{font-size:15px;line-height:1.6}
+ body.bp-app-premium #app .page-heading{margin:14px 0 17px;padding-bottom:12px}
+ body.bp-app-premium #app .page-heading h2{font-size:clamp(24px,6.5vw,30px)!important}
+ body.bp-app-premium #app .page-heading p{font-size:17px!important}
+ body.bp-app-premium #app .card{padding:16px;border-radius:17px;box-shadow:none}
+ body.bp-app-premium #app :is(.choice-grid,.grid.two,.grid.three){grid-template-columns:minmax(0,1fr)}
+ body.bp-app-premium #app :is(input,select,textarea){max-width:100%;min-width:0;font-size:max(17px,1rem);line-height:1.8}
+ body.bp-app-premium #app :is(button,.btn,.option,summary){min-height:44px}
+ body.bp-app-premium #app textarea{min-height:112px}
+ body.bp-app-premium .bp-learning-trail{flex-wrap:wrap}
+ /* Standalone sessions: preserve the current teacher/learner workflow and local persistence. */
+ body.bp-app-premium[data-bp-page="s3"] main,
+ body.bp-app-premium[data-bp-page="assessment"] main,
+ body.bp-app-premium[data-bp-page="teamship"] main{padding-inline:10px}
+ body.bp-app-premium[data-bp-page="s3"] :is(.card,.item),
+ body.bp-app-premium[data-bp-page="assessment"] :is(.card,.item),
+ body.bp-app-premium[data-bp-page="teamship"] :is(.card,.tile){max-width:100%;min-width:0}
+ .shell:has(> .top):has(#root){width:100%;padding:9px 10px calc(105px + env(safe-area-inset-bottom,0px));max-width:100%}
+ .shell:has(> .top):has(#root) .top{border-radius:14px;padding:7px 8px!important;box-shadow:0 4px 12px #103f3210}
+ .shell:has(> .top):has(#root) .cover-surface{margin:12px 0 14px;border-radius:17px;box-shadow:none}
+ .shell:has(> .top):has(#root) .cover-surface img{
+   width:100%;height:auto;min-height:0!important;max-height:38vh;object-fit:contain;object-position:center
+ }
+ .shell:has(> .top):has(#root) #root{min-width:0}
+ .shell:has(> .top):has(#root) #root .introgrid{gap:7px}
+ .shell:has(> .top):has(#root) #root .stat{min-width:0;padding:10px 5px;border-radius:13px}
+ .shell:has(> .top):has(#root) #root .stat strong{font-size:clamp(23px,6vw,29px)}
+ .shell:has(> .top):has(#root) #root .stat span{font-size:13px;line-height:1.5}
+ .shell:has(> .top):has(#root) #root .card{
+   padding:16px 14px;margin:11px 0;border-radius:17px;box-shadow:none;min-width:0
+ }
+ .shell:has(> .top):has(#root) #root :is(h1,h2){font-size:clamp(24px,6.5vw,31px);line-height:1.48}
+ .shell:has(> .top):has(#root) #root .section-head{font-size:20px;line-height:1.5}
+ .shell:has(> .top):has(#root) #root :is(p,li,.case,.inline-note){
+   font-size:18px;line-height:1.86;overflow-wrap:break-word
+ }
+ .shell:has(> .top):has(#root) #root :is(.field,.question,.companion){min-width:0}
+ .shell:has(> .top):has(#root) #root :is(.option,.role-card,.btn,.scalebtn,summary){
+   min-height:48px;overflow-wrap:break-word
+ }
+ .shell:has(> .top):has(#root) #root :is(input,textarea,select){min-width:0;max-width:100%;font-size:18px}
+ .shell:has(> .top):has(#root) #root textarea{min-height:118px}
+ .shell:has(> .top):has(#root) #root .actions{display:flex;flex-wrap:wrap;gap:9px}
+ .shell:has(> .top):has(#root) #root .actions .btn{flex:1 1 220px;padding:11px 14px}
+ .shell:has(> .top):has(#root) #root .progressrow{gap:3px;max-width:100%}
+ .shell:has(> .top):has(#root) #root .seg{min-width:0}
+ .shell:has(> .top):has(#root) #root .companion{border-radius:15px;padding:13px 14px;box-shadow:none}
+ .shell:has(> .top):has(#root) #root .bp-recognition-collection{border-radius:16px;box-shadow:none}
+ .shell:has(> .top):has(#root) #root .bp-recognition-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .shell:has(> .top):has(#root) #root .bp-recognition-download{
+   min-height:44px;font-size:14px
+ }
+ .sf-guide-floating{bottom:calc(15px + env(safe-area-inset-bottom,0px))!important}
+ .sheet{max-width:100%;margin:0;padding:21px 16px;border:0;border-radius:0}
+ .sheet h1{font-size:clamp(27px,7vw,32px)}
+ .sheet h2{font-size:clamp(23px,6vw,27px)}
+}
+@media(max-width:380px){
+ body.bp-app-premium #app.wrap{padding-inline:8px}
+ body.bp-app-premium #app #welcome .bp-welcome-grid .bp-welcome-tile{padding:10px 11px!important}
+ body.bp-app-premium #app #welcome .bp-welcome-grid .bp-welcome-tile strong{font-size:18px!important}
+ .shell:has(> .top):has(#root){padding-inline:8px}
+ .shell:has(> .top):has(#root) #root .stat{padding-inline:3px}
+ .shell:has(> .top):has(#root) #root .stat span{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ html[dir="rtl"]{scroll-behavior:auto}
+ body.bp-app-premium #app .bp-welcome-tile{transition:none!important;transform:none!important}
+}
+@media print{
+ body.bp-app-premium .bp-studio-nav,body.bp-app-premium .bp-cross-nav{display:none!important}
+ .sheet{max-width:none;margin:0}
+}

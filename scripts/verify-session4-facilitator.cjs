@@ -3,6 +3,8 @@
  */
 "use strict";
 const assert=require("node:assert/strict");
+const fs=require("node:fs");
+fs.mkdirSync("artifacts/facilitator-evidence",{recursive:true});
 const {chromium}=require("playwright");
 const BASE=process.env.BEHPARVAR_URL||"http://127.0.0.1:4173/";
 const MAIN=new URL("session4-communication-journey.html",BASE).href;
@@ -32,6 +34,7 @@ async function run(){
   await fac.locator("#facStage option").first().waitFor({state:"attached"});
   assert.equal(response.status(),200);
   assert.equal(await fac.locator("#facStage option").count(),10,"all 10 stages are available");
+  await fac.screenshot({path:"artifacts/facilitator-evidence/mobile-facilitator-home.png",animations:"disabled"});
   assert.equal(await fac.locator("#facRole option").count(),2,"both role pathways available");
   assert.equal(await fac.locator("#sfOvertimeOverlay").count(),0,"facilitator has no learner timeout dialog");
   assert.equal(await fac.locator("#facClock").innerText(),"60:00");
@@ -42,6 +45,7 @@ async function run(){
   assert.equal(await fac.locator(".sf-fac-options li").count(),4);
   await fac.locator("#facAnswers").click();
   assert.equal(await fac.locator(".sf-fac-options li.is-correct").count(),1,"answer key explicit only after reveal");
+  await fac.screenshot({path:"artifacts/facilitator-evidence/mobile-facilitator-answer-key.png",animations:"disabled"});
   await fac.locator("#facRole").selectOption("supervisors");
   assert.equal(await fac.locator("#facAnswers").getAttribute("aria-pressed"),"false","changing audience hides answer key");
   await fac.locator("#facPhase").selectOption("badges");
@@ -51,6 +55,7 @@ async function run(){
   assert((await fac.locator("#facContent").innerText()).includes("چالش تخصیص شش سکه"));
   await fac.locator("#facPhase").selectOption("role");
   assert(await fac.locator(".sf-fac-dialogue p").count()>=3,"roleplay dialogue present");
+  await fac.screenshot({path:"artifacts/facilitator-evidence/mobile-facilitator-roleplay.png",animations:"disabled"});
   await fac.locator("#facTimerToggle").click();
   assert((await fac.evaluate(()=>window.BP_SAFAR_FACILITATOR.current())).running,"clock starts");
   await fac.waitForTimeout(1150);
@@ -65,6 +70,13 @@ async function run(){
   const hasOverflow=await fac.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1);
   assert(!hasOverflow,"facilitator mobile viewport no overflow");
   await small.close();
+  const desktop=await browser.newContext({viewport:{width:1366,height:768}});
+  const dp=await desktop.newPage();
+  await dp.goto(FAC,{waitUntil:"domcontentloaded"});
+  await dp.locator("#facStage option").first().waitFor({state:"attached"});
+  await dp.screenshot({path:"artifacts/facilitator-evidence/desktop-facilitator-home.png",animations:"disabled"});
+  assert(!(await dp.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1)),"facilitator desktop no overflow");
+  await desktop.close();
 
   const learner=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   const p=await learner.newPage();
@@ -72,6 +84,7 @@ async function run(){
   p.on("dialog",d=>d.accept());
 
   await setupExpired(p);
+  await p.screenshot({path:"artifacts/facilitator-evidence/mobile-timeout-recovery.png",animations:"disabled"});
   for(const b of ["#sfOvertimeExitTop","#sfOvertimeRestart","#sfOvertimeStudy","#sfOvertimeExit"])
    assert(await p.locator(b).isVisible(),b+" visible in expired-time modal");
   await p.locator("#sfOvertimeExitTop").click();

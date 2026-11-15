@@ -16,7 +16,7 @@ const sw=read("sw.js");
 const core=JSON.parse(sw.match(/const CORE=(\[[\s\S]*?\]);/)?.[1]||"null");
 assert(Array.isArray(core),"PWA core list missing");
 assert.equal(new Set(core).size,core.length,"Duplicate assets in PWA pre-cache");
-const listed=new Set(core.map(x=>x.replace(/^\.\//,"")));
+const listed=new Set(core.map(x=>x.replace(/^\.\//,"").split("?")[0]));
 for(const file of listed)if(file)assert(fs.existsSync(require("node:path").join(root,file)),file+" not found");
 for(const file of pages){
  const html=read(file);
@@ -47,7 +47,7 @@ const historicalImportant=(base.match(/!important/g)||[]).length;
 const newImportant=(style.match(/!important/g)||[]).length;
 assert(historicalImportant<=220,"Legacy CSS important count expanded; refactor deliberately");
 assert(newImportant<=10,"New UI layer is accumulating !important overrides");
-assert(sw.includes("impeccable-final-v60"),"PWA version must be refreshed for final release");
+assert(sw.includes("mml-root-20261115-mobile-ux-v61"),"PWA must reflect the latest mobile experience release");
 assert(read("index.html").includes('<h1 id="bp-welcome-title">'),
  "Visible home-page title should retain the H1 semantics");
 console.log("PASS impeccable CSS/PWA contract "+JSON.stringify({

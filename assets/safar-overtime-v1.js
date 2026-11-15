@@ -61,6 +61,7 @@ function show(s){
  if(overlay)return;
  const div=document.createElement("div");div.id="sfOvertimeOverlay";div.className="sf-overtime-overlay";div.setAttribute("role","presentation");
  div.innerHTML='<section class="sf-overtime-dialog" role="dialog" aria-modal="true" aria-labelledby="sfOvertimeTitle" aria-describedby="sfOvertimeDescription" dir="rtl">'+
+ '<button type="button" id="sfOvertimeExitTop" class="sf-overtime-dismiss" aria-label="انصراف و بازگشت به فهرست جلسات">×</button>'+ 
  '<div class="sf-overtime-symbol" aria-hidden="true">⏳</div><p class="sf-overtime-kicker">ایستگاه تصمیم‌گیری</p>'+
  '<h2 id="sfOvertimeTitle">۶۰ دقیقه تمام شد؛ سفر هنوز ادامه دارد</h2>'+
  '<p id="sfOvertimeDescription">می‌توانی برای تکمیل مأموریت وقت اضافه بگیری. تصمیم با توست؛ پیش از تأیید، کسر امتیاز را می‌بینی.</p>'+
@@ -79,6 +80,7 @@ function show(s){
  document.body.classList.add("sf-overtime-locked");
  div.addEventListener("input",e=>{if(e.target.id==="sfOvertimeMinutes")preview();});
  div.querySelector("#sfOvertimeExit").addEventListener("click",exitToSessions);
+ div.querySelector("#sfOvertimeExitTop").addEventListener("click",exitToSessions);
  div.querySelector("#sfOvertimeRestart").addEventListener("click",restartFromExpired);
  div.querySelector("#sfOvertimeStudy").addEventListener("click",continueAsStudy);
  div.querySelector("#sfOvertimeForm").addEventListener("submit",e=>{

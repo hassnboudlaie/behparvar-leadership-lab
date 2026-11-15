@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#123f38">
+<meta name="description" content="کنسول نمایش آموزشی تسهیل‌گر: ده مرحله سفر ارتباطات، دو مسیر مدیران و سرپرستان، آزمون‌ها، نقش‌آفرینی و کنترل مستقل زمان. بدون ثبت امتیاز شرکت‌کنندگان.">
+<title>کنسول تسهیل‌گر | سفر ارتباطات به‌پرور</title>
+<link rel="icon" href="app/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="assets/safar-facilitator-v1.css?v=1">
+<script>window.BP_SAFAR_FACILITATOR_PREVIEW=true;</script>
+<script src="assets/safar-ertebatat-data.js"></script>
+<script src="assets/safar-classroom-upgrade-data.js"></script>
+<script src="assets/safar-content-restoration-data.js"></script>
+<script src="assets/safar-content-quality-v4.js?v=20261113"></script>
+<script src="assets/safar-applied-curriculum-20261113.js?v=20261113"></script>
+<script src="assets/safar-applied-curriculum-adapter-20261113.js?v=20261113"></script>
+<script src="assets/safar-content-quality-v5-20261115.js?v=20261115"></script>
+<script defer src="assets/safar-facilitator-v1.js?v=1"></script>
+<script defer src="assets/bp-pwa-register-20261114.js?v=1"></script>
+</head>
+<body class="bp-facilitator">
+<a class="sf-fac-skip" href="#facContent">رفتن به محتوای مرحله</a>
+<div class="sf-fac-shell">
+<header class="sf-fac-header">
+ <div class="sf-fac-heading"><small>به‌پرور · جلسه چهارم · سفر ارتباطات</small><h1>کنسول تسهیل‌گر</h1><p>نمایش آموزشی مستقل، بدون ثبت پاسخ یا امتیاز شرکت‌کننده</p></div>
+ <div class="sf-fac-links">
+  <a href="session4-communication-journey.html">اپ شرکت‌کننده</a>
+  <a href="session4-classroom-qr.html" target="_blank" rel="noopener">QR ورود کلاس</a>
+  <a href="index.html#course">فهرست جلسات</a>
+ </div>
+</header>
+<section class="sf-fac-panel sf-fac-controls" aria-label="کنترل ارائه">
+ <div class="sf-fac-settings">
+  <label for="facRole">مسیر آموزشی<select id="facRole"><option value="supervisors">سرپرستان</option><option value="managers">مدیران</option></select></label>
+  <label for="facStage">مرحله<select id="facStage"></select></label>
+  <label for="facPhase">بخش<select id="facPhase"></select></label>
+ </div>
+ <details class="sf-fac-advanced" id="facAdvanced"><summary>کنترل زمان، کلید آزمون و ابزار ارائه <span id="facSummaryClock" dir="ltr">60:00</span></summary>
+ <div class="sf-fac-time">
+  <div class="sf-fac-clock" role="timer" aria-label="زمان باقی‌مانده برای ارائه"><small>زمان نمایش</small><strong id="facClock" dir="ltr">60:00</strong><span id="facClockStatus">آماده شروع</span></div>
+  <div class="sf-fac-time-actions">
+   <label for="facMinutes">مدت (دقیقه)<input type="number" id="facMinutes" min="1" max="180" step="1" value="60" inputmode="numeric"></label>
+   <button type="button" id="facTimerToggle" class="sf-fac-btn primary">شروع زمان</button>
+   <button type="button" id="facTimerReset" class="sf-fac-btn">تنظیم مجدد</button>
+  </div>
+ </div>
+ <div class="sf-fac-display-controls">
+  <button type="button" id="facAnswers" class="sf-fac-btn" aria-pressed="false">نمایش کلید و تحلیل</button>
+  <button type="button" id="facFullscreen" class="sf-fac-btn">تمام‌صفحه</button>
+  <button type="button" id="facResetPreview" class="sf-fac-btn">بازگشت به ابتدا</button>
+ </div>
+</details>
+</section>
+<nav class="sf-fac-stages" id="facStages" aria-label="پرش به هر یک از ده مرحله"></nav>
+<section class="sf-fac-panel sf-fac-nav" aria-label="ناوبری آزاد مراحل">
+ <button type="button" id="facPrev" class="sf-fac-btn">مرحله یا بخش قبل</button>
+ <div id="facProgress" aria-live="polite">مرحله ۱ از ۱۰</div>
+ <button type="button" id="facNext" class="sf-fac-btn primary">بخش یا مرحله بعد</button>
+</section>
+<main id="facContent" tabindex="-1" aria-live="polite"></main>
+<section class="sf-fac-panel sf-fac-nav sf-fac-bottom" aria-label="ناوبری پایین صفحه">
+ <button type="button" id="facPrevBottom" class="sf-fac-btn">قبلی</button>
+ <button type="button" id="facNextBottom" class="sf-fac-btn primary">بعدی</button>
+</section>
+<footer class="sf-fac-footer">این کنسول برای نمایش و تدریس است؛ نمره، تایمر و پاسخ شرکت‌کنندگان را تغییر نمی‌دهد. دسترسی با لینک مستقیم، احراز هویت اختصاصی ندارد.</footer>
+</div>
+</body></html>

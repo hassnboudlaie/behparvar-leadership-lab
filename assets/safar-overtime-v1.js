@@ -29,10 +29,39 @@ function preview(){
  details.classList.remove("invalid");button.disabled=false;
  details.innerHTML='<strong>'+fa(minutes)+' دقیقه وقت اضافه</strong><span>کسر این درخواست: '+fa(cost)+' امتیاز از ۱۰۰ ('+fa(cost)+'٪)</span><span>مجموع کسر با احتساب تمدیدهای قبلی: '+fa(Math.min(100,sum+cost))+' امتیاز</span>';
 }
+function exitToSessions(){
+ // Leaving the page never deletes the learner's locally saved attempt.
+ hide();window.location.assign("index.html#course");
+}
+function restartFromExpired(){
+ if(!confirm("شروع مجدد، پاسخ‌ها و امتیازهای همین تلاش را پاک می‌کند. مطمئنی؟"))return;
+ const s=live||{};
+ const fresh={version:3,role:"",name:s.name||"",startedAt:0,stage:0,
+  answers:{},orders:{},self:{},alloc:{},rp:{},peer:{},events:[],
+  finished:false,finishedAt:0,sound:!!s.sound,mode:"competitive",
+  pause:{since:0,spentMs:0,usedOnce:false},overtime:{pauseMs:0,grants:[]},guide:{uses:[]}};
+ try{
+  localStorage.setItem(KEY,JSON.stringify(fresh));
+  sessionStorage.removeItem("bp-safar-nested-v3");
+ }catch(e){alert("ذخیره شروع مجدد ممکن نیست. از گزینه خروج به فهرست استفاده کن.");return;}
+ hide();window.location.reload();
+}
+function continueAsStudy(){
+ if(!confirm("به مطالعه آزاد برویم؟ امتیازها و پاسخ‌های رقابتی این تلاش حذف می‌شوند و می‌توانی تمام مراحل را بدون محدودیت زمانی ببینی."))return;
+ if(!live)return;
+ const s=live,stage=Math.min(9,Math.max(0,Number(s.stage)||0));
+ s.mode="study";s.studyStage=stage;s.stage=stage;s.startedAt=0;s.finished=false;
+ s.answers={};s.orders={};s.self={};s.alloc={};s.rp={};s.peer={};s.events=[];
+ s.overtime={pauseMs:0,grants:[]};s.pause={since:0,spentMs:0,usedOnce:false};
+ try{localStorage.setItem(KEY,JSON.stringify(s));sessionStorage.removeItem("bp-safar-nested-v3")}
+ catch(e){alert("تغییر به مطالعه آزاد ذخیره نشد. از گزینه خروج استفاده کن.");return}
+ hide();window.location.reload();
+}
 function show(s){
  if(overlay)return;
  const div=document.createElement("div");div.id="sfOvertimeOverlay";div.className="sf-overtime-overlay";div.setAttribute("role","presentation");
  div.innerHTML='<section class="sf-overtime-dialog" role="dialog" aria-modal="true" aria-labelledby="sfOvertimeTitle" aria-describedby="sfOvertimeDescription" dir="rtl">'+
+ '<button type="button" id="sfOvertimeExitTop" class="sf-overtime-dismiss" aria-label="انصراف و بازگشت به فهرست جلسات">×</button>'+ 
  '<div class="sf-overtime-symbol" aria-hidden="true">⏳</div><p class="sf-overtime-kicker">ایستگاه تصمیم‌گیری</p>'+
  '<h2 id="sfOvertimeTitle">۶۰ دقیقه تمام شد؛ سفر هنوز ادامه دارد</h2>'+
  '<p id="sfOvertimeDescription">می‌توانی برای تکمیل مأموریت وقت اضافه بگیری. تصمیم با توست؛ پیش از تأیید، کسر امتیاز را می‌بینی.</p>'+
@@ -41,11 +70,19 @@ function show(s){
  '<div class="sf-overtime-inputline"><input id="sfOvertimeMinutes" type="number" inputmode="numeric" min="1" max="60" step="1" value="5" required><span>دقیقه</span></div>'+
  '<div class="sf-overtime-preview" id="sfOvertimePreview" aria-live="polite"></div>'+
  '<button type="submit" class="sf-overtime-confirm" id="sfOvertimeConfirm">تأیید کسر امتیاز و ادامه مأموریت</button></form>'+
+ '<div class="sf-overtime-recovery" role="group" aria-label="راه‌های خروج از پایان زمان">'+
+ '<button type="button" id="sfOvertimeStudy">مطالعه آزاد؛ بدون امتیاز</button>'+
+ '<button type="button" id="sfOvertimeRestart">شروع مجدد مأموریت</button>'+
+ '<button type="button" id="sfOvertimeExit">انصراف و بازگشت به جلسات</button></div>'+
  '<p class="sf-overtime-foot">امتیاز هر مرحله طبق روال نمایش داده می‌شود؛ کسر نهایی در مجموع سفر و نشان پایان مأموریت لحاظ خواهد شد.</p></section>';
  document.body.appendChild(div);overlay=div;
  document.querySelector(".shell")?.setAttribute("inert","");
  document.body.classList.add("sf-overtime-locked");
  div.addEventListener("input",e=>{if(e.target.id==="sfOvertimeMinutes")preview();});
+ div.querySelector("#sfOvertimeExit").addEventListener("click",exitToSessions);
+ div.querySelector("#sfOvertimeExitTop").addEventListener("click",exitToSessions);
+ div.querySelector("#sfOvertimeRestart").addEventListener("click",restartFromExpired);
+ div.querySelector("#sfOvertimeStudy").addEventListener("click",continueAsStudy);
  div.querySelector("#sfOvertimeForm").addEventListener("submit",e=>{
   e.preventDefault();
   if(!live||!expired(live))return;

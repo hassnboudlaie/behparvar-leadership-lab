@@ -15,7 +15,7 @@ const oldRestored2=JSON.parse(JSON.stringify(r[1]));
 let legacyStarted=false;
 try{
  const persisted=JSON.parse(localStorage.getItem("bp-communication-journey-v3")||"null");
- legacyStarted=!!(persisted?.startedAt&&!persisted.curriculumV4);
+ legacyStarted=!window.BP_SAFAR_FACILITATOR_PREVIEW&&!!(persisted?.startedAt&&!persisted.curriculumV4);
 }catch(e){}
 
 const content=[

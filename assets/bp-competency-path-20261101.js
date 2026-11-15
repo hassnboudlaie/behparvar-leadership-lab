@@ -175,7 +175,8 @@ function updateLanding(){
     cards.innerHTML=link("bp-c-focus-"+n,'<span>🧭</span><strong>شایستگی‌های این جلسه</strong><small>تعریف، سطوح خبرگی و مثال</small>',"bp-c-landing-card");
    }
    const actions=home.querySelector(".mml-simple-entry-actions");
-   if(actions)home.insertBefore(cards,actions);
+   /* Role first: choose manager/supervisor before browsing lesson options. */
+   if(actions)actions.insertAdjacentElement("afterend",cards);
    else home.appendChild(cards);
    if(actions){
      actions.classList.add("bp-c-old-actions");

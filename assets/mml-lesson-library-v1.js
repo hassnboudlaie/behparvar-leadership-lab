@@ -257,7 +257,7 @@ function renderRoleplay(n,role){
  }
 
  var x=(global.BPCurriculumRoleplays&&global.BPCurriculumRoleplays[n-1])||ROLEPLAYS[n-1],a=role==="managers"?x.m:x.s;
- return '<div class="mml-edu-drama"><div class="mml-edu-drama-title"><span aria-hidden="true">🎭</span><div><h4>نقش‌آفرینی · گفت‌وگوی تمرینی</h4><p>۶ دقیقه بازی نقش + ۳ دقیقه بازخورد. این گفت‌وگو برای تمرین ساخته شده است.</p></div></div><ol>'+a.map(function(t,i){return '<li class="'+(i%2?"mml-edu-turn-alt":"")+'"><strong>'+esc(t[0])+'</strong><small>لحن، حالت چهره و زبان بدن: '+esc(t[1])+'</small><p>«'+esc(t[2])+'»</p></li>'}).join("")+'</ol><aside class="mml-edu-question"><strong>راهنمای تسهیلگر</strong><p>'+esc(x.note)+'</p><p>نقش‌ها را جابه‌جا کنید و درباره رفتار مشاهده‌شده، کیفیت شنیدن، وضوح توافق و محدودیت‌های حرفه‌ای بازخورد بدهید.</p></aside></div>';
+ return '<div class="mml-edu-drama"><div class="mml-edu-drama-title"><span aria-hidden="true">🎭</span><div><h4>نقش‌آفرینی · گفت‌وگوی تمرینی</h4><p>۶ دقیقه بازی نقش + ۳ دقیقه بازخورد. این گفت‌وگو برای تمرین ساخته شده است.</p></div></div><ol>'+a.map(function(t,i){return '<li class="'+(i%2?"mml-edu-turn-alt":"")+'"><strong>'+esc(t[0])+'</strong><small>لحن، حالت چهره و زبان بدن: '+esc(t[1])+'</small><p>«'+esc(t[2])+'»</p></li>'}).join("")+'</ol><aside class="mml-edu-question"><strong>راهنمای تسهیلگر</strong><p>'+esc(x.note)+'</p><p>از مشاهده‌گران بخواهید با اشاره به جمله مشخص، اثر لحن، کیفیت شنیدن و وضوح توافق را تحلیل کنند.</p></aside></div>';
 }
 
 function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(x){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]})}

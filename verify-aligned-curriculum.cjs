@@ -49,14 +49,14 @@ for(let n=1;n<=6;n++){
     const output=ui.render(n,part,role);
     assert.ok(output.includes('data-mml-scene-id="session-'+n+'"'),"Missing continuous scenario");
     assert.ok(output.includes(t.skill),"Missing skill focus");
-    assert.ok(output.includes(part==="quiz"?"data-mml-align-quiz-mount":(part==="m2"&&n===2?"چک‌لیست مشاهده‌گر":part==="m2"?"اتفاق تازه":"اتفاق آشنا")));
+    assert.ok(output.includes(part==="quiz"?"data-mml-align-quiz-mount":(part==="m2"&&n===2?"چک‌لیست مشاهده‌گر":part==="m2"?"تحلیل و بازخورد جمعی":"اتفاق آشنا")));
     if(part==="m2"){
       if(n===2){
        assert.ok(output.includes("چک‌لیست مشاهده‌گر")&&output.includes("data-simple-open-case"),"session two links to actual dialog and evidence-based peer observation");
        assert.ok(!output.includes("دور دوم")&&!output.includes("اتفاق تازه"),"obsolete duplicated activity stages removed from session-two path");
        assert.ok((output.match(/data-simple-open-case=/g)||[]).length===5,"five studio cases in session-two reader");
       }else{
-       assert.ok(output.includes("دور دوم")&&output.includes("چک‌لیست مشاهده‌گر")&&output.includes("لحن، حالت چهره و زبان بدن"));
+       assert.ok(!output.includes("دور دوم")&&output.includes("data-mml-observe")&&output.includes("چک‌لیست مشاهده‌گر")&&output.includes("لحن، حالت چهره و زبان بدن"));
       }
       roleplays++;
     }
@@ -77,6 +77,9 @@ for(const role of ["managers","supervisors"]){
  assert.ok(ui.render(2,"quiz",role).includes("آزمون تشخیصی ۱۲سؤالی"),"practice quiz differentiated from main diagnostic");
 }
 items.set("mml_aligned_v1_managers_2",JSON.stringify({page:0,answers:{0:1},notes:{"m1":"نمونه یادداشت"}}));
+const incomplete=ui.renderQuiz(2,"managers");
+assert.ok(!incomplete.includes("دلیل هر گزینه را جداگانه بررسی کنید"),"No answer-key disclosure before completing the quiz");
+items.set("mml_aligned_v1_managers_2",JSON.stringify({page:0,answers:{0:1,1:0,2:2},notes:{m1:"نمونه یادداشت"}}));
 const q=ui.renderQuiz(2,"managers");
 assert.ok(q.includes("دلیل هر گزینه را جداگانه بررسی کنید"));
 for(const str of can.sessions[1].quiz[0].o.map(o=>o[1]))assert.ok(q.includes(str),"Missing unique answer feedback");

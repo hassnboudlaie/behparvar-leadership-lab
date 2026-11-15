@@ -23,9 +23,9 @@
      var library=window.MMLLessonLibrary;
      var roleButton=document.querySelector('[data-mml-role][aria-pressed="true"]');
      var explicitRole=new URLSearchParams(location.search).get("audience");
-     /* Session-two deep links must respect explicit learner route even if the
+     /* All session deep links must respect explicit learner route even if the
         original interactive role button has not been rendered yet. */
-     var selectedRole=(n===2&&(explicitRole==="managers"||explicitRole==="supervisors"))?
+     var selectedRole=((explicitRole==="managers"||explicitRole==="supervisors"))?
        explicitRole:(roleButton?roleButton.getAttribute("data-mml-role"):"managers");
      var lessonMarkup=library&&typeof library.render==="function"?library.render(n,part,selectedRole):"";
      var lesson=null;

@@ -47,7 +47,7 @@ const historicalImportant=(base.match(/!important/g)||[]).length;
 const newImportant=(style.match(/!important/g)||[]).length;
 assert(historicalImportant<=220,"Legacy CSS important count expanded; refactor deliberately");
 assert(newImportant<=10,"New UI layer is accumulating !important overrides");
-assert(sw.includes("impeccable-final-v60"),"PWA version must be refreshed for final release");
+assert(sw.includes("impeccable-appwide-v61"),"PWA version must be refreshed for final release");
 assert(read("index.html").includes('<h1 id="bp-welcome-title">'),
  "Visible home-page title should retain the H1 semantics");
 console.log("PASS impeccable CSS/PWA contract "+JSON.stringify({

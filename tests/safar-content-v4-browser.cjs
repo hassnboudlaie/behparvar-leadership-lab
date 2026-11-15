@@ -20,7 +20,7 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   page.on("dialog",d=>d.accept());
   const url=new URL("session4-communication-journey.html",base).href;
   await page.goto(url,{waitUntil:"domcontentloaded"});
-  assert.equal(await page.locator(".sf-classroom-qr-link a").getAttribute("href"),"session4-classroom-qr.html");
+  assert.equal(await page.locator(".sf-classroom-qr-link a[href=\"session4-classroom-qr.html\"]").getAttribute("href"),"session4-classroom-qr.html");
   await page.locator('[data-role="supervisors"]').click();
   await page.locator("#start").click();
   await page.locator("#sfWizardHead").waitFor();

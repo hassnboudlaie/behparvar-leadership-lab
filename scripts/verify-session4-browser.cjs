@@ -79,6 +79,15 @@ async function check(device, viewport, browser) {
   assert.equal(state?.mode, 'competitive', device + ': competitive mode persisted');
   assert.equal(state?.stage, 0, device + ': begins at stage one');
   assert(state?.startedAt > 0, device + ': mission timer started');
+  // A genuine coach dialog can take focus after the mission begins.
+  // Interact with its close button, rather than force-clicking through it.
+  for (let attempt = 0; attempt < 6; attempt++) {
+    await competitive.page.waitForTimeout(180);
+    if (!(await competitive.page.locator('#sfCoachOverlay').isVisible())) break;
+    await competitive.page.locator('#sfCoachClose').click();
+  }
+  assert.equal(await competitive.page.locator('#sfCoachOverlay').isVisible(), false,
+    'coach message was acknowledged before moving forward');
   assert.equal(await competitive.page.locator('#sfNext').isEnabled(), true, 'lesson can advance');
   await competitive.page.locator('#sfNext').click();
   await competitive.page.waitForFunction(() =>

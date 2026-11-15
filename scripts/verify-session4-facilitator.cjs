@@ -39,7 +39,7 @@ async function run(){
   assert(await fac.locator("#facAdvanced").getAttribute("open")!==null,"presenter controls expand");
   assert.equal(await fac.locator("#facRole option").count(),2,"both role pathways available");
   assert.equal(await fac.locator("#sfOvertimeOverlay").count(),0,"facilitator has no learner timeout dialog");
-  assert.equal(await fac.locator("#facClock").innerText(),"60:00");
+  assert.equal(await fac.locator("#facSummaryClock").textContent(),"60:00");
   await fac.locator("#facRole").selectOption("managers");
   await fac.locator("#facStage").selectOption("9");
   await fac.locator("#facPhase").selectOption("decision1");
@@ -65,10 +65,10 @@ async function run(){
   assert(!(await fac.evaluate(()=>window.BP_SAFAR_FACILITATOR.current())).running,"clock stops");
   await fac.locator("#facMinutes").fill("5");
   await fac.locator("#facTimerReset").click();
-  assert.equal(await fac.locator("#facClock").innerText(),"05:00","timer can reset to arbitrary duration");
+  assert.equal(await fac.locator("#facSummaryClock").textContent(),"05:00","timer can reset to arbitrary duration");
   await fac.reload({waitUntil:"domcontentloaded"});
   await fac.locator("#facStage option").first().waitFor({state:"attached"});
-  assert.equal(await fac.locator("#facClock").innerText(),"05:00","timer state persists in facilitator-only session storage");
+  assert.equal(await fac.locator("#facSummaryClock").textContent(),"05:00","timer state persists in facilitator-only session storage");
   const hasOverflow=await fac.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1);
   assert(!hasOverflow,"facilitator mobile viewport no overflow");
   await small.close();

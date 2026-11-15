@@ -18,7 +18,7 @@ function expiredAttempt(){
 }
 async function setupExpired(page){
  await page.goto(MAIN,{waitUntil:"domcontentloaded"});
- await page.evaluate((s,k)=>localStorage.setItem(k,JSON.stringify(s)),expiredAttempt(),KEY);
+ await page.evaluate(({s,k})=>localStorage.setItem(k,JSON.stringify(s)),{s:expiredAttempt(),k:KEY});
  await page.reload({waitUntil:"domcontentloaded"});
  await page.locator("#sfOvertimeOverlay").waitFor({state:"visible",timeout:15000});
 }

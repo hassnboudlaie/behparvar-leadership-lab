@@ -150,3 +150,324 @@ html[dir="rtl"] :is(.view,.page,.shell,#root,#app){overflow-wrap:break-word}
  body.bp-app-premium .bp-studio-nav,body.bp-app-premium .bp-cross-nav{display:none!important}
  .sheet{max-width:none;margin:0}
 }
+
+/* ========================================================================
+ * BEHPARVAR | Cohesive visual refinement | 2026-11-15
+ * One intentional editorial system, mobile-first.
+ * Scope: VISUAL ONLY. Preserves lesson content, wizard/timer, scoring,
+ * local data, badges and teacher controls. Existing style entry point.
+ * ======================================================================== */
+:root {
+  --bp-v2-text: #193d35;
+  --bp-v2-muted: #4d675b;
+  --bp-v2-action: #135e4b;
+  --bp-v2-paper: #fffefa;
+  --bp-v2-surface: #f4f8f3;
+  --bp-v2-border: #d5e2d7;
+  --bp-v2-radius: 15px;
+  --bp-v2-space: 8px;
+  --bp-v2-focus: #9b6a2e;
+}
+/* Non-interactive headings receive programmatic focus after navigation.
+   Keep visible focus rings on actual keyboard-interactive controls. */
+body.bp-app-premium #app .mml-simple-session-home :is(h1,h2)[tabindex="-1"]:focus,
+body.bp-app-premium #app .mml-simple-session-home :is(h1,h2):not([tabindex]):focus,
+body.bp-app-premium #app .page-heading :is(h1,h2)[tabindex="-1"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+body.bp-app-premium #app :is(button,a,summary,input,textarea,select):focus-visible {
+  outline: 3px solid var(--bp-v2-focus) !important;
+  outline-offset: 3px !important;
+}
+/* Course entrances are TASK pages, not presentation slides. Set real reading
+   hierarchy; make both role choices and lesson links discoverable early. */
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-session-home {
+  width: min(100%, 920px);
+  max-width: 920px;
+  margin: 12px auto 26px;
+  padding: clamp(18px, 2.4vw, 28px);
+  border: 1px solid var(--bp-v2-border);
+  border-radius: 18px;
+  border-top: 3px solid #277b68;
+  background: var(--bp-v2-paper);
+  box-shadow: 0 9px 23px rgba(18,62,45,.045);
+}
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-session-home h1 {
+  color: var(--bp-v2-text) !important;
+  font-size: clamp(25px, 2.55vw, 32px) !important;
+  line-height: 1.48 !important;
+  letter-spacing: -.35px;
+  margin: 5px 0 12px !important;
+  text-wrap: pretty;
+}
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-session-home .mml-simple-goal {
+  color: #34584c !important;
+  background: var(--bp-v2-surface) !important;
+  border: 1px solid #d9e8de !important;
+  border-right: 2px solid #4e9a82 !important;
+  border-radius: 13px !important;
+  padding: 11px 14px !important;
+  margin: 8px 0 14px !important;
+  font-size: clamp(17px, 1.65vw, 19px) !important;
+  line-height: 1.8 !important;
+  font-weight: 550 !important;
+  box-shadow: none !important;
+}
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-session-home .mml-simple-goal strong {
+  font-weight: 850 !important;
+}
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-entry-actions {
+  gap: 9px !important;
+  margin: 10px 0 15px;
+}
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-entry-actions > h2 {
+  font-size: 20px !important;
+  color: var(--bp-v2-text) !important;
+  margin: 8px 0 4px !important;
+}
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-entry-actions :is(button,a,.audience-entry) {
+  min-height: 49px !important;
+  padding: 9px 12px !important;
+  font-size: 17px !important;
+  font-weight: 750 !important;
+  border-radius: 12px !important;
+  line-height: 1.55 !important;
+}
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-entry-actions .audience-grid,
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-entry-actions .session-role-buttons {
+  gap: 9px;
+}
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .bp-c-landing-links {
+  gap: 9px !important;
+  margin: 14px 0 15px !important;
+}
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .bp-c-landing-card {
+  min-height: 72px !important;
+  padding: 11px 14px !important;
+  border: 1px solid var(--bp-v2-border) !important;
+  border-radius: 13px !important;
+  background: #fffefa !important;
+  box-shadow: none !important;
+  gap: 7px !important;
+}
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .bp-c-landing-card strong {
+  color: var(--bp-v2-text) !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  line-height: 1.48 !important;
+}
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .bp-c-landing-card small {
+  color: var(--bp-v2-muted) !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .bp-c-landing-card > span {
+  font-size: 22px !important;
+}
+body.bp-app-premium #app #course .course-heading {
+  margin: 10px 0 16px;
+}
+body.bp-app-premium #app #course .course-heading h1 {
+  font-size: clamp(25px, 3vw, 34px) !important;
+  line-height: 1.45 !important;
+}
+body.bp-app-premium #app #course .course-session {
+  border: 1px solid var(--bp-v2-border);
+  box-shadow: none !important;
+}
+body.bp-app-premium #app .bp-view-trail {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+/* Session four: the primary learning content should win over chrome. */
+body.bp-app-premium[data-bp-page="s4"] .sf-study-shell {
+  gap: 14px;
+  margin-top: 12px;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-study-hero {
+  padding: clamp(17px, 2.8vw, 27px);
+  border-radius: var(--bp-v2-radius);
+  background: linear-gradient(120deg,#123e36,#1b604d);
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-study-hero h1 {
+  margin: 4px 0 11px;
+  font-size: clamp(24px, 3vw, 32px) !important;
+  line-height: 1.5 !important;
+  text-wrap: pretty;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-study-kicker {
+  font-size: 15px !important;
+  color: #e4f3e8;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-study-progress {
+  font-size: 16px;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-study-panel {
+  padding: clamp(17px, 2.5vw, 25px);
+  border-radius: var(--bp-v2-radius);
+  box-shadow: none;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-study-panel h2 {
+  font-size: clamp(23px, 2.8vw, 29px) !important;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-study-panel p {
+  font-size: clamp(17px, 1.8vw, 20px) !important;
+  line-height: 1.82 !important;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-study-index {
+  background: var(--bp-v2-paper);
+  border-color: var(--bp-v2-border);
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-wizard-head {
+  padding: clamp(17px, 2.7vw, 24px);
+  margin: 10px 0 15px;
+  border-radius: 16px;
+  box-shadow: none;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-wizard-head h2 {
+  font-size: clamp(25px, 3vw, 33px) !important;
+  line-height: 1.47 !important;
+  margin: 5px 0 12px;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-wizard-steps {
+  gap: 6px;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-wizard-step {
+  min-height: 48px;
+  font-size: 14px;
+  border-radius: 11px;
+  box-shadow: none;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-wizard-coach {
+  padding: 12px 16px;
+  border-right-width: 2px;
+  font-size: 17px;
+  border-radius: 12px;
+  box-shadow: none;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-wizard-nav {
+  box-shadow: 0 6px 24px rgba(14,54,44,.1);
+  border-radius: 14px;
+  padding: 9px 11px;
+  margin: 12px 0 14px;
+}
+body.bp-app-premium[data-bp-page="s4"] .sf-wizard-nav .btn {
+  min-height: 48px;
+  font-size: 16px;
+}
+/* Mobile typography and deliberate spatial hierarchy. */
+@media (max-width: 700px) {
+  body.bp-app-premium #app.wrap {padding-inline: 12px;}
+  body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-session-home {
+    padding: 16px 14px !important;
+    margin-top: 8px !important;
+    border-radius: 15px;
+  }
+  body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-session-home h1 {
+    font-size: clamp(23px, 6.2vw, 27px) !important;
+    line-height: 1.49 !important;
+    margin: 3px 0 10px !important;
+  }
+  body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-session-home .mml-simple-goal {
+    font-size: 17px !important;
+    padding: 10px 12px !important;
+    margin: 7px 0 11px !important;
+    line-height: 1.72 !important;
+  }
+  body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-entry-actions {
+    margin: 7px 0 12px;
+  }
+  body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-entry-actions > h2 {
+    font-size: 18px !important;
+  }
+  body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .bp-c-landing-links {
+    grid-template-columns: 1fr !important;
+    margin: 10px 0 !important;
+  }
+  body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .bp-c-landing-card {
+    min-height: 63px !important;
+    padding: 9px 11px !important;
+  }
+  body.bp-app-premium #app .bp-view-trail {
+    padding: 2px 0;
+    gap: 6px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .shell:has(> .top):has(#root) {
+    padding-inline: 11px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .shell:has(> .top):has(#root) .top {
+    padding: 8px 10px !important;
+    gap: 7px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-mode-controls button {
+    font-size: 14px !important;
+    min-height: 44px;
+    padding: 8px 10px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-study-shell {
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-study-hero {
+    padding: 16px 17px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-study-hero h1 {
+    font-size: 24px !important;
+    line-height: 1.47 !important;
+    margin: 6px 0 11px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-study-pager {
+    gap: 8px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-study-pager button {
+    min-height: 47px;
+    font-size: 16px !important;
+    padding: 9px 12px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-study-index {
+    padding: 10px 13px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-study-index summary {
+    font-size: 16px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-wizard-steps {
+    display: flex;
+    overflow-x: auto;
+    max-width: 100%;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline proximity;
+    padding: 2px 0 10px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-wizard-step {
+    flex: 0 0 122px;
+    min-height: 48px;
+    scroll-snap-align: start;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-wizard-head {
+    padding: 15px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-wizard-head h2 {
+    font-size: 24px !important;
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-wizard-nav {
+    padding: 9px;
+    gap: 7px;
+    bottom: calc(7px + env(safe-area-inset-bottom, 0px));
+  }
+  body.bp-app-premium[data-bp-page="s4"] .sf-wizard-nav .btn {
+    font-size: 15px;
+  }
+  body.bp-app-premium[data-bp-page="s4"] #root[data-sf-wizard="on"] > .card.sf-wizard-pane {
+    border-radius: 15px;
+    min-height: 0;
+    padding: 17px 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.bp-app-premium .mml-simple-session-home *,
+  body.bp-app-premium[data-bp-page="s4"] .sf-wizard-step {
+    scroll-behavior: auto;
+    transition-duration: .01ms;
+  }
+}

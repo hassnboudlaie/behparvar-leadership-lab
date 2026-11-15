@@ -32,7 +32,7 @@ async function main(){
    try{
     const origin="http://127.0.0.1:"+server.address().port+"/";
     await page.goto(origin+"index.html",{waitUntil:"domcontentloaded"});
-    await page.locator('link[href*="bp-mobile-first-ux-20261115.css"]').waitFor();
+    await page.locator('link[href*="bp-mobile-first-ux-20261115.css"]').waitFor({state:"attached"});
     const home=page.locator(".bp-welcome-grid");
     await home.waitFor({state:"attached"});
     if(width<=390){

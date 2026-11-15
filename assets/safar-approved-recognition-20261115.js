@@ -62,7 +62,7 @@ function badge(item,yes){
 let lastState=null,lastToast=null;
 function shareMenu(s){
  const got=earned(s),n=[...got].filter(x=>x.startsWith("s")).length;
- const competitive=s?.mode==="competitive";
+ const competitive=s?.mode==="competitive"||(!s?.startedAt&&s?.mode!=="study");
  if(!competitive)return;
  const intro=!s.startedAt,current=!intro&&!s.finished;
  const section=document.createElement("details");

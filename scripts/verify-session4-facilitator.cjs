@@ -35,6 +35,8 @@ async function run(){
   assert.equal(response.status(),200);
   assert.equal(await fac.locator("#facStage option").count(),10,"all 10 stages are available");
   await fac.screenshot({path:"artifacts/facilitator-evidence/mobile-facilitator-home.png",animations:"disabled"});
+  await fac.locator("#facAdvanced summary").click();
+  assert(await fac.locator("#facAdvanced").getAttribute("open")!==null,"presenter controls expand");
   assert.equal(await fac.locator("#facRole option").count(),2,"both role pathways available");
   assert.equal(await fac.locator("#sfOvertimeOverlay").count(),0,"facilitator has no learner timeout dialog");
   assert.equal(await fac.locator("#facClock").innerText(),"60:00");

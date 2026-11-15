@@ -84,7 +84,7 @@ async function evaluateOffline(browser) {
     await page.waitForFunction(() => !!navigator.serviceWorker.controller,{timeout:30000});
     const assets = await page.evaluate(async()=>{
       const names=await caches.keys();
-      const current=names.find(n=>n.includes("impeccable-final-v60"));
+      const current=names.find(n=>n.includes("impeccable-appwide-v61"));
       if(!current)return{names,current:null};
       const c=await caches.open(current);
       const checks=["./index.html","./session3-teamship.html",

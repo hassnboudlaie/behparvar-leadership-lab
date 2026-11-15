@@ -96,6 +96,6 @@ assert.ok(sandbox.window.BPCurriculumRoleplays[1].s.length>=4&&sandbox.window.BP
 assert.ok(sandbox.window.BPCurriculumRoleplays[1].s.some(turn=>turn[0]==="سرپرست ارسال"),"all four peer units contribute in the supervised scenario");
 assert.ok(sandbox.window.BPCurriculumRoleplays[1].m.some(turn=>turn[0]==="مدیر مالی"),"all four peer units contribute in the managerial scenario");
 assert.ok(sandbox.window.MMLAlignedData.sessions[4].quiz[0].q.includes("تحویل"),"results-focused diagnostic content");
-assert.ok(html.includes("bp-title-letter")&&html.includes("مهارت‌های مدیریتی"),"hero typography and exact title");
+assert.ok(html.includes('<h1 id="bp-welcome-title">توسعه مهارت‌های مدیریتی</h1>'),"hero typography and exact title");
 assert.ok(!html.includes('href="#progress" data-open="progress" class="bp-welcome-tile'),"no growth card on homepage");
 console.log("PASS: 3 domains (3/4/5), 6 BMCF families, 12 skills; sessions 3–6 mapping; 12 distinct role questions each, balanced keys, unique rationales and no systematic correct-length cue; all 12 routes; separate saved data.");

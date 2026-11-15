@@ -13,7 +13,7 @@ function storageKey(n,role){return "mml_aligned_v1_"+role+"_"+n}
 function read(n,role){
  try{var x=JSON.parse(localStorage.getItem(storageKey(n,role))||"null");return x&&typeof x==="object"?x:{notes:{},answers:{},page:0}}catch(e){return {notes:{},answers:{},page:0}}
 }
-function save(n,role,st){try{localStorage.setItem(storageKey(n,role),JSON.stringify(st))}catch(e){}}
+function save(n,role,st){try{localStorage.setItem(storageKey(n,role),JSON.stringify(st));return true}catch(e){return false}}
 function prose(v){return esc(v).replace(/KPI/g,"شاخص عملکرد").replace(/Checkpoint/g,"زمان بازبینی").replace(/Guardrail/g,"حد ایمنی و کیفیت")}
 function faNum(n){return String(n).replace(/\d/g,function(x){return "۰۱۲۳۴۵۶۷۸۹"[Number(x)]})}
 /* Work situations in clear everyday Persian. Academic version stays in the optional reader. */
@@ -33,7 +33,7 @@ function reviewInput(n,part,role,title){
  var state=read(n,role),text=((state.notes||{})[part]||"");
  return '<div class="mml-align-write"><label for="mml-align-note-'+n+'-'+part+'">'+esc(title||"یادداشت من")+'</label>'+
    '<textarea id="mml-align-note-'+n+'-'+part+'" data-mml-align-note="'+n+':'+part+':'+role+'" rows="2" placeholder="پاسخ کوتاه خود را اینجا بنویسید">'+esc(text)+'</textarea>'+
-   '</div>';
+   '<small id="mml-note-status-'+n+'-'+part+'" role="status" aria-live="polite"></small></div>';
 }
 /* Book-based examples are optional, selected by topic rather than old session number. */
 var BOOK_CASES={1:[1,0],2:[1,1],3:[3,2],4:[4,0],5:[2,0],6:[6,2]};
@@ -52,11 +52,22 @@ function context(n,role){
  return '<div class="mml-align-context"><strong>اتفاق آشنا</strong><p>'+prose(question(n,role))+'</p></div>';
 }
 function bullets(items){return '<ul class="mml-align-bullets">'+items.map(function(v){return '<li>'+prose(v)+'</li>'}).join("")+'</ul>'}
+function observer(n,role){
+ var state=read(n,role),checked=state.observed||{},items=sources[n-1].observe;
+ return '<fieldset class="mml-observer"><legend>چک‌لیست مشاهده‌گر</legend><p>فقط رفتاری را علامت بزنید که در گفت‌وگو دیده‌اید؛ علامت‌نزدن به معنی ضعف فرد نیست.</p>'+items.map(function(text,i){
+ return '<label><input type="checkbox" data-mml-observe="'+n+':'+role+':'+i+'"'+(checked[i]?' checked':'')+'><span>'+prose(text)+'</span></label>';
+ }).join('')+'<p class="mml-observer-status" role="status" aria-live="polite">'+faNum(items.filter(function(_,i){return checked[i]}).length)+' از '+faNum(items.length)+' رفتار مشاهده شد.</p></fieldset>';
+}
+function microPractice(n,part,role){
+ var chapter=library.DATA[n-1].chapters[PARTS.indexOf(part)],state=read(n,role),done=(state.rehearsed||{})[part];
+ return '<details class="mml-micro-practice"><summary>تمرین ۳۰ ثانیه‌ای</summary><p>برای موقعیت زیر، فقط اولین جمله یا تصمیم خود را بیان کنید:</p><p>'+prose(chapter[2])+'</p><p><strong>پرسش همراه:</strong> '+prose(chapter[3])+'</p><label><input type="checkbox" data-mml-rehearse="'+n+':'+role+':'+part+'"'+(done?' checked':'')+'> این رفتار را تمرین کردم</label><small role="status" aria-live="polite"></small></details>';
+}
 function renderQuiz(n,role){
  var st=read(n,role),data=sources[n-1],items=data.quiz;
  var page=Math.max(0,Math.min(items.length-1,Number(st.page)||0));
  var q=items[page],selected=(st.answers||{})[page],has=selected!==undefined&&selected!==null;
  var count=items.filter(function(_q,i){return st.answers&&st.answers[i]!==undefined}).length;
+ var complete=count===items.length;
  var display='<div class="mml-align-quiz" data-mml-align-quiz="'+n+':'+role+'">'+
   '<div class="mml-align-quiz-bar"><strong>سؤال '+faNum(page+1)+' از '+faNum(items.length)+'</strong></div>'+
   '<h4>'+esc(q.q)+'</h4>'+
@@ -64,7 +75,7 @@ function renderQuiz(n,role){
   q.o.map(function(opt,i){var active=has&&Number(selected)===i;
     return '<button type="button" data-mml-align-choice="'+n+':'+page+':'+i+':'+role+'" aria-pressed="'+active+'"><b>'+["الف","ب","ج"][i]+'</b><span>'+prose(opt[0])+'</span></button>';
   }).join("")+'</div>';
- if(has){
+ if(has&&complete){
   var chosen=q.o[Number(selected)];
   display+='<div class="mml-align-feedback" role="status" aria-live="polite">'+
    '<strong>'+(chosen&&chosen[2]?"انتخاب شما مناسب است.":"این انتخاب در این موقعیت بهترین گزینه نیست.")+'</strong>'+
@@ -72,6 +83,7 @@ function renderQuiz(n,role){
    '<ol>'+q.o.map(function(opt,i){return '<li class="'+(opt[2]?"is-correct":"is-incorrect")+'"><b>گزینه '+["الف","ب","ج"][i]+' — '+(opt[2]?"مناسب":"نامناسب")+'</b><p>'+prose(opt[1])+'</p></li>'}).join("")+'</ol>'+
    '</div>';
  }
+ if(has&&!complete)display+='<p class="mml-align-feedback" role="status">انتخاب شما ثبت شد. پس از پاسخ به همه پرسش‌ها، نتیجه و دلیل گزینه‌ها را می‌بینید.</p>';
  display+='<div class="mml-align-quiz-nav">'+
   '<button type="button" data-mml-align-page="'+n+':'+(page-1)+':'+role+'"'+(page===0?" disabled":"")+'>سؤال قبل</button>'+
   '<button type="button" data-mml-align-page="'+n+':'+(page+1)+':'+role+'"'+(page===items.length-1?" disabled":"")+'>سؤال بعد</button>'+
@@ -153,21 +165,20 @@ function render(n,part,role){
     reviewInput(n,part,role,"گام بعدی من برای تمرین و جمع‌آوری شاهد در کار چیست؟");
  }else if(i===0){
    h=context(n,role)+
-    '<section><h3>چه چیزی می‌دانیم؟</h3>'+bullets(data.facts)+'</section>'+
-    '<section><h3>قبل از تصمیم چه بپرسم؟</h3><p>از هر نفر بپرسید: چه اتفاقی افتاده؟ چه چیزی جلوی کار را گرفته؟ چه کمکی لازم است؟ سپس قدم بعدی را مشخص کنید.</p></section>'+
+    '<section><h3>در این موقعیت چه چیزی مهم است؟</h3><p>'+prose(d.chapters[0][1])+'</p></section>'+
+    '<section><h3>قبل از تصمیم چه بپرسم؟</h3><p>'+prose(d.chapters[0][3])+'</p></section>'+
     reviewInput(n,part,role,"یک سؤال که باید از تیم بپرسم");
  }else if(i===1){
    h=context(n,role)+
     '<section><h3>گفت‌وگو را اجرا کنید</h3><p>نقش‌های دو یا چهار واحد را بین شرکت‌کنندگان تقسیم کنید. به لحن، مکث، زبان بدن و تغییر موضع هنگام اختلاف توجه کنید.</p>'+
     library.renderRoleplay(n,role)+'</section>'+
-    '<section class="mml-align-twist"><h3>اتفاق تازه</h3><p>'+prose(data.twist)+'</p></section>'+
-    '<section><h3>دور دوم؛ همان گفت‌وگو را بهتر اجرا کنید</h3><p>همه نقش‌ها در برابر اتفاق تازه موضع خود را بازبینی کنند و سپس یک دور دوباره اجرا کنید. برای تمرین همدلی، نقش‌ها را نیز جابه‌جا کنید.</p>'+
-    '<strong>چک‌لیست مشاهده‌گر</strong>'+bullets(data.observe)+'</section>'+
-    reviewInput(n,part,role,"کدام جمله و رفتار باید در اجرای دوم تغییر کند؟");
+    '<section><h3>تحلیل و بازخورد جمعی</h3><p>کدام جمله مسیر گفت‌وگو را تغییر داد؟ چه نگرانی هنوز شنیده نشده است؟ برای هر برداشت، یک جمله از گفت‌وگو را شاهد بیاورید.</p>'+
+    observer(n,role)+'</section>'+
+    reviewInput(n,part,role,"کدام جمله مؤثر بود؟ چه جایگزین دقیق‌تری پیشنهاد می‌کنم؟");
  }else if(i===2){
    h=context(n,role)+
     '<section><h3>درس از این موقعیت</h3><p>'+prose(d.chapters[2][1])+'</p></section>'+
-    '<section><h3>اگر مدیر بودی چه می‌دیدی؟</h3><p>'+prose(data.facts[1])+'</p>'+
+    '<section><h3>'+(role==="managers"?"از نگاه مدیر":"از نگاه سرپرست")+'</h3><p>'+prose(role==="managers"?d.manager:d.supervisor)+'</p>'+
     '<p>در تصمیم اخیر خودتان کدام نگرانی یا محدودیت را دیر متوجه شدید؟</p></section>'+bookExample(n)+
     reviewInput(n,part,role,"یک نکته که می‌خواهم در کارم امتحان کنم");
  }else if(i===3){
@@ -196,6 +207,7 @@ function render(n,part,role){
     '<section><h3>اقدام من</h3><p>'+prose(data.transfer)+'</p>'+
     reviewInput(n,part,role,"این هفته دقیقاً چه کاری انجام می‌دهم؟")+'</section>';
  }
+ if([0,2,3,4,5].indexOf(i)>=0)h+=microPractice(n,part,role);
  return intro+h+'</section>';
 }
 function changeView(n,role){
@@ -203,13 +215,22 @@ function changeView(n,role){
  if(node)node.innerHTML=renderQuiz(n,role);
 }
 function events(){
+ document.addEventListener("change",function(e){
+  var field=e.target.closest("[data-mml-observe],[data-mml-rehearse]");if(!field)return;
+  var observation=field.hasAttribute("data-mml-observe"),raw=field.getAttribute(observation?"data-mml-observe":"data-mml-rehearse").split(":"),n=Number(raw[0]),role=raw[1],key=raw[2];
+  if(!sources[n-1]||["managers","supervisors"].indexOf(role)<0)return;
+  var state=read(n,role),group=observation?"observed":"rehearsed";if(!state[group])state[group]={};state[group][key]=field.checked;
+  var ok=save(n,role,state),wrap=field.closest(observation?"fieldset":"details"),status=wrap.querySelector('[role="status"]');
+  if(!ok){status.textContent="ذخیره انجام نشد؛ پیش از خروج یادداشت خود را کپی کنید.";return;}
+  status.textContent=observation?faNum(sources[n-1].observe.filter(function(_,i){return state.observed[i]}).length)+" از "+faNum(sources[n-1].observe.length)+" رفتار مشاهده شد.":(field.checked?"تمرین در همین مرورگر ثبت شد؛ این ثبت، نمره مهارت نیست.":"علامت تمرین برداشته شد.");
+ });
  document.addEventListener("click",function(e){
    var item=e.target.closest("[data-mml-align-choice]");
    if(item){
     var x=item.getAttribute("data-mml-align-choice").split(":"),n=Number(x[0]),i=Number(x[1]),choice=Number(x[2]),role=x[3];
     if(!sources[n-1]||!sources[n-1].quiz[i]||choice<0||choice>2)return;
     var st=read(n,role);if(!st.answers)st.answers={};st.answers[i]=choice;st.page=i;
-    save(n,role,st);changeView(n,role);
+    if(!save(n,role,st)){var mount=document.querySelector('[data-mml-align-quiz-mount="'+n+':'+role+'"]');if(mount){var notice=mount.querySelector(".mml-save-error");if(!notice){notice=document.createElement("p");notice.className="mml-save-error";notice.setAttribute("role","alert");mount.appendChild(notice)}notice.textContent="ذخیره پاسخ انجام نشد؛ فضای ذخیره مرورگر را بررسی کنید و دوباره تلاش کنید.";}return;}changeView(n,role);
     var next=document.querySelector('[data-mml-align-choice="'+n+':'+i+':'+choice+':'+role+'"]');if(next)next.focus({preventScroll:true});
     return;
    }
@@ -217,7 +238,7 @@ function events(){
    if(item){
     var a=item.getAttribute("data-mml-align-page").split(":"),n=Number(a[0]),page=Number(a[1]),role=a[2];
     if(!sources[n-1]||page<0||page>=sources[n-1].quiz.length)return;
-    var st=read(n,role);st.page=page;save(n,role,st);changeView(n,role);
+    var st=read(n,role);st.page=page;if(!save(n,role,st)){var mount=document.querySelector('[data-mml-align-quiz-mount="'+n+':'+role+'"]');if(mount){var notice=mount.querySelector(".mml-save-error");if(!notice){notice=document.createElement("p");notice.className="mml-save-error";notice.setAttribute("role","alert");mount.appendChild(notice)}notice.textContent="ذخیره پاسخ انجام نشد؛ فضای ذخیره مرورگر را بررسی کنید و دوباره تلاش کنید.";}return;}changeView(n,role);
     var target=document.querySelector('[data-mml-align-quiz="'+n+':'+role+'"] h4');if(target){target.setAttribute("tabindex","-1");target.focus({preventScroll:true})}
    }
  });
@@ -225,7 +246,8 @@ function events(){
    var input=e.target.closest("[data-mml-align-note]");if(!input)return;
    var a=input.getAttribute("data-mml-align-note").split(":"),n=Number(a[0]),part=a[1],role=a[2];
    if(!sources[n-1]||PARTS.indexOf(part)<0)return;
-   var st=read(n,role);if(!st.notes)st.notes={};st.notes[part]=input.value;save(n,role,st);
+   var st=read(n,role);if(!st.notes)st.notes={};st.notes[part]=input.value;var saved=save(n,role,st);
+   var status=document.getElementById("mml-note-status-"+n+"-"+part);if(status)status.textContent=saved?"در همین مرورگر ذخیره شد؛ برای مدرس ارسال نمی‌شود.":"ذخیره انجام نشد؛ قبل از خروج، نوشته خود را کپی کنید.";
  });
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",events);else events();

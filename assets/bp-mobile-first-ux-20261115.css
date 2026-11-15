@@ -496,3 +496,96 @@ body.bp-app-premium[data-bp-page="s4"] #root[data-sf-wizard="on"] .progressrow {
     bottom: calc(120px + env(safe-area-inset-bottom,0px)) !important;
   }
 }
+
+
+/* Session 3 is a serious reflection workshop, not an advertising hero.
+   Preserve all assessment content; emphasize role selection and first task. */
+body.bp-app-premium[data-bp-page="s3"] #selfApp > .bp-self-hero {
+  min-height: 0 !important;
+  padding: 24px 26px !important;
+  border-radius: var(--bp-v2-radius) !important;
+  box-shadow: none !important;
+}
+body.bp-app-premium[data-bp-page="s3"] #selfApp > .bp-self-hero h1 {
+  font-size: clamp(27px, 3vw, 34px) !important;
+  line-height: 1.49 !important;
+  margin: 6px 0 12px !important;
+  text-wrap: pretty;
+}
+body.bp-app-premium[data-bp-page="s3"] #selfApp > .bp-self-hero p {
+  font-size: clamp(17px, 1.8vw, 19px) !important;
+  line-height: 1.8 !important;
+  margin-bottom: 0 !important;
+}
+body.bp-app-premium[data-bp-page="s3"] #selfApp > .rolebar {
+  box-shadow: none !important;
+  border-radius: var(--bp-v2-radius) !important;
+  margin: 12px 0 15px !important;
+}
+body.bp-app-premium[data-bp-page="s3"] #selfApp > .bp-book-entry {
+  box-shadow: none !important;
+  border-radius: var(--bp-v2-radius) !important;
+}
+@media (max-width: 700px) {
+  body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-entry-actions .audience-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    gap: 8px !important;
+  }
+  body.bp-app-premium.mml-refreshed.mml-beginner-mode #app .mml-simple-entry-actions .audience-entry {
+    min-height: 65px !important;
+    padding: 8px 7px !important;
+    gap: 4px !important;
+    font-size: 16px !important;
+  }
+  body.bp-app-premium[data-bp-page="s3"] #selfApp > .bp-self-hero {
+    padding: 17px 17px 20px !important;
+    margin: 12px 0 !important;
+  }
+  body.bp-app-premium[data-bp-page="s3"] #selfApp > .bp-self-hero > div:first-child {
+    max-width: 100% !important;
+    padding-inline-end: 0 !important;
+  }
+  body.bp-app-premium[data-bp-page="s3"] #selfApp > .bp-self-hero .bp3-hero-sticker {
+    display: none !important;
+  }
+  body.bp-app-premium[data-bp-page="s3"] #selfApp > .bp-self-hero h1 {
+    font-size: 24px !important;
+    line-height: 1.5 !important;
+    margin: 5px 0 9px !important;
+  }
+  body.bp-app-premium[data-bp-page="s3"] #selfApp > .bp-self-hero p {
+    font-size: 17px !important;
+    line-height: 1.7 !important;
+  }
+  body.bp-app-premium[data-bp-page="s3"] #selfApp > .rolebar {
+    padding: 11px 12px !important;
+    margin: 11px 0 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 9px;
+  }
+  body.bp-app-premium[data-bp-page="s3"] #selfApp > .rolebar strong {
+    font-size: 17px !important;
+  }
+  body.bp-app-premium[data-bp-page="s3"] #selfApp > .rolebar > div[role="group"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 8px;
+  }
+  body.bp-app-premium[data-bp-page="s3"] #selfApp > .rolebar [data-self-role] {
+    min-height: 47px;
+    width: 100%;
+    font-size: 16px !important;
+    padding: 9px 10px;
+  }
+  body.bp-app-premium[data-bp-page="s3"] #selfApp > .bp-book-entry {
+    padding: 13px !important;
+    margin: 11px 0 18px !important;
+  }
+  body.bp-app-premium[data-bp-page="s3"] #selfApp > .bp-book-entry h2 {
+    font-size: 19px !important;
+    line-height: 1.5 !important;
+  }
+}

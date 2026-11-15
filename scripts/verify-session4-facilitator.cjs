@@ -38,6 +38,22 @@ async function run(){
   await fac.locator("#facAdvanced summary").click();
   assert(await fac.locator("#facAdvanced").getAttribute("open")!==null,"presenter controls expand");
   assert.equal(await fac.locator("#facRole option").count(),2,"both role pathways available");
+  // Classroom release gate: all substeps for every one of the ten stages
+  // must render for BOTH facilitator role pathways without completing tests.
+  for(const audience of ["supervisors","managers"]){
+    await fac.locator("#facRole").selectOption(audience);
+    for(let stage=0;stage<10;stage++){
+      await fac.locator("#facStage").selectOption(String(stage));
+      const substeps=await fac.locator("#facPhase option").evaluateAll(nodes=>nodes.map(n=>n.value));
+      assert(substeps.includes("lesson")&&substeps.includes("decision1")&&substeps.includes("decision2")&&substeps.includes("role"),"essential instructional substeps on stage "+stage);
+      for(const phase of substeps){
+        await fac.locator("#facPhase").selectOption(phase);
+        const txt=await fac.locator("#facContent").innerText();
+        assert(txt.trim().length>110,"empty facilitator screen: "+audience+" / "+stage+" / "+phase);
+      }
+    }
+  }
+
   assert.equal(await fac.locator("#sfOvertimeOverlay").count(),0,"facilitator has no learner timeout dialog");
   assert.equal(await fac.locator("#facSummaryClock").textContent(),"60:00");
   await fac.locator("#facRole").selectOption("managers");

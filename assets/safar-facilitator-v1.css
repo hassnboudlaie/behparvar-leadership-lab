@@ -63,3 +63,20 @@ button,a,select,input{touch-action:manipulation}
 @media(max-width:560px){body{font-size:17px}.sf-fac-shell{width:calc(100% - 18px);padding-top:8px}.sf-fac-header{padding:16px;border-radius:12px}.sf-fac-header h1{font-size:26px}.sf-fac-panel{padding:12px;margin:9px 0}.sf-fac-settings{grid-template-columns:1fr 1fr;gap:8px}.sf-fac-settings label:last-child{grid-column:1/-1}.sf-fac-settings select{font-size:16px;padding:8px;min-width:0}.sf-fac-stages button{flex-basis:114px}.sf-fac-display-controls .sf-fac-btn{flex:1 1 42%}.sf-fac-nav{padding:8px}.sf-fac-nav .sf-fac-btn{flex:1 1 35%;min-width:0;padding:8px}.sf-fac-nav #facProgress{font-size:12px;flex:1}.sf-fac-section{padding:15px 13px}.sf-fac-time-actions{width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}.sf-fac-time-actions label{width:auto}.sf-fac-time-actions .sf-fac-btn{padding:6px 8px;font-size:14px}.sf-fac-links a{font-size:13px}}
 @media print{.sf-fac-controls,.sf-fac-stages,.sf-fac-nav,.sf-fac-links{display:none!important}.sf-fac-shell{width:100%}.sf-fac-section{break-inside:avoid}.sf-fac-intro{background:#fff!important;color:#122f29!important}.sf-fac-intro h2,.sf-fac-intro p{color:#122f29!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Place the learning decision first; advanced presenter controls open on demand. */
+.sf-fac-advanced{border-top:1px solid var(--line);padding-top:9px;margin-top:2px}
+.sf-fac-advanced summary{display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer;color:var(--deep);background:#eef5ef;border:1px solid #d1e1d5;border-radius:10px;padding:9px 14px;min-height:46px;font-size:15px;font-weight:850}
+.sf-fac-advanced summary span{font-size:18px;font-weight:900;white-space:nowrap}
+.sf-fac-advanced[open] summary{margin-bottom:11px}
+.sf-fac-advanced .sf-fac-time{border-top:0;padding-top:4px}
+@media(max-width:560px){
+ .sf-fac-header{padding:12px}
+ .sf-fac-heading small{font-size:12px}
+ .sf-fac-heading h1{font-size:23px}
+ .sf-fac-heading p{font-size:12px}
+ .sf-fac-links a{min-height:39px;padding:6px 9px;font-size:12px}
+ .sf-fac-settings select{min-height:44px}
+ .sf-fac-advanced summary{font-size:14px;padding:9px 11px}
+ .sf-fac-advanced summary span{font-size:16px}
+}

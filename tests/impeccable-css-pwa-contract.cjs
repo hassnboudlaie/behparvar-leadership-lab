@@ -47,7 +47,8 @@ const historicalImportant=(base.match(/!important/g)||[]).length;
 const newImportant=(style.match(/!important/g)||[]).length;
 assert(historicalImportant<=220,"Legacy CSS important count expanded; refactor deliberately");
 assert(newImportant<=10,"New UI layer is accumulating !important overrides");
-assert(sw.includes("mml-root-20261115-mobile-ux-v61"),"PWA must reflect the latest mobile experience release");
+const cacheId=sw.match(/^const CACHE="([^"]+)"/m)?.[1];
+assert(cacheId&&/\-v\d+$/.test(cacheId)&&cacheId!=="mml-root-20261115-mobile-ux-v61","PWA must reflect the updated experience release");
 assert(read("index.html").includes('<h1 id="bp-welcome-title">'),
  "Visible home-page title should retain the H1 semantics");
 console.log("PASS impeccable CSS/PWA contract "+JSON.stringify({

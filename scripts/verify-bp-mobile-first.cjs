@@ -7,6 +7,9 @@ const root=path.resolve(__dirname,"..");
 const read=p=>fs.readFileSync(path.join(root,p),"utf8");
 const cssPath="assets/bp-mobile-first-ux-20261115.css";
 const css=read(cssPath);
+const sw=read("sw.js");
+const styleVersion=sw.match(/\.\/assets\/bp-mobile-first-ux-20261115\.css\?v=(\d+)/)?.[1];
+const assetHref="assets/bp-mobile-first-ux-20261115.css?v="+styleVersion;
 const htmlFiles=[
  "index.html",
  "session4-communication-journey.html",
@@ -21,8 +24,8 @@ function ok(v,why){assert.ok(v,why);checks++}
 for(const file of htmlFiles){
  const html=read(file);
  ok(html.includes('dir="rtl"'),file+" remains right-to-left");
- ok(html.includes('assets/bp-mobile-first-ux-20261115.css?v=1'),file+" links mobile CSS");
- ok(html.indexOf('assets/bp-mobile-first-ux-20261115.css?v=1')<html.indexOf('</head>'),file+" stylesheet within head");
+ ok(Boolean(styleVersion)&&html.includes(assetHref),file+" links the current offline-cached mobile CSS");
+ ok(html.indexOf(assetHref)>=0&&html.indexOf(assetHref)<html.indexOf("</head>"),file+" stylesheet within head");
 }
 ok(css.includes("Mobile-first UX v1"),"source provenance");
 ok(css.includes("max-width:700px"),"phone breakpoint");
@@ -35,9 +38,9 @@ ok(css.includes(".cover-surface img"),"real poster is not cropped");
 ok(css.includes("prefers-reduced-motion"),"motion access respected");
 ok(css.includes("focus-visible"),"keyboard focus visible");
 ok(css.includes("env(safe-area-inset-bottom"),"gesture-safe mobile actions");
-const sw=read("sw.js");
-ok(sw.includes("mml-root-20261115-mobile-ux-v61"),"fresh PWA version");
-ok(sw.includes("./assets/bp-mobile-first-ux-20261115.css?v=1"),"new style available offline");
+const cacheName=sw.match(/^const CACHE="([^"]+)"/m)?.[1];
+ok(Boolean(cacheName)&&cacheName!=="mml-root-20261115-mobile-ux-v61","updated PWA cache identity");
+ok(Boolean(styleVersion)&&sw.includes("./"+assetHref),"new style available offline");
 const journey=read("session4-communication-journey.html");
 for(const term of ["safar-overtime-v1.js","safar-journey-coach-v5.js","safar-score-feedback-v1.js","safar-peer-appreciation-v1.js","safar-approved-recognition-20261115.js","id=\"clock\""]){
  ok(journey.includes(term),"preserved journey module "+term);

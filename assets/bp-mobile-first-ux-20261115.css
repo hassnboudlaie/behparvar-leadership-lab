@@ -471,3 +471,28 @@ body.bp-app-premium[data-bp-page="s4"] .sf-wizard-nav .btn {
     transition-duration: .01ms;
   }
 }
+
+
+/* Active competition contains its own step heading and company identity.
+   Avoid a second, redundant 100px+ banner before each learning step. */
+body.bp-app-premium[data-bp-page="s4"] #root[data-sf-wizard="on"] > .minibanner {
+  display: none !important;
+}
+body.bp-app-premium[data-bp-page="s4"] #root[data-sf-wizard="on"] .statusbar {
+  margin: 5px 0 7px;
+  gap: 5px 7px;
+}
+body.bp-app-premium[data-bp-page="s4"] #root[data-sf-wizard="on"] .progressrow {
+  margin: 8px 0 10px;
+}
+@media (max-width: 700px) {
+  body.bp-app-premium[data-bp-page="s4"] #root[data-sf-wizard="on"] .statusbar :is(.pill,.statuschip) {
+    padding: 5px 9px;
+    font-size: 13px;
+  }
+  /* Keep the coach's entry point available without masking the fixed
+     wizard navigation/primary action. */
+  body.bp-app-premium[data-bp-page="s4"]:has(#root[data-sf-wizard="on"]) .sf-guide-floating {
+    bottom: calc(120px + env(safe-area-inset-bottom,0px)) !important;
+  }
+}

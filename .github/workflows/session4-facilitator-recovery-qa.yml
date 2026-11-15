@@ -1,0 +1,54 @@
+name: Behparvar Session 4 — Facilitator & Timeout Recovery QA
+on:
+  pull_request:
+    paths:
+      - 'session4-facilitator.html'
+      - 'session4-communication-journey.html'
+      - 'assets/safar-facilitator-v1.*'
+      - 'assets/safar-overtime-v1.*'
+      - 'assets/safar-content-quality-v4.js'
+      - 'assets/safar-content-quality-v5-20261115.js'
+      - 'assets/safar-applied-curriculum-adapter-20261113.js'
+      - 'scripts/verify-session4-facilitator.cjs'
+      - '.github/workflows/session4-facilitator-recovery-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'session4-facilitator.html'
+      - 'assets/safar-facilitator-v1.*'
+      - 'assets/safar-overtime-v1.*'
+      - 'scripts/verify-session4-facilitator.cjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    name: Mobile facilitator and expired-mission recovery
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate source syntax
+        run: |
+          node --check assets/safar-facilitator-v1.js
+          node --check assets/safar-overtime-v1.js
+          node --check scripts/verify-session4-facilitator.cjs
+      - name: Install real browser
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Run classroom-path regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/facilitator-qa-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl -fsS --max-time 3 http://127.0.0.1:4173/session4-facilitator.html >/dev/null; then break; fi
+            sleep 1
+          done
+          BEHPARVAR_URL=http://127.0.0.1:4173/ node scripts/verify-session4-facilitator.cjs

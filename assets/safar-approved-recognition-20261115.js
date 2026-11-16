@@ -31,7 +31,7 @@ const participation=[
 const all=[...skillNames.map((title,i)=>({id:"s"+i,title,kind:"skill",idx:i,icon:icons[i],hint:"تکمیل تصمیم‌ها و خودارزیابی ایستگاه "+fa(i+1)})),...participation.map(x=>({...x,kind:"participation"}))];
 function state(){try{const x=JSON.parse(localStorage.getItem(KEY)||"null");return x?.version===3?x:null}catch(e){return null}}
 function earned(s){
- const completed=s?.finished?10:Math.min(10,Math.max(0,Number(s?.stage)||0));
+ const completed=s?.withdrawn?10:(s?.finished?10:Math.min(10,Math.max(0,Number(s?.stage)||0)));
  const levels=new Set();
  if(s?.mode!=="competitive"||!s?.startedAt)return levels;
  for(let i=0;i<completed;i++){
@@ -44,7 +44,7 @@ function earned(s){
  const peer=Object.keys(s.peer||{}).filter(k=>!!s.peer[k]).length;
  if(peer>=2)levels.add("team");
  const paused=Number(s.pause?.spentMs)||0,extra=Number(s.overtime?.pauseMs)||0;
- if(s.finished&&s.finishedAt&&s.startedAt&&s.finishedAt-s.startedAt-paused-extra<=3600000&&
+ if(s.finished&&!s.withdrawn&&s.finishedAt&&s.startedAt&&s.finishedAt-s.startedAt-paused-extra<=3600000&&
     !(s.overtime?.grants||[]).length)levels.add("time");
  return levels;
 }
@@ -75,7 +75,7 @@ function shareMenu(s){
  '<div class="bp-recognition-inner"><p>نشان مهارتی پس از تکمیل تصمیم‌ها و خودارزیابی آن ایستگاه ثبت می‌شود. بج‌های مشارکتی فقط با ثبت رفتار قابل مشاهده فعال می‌شوند.</p>'+
  '<h3>نشان‌های مهارتی</h3><div class="bp-recognition-grid">'+all.filter(x=>x.kind==="skill").map(x=>badge(x,got.has(x.id))).join("")+'</div>'+
  '<h3>بج‌های مشارکت</h3><div class="bp-recognition-grid bp-participation-grid">'+all.filter(x=>x.kind==="participation").map(x=>badge(x,got.has(x.id))).join("")+'</div>'+
- '<p class="bp-recognition-note">مدال پایان سفر فقط یکی است: زرین، سیمین یا برنزی بر اساس امتیاز نهایی. مشاهده این مجموعه امتیازی ایجاد نمی‌کند.</p>'+
+ '<p class="bp-recognition-note">'+(s.withdrawn?'این سفر زودتر پایان یافته است؛ نشان‌های کسب‌شده محفوظ‌اند، اما مدال تکمیل ۱۰ مرحله صادر نمی‌شود.':'مدال پایان سفر فقط یکی است: زرین، سیمین یا برنزی بر اساس امتیاز نهایی. مشاهده این مجموعه امتیازی ایجاد نمی‌کند.')+'</p>'+
  (got.size?'<button type="button" class="bp-recognition-exportall" id="bpExportEarned">دریافت کارت نشان‌های کسب‌شده (PNG)</button>':"")+
  '</div>';
  const original=root.querySelector("#bp-recognition-collection");

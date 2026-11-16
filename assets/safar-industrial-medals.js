@@ -164,6 +164,7 @@ let scheduled=false;
 function refresh(){
  const s=getState();
  if(!s||!s.startedAt){gallery();return}
+ if(s.withdrawn)return; // No completion medal after voluntary exit.
  if(s.finished){resultPage(s);finalGallery(s)}
 }
 const watch=new MutationObserver(()=>{

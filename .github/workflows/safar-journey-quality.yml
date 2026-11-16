@@ -57,3 +57,4 @@ jobs:
           node tests/safar-overtime-browser.cjs
           node tests/safar-learning-modes-browser.cjs
           node tests/safar-context-guide-browser.cjs
+          node tests/safar-graceful-exit-browser.cjs

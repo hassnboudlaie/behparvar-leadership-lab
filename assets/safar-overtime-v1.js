@@ -3,13 +3,21 @@
  */
 (()=>{"use strict";
 const BASE_MS=60*60000,MAX_REQUEST_MINUTES=60,BLOCK_MINUTES=5,POINTS_PER_BLOCK=2;
+// One-time, no-penalty 30-minute classroom gift for journeys started on 2026-11-16 (Tehran time).
+// Scope by attempt start time so later classes keep the original 60-minute policy.
+const CLASS_GIFT_START=Date.parse("2026-11-16T00:00:00+03:30");
+const CLASS_GIFT_END=Date.parse("2026-11-17T00:00:00+03:30");
+function giftMinutes(s){
+ const t=Number(s?.startedAt)||0;
+ return s?.mode!=="study" && t>=CLASS_GIFT_START && t<CLASS_GIFT_END?30:0;
+}
 const KEY="bp-communication-journey-v3";
 let live=null,overlay=null;
 const fa=n=>Number(n||0).toLocaleString("fa-IR");
 function grants(s){return Array.isArray(s?.overtime?.grants)?s.overtime.grants:[];}
 function spentMinutes(s){return grants(s).reduce((sum,g)=>sum+(Number.isInteger(g.minutes)&&g.minutes>0?g.minutes:0),0);}
 function penalty(s){return Math.min(100,grants(s).reduce((sum,g)=>sum+(Number.isInteger(g.penalty)&&g.penalty>0?g.penalty:0),0));}
-function remainingMs(s){if(!s?.startedAt)return BASE_MS;const p=s.pause||{},cap=300000,spent=Math.max(0,Math.min(cap,Number(p.spentMs)||0)),active=p.since?Math.max(0,Math.min(cap-spent,Date.now()-p.since)):0;return BASE_MS+spentMinutes(s)*60000+(Number(s.overtime?.pauseMs)||0)+spent+active-(Date.now()-s.startedAt);}
+function remainingMs(s){if(!s?.startedAt)return BASE_MS;const p=s.pause||{},cap=300000,spent=Math.max(0,Math.min(cap,Number(p.spentMs)||0)),active=p.since?Math.max(0,Math.min(cap-spent,Date.now()-p.since)):0;return BASE_MS+giftMinutes(s)*60000+spentMinutes(s)*60000+(Number(s.overtime?.pauseMs)||0)+spent+active-(Date.now()-s.startedAt);}
 function expired(s){return !!s?.startedAt&&!s.finished&&remainingMs(s)<=0;}
 function cleanInput(value){return Number(String(value??"").replace(/[۰-۹]/g,c=>String(c.charCodeAt(0)-1776)).replace(/[٠-٩]/g,c=>String(c.charCodeAt(0)-1632)));}
 function price(minutes){return Number.isInteger(minutes)&&minutes>=1&&minutes<=MAX_REQUEST_MINUTES?Math.ceil(minutes/BLOCK_MINUTES)*POINTS_PER_BLOCK:null;}
@@ -63,7 +71,7 @@ function show(s){
  div.innerHTML='<section class="sf-overtime-dialog" role="dialog" aria-modal="true" aria-labelledby="sfOvertimeTitle" aria-describedby="sfOvertimeDescription" dir="rtl">'+
  '<button type="button" id="sfOvertimeExitTop" class="sf-overtime-dismiss" aria-label="انصراف و بازگشت به فهرست جلسات">×</button>'+ 
  '<div class="sf-overtime-symbol" aria-hidden="true">⏳</div><p class="sf-overtime-kicker">ایستگاه تصمیم‌گیری</p>'+
- '<h2 id="sfOvertimeTitle">۶۰ دقیقه تمام شد؛ سفر هنوز ادامه دارد</h2>'+
+ '<h2 id="sfOvertimeTitle">زمان سفر به پایان رسید؛ مأموریت هنوز ادامه دارد</h2>'+
  '<p id="sfOvertimeDescription">می‌توانی برای تکمیل مأموریت وقت اضافه بگیری. تصمیم با توست؛ پیش از تأیید، کسر امتیاز را می‌بینی.</p>'+
  '<div class="sf-overtime-rule"><b>قانون وقت اضافه</b><span>هر ۵ دقیقه یا بخشی از آن = ۲ امتیاز کسر از ۱۰۰ (۲٪). حداکثر ۶۰ دقیقه در هر درخواست.</span></div>'+
  '<form id="sfOvertimeForm"><label for="sfOvertimeMinutes">چند دقیقه دیگر نیاز داری؟</label>'+
@@ -88,7 +96,7 @@ function show(s){
   if(!live||!expired(live))return;
   const minutes=cleanInput(div.querySelector("#sfOvertimeMinutes").value),cost=price(minutes);
   if(cost===null){preview();return;}
-  const oldDeadline=live.startedAt+BASE_MS+spentMinutes(live)*60000+(Number(live.overtime?.pauseMs)||0);
+  const oldDeadline=live.startedAt+BASE_MS+giftMinutes(live)*60000+spentMinutes(live)*60000+(Number(live.overtime?.pauseMs)||0);
   const now=Date.now(),prior=live.overtime&&typeof live.overtime==="object"?live.overtime:{};
   const next={pauseMs:(Number(prior.pauseMs)||0)+Math.max(0,now-oldDeadline),
    grants:[...grants(live),{minutes,penalty:cost,grantedAt:now}]};
@@ -108,10 +116,20 @@ function show(s){
 }
 function sync(s){
  live=s;
+ // Visible confirmation after a safe reload; does not reset or replace learner state.
+ const showGift=giftMinutes(s)>0&&!s?.finished;
+ let note=document.getElementById("sfClassGiftNotice");
+ if(showGift&&!note){
+  note=document.createElement("div");
+  note.id="sfClassGiftNotice";note.setAttribute("role","status");note.dir="rtl";
+  note.textContent="هدیه امروز کلاس: ۳۰ دقیقه زمان اضافه، بدون کسر امتیاز. زمان پایه سفر شما ۹۰ دقیقه است؛ پاسخ‌های قبلی محفوظ‌اند.";
+  note.style.cssText="background:#e6f5ed;border:1px solid #a7d2bd;border-radius:14px;padding:12px 17px;margin:14px 0;color:#17553f;font-weight:800;font-size:17px;line-height:1.8;";
+  document.getElementById("root")?.insertAdjacentElement("beforebegin",note);
+ }else if(!showGift&&note)note.remove();
  const clock=document.getElementById("clock");
  if(clock){clock.classList.toggle("sf-overtime-active",spentMinutes(s)>0&&!!s?.startedAt&&!s.finished);clock.classList.toggle("sf-overtime-ended",expired(s));}
  if(s?.mode==="study"||!s?.startedAt||s.finished){hide();return;}
  if(expired(s))show(s);else hide();
 }
-window.BP_SAFAR_OVERTIME={remainingMs,expired,penalty,spentMinutes,price,sync};
+window.BP_SAFAR_OVERTIME={remainingMs,expired,penalty,spentMinutes,price,sync,giftMinutes};
 })();

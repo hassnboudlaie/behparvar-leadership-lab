@@ -63,7 +63,7 @@ function countsUI(s){
  '<p class="sf-peer-count-note">قدردانی‌کردن بر اساس اشتراک یا کپی لینک در همین گوشی ثبت می‌شود. دریافت فقط پس از بازکردن لینک در گوشی همکار شمرده می‌شود؛ هر دو شمارنده محلی‌اند.</p>';
 }
 function report(s){
- if(!s.finished||!root.querySelector(".result-hero"))return;
+ if(!s.finished||s.withdrawn||!root.querySelector(".result-hero"))return;
  let el=root.querySelector("#sfPeerRecognitionResult");
  if(!el){el=document.createElement("section");el.id="sfPeerRecognitionResult";el.className="sf-peer-report";
  root.querySelector(".result-hero").insertAdjacentElement("afterend",el)}

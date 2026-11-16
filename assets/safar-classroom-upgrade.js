@@ -142,6 +142,7 @@ function decorate(){
  const btn=document.getElementById("sfClassroom");
  if(btn)btn.hidden=!s?.startedAt||!!s.finished;
  if(!s||!s.startedAt){decorateIntro();return}
+ if(s.withdrawn)return; // Proportional report replaces full-journey analysis.
  if(s.finished){decorateReport(s);return}
  if(s.stage>=0&&s.stage<stages.length)decorateStage(s);
 }

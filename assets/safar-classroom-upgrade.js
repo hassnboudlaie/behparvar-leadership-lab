@@ -163,7 +163,7 @@ function projector(){
 }
 function tickScreen(){
  if(!display||display.hidden)return;const el=document.getElementById("sfScreenClock");if(!el)return;
- const s=readState(),remaining=Math.max(0,3600000-(Date.now()-(s?.startedAt||Date.now()))),mm=String(Math.floor(remaining/60000)).padStart(2,"0"),ss=String(Math.floor(remaining%60000/1000)).padStart(2,"0");
+ const s=readState(),remaining=Math.max(0,window.BP_SAFAR_OVERTIME?.remainingMs(s)??(3600000-(Date.now()-(s?.startedAt||Date.now())))),mm=String(Math.floor(remaining/60000)).padStart(2,"0"),ss=String(Math.floor(remaining%60000/1000)).padStart(2,"0");
  el.textContent=mm+":"+ss;
 }
 function closeProjector(){if(!display)return;display.hidden=true;document.body.classList.remove("sf-projector-open");lastFocus?.focus?.()}

@@ -42,6 +42,24 @@ async function openFresh(browser, device, viewport, errors) {
   assert.equal(await page.locator('.role-card').count(), 2, 'both audience paths available');
   assert.equal(await page.locator('#start').isDisabled(), true, 'competitive start requires a role');
   assert.equal(await page.locator('#sfStartStudy').isDisabled(), true, 'study start requires a role');
+  // Pre-competition reading reference must be accessible without selecting a role or starting the timer.
+  await page.locator('#sfBookSpotlight').waitFor({ state: 'attached' });
+  assert.equal(await page.locator('#sfBookSpotlight img').count(), 4,
+    'two actual cover references in teaser and expanded detail');
+  assert.equal(await page.evaluate(() => !!(document.querySelector('#sfBookSpotlight')
+    .compareDocumentPosition(document.querySelector('.sf-mode-choices')) & Node.DOCUMENT_POSITION_FOLLOWING)),
+    true, 'book spotlight precedes competitive mode selector');
+  await page.locator('#sfBookSpotlight summary').click();
+  await page.locator('#sfBookProject').click();
+  await page.locator('#sfBookPresenter').waitFor({ state: 'visible' });
+  assert.equal(await page.locator('#sfBookPresenter img').count(), 2,
+    'classroom presenter has Persian and English covers');
+  await page.locator('#sfBookPresenterClose').click();
+  assert.equal(await page.locator('#sfBookPresenter').count(), 0,
+    'presenter exits without starting competition');
+  await page.locator('#sfBookSpotlight summary').click();
+  assert.equal(await page.locator('#start').isDisabled(), true,
+    'preview did not change learner role or activate competition');
   return { context, page };
 }
 async function check(device, viewport, browser) {

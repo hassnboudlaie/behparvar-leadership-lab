@@ -25,12 +25,16 @@ function grade(s){
  });
  const rawTotal=quiz+roles+selfPoints+resources+feedback,timePenalty=window.BP_SAFAR_OVERTIME?.penalty(s)||0,guidePenalty=window.BP_SAFAR_GUIDE?.penalty(s)||0,totalPenalty=timePenalty+guidePenalty;return {quiz,roles,selfPoints,resources,feedback,rawTotal,timePenalty,guidePenalty,totalPenalty,total:Math.max(0,rawTotal-totalPenalty)};
 }
-function badge(s){const p=grade(s),x=p.total,q=p.quiz;return x>=90&&q>=72?"زرین":x>=75&&q>=60?"سیمین":x>=60&&q>=44?"برنزی":"بدون نشان"}
+function badge(s){if(s?.withdrawn)return "سفر نیمه‌تمام";const p=grade(s),x=p.total,q=p.quiz;return x>=90&&q>=72?"زرین":x>=75&&q>=60?"سیمین":x>=60&&q>=44?"برنزی":"بدون نشان"}
 function storeHistory(s){
  const rows=records(),id=String(s.startedAt);
  if(rows.some(x=>x.id===id))return rows;
- const p=grade(s);
- const row={id,role:s.role,startedAt:s.startedAt,finishedAt:s.finishedAt,name:s.name||"",score:p.total,rawScore:p.rawTotal,timePenalty:p.timePenalty,guidePenalty:p.guidePenalty,quiz:p.quiz,level:badge(s),snapshot:s};
+ const p=grade(s),w=s.withdrawn?s.withdrawalReport:null;
+ const row={id,role:s.role,startedAt:s.startedAt,finishedAt:s.finishedAt,name:s.name||"",
+  score:w?.score??p.total,maxScore:w?.max??100,completedStages:w?.completed??10,
+  withdrawn:!!s.withdrawn,rawScore:w?.raw??p.rawTotal,
+  timePenalty:w?.timePenalty??p.timePenalty,guidePenalty:w?.guidePenalty??p.guidePenalty,
+  quiz:w?.quiz??p.quiz,level:badge(s),snapshot:s};
  const next=[row,...rows].slice(0,8);
  try{localStorage.setItem(HISTORY,JSON.stringify(next))}catch(e){console.warn("Local archive unavailable",e)}
  return next;
@@ -59,7 +63,7 @@ function historyView(){
  return '<details class="sf-history"><summary>📁 سوابق سفر در همین دستگاه ('+fa(rows.length)+')</summary>'+
  (rows.length?rows.map(x=>
  '<div class="sf-history-row"><div><strong>'+escape(x.role==="managers"?"مسیر مدیران":"مسیر سرپرستان")+'</strong>'+
- '<small>'+fa(x.score)+'/۱۰۰'+(x.timePenalty?' · کسر زمان: '+fa(x.timePenalty):'')+(x.guidePenalty?' · کسر راهنما: '+fa(x.guidePenalty):'')+' · '+escape(x.level)+' · '+new Intl.DateTimeFormat("fa-IR",{dateStyle:"medium"}).format(new Date(x.finishedAt||x.startedAt))+'</small></div>'+
+ '<small>'+fa(x.score)+'/'+fa(x.maxScore??100)+(x.withdrawn?' · پایان پس از '+fa(x.completedStages)+' مرحله':'')+(x.timePenalty?' · کسر زمان: '+fa(x.timePenalty):'')+(x.guidePenalty?' · کسر راهنما: '+fa(x.guidePenalty):'')+' · '+escape(x.level)+' · '+new Intl.DateTimeFormat("fa-IR",{dateStyle:"medium"}).format(new Date(x.finishedAt||x.startedAt))+'</small></div>'+
  '<button type="button" data-sf-restore="'+escape(x.id)+'">مشاهده نتیجه</button></div>').join(""):
  '<p>پس از تکمیل نخستین سفر، سوابق اینجا نگهداری می‌شود.</p>')+
  '<p class="sf-history-note">سوابق فقط در مرورگر همین دستگاه ذخیره می‌شوند؛ با پاک‌شدن داده مرورگر ممکن است از بین بروند.</p></details>';

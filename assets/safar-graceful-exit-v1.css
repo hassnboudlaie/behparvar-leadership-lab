@@ -1,0 +1,54 @@
+/* Voluntary exit report – Behparvar Safari Session 4 */
+.sf-graceful-exit-trigger,.sf-graceful-exit-inline{
+ font:700 15px Vazirmatn,Tahoma,sans-serif!important;cursor:pointer;
+ border:1px solid #55796c!important;color:#18483e!important;background:#f4f8f5!important;
+ border-radius:12px!important;padding:10px 16px!important;line-height:1.8!important;
+ min-height:44px;box-shadow:none!important;
+}
+.sf-graceful-exit-trigger:hover,.sf-graceful-exit-inline:hover{background:#e5f0e9!important}
+.sf-graceful-exit-inline{margin:8px auto 0;display:inline-flex;align-items:center;justify-content:center}
+.sf-exit-report{max-width:1050px;margin:22px auto 50px;direction:rtl;color:#193e35;font:400 18px/1.9 Vazirmatn,Tahoma,sans-serif}
+.sf-exit-report *{box-sizing:border-box}
+.sf-exit-report h1,.sf-exit-report h2{font-family:inherit;line-height:1.5}
+.sf-exit-hero{background:linear-gradient(130deg,#173f37,#315d52)!important;border-radius:22px;padding:28px 24px;color:white}
+.sf-exit-hero h1{font-size:clamp(25px,4vw,39px);margin:12px auto}
+.sf-exit-hero p{color:#e4efe7;font-size:17px}
+.sf-exit-kicker{font-size:16px;letter-spacing:0}
+.sf-exit-figures{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:24px 0}
+.sf-exit-figures>div{border:1px solid #ffffff47;border-radius:15px;background:#ffffff13;padding:15px 8px;display:grid;gap:3px;text-align:center}
+.sf-exit-figures strong{font-size:clamp(23px,3vw,40px);font-weight:850;direction:ltr;unicode-bidi:isolate}
+.sf-exit-figures span{font-size:15px;color:#e1eee8}
+.sf-exit-level{font-size:17px;font-weight:800;color:#ecf5dd}
+.sf-exit-coach,.sf-exit-ledger{margin:18px 0;padding:24px;background:#fff;border:1px solid #dde8df;border-radius:20px;box-shadow:0 6px 24px #173e3410}
+.sf-exit-coach{display:flex;align-items:flex-start;gap:16px;background:#f3f7f0}
+.sf-exit-coach-mark{display:grid;place-items:center;flex:none;width:56px;height:56px;border-radius:16px;background:#214e40;color:#fff;font-size:33px}
+.sf-exit-coach strong{font-size:22px}.sf-exit-coach p{margin:5px 0}
+.sf-exit-reflection{color:#385d50;font-weight:700;font-size:16px}
+.sf-exit-ledger h2{font-size:24px;margin:0 0 16px}
+.sf-exit-ledger-grid{display:grid;grid-template-columns:1fr auto;gap:11px 16px;align-items:center}
+.sf-exit-ledger-grid>b,.sf-exit-ledger-grid>strong{font-size:20px;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.sf-exit-final{border-top:1px solid #d1dfd8;padding-top:12px;font-weight:850}
+.sf-exit-rows{display:grid;gap:8px}
+.sf-exit-stage{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #edf1ee}
+.sf-exit-stage strong{white-space:nowrap;direction:ltr;unicode-bidi:isolate}
+.sf-exit-tags{display:flex;flex-wrap:wrap;gap:8px}
+.sf-exit-tags span{background:#e9f1eb;border:1px solid #d6e6d8;color:#255448;border-radius:100px;padding:4px 12px;font-weight:750;font-size:15px}
+.sf-exit-footnote{font-size:15px;color:#596960;margin:16px 0 0}
+.sf-exit-actions{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0;align-items:center}
+.sf-exit-actions .btn{font:750 17px Vazirmatn,Tahoma,sans-serif!important;min-height:48px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+@media(max-width:600px){
+ .sf-exit-figures{grid-template-columns:1fr 1fr}
+ .sf-exit-figures>div:last-child{grid-column:span 2}
+ .sf-exit-coach,.sf-exit-ledger{padding:16px}
+ .sf-exit-stage{font-size:15px}
+ .sf-exit-actions>*{width:100%}
+ .sf-exit-report{font-size:17px}
+}
+@media print{
+ body.sf-withdrawn .top,body.sf-withdrawn #sfModeControls,body.sf-withdrawn .sf-session-controls,
+ body.sf-withdrawn .bp-recognition-collection,body.sf-withdrawn .sf-exit-actions,
+ body.sf-withdrawn .sf-exit-footnote,body.sf-withdrawn .bp-unified-nav{display:none!important}
+ body.sf-withdrawn .sf-exit-report{margin:0;max-width:100%;font-size:14px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+ body.sf-withdrawn .sf-exit-hero{background:#173f37!important;color:#fff!important}
+ body.sf-withdrawn .sf-exit-coach,body.sf-withdrawn .sf-exit-ledger{break-inside:avoid;box-shadow:none}
+}

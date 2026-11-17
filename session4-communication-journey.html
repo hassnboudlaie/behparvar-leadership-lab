@@ -71,6 +71,29 @@ button,a{font:inherit}button{cursor:pointer}a{color:var(--teal)}a:focus-visible,
  #lesson .case{font-size:18px;padding:16px}
  #lesson .person strong{font-size:19px}
 }
+
+/* Final conversation experience: uncluttered cards, readable dialogue and accessible interactions */
+#lesson .roleplay-panel{background:linear-gradient(180deg,#fff 0%,#fbfcfe 100%);border:1px solid #d9e6e9}
+#lesson .roleplay-panel>.stagebar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible;gap:12px}
+#lesson .roleplay-panel .stagebtn{flex-basis:auto;min-width:0;width:100%;text-align:center;min-height:94px;display:flex;align-items:center;justify-content:center}
+#lesson .roleplay-dialogue{margin-top:20px;border:0;overflow:visible;background:transparent}
+#lesson .roleplay-dialogue>summary{border-radius:16px;background:#e7f2f2;border:1px solid #bed9d7;color:#14545a;list-style-position:inside}
+#lesson .roleplay-dialogue[open]>summary{border-bottom:1px solid #bed9d7;border-radius:16px}
+#lesson .roleplay-dialogue>.techcontent{padding:12px 4px 4px}
+#lesson .dialogue li{border-radius:0!important}
+#lesson .speech-bubble{min-width:0}
+#lesson .speech-text{white-space:normal;word-break:normal}
+#lesson .speech-name{align-items:baseline}
+#lesson .roleplay-panel .muted{font-size:17px;line-height:1.95}
+@media(max-width:740px){
+ #lesson .roleplay-panel>.stagebar{grid-template-columns:1fr;gap:8px}
+ #lesson .roleplay-panel .stagebtn{min-height:64px;padding:9px 13px;font-size:17px}
+ #lesson .roleplay-dialogue>.techcontent{padding:10px 0}
+ #lesson .speech-bubble{max-width:calc(100% - 47px)}
+ #lesson .speech-text{font-size:21px}
+ #lesson .roleplay-panel .muted{font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){#lesson .speech-bubble{transition:none}}
 </style></head><body><main class="shell">
 <header class="bar"><div><div class="brand">به‌پرور | جلسه چهارم</div><div class="minor">مسیر آموزشی مستقل · بدون تایمر، امتیاز یا آزمون</div></div><a href="index.html#course">بازگشت به فهرست جلسات</a></header>
 <section id="landing"><div class="hero"><div class="eyebrow">SESSION 04 · LEARNING & SELF-AWARENESS</div><h1>مهارت‌های ارتباطی و شناخت ترجیحات شخصیتی</h1><p>این جلسه دو بخش مستقل دارد. می‌توانی نخست ترجیحات ارتباطی خودت را بررسی کنی یا مستقیم وارد آموزش ده گام ارتباطی و تمرین گفت‌وگو شوی.</p></div>
@@ -95,10 +118,10 @@ function render(){
  var u=U[stage],pr=u.techRoles[role][technique];
  var skills=u.tech.map(function(t,i){return '<details class="tech" '+(i===0?'open':'')+'><summary>'+u.icon+' تکنیک '+fnum(i+1)+' · '+escapeText(t[0])+'</summary><div class="techcontent"><p>'+escapeText(t[1])+'</p><div class="examples"><strong>سه مثال کاربردی</strong><ol>'+t.slice(2,5).map(function(ex){return '<li>'+escapeText(ex)+'</li>'}).join('')+'</ol></div><div class="trap"><strong>دام رایج:</strong> '+escapeText(t[5])+'</div></div></details>'}).join("");
  var techButtons=u.tech.map(function(t,i){return '<button type="button" class="stagebtn" data-tech="'+i+'" aria-pressed="'+(technique===i?'true':'false')+'">گفت‌وگوی تکنیک '+fnum(i+1)+' · '+escapeText(t[0])+'</button>'}).join("");
- var diag=pr.dialogue.map(function(line,i){var side=i%2===0?"speaker-a":"speaker-b",turn=Math.floor(i/2)+1;return '<li class="'+side+'"><span class="speaker-avatar" aria-hidden="true">'+fnum(i%2+1)+'</span><div class="speech-bubble"><div class="speech-name">'+escapeText(line[0])+' <span class="speech-turn">نوبت '+fnum(turn)+'</span></div><div class="speech-text">'+escapeText(line[1])+'</div></div></li>'}).join("");
+ var diag=pr.dialogue.map(function(line,i){var side=i%2===0?"speaker-a":"speaker-b",turn=Math.floor(i/2)+1;return '<li class="'+side+'" aria-label="'+escapeText(line[0])+'، نوبت '+fnum(turn)+'"><span class="speaker-avatar" aria-hidden="true">'+fnum(i%2+1)+'</span><div class="speech-bubble"><div class="speech-name">'+escapeText(line[0])+' <span class="speech-turn">نوبت '+fnum(turn)+'</span></div><div class="speech-text">'+escapeText(line[1])+'</div></div></li>'}).join("");
  var participants=pr.roles.map(function(name,i){return '<div class="person"><strong>نفر '+fnum(i+1)+' · '+escapeText(name)+'</strong>'+escapeText(pr.roleBriefs[i]||"")+'</div>'}).join("");
  $("lesson").innerHTML='<section class="panel"><h2>'+u.icon+' '+escapeText(u.skill)+'</h2><h3>سه تکنیک کاربردی</h3>'+skills+'</section>'+
- '<section class="panel"><h2>رول‌پلی دونفره · تکنیک '+fnum(technique+1)+'</h2><div class="stagebar">'+techButtons+'</div><p class="muted">هر نفر سه نوبت صحبت می‌کند. گفت‌وگوی نمونه را ببینید و سپس با زبان طبیعی خودتان تمرین کنید.</p><h3>سناریوی گفت‌وگو</h3><p class="case">'+escapeText(pr.case)+'</p><div class="roles2">'+participants+'</div><details class="tech"><summary>نمایش گفت‌وگوی نمونه</summary><div class="techcontent"><ol class="dialogue">'+diag+'</ol></div></details></section>';
+ '<section class="panel roleplay-panel"><h2>رول‌پلی دونفره · تکنیک '+fnum(technique+1)+'</h2><div class="stagebar" aria-label="انتخاب تکنیک برای گفت‌وگو">'+techButtons+'</div><p class="muted">هر نفر سه نوبت صحبت می‌کند. گفت‌وگوی نمونه را ببینید و سپس با زبان طبیعی خودتان تمرین کنید.</p><h3>سناریوی گفت‌وگو</h3><p class="case">'+escapeText(pr.case)+'</p><div class="roles2">'+participants+'</div><details class="tech roleplay-dialogue" open><summary>گفت‌وگوی نمونه · ۶ نوبت</summary><div class="techcontent"><ol class="dialogue">'+diag+'</ol></div></details></section>';
  $("stageCount").textContent="گام "+fnum(stage+1)+" از ۱۰";
  $("prev").disabled=stage===0;$("next").disabled=stage===U.length-1;
  document.querySelectorAll("[data-role]").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.role===role?"true":"false")});
@@ -106,7 +129,7 @@ function render(){
 function navigate(n){stage=Math.max(0,Math.min(U.length-1,n));technique=0;render();$("stagebar").scrollIntoView({behavior:"auto",block:"start"});}
 $("goLearning").addEventListener("click",function(){$("landing").classList.add("hidden");$("learning").classList.remove("hidden");render();$("stagebar").scrollIntoView({block:"start"});});
 $("backHome").addEventListener("click",function(){$("learning").classList.add("hidden");$("landing").classList.remove("hidden");window.scrollTo(0,0);});
-$("lesson").addEventListener("click",function(e){var b=e.target.closest("[data-tech]");if(b){technique=Number(b.dataset.tech);render()}});
+$("lesson").addEventListener("click",function(e){var b=e.target.closest("[data-tech]");if(b){technique=Number(b.dataset.tech);render();var p=document.querySelector(".roleplay-panel");if(p)p.scrollIntoView({block:"start",behavior:"auto"})}});
 $("stagebar").addEventListener("click",function(e){var b=e.target.closest("[data-stage]");if(b)navigate(Number(b.dataset.stage))});
 document.querySelector(".roles").addEventListener("click",function(e){var b=e.target.closest("[data-role]");if(b){role=b.dataset.role;render()}});
 $("prev").addEventListener("click",function(){navigate(stage-1)});

@@ -111,7 +111,7 @@ function render(){
  $("answers").replaceChildren();
  LABELS.forEach((v,i)=>{const btn=document.createElement("button");btn.type="button";btn.className="answer";btn.setAttribute("aria-pressed",String(replies[cursor]===i+1));
  const mark=document.createElement("span");mark.className="dot";mark.textContent=String(i+1);const t=document.createElement("span");t.textContent=v;btn.append(mark,t);
- btn.addEventListener("click",()=>{replies[cursor]=i+1;render()});$("answers").append(btn)});
+ btn.addEventListener("click",()=>{replies[cursor]=i+1;render();$("answers").children[i].focus()});$("answers").append(btn)});
  $("next").disabled=replies[cursor]===null;$("previous").disabled=cursor===0;$("next").textContent=cursor===ITEMS.length-1?"مشاهده گزارش":"سؤال بعد";
 }
 function sums(){

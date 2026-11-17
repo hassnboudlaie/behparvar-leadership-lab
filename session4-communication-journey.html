@@ -32,6 +32,45 @@ button,a{font:inherit}button{cursor:pointer}a{color:var(--teal)}a:focus-visible,
 .speech-turn{font-size:12px;color:#526779;font-weight:700}
 .speech-text{font-size:clamp(17px,2vw,20px);line-height:1.9;color:#1a2a3e}
 @media(max-width:740px){.dialogue{gap:20px;padding:12px 0}.speaker-avatar{width:34px;height:34px;flex-basis:34px;font-size:14px}.speech-bubble{max-width:calc(100% - 48px);padding:12px 14px}.speech-name{font-size:14px}.speech-text{font-size:17px}}
+
+/* Premium conversation design v2 — Vazirmatn, large type and expressive chat layout */
+#lesson .panel{box-shadow:0 12px 34px rgba(21,44,65,.055);border-radius:24px}
+#lesson .panel h2{font-size:clamp(27px,3.4vw,36px);font-weight:950;letter-spacing:-.025em}
+#lesson .panel h3{font-size:clamp(23px,2.8vw,29px);font-weight:900}
+#lesson .stagebar{gap:12px;padding:12px 3px 20px}
+#lesson .stagebtn{flex-basis:210px;min-height:84px;padding:13px 16px;border-radius:17px;font-size:17px;font-weight:850;line-height:1.8;box-shadow:0 3px 10px #1b30470b}
+#lesson .stagebtn[aria-pressed=true]{border:2px solid #117a77;background:#e3f4ef;color:#104d4d;box-shadow:0 5px 16px #13787821}
+#lesson .case{font-size:clamp(18px,2vw,21px);line-height:2.05;padding:20px 22px;border-right:5px solid #137878}
+#lesson .person{padding:17px 19px;font-size:17px;line-height:1.95}
+#lesson .person strong{font-size:20px}
+#lesson .tech summary{font-size:clamp(20px,2.5vw,25px)}
+#lesson .techcontent{padding:20px 18px 24px}
+#lesson .dialogue{gap:28px;padding:22px 8px 26px}
+#lesson .dialogue li{gap:14px;align-items:flex-end}
+#lesson .speaker-avatar{width:54px;height:54px;flex-basis:54px;font-size:23px;background:linear-gradient(145deg,#d5f0e8,#bce3d9);border:3px solid white;box-shadow:0 5px 13px #174a4620}
+#lesson .speaker-b .speaker-avatar{background:linear-gradient(145deg,#e5eafd,#cfdaf2)}
+#lesson .speech-bubble{max-width:min(81%,770px);padding:21px 25px;gap:9px;border-radius:25px 25px 8px 25px;border-width:1.5px;background:linear-gradient(135deg,#e9f7f2,#dff1eb);box-shadow:0 8px 20px #145a4a12}
+#lesson .speaker-b .speech-bubble{border-radius:25px 25px 25px 8px;background:linear-gradient(135deg,#f2f5ff,#e7edf9);box-shadow:0 8px 20px #334b7812}
+#lesson .speech-bubble:before{background:#e4f3ed}
+#lesson .speaker-b .speech-bubble:before{background:#ecf0fb}
+#lesson .speech-name{font-size:clamp(18px,2vw,21px);font-weight:950;line-height:1.65;letter-spacing:-.01em}
+#lesson .speech-turn{font-size:15px;font-weight:800;background:#ffffffad;padding:3px 10px;border-radius:999px}
+#lesson .speech-text{font-size:clamp(21px,2.35vw,25px);line-height:2.05;font-weight:650;letter-spacing:-.012em}
+@media(max-width:740px){
+ #lesson .panel{padding:18px 14px;border-radius:20px}
+ #lesson .panel h2{font-size:27px}
+ #lesson .stagebtn{flex-basis:183px;font-size:16px;min-height:78px}
+ #lesson .dialogue{gap:24px;padding:16px 0 20px}
+ #lesson .dialogue li{gap:8px}
+ #lesson .speaker-avatar{width:40px;height:40px;flex-basis:40px;font-size:18px}
+ #lesson .speech-bubble{max-width:calc(100% - 49px);padding:15px 17px;gap:6px;border-radius:20px 20px 7px 20px}
+ #lesson .speaker-b .speech-bubble{border-radius:20px 20px 20px 7px}
+ #lesson .speech-name{font-size:17px}
+ #lesson .speech-turn{font-size:13px;padding:2px 7px}
+ #lesson .speech-text{font-size:clamp(20px,4.8vw,23px);line-height:1.95;font-weight:650}
+ #lesson .case{font-size:18px;padding:16px}
+ #lesson .person strong{font-size:19px}
+}
 </style></head><body><main class="shell">
 <header class="bar"><div><div class="brand">به‌پرور | جلسه چهارم</div><div class="minor">مسیر آموزشی مستقل · بدون تایمر، امتیاز یا آزمون</div></div><a href="index.html#course">بازگشت به فهرست جلسات</a></header>
 <section id="landing"><div class="hero"><div class="eyebrow">SESSION 04 · LEARNING & SELF-AWARENESS</div><h1>مهارت‌های ارتباطی و شناخت ترجیحات شخصیتی</h1><p>این جلسه دو بخش مستقل دارد. می‌توانی نخست ترجیحات ارتباطی خودت را بررسی کنی یا مستقیم وارد آموزش ده گام ارتباطی و تمرین گفت‌وگو شوی.</p></div>

@@ -1,5 +1,5 @@
 # به‌پرور — ابزار پژوهشی ترجیحات شخصیتی بر مبنای چهار جفت E/I، S/N، T/F، J/P
-## Research Protocol · Version 0.1 · November 2026
+## Research Protocol · Version 0.5 · November 2026
 
 > **IMPORTANT**: This is **not** the official MBTI® instrument. It uses 48 **original** paired-preference items, with no reproduction or adaptation of the licensed MBTI questionnaire. It **has not been validated** in Persian or in any other language. It does not carry the validity, norms, internal-consistency values, or trademark authorization of the official MBTI® assessment.
 
@@ -7,7 +7,7 @@
 
 A voluntary, facilitated self-reflection learning experience for Behparvar managers/supervisors:
 - Explore personal preferences for attention and energy (E/I), information gathering (S/N), decision criteria (T/F), and approaching structure/closure (J/P).
-- Generate a **tentative four-letter code** only when each dimension shows a modest signal, otherwise mark uncertain positions with **?**, and invite the participant to reflect on best fit.
+- Generate a **display-only four-letter candidate code** by the sign of the raw sums; show **?** only when a dimension's signed sum is exactly zero. Warn explicitly about fragile small-score differences. No code is a validated diagnosis or official type result.
 - Provide questions for coaching conversations, perspective-taking, communication and team collaboration.
 - **Never** use scores or codes as a criterion for recruitment, promotion, layoffs, performance evaluation, diagnosis, or suitability for leadership.
 - Never assert that a code is a stable innate identity, an exclusive box, an ability score, or evidence of managerial competence.
@@ -24,8 +24,8 @@ The *conceptual pairs* are broadly described publicly. These **original example 
 ## 3. Specification of pilot questionnaire
 
 - One-question-at-a-time user journey; two substantive preference statements per item.
-- 48 original items; 12 items per dimension, balanced 6/6 by positioning of the first and second preference pole on the left/first statement.
-- Five response positions (1 = strongly first statement, 2 = somewhat first, 3 = both equally, 4 = somewhat second, 5 = strongly second).
+- 48 original items; 12 items per dimension, balanced 6/6 by first-statement preference pole, with dimensions interleaved. RTL page displays the first-pole side on the right of each score bar.
+- Five response positions (1 = strongly first statement, 2 = somewhat first, 3 = no clear preference between the two, 4 = somewhat second, 5 = strongly second).
 - Users may revisit and alter responses. An answer is necessary for each item; no timing penalty and no right/wrong answer.
 - Written for adult management-development participants. Several items deliberately refer to ordinary life, to avoid equating personality with supervisory competence.
 - **Content audit needed**: Review double-barreled language, valence and social-desirability asymmetry, wording readability, and the conceptual tension between situational workplace preferences and stable person preferences. Several prompts may need revision after interviews.
@@ -42,14 +42,15 @@ dimensionScore = mean(signed across 12 items)  // -2 ... +2
 
 - Positive means preference toward first code letter (E, S, T, or J); negative toward second (I, N, F, or P).
 - Report four two-ended visual bars; **these are not percentages or percentile ranks**.
-- Tentatively select the letter if `abs(score) >= 0.34`; if closer to zero, show `?`.
-- The `0.34` threshold is purely a **UI heuristic** for uncertainty. It has **not** been calibrated to measurement error; may be replaced or removed after proper psychometric work.
+- Show the first letter when the 12-item **signed sum > 0**, second letter when **< 0**, and **?** when the sum is exactly 0.
+- A sum with absolute value 1 or 2 is marked as arithmetically fragile, not as a calibrated confidence interval. No psychological cutoffs are validated.
+- Report transparent leaning counts on each axis and selected item text (up to two direct examples and one counterexample).
 - Do not force a 16-type result when one or more preferences are ambiguous.
 - Distinct type labels (e.g. "The Visionary") or guaranteed fixed-type claims are intentionally omitted.
 - Example synthetic tests:
   - All responses = 3 => all axes score zero; four-letter code `????`.
-  - Alternating the first/second statement signs according to pole yields positive on all axes => `ESTJ` provided means exceed the illustrative threshold.
-  - Reversing each preference yields negative on all axes => `INFP`, under the same condition.
+  - Alternating the first/second statement signs according to pole yields positive on all axes => `ESTJ` (for uniformly first-pole preference).
+  - Reversing each preference yields negative on all axes => `INFP` (for uniformly second-pole preference).
   - Answer corrections must replace, not append, a value.
 
 ## 5. Participant safety, data protection and limitations
@@ -91,31 +92,31 @@ A psychometrics specialist audits items, data, code, analyses, confidence claims
 
 Implemented:
 - Four axes, 48 original paired statements, consistent 5-option responses, reverse/position-sensitive prototype scoring.
-- Preliminary interpretation, fourletter *tentative* code or uncertainty marker, four comparative graphs and reflection questions.
+- Direct evidence-linked report: fourletter *tentative display-only* code or question marks for exact ties, four RTL-consistent comparative bars, per-axis response counts, verbatim chosen statements, opposing examples, cautious reflections and role-specific **non-scored** practice prompts.
 - Print/PDF via browser, no external response upload, self-contained page under `personality-mbti-pilot/index.html`.
 - Separate branch; existing main app and session routes were **not** modified.
 
 Still missing:
-- Independent item/content audit; cognitive interviews; real-user UX testing; validated scale and cutoff; reliability/validity studies; real accessibility audit; authorized official MBTI license if that is the eventual chosen product; consented organizational analytics if desired.
+- Independent **expert** content review; cognitive interviews; real-user UX testing; measured reliability/validity (no confirmed scale or cutoffs); real accessibility and browser audit; authorized official MBTI license if that is the eventual chosen product; consented organizational analytics if desired.
 - Live operational integration to main app intentionally gated.
 
 ## 8. Manual QA checklist
 
 - [ ] Check all 48 items against construct blueprint and review Persian wording with target users.
-- [ ] Each axis has 12 items, 6 each direction.
-- [ ] All responses = 3 -> `????`.
-- [ ] Extreme responses generate `ESTJ` and `INFP` as mathematically expected.
-- [ ] Answer changes and backward/forward navigation recompute fully, with no duplicate response.
-- [ ] No report before completion.
+- [x] Each axis has 12 items, 6 per first-statement pole direction; 48-item mapping documented in `ITEM-CONTENT-REVIEW-v0.5.csv`.
+- [x] All responses = 3 -> `????`.
+- [x] Extreme responses generate `ESTJ` and `INFP` as mathematically expected.
+- [x] Synthetic DOM and state checks for answer changes, navigation logic and focus; real-device confirmation still required.
+- [x] Report scorer refuses any incomplete item vector.
 - [ ] Browser reload clears all responses, no network request for answers.
 - [ ] RTL on desktop and 320 px mobile, large tap targets, meaningful keyboard focus.
 - [ ] Contrast, keyboard accessibility and screen-reader traversal checked in real devices.
 - [ ] Printed report omits app controls.
 - [ ] Terms do not imply MBTI certification or official MBTI instrument validity.
-- [ ] Main branch preserved until release gate.
+- [x] Main branch preserved; all changes remain in an unmerged feature branch.
 
 ## 9. Intended next deliverables
 
-Scientific blueprint, expert review sheet, cognitive-interview protocol, pre-registered psychometric analysis plan, then an improved version for target population.
+Expert content ratings and cognitive-interview protocol are the immediate scientific tasks. Existing artifacts include `AUDIT-THREE-PASS-v0.5.md`, `ITEM-CONTENT-REVIEW-v0.5.csv` and `tests/pilot.test.cjs`. A complete psychometric data study must follow before any stronger claims.
 
 **Status:** Research pilot. No scientific or HR use claim.

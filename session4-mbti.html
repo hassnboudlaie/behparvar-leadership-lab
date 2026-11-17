@@ -133,7 +133,7 @@ function dimensionEvidence(){
   const total=rows.reduce((sum,e)=>sum+e.value,0);
   const aCount=rows.filter(e=>e.value>0).length, bCount=rows.filter(e=>e.value<0).length,neutral=rows.filter(e=>e.value===0).length;
   return [axis.id,{axis,rows,total,mean:total/12,aCount,bCount,neutral,
-    letter:total>0?axis.a:total<0?axis.b:"?",
+    letter:total>0?axis.a:total<0?axis.b:(verifiedPreferences[axis.id]||"?"),
     forward:rows.filter(e=>total!==0 && Math.sign(e.value)===Math.sign(total)).sort((x,y)=>Math.abs(y.value)-Math.abs(x.value)),
     counter:rows.filter(e=>total!==0 && Math.sign(e.value)===-Math.sign(total)).sort((x,y)=>Math.abs(y.value)-Math.abs(x.value))
   }];
@@ -146,19 +146,23 @@ const PRACTICE={
  JP:{J:"در کنار برنامه اصلی، یک زمان بازنگری و گزینه جایگزین مشخص کنید.",P:"برای یکی از گزینه‌های باز، یک موعد روشن برای تصمیم نهایی تعیین کنید."}
 };
 let latestEvidence=null;
+const verifiedPreferences={};
+const TYPE_PROFILES={ISTJ:"منظم، دقیق و مسئولیت‌پذیر؛ معمولاً به شواهد واقعی، تعهد و اجرای قابل اتکا توجه دارد.",ISFJ:"دقیق، همراه و مسئولیت‌پذیر؛ معمولاً نیازهای افراد و استمرار کارها را جدی می‌گیرد.",INFJ:"معنامحور، آینده‌نگر و همدل؛ معمولاً به رشد افراد و پیوند ایده‌ها توجه دارد.",INTJ:"راهبردی، مستقل و تحلیل‌گر؛ معمولاً به الگوهای بلندمدت و بهبود نظام‌ها توجه دارد.",ISTP:"واقع‌گرا، مستقل و مسئله‌گشا؛ معمولاً در مواجهه با مشکلات عملی انعطاف نشان می‌دهد.",ISFP:"آرام، منعطف و ارزش‌محور؛ معمولاً به نیازهای واقعی افراد و تجربه مستقیم توجه دارد.",INFP:"ارزش‌محور، خلاق و تأمل‌گرا؛ معمولاً به معنا، اصالت و رشد فردی توجه دارد.",INTP:"تحلیل‌گر، کنجکاو و ایده‌پرداز؛ معمولاً به فهم سازوکارها و بررسی فرض‌ها علاقه دارد.",ESTP:"عمل‌گرا، پرانرژی و سازگار؛ معمولاً در موقعیت‌های فوری و واقعی سریع وارد عمل می‌شود.",ESFP:"تعامل‌گرا، منعطف و واقع‌بین؛ معمولاً به تجربه مشترک و ارتباط گرم توجه دارد.",ENFP:"خلاق، ارتباط‌گرا و امکان‌نگر؛ معمولاً به فرصت‌های تازه و توانمندسازی دیگران علاقه دارد.",ENTP:"پرسشگر، نوآور و تحلیل‌گر؛ معمولاً فرض‌های موجود را به چالش می‌کشد و گزینه‌های جدید می‌سازد.",ESTJ:"ساختارگرا، قاطع و نتیجه‌محور؛ معمولاً به شفافیت مسئولیت‌ها و اجرای منظم توجه دارد.",ESFJ:"همکار، منظم و مردم‌محور؛ معمولاً به هماهنگی تیم و پیگیری نیازهای دیگران توجه دارد.",ENFJ:"تعامل‌گرا، آینده‌نگر و توسعه‌محور؛ معمولاً به رشد افراد و هم‌راستایی جمعی توجه دارد.",ENTJ:"راهبردی، سازمان‌دهنده و تصمیم‌گرا؛ معمولاً به اهداف بلندمدت و تبدیل ایده به اقدام توجه دارد."};
 function node(tag,text,className){
  const element=document.createElement(tag);if(className)element.className=className;if(text!==undefined)element.textContent=String(text);return element;
 }
 function report(){
  latestEvidence=dimensionEvidence();const data=latestEvidence;
  const zeroAxes=AXES.filter(axis=>data[axis.id].letter==="?").map(axis=>axis.a+"/"+axis.b);
- const code=zeroAxes.length?"ترجیحات نزدیک به هم":AXES.map(axis=>data[axis.id].letter).join("");
+ const code=AXES.map(axis=>data[axis.id].letter).join("");
  $("type").textContent=code;
  const smallMargins=AXES.filter(axis=>Math.abs(data[axis.id].total)>0 && Math.abs(data[axis.id].total)<=2).map(axis=>axis.a+"/"+axis.b);
  $("typeNote").textContent=zeroAxes.length
  ?"در بُعد "+zeroAxes.join("، ")+" امتیاز دو ترجیح برابر شده است. بنابراین به‌جای نسبت‌دادن یک تیپ چهارحرفی بدون پشتوانه، هر دو ترجیح را در نمودار پایین می‌بینید."
  :"کد بالا صرفاً نمایش جهت غالب پاسخ‌های همین نوبت است؛ نه تشخیص قطعی یک تیپ.";
  if(smallMargins.length)$("typeNote").textContent+=" در "+smallMargins.join("، ")+" اختلاف خام فقط ۱ یا ۲ امتیاز از ۲۴ است؛ نتیجه با تغییر یک پاسخ ممکن است عوض شود. این هشدار حسابی است، نه فاصله اطمینان روان‌سنجی.";
+ const profile=TYPE_PROFILES[code];
+ if(profile){$("typeNote").textContent="تیپ پیشنهادی شما: "+code+" — "+profile+" این توصیف یک گرایش احتمالی است، نه پیش‌بینی قطعی رفتار یا شایستگی مدیریتی. "+$("typeNote").textContent;}
  $("dimensions").replaceChildren();
  AXES.forEach(axis=>{
   const d=data[axis.id], v=d.mean;
@@ -221,12 +225,21 @@ function refreshRoleReflection(){
 }
 
 const audit=document.createDocumentFragment();ITEMS.forEach((item,i)=>{const d=document.createElement("details");const title=document.createElement("summary");title.textContent="سؤال "+(i+1)+" · "+CONTEXTS[i];const p=document.createElement("p");p.textContent="رفتار اول: "+item[2]+" | رفتار دوم: "+item[3];d.append(title,p);audit.append(d)});$("auditList").append(audit);
+function requestTypeVerification(){
+ const data=dimensionEvidence();const tied=AXES.filter(a=>data[a.id].letter==="?");
+ if(!tied.length){$("verifyPanel").classList.add("hidden");report();return;}
+ const box=$("verifyChoices");box.replaceChildren();
+ tied.forEach(a=>{const group=node("fieldset");const legend=node("legend",a.title+" — کدام حالت برای شما طبیعی‌تر است؟");group.append(legend);
+ [[a.a,a.nameA+" — "+a.aText],[a.b,a.nameB+" — "+a.bText]].forEach(([value,desc])=>{const label=node("label");label.style.display="block";label.style.margin="12px 0";const input=document.createElement("input");input.type="radio";input.name="verify-"+a.id;input.value=value;input.required=true;label.append(input,document.createTextNode(" "+desc));group.append(label);});box.append(group);});
+ $("quiz").classList.add("hidden");$("intro").classList.add("hidden");$("report").classList.add("hidden");$("verifyPanel").classList.remove("hidden");$("verifyPanel").scrollIntoView({block:"start"});
+}
+$("verifySubmit").addEventListener("click",()=>{const data=dimensionEvidence();const tied=AXES.filter(a=>data[a.id].letter==="?");for(const a of tied){const chosen=document.querySelector('input[name="verify-'+a.id+'"]:checked');if(!chosen){alert("لطفاً برای هر بُعد یک ترجیح انتخاب کنید.");return;}verifiedPreferences[a.id]=chosen.value;}$("verifyPanel").classList.add("hidden");report();});
 $("start").addEventListener("click",()=>{started=Date.now();show("quiz");render();});
 $("previous").addEventListener("click",()=>{if(cursor>0){cursor--;render();$("stem").focus({preventScroll:true});}});
-$("next").addEventListener("click",()=>{if(replies[cursor]===null)return;if(cursor===ITEMS.length-1)report();else{cursor++;render();$("stem").focus();}});
+$("next").addEventListener("click",()=>{if(replies[cursor]===null)return;if(cursor===ITEMS.length-1)requestTypeVerification();else{cursor++;render();$("stem").focus();}});
 
 $("contextRole").addEventListener("change",refreshRoleReflection);
 
 $("print").addEventListener("click",()=>window.print());
-$("restart").addEventListener("click",()=>{replies.fill(null);cursor=0;started=null;show("intro");});
+$("restart").addEventListener("click",()=>{replies.fill(null);Object.keys(verifiedPreferences).forEach(k=>delete verifiedPreferences[k]);$("verifyPanel").classList.add("hidden");cursor=0;started=null;show("intro");});
 </script></body></html>

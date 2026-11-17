@@ -151,12 +151,12 @@ function node(tag,text,className){
 }
 function report(){
  latestEvidence=dimensionEvidence();const data=latestEvidence;
- const code=AXES.map(axis=>data[axis.id].letter).join("");
- $("type").textContent=code;
  const zeroAxes=AXES.filter(axis=>data[axis.id].letter==="?").map(axis=>axis.a+"/"+axis.b);
+ const code=zeroAxes.length?"ترجیحات نزدیک به هم":AXES.map(axis=>data[axis.id].letter).join("");
+ $("type").textContent=code;
  const smallMargins=AXES.filter(axis=>Math.abs(data[axis.id].total)>0 && Math.abs(data[axis.id].total)<=2).map(axis=>axis.a+"/"+axis.b);
  $("typeNote").textContent=zeroAxes.length
- ?"در "+zeroAxes.join("، ")+" جمع نمرات برابر شده است؛ به همین دلیل «؟» نمایش داده می‌شود. کد کامل قابل استخراج نیست."
+ ?"در بُعد "+zeroAxes.join("، ")+" امتیاز دو ترجیح برابر شده است. بنابراین به‌جای نسبت‌دادن یک تیپ چهارحرفی بدون پشتوانه، هر دو ترجیح را در نمودار پایین می‌بینید."
  :"کد بالا صرفاً نمایش جهت غالب پاسخ‌های همین نوبت است؛ نه تشخیص قطعی یک تیپ.";
  if(smallMargins.length)$("typeNote").textContent+=" در "+smallMargins.join("، ")+" اختلاف خام فقط ۱ یا ۲ امتیاز از ۲۴ است؛ نتیجه با تغییر یک پاسخ ممکن است عوض شود. این هشدار حسابی است، نه فاصله اطمینان روان‌سنجی.";
  $("dimensions").replaceChildren();

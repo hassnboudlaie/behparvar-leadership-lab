@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>به‌پرور | ارزیابی پژوهشی شخصیت و توسعه فردی</title>
+<style>
+@font-face{font-family:Vazirmatn;src:url("../assets/vazirmatn.woff2") format("woff2");font-display:swap}
+:root{--ink:#12223c;--sub:#506078;--navy:#172d52;--teal:#176d74;--line:#dce5ec;--paper:#f5f8fb;--white:#fff;--warn:#835112}
+*{box-sizing:border-box}
+html{font-size:19px;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Vazirmatn,Tahoma,Arial,sans-serif;line-height:1.9}
+main{max-width:870px;margin:auto;padding:20px 18px 70px}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line);padding:12px 0 24px}
+.brand{font-weight:900;font-size:1.16rem}.small{color:var(--sub);font-size:.85rem}
+h1{font-size:clamp(1.65rem,4vw,2.45rem);line-height:1.5;margin:17px 0}h2{font-size:1.3rem;line-height:1.65}
+.card{background:var(--white);border:1px solid var(--line);border-radius:24px;padding:clamp(22px,5vw,40px);margin-top:24px}
+.label{color:var(--teal);font-weight:800;font-size:.85rem}
+p{margin:12px 0}button{font:inherit;cursor:pointer;min-height:52px;padding:10px 22px;border-radius:12px;border:1px solid var(--line);background:white;color:var(--ink);font-weight:800}button:focus-visible,a:focus-visible{outline:3px solid #bf6b25;outline-offset:3px}
+.primary{background:var(--navy);color:white;border-color:var(--navy)}button:disabled{opacity:.45;cursor:not-allowed}
+.actions{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;margin-top:26px}
+.note{padding:16px 20px;border-right:4px solid var(--teal);background:#edf6f7;border-radius:12px;margin:23px 0}
+.notice{padding:14px 18px;border-right:4px solid #aa7936;background:#fff8e9;border-radius:10px;font-size:.88rem}
+.progress{height:12px;background:#e6eef4;border-radius:20px;overflow:hidden;margin:12px 0 20px}
+#progressFill{height:100%;width:0;background:var(--teal);transition:width .18s}
+.answers{display:grid;gap:10px;margin-top:30px}
+.answer{display:flex;width:100%;text-align:right;gap:16px;align-items:center;border:2px solid var(--line);border-radius:14px;padding:14px 18px;background:#fff;min-height:65px;font-weight:600}
+.answer[aria-pressed=true]{background:#e9f5f3;border-color:var(--teal)}
+.bullet{display:inline-grid;place-items:center;width:29px;height:29px;border:1px solid #a2b3c3;border-radius:50%;flex-shrink:0}
+.answer[aria-pressed=true] .bullet{background:var(--teal);color:white;border-color:var(--teal)}
+.result{border-bottom:1px solid var(--line);padding:20px 0}.result-head{display:flex;justify-content:space-between;gap:14px}
+.bar{height:14px;background:#e7eef4;border-radius:15px;overflow:hidden;direction:ltr;margin:8px 0}
+.bar>span{display:block;height:100%;background:var(--teal)}
+.result p{font-size:.9rem;color:var(--sub)}
+a{color:var(--teal)}.muted{color:var(--sub)}.hidden{display:none!important}
+footer{font-size:.78rem;color:var(--sub);margin-top:40px}
+@media print{body{background:#fff}header,.actions,.no-print{display:none!important}main{max-width:none;padding:0}.card{border:0;padding:5px;margin:0}.result{break-inside:avoid}.print-only{display:block!important}}
+</style>
+</head>
+<body>
+<main>
+<header><span class="brand">به‌پرور <span class="muted">/ آزمایشگاه توسعه فردی</span></span><a href="../index.html" aria-label="بازگشت به اپ اصلی">بازگشت به خانه</a></header>
+<section id="intro" class="card">
+<div class="label">Research Pilot • نسخه ۰.۱</div>
+<h1>شناخت ویژگی‌های شخصیتی برای توسعه مدیریتی</h1>
+<p>این ارزیابی ۵۰ گزاره درباره ویژگی‌های نسبتاً پایدار شخصیت دارد. به میزان انطباق هر گزاره با وضعیت معمول خودتان پاسخ دهید؛ نه با تصویری که دوست دارید از خود نشان دهید.</p>
+<div class="note"><strong>۵ بُعد:</strong> برون‌گرایی، توافق‌پذیری، وظیفه‌شناسی، ثبات هیجانی و گشودگی به تجربه و ایده‌ها.</div>
+<p><strong>زمان پیشنهادی:</strong> حدود ۱۰ تا ۱۵ دقیقه؛ بدون محدودیت زمانی و بدون نمره قبولی/ردی.</p>
+<div class="notice"><strong>مهم:</strong> این نسخه، آزمون MBTI رسمی نیست؛ ترجمه پژوهشیِ اولیه ۵۰ گویه IPIP است و هنوز برای جامعه فارسی‌زبان به‌پرور اعتبارسنجی نشده. برای انتخاب، ارتقا، برچسب‌زنی یا تشخیص بالینی قابل استفاده نیست.</div>
+<p class="small">پاسخ‌ها در این نسخه فقط در حافظه همین صفحه پردازش می‌شوند؛ به سرور ارسال یا در مرورگر ذخیره نمی‌شوند. در صورت بستن یا تازه‌سازی صفحه پاسخ‌ها از دست می‌روند. گزارش را در پایان می‌توانید چاپ یا به PDF ذخیره کنید.</p>
+<div class="actions"><button class="primary" id="start">شروع ارزیابی</button></div>
+</section>
+<section id="quiz" class="card hidden" aria-label="پرسشنامه">
+<div class="label" id="qCount" aria-live="polite">سؤال ۱ از ۵۰</div>
+<div class="progress" role="progressbar" id="progress" aria-valuemin="0" aria-valuemax="50" aria-valuenow="0" aria-label="پیشرفت ارزیابی"><div id="progressFill"></div></div>
+<h2 id="question" tabindex="-1"></h2>
+<p class="muted">این گزاره چقدر درباره شما درست است؟</p>
+<div class="answers" id="answers" role="group" aria-label="پاسخ به گزاره"></div>
+<div class="actions">
+<button id="back">سؤال قبل</button>
+<button class="primary" id="next" disabled>سؤال بعد</button>
+</div>
+<div id="error" aria-live="polite" class="small"></div>
+</section>
+<section id="report" class="card hidden" aria-label="گزارش فردی">
+<div class="label">Individual Reflection Report • پژوهشی و غیرتشخیصی</div>
+<h1>پروفایل اولیه ویژگی‌های شخصیتی</h1>
+<p class="small">نمرات زیر میانگین پاسخ‌های ده گویه هر بُعد، پس از معکوس‌سازی گویه‌های منفی است. این مقادیر «درصد»، «رتبه در جمعیت»، «شایستگی مدیریتی» یا «احتمال یک تیپ» نیستند.</p>
+<div id="quality" class="notice" role="status"></div>
+<div id="results"></div>
+<section class="note"><h2>از شناخت تا اقدام</h2><p>یک الگوی رفتاری که در این گزارش برایتان معنادار است انتخاب کنید. در تعامل بعدی با همکاران، یک رفتار جایگزین را آگاهانه تمرین کنید؛ سپس از یک همکار مورد اعتماد بازخورد بگیرید.</p><p><strong>پرسش تأملی:</strong> کدام یک از ترجیحات من به عملکرد تیم کمک می‌کند، و در چه موقعیتی لازم است انعطاف بیشتری نشان دهم؟</p></section>
+<p class="small">این نسخه فاقد نرم‌های جمعیتی معتبر برای مدیران به‌پرور است. تفسیرها مقدماتی و صرفاً برای گفت‌وگوی توسعه‌ای‌اند؛ درباره شما تشخیص یا قضاوت قطعی ارائه نمی‌کنند.</p>
+<div class="actions no-print"><button class="primary" id="print">چاپ / ذخیره PDF</button><button id="restart">شروع مجدد و پاک‌کردن پاسخ‌ها</button></div>
+</section>
+<footer>مبنای گویه‌ها: Goldberg (1992), IPIP 50-item Big-Five Factor Markers. ترجمه فارسی اولیه، نیازمند بازترجمه، مصاحبه شناختی و اعتبارسنجی مستقل. <a href="https://www.ipip.ori.org/New_IPIP-50-item-scale.htm" target="_blank" rel="noopener">متن و کلید منبع</a> · <a href="https://www.ipip.ori.org/newScoringInstructions.htm" target="_blank" rel="noopener">روش نمره‌گذاری</a></footer>
+</main>
+<script>
+"use strict";
+const questions=[["در جمع‌های اجتماعی معمولاً در مرکز گفت‌وگوها قرار می‌گیرم.","E",1],["معمولاً توجه چندانی به نیازها و نگرانی‌های دیگران ندارم.","A",-1],["معمولاً از قبل برای کارها آماده‌ام.","C",1],["به‌آسانی دچار فشار روانی می‌شوم.","S",-1],["دامنه واژگانی گسترده‌ای دارم.","O",1],["معمولاً زیاد صحبت نمی‌کنم.","E",-1],["به شناخت افراد علاقه دارم.","A",1],["وسایلم را اغلب نامرتب رها می‌کنم.","C",-1],["بیشتر اوقات آرام و آسوده‌خاطرم.","S",1],["فهم ایده‌های انتزاعی برایم دشوار است.","O",-1],["در کنار دیگران احساس راحتی می‌کنم.","E",1],["گاهی به دیگران توهین می‌کنم.","A",-1],["به جزئیات توجه می‌کنم.","C",1],["درباره مسائل مختلف زیاد نگران می‌شوم.","S",-1],["تخیل زنده و فعالی دارم.","O",1],["ترجیح می‌دهم در پس‌زمینه بمانم و دیده نشوم.","E",-1],["با احساسات دیگران همدلی می‌کنم.","A",1],["اغلب باعث بی‌نظمی در کارها می‌شوم.","C",-1],["به‌ندرت احساس اندوه می‌کنم.","S",1],["به ایده‌های انتزاعی علاقه ندارم.","O",-1],["معمولاً آغازگر گفت‌وگو هستم.","E",1],["مسائل و مشکلات دیگران چندان برایم جالب نیست.","A",-1],["کارهایی را که باید انجام دهم بی‌درنگ شروع می‌کنم.","C",1],["به‌آسانی آشفته می‌شوم.","S",-1],["ایده‌های بسیار خوبی به ذهنم می‌رسد.","O",1],["معمولاً حرف زیادی برای گفتن ندارم.","E",-1],["دل‌رحم هستم.","A",1],["اغلب فراموش می‌کنم وسایل را سر جای خود بگذارم.","C",-1],["به‌آسانی ناراحت یا برآشفته می‌شوم.","S",-1],["قوه تخیل خوبی ندارم.","O",-1],["در مهمانی‌ها با افراد مختلف گفت‌وگو می‌کنم.","E",1],["در واقع چندان به دیگران علاقه‌مند نیستم.","A",-1],["نظم را دوست دارم.","C",1],["حال‌وهوای روحی‌ام زیاد تغییر می‌کند.","S",-1],["مطالب را سریع متوجه می‌شوم.","O",1],["دوست ندارم توجه دیگران را به خود جلب کنم.","E",-1],["برای دیگران وقت می‌گذارم.","A",1],["گاهی از انجام وظایفم شانه خالی می‌کنم.","C",-1],["نوسان‌های خلقی مکرر دارم.","S",-1],["از واژه‌های دشوار استفاده می‌کنم.","O",1],["از اینکه مرکز توجه باشم ناراحت نمی‌شوم.","E",1],["احساسات دیگران را درک می‌کنم.","A",1],["طبق برنامه پیش می‌روم.","C",1],["به‌آسانی تحریک‌پذیر و کلافه می‌شوم.","S",-1],["برای تأمل درباره مسائل وقت می‌گذارم.","O",1],["در حضور افراد ناآشنا معمولاً ساکت هستم.","E",-1],["باعث می‌شوم دیگران کنار من احساس راحتی کنند.","A",1],["در کارم دقیق و سخت‌گیر هستم.","C",1],["اغلب احساس اندوه می‌کنم.","S",-1],["ذهنم پر از ایده‌های مختلف است.","O",1]];
+const dimensions={
+E:{title:"برون‌گرایی",en:"Extraversion",focus:"در تعامل با دیگران، چه زمانی پیش‌قدم می‌شوید و چه زمانی فضای بیشتری برای شنیدن ایجاد می‌کنید؟"},
+A:{title:"توافق‌پذیری",en:"Agreeableness",focus:"چگونه در اختلاف‌نظرها هم به رابطه توجه می‌کنید و هم گفت‌وگوی صریح را حفظ می‌کنید؟"},
+C:{title:"وظیفه‌شناسی",en:"Conscientiousness",focus:"در چه موقعیت‌هایی نظم و پیگیری به شما کمک می‌کند و چه زمانی انعطاف مفیدتر است؟"},
+S:{title:"ثبات هیجانی",en:"Emotional Stability",focus:"در شرایط فشار، چه رفتارهایی به تنظیم هیجان و حفظ کیفیت تعامل شما کمک می‌کنند؟"},
+O:{title:"گشودگی به ایده‌ها",en:"Intellect / Imagination",focus:"چطور میان جست‌وجوی ایده‌های تازه و اجرای راهکارهای عملی تعادل برقرار می‌کنید؟"}
+};
+const labels=["اصلاً درباره من درست نیست","بیشتر درست نیست","نه درست، نه نادرست","تا حد زیادی درست است","کاملاً درباره من درست است"];
+let replies=Array(questions.length).fill(null),cursor=0,startedAt=null;
+const el=id=>document.getElementById(id);
+function view(section){for(const id of ["intro","quiz","report"])el(id).classList.toggle("hidden",id!==section);window.scrollTo({top:0,behavior:"instant"});}
+function showQuestion(){
+ const q=questions[cursor];el("qCount").textContent="سؤال "+(cursor+1)+" از "+questions.length;
+ const completed=replies.filter(v=>v!==null).length;el("progress").setAttribute("aria-valuenow",String(completed));el("progressFill").style.width=(completed*100/questions.length)+"%";
+ el("question").textContent=q[0];el("answers").replaceChildren();
+ labels.forEach((label,i)=>{const b=document.createElement("button");b.type="button";b.className="answer";b.setAttribute("aria-pressed",String(replies[cursor]===i+1));
+ const mark=document.createElement("span");mark.className="bullet";mark.textContent=String(i+1);
+ const t=document.createElement("span");t.textContent=label;b.append(mark,t);b.addEventListener("click",()=>{replies[cursor]=i+1;showQuestion();});el("answers").append(b);});
+ el("back").disabled=cursor===0;el("next").disabled=replies[cursor]===null;
+ el("next").textContent=cursor===questions.length-1?"مشاهده گزارش":"سؤال بعد";
+}
+function score(items){const buckets={E:[],A:[],C:[],S:[],O:[]};items.forEach((q,i)=>{const raw=replies[i];if(raw!==null)buckets[q[1]].push(q[2]===1?raw:6-raw)});return Object.fromEntries(Object.entries(buckets).map(([k,v])=>[k,v.reduce((a,b)=>a+b,0)/v.length]));}
+function qualityMessage(){
+ const unique=new Set(replies).size;const secs=(Date.now()-startedAt)/1000;let issues=[];
+ if(unique===1)issues.push("همه پاسخ‌ها یکسان‌اند؛ بهتر است دقت پاسخ‌گویی را دوباره بررسی کنید.");
+ if(secs<120)issues.push("پرسشنامه در زمان بسیار کوتاهی تکمیل شده؛ نتایج با احتیاط بیشتری تفسیر شوند.");
+ return issues.length?"هشدار کیفیت پاسخ: "+issues.join(" "):"همه ۵۰ گزاره پاسخ داده شده‌اند. این بررسی اولیه کیفیت، جایگزین شاخص‌های روان‌سنجی اعتبار پاسخ نیست.";
+}
+function report(){
+ const s=score(questions);el("quality").textContent=qualityMessage();el("results").replaceChildren();
+ Object.entries(dimensions).forEach(([key,dim])=>{
+ const value=s[key];const section=document.createElement("section");section.className="result";
+ const h=document.createElement("div");h.className="result-head";const strong=document.createElement("strong");strong.textContent=dim.title+" ("+dim.en+")";
+ const scoreText=document.createElement("strong");scoreText.textContent=value.toFixed(2)+" از ۵";h.append(strong,scoreText);
+ const bar=document.createElement("div");bar.className="bar";bar.setAttribute("role","img");bar.setAttribute("aria-label",dim.title+": "+value.toFixed(2)+" از ۵");
+ const fill=document.createElement("span");fill.style.width=(((value-1)/4)*100)+"%";bar.append(fill);
+ const interp=document.createElement("p");interp.textContent=value>3.5?"این ویژگی در پاسخ‌های شما نسبتاً پررنگ‌تر منعکس شده؛ این یک مشاهده اولیه است.":value<2.5?"تأیید این ویژگی در پاسخ‌های شما نسبتاً کمتر است؛ این یک مشاهده اولیه است.":"پاسخ‌ها در این بُعد به بخش میانی مقیاس نزدیک‌اند؛ از برداشت قطعی پرهیز کنید.";
+ const prompt=document.createElement("p");prompt.textContent="پرسش کوچینگ: "+dim.focus;section.append(h,bar,interp,prompt);el("results").append(section);
+ });view("report");
+}
+el("start").addEventListener("click",()=>{startedAt=Date.now();view("quiz");showQuestion()});
+el("next").addEventListener("click",()=>{if(replies[cursor]===null)return;if(cursor===49){report()}else{cursor++;showQuestion();el("question").focus();}});
+el("back").addEventListener("click",()=>{if(cursor>0){cursor--;showQuestion();el("question").focus();}});
+el("print").addEventListener("click",()=>window.print());
+el("restart").addEventListener("click",()=>{replies.fill(null);cursor=0;startedAt=null;view("intro");});
+</script>
+</body>
+</html>

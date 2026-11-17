@@ -100,15 +100,15 @@ const AXES=[
 {id:"TF",a:"T",b:"F",title:"مبنای ترجیحی تصمیم‌گیری",nameA:"منطق و معیار",nameB:"ارزش‌ها و پیامدهای انسانی",aText:"معمولاً از منطق، شواهد و معیار مشترک آغاز می‌کنید.",bText:"معمولاً از ارزش‌ها، رابطه و پیامد انسانی آغاز می‌کنید.",q:"در تصمیم حساس بعدی، چطور می‌توانید هم شواهد و عدالت رویه‌ای، هم اثر انسانی تصمیم را بررسی کنید؟"},
 {id:"JP",a:"J",b:"P",title:"نحوه مواجهه با برنامه و گزینه‌ها",nameA:"ساختار و جمع‌بندی",nameB:"انعطاف و بازماندن گزینه‌ها",aText:"ساختار، موعد و تصمیم نهایی را ترجیح می‌دهید.",bText:"انعطاف، امکان بازنگری و بازماندن گزینه‌ها را ترجیح می‌دهید.",q:"چه زمانی بهتر است زودتر به جمع‌بندی برسید و چه زمانی باز گذاشتن گزینه‌ها نتیجه بهتری دارد؟"}
 ];
-const LABELS=["همیشه عبارت اول","بیشتر اوقات عبارت اول","بسته به شرایط، گاهی اول و گاهی دوم","بیشتر اوقات عبارت دوم","همیشه عبارت دوم"];
+const LABELS=["همیشه","بیشتر اوقات","بسته به شرایط","بیشتر اوقات","همیشه"];
 let replies=Array(ITEMS.length).fill(null),cursor=0,started=null;
 const $=id=>document.getElementById(id);
 function show(id){for(const key of ["intro","quiz","report"])$(key).classList.toggle("hidden",key!==id);window.scrollTo(0,0)}
 function render(){
  const item=ITEMS[cursor];
  $("context").textContent=CONTEXTS[cursor]+"؛";
- $("exampleA").textContent="در همین موقعیت، فردی "+item[2];
- $("exampleB").textContent="در همین موقعیت، فرد دیگری "+item[3];
+ $("exampleA").textContent=item[2];
+ $("exampleB").textContent=item[3];
  $("examples").open=false;
  $("counter").textContent="سؤال "+(cursor+1)+" از "+ITEMS.length;
  $("first").textContent=item[2];$("second").textContent=item[3];
@@ -117,7 +117,7 @@ function render(){
  $("progress").setAttribute("aria-valuenow",String(completed));$("fill").style.width=(100*completed/ITEMS.length)+"%";
  $("answers").replaceChildren();
  LABELS.forEach((v,i)=>{const btn=document.createElement("button");btn.type="button";btn.className="answer";btn.setAttribute("aria-pressed",String(replies[cursor]===i+1));
- const mark=document.createElement("span");mark.className="dot";mark.textContent=String(i+1);const t=document.createElement("span");t.textContent=v;btn.append(mark,t);
+ const mark=document.createElement("span");mark.className="dot";mark.textContent=String(i+1);const t=document.createElement("span");t.textContent=i===2?"بسته به شرایط، گاهی رفتار اول و گاهی رفتار دوم را انتخاب می‌کنم.":(i<2?v+"، "+item[2]:v+"، "+item[3]);btn.append(mark,t);
  btn.addEventListener("click",()=>{replies[cursor]=i+1;for(const [j,b] of Array.from($("answers").children).entries())b.setAttribute("aria-pressed",String(j===i));$("next").disabled=false;btn.focus();});$("answers").append(btn)});
  $("next").disabled=replies[cursor]===null;$("previous").disabled=cursor===0;$("next").textContent=cursor===ITEMS.length-1?"مشاهده گزارش":"سؤال بعد";
 }

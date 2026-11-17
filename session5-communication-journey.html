@@ -98,12 +98,12 @@ h2{font-size:31px;margin:4px 0 15px;line-height:1.5}.card{background:#fff;border
 (function(){
 "use strict";
 const stages=window.BP_SAFAR_DATA.stages, incidents=window.BP_SAFAR_DATA.incidents;
-const K="bp-communication-journey-v3", D=3600000;
+const K="bp-session5-communication-journey-v1", LEGACY_K="bp-communication-journey-v3", D=3600000;
 const overtime=window.BP_SAFAR_OVERTIME,modes=window.BP_SAFAR_MODES,hintCoach=window.BP_SAFAR_GUIDE;
 const $=(selector)=>document.querySelector(selector);
 const E=(s)=>String(s==null?"":s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
 const fa=(n)=>Number(n||0).toLocaleString("fa-IR");
-let saved;try{saved=JSON.parse(localStorage.getItem(K)||"null")}catch(e){saved=null}
+let saved;try{saved=JSON.parse(localStorage.getItem(K)||localStorage.getItem(LEGACY_K)||"null")}catch(e){saved=null}
 let state=saved&&saved.version===3?saved:{version:3,role:"",name:"",startedAt:0,stage:0,answers:{},self:{},alloc:{},rp:{},peer:{},events:[],finished:false,finishedAt:0,sound:false};
 let transient={role:state.role,q1:null,best:null,worst:null,alloc:[0,0,0,0],evidence:"",observer:"",note:"",checks:[false,false,false],feedback:"",suggestion:""};
 const save=()=>{try{localStorage.setItem(K,JSON.stringify(state));document.getElementById("sfStorageWarning")?.setAttribute("hidden","");return true}catch(e){console.warn("Save unavailable",e);document.getElementById("sfStorageWarning")?.removeAttribute("hidden");return false}};

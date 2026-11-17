@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#183051">
+<title>به‌پرور | ارزیابی ترجیحات شخصیتی ـ نسخه پژوهشی</title>
+<style>
+@font-face{font-family:Vazirmatn;src:url("../assets/vazirmatn.woff2") format("woff2");font-display:swap;font-weight:100 900}
+:root{--ink:#172641;--sub:#58687c;--base:#f5f7fa;--line:#d8e2eb;--brand:#183051;--accent:#14757a;--mint:#eff8f7}
+*{box-sizing:border-box}html{font-size:19px}body{margin:0;background:var(--base);color:var(--ink);font-family:Vazirmatn,Tahoma,sans-serif;line-height:1.85}
+main{max-width:890px;margin:auto;padding:20px 20px 75px}
+a{color:#155c70}header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:14px 0 22px;border-bottom:1px solid var(--line)}
+.brand{font-size:1.2rem;font-weight:900}.muted,.caption{font-size:.85rem;color:var(--sub)}h1{font-size:clamp(1.55rem,4vw,2.25rem);line-height:1.55;margin:14px 0 18px}h2{font-size:1.3rem;line-height:1.6;margin:0 0 14px}h3{font-size:1.13rem;margin:0 0 8px}
+.card{background:white;border:1px solid var(--line);border-radius:23px;padding:clamp(20px,5vw,42px);margin-top:25px;box-shadow:0 3px 17px rgba(21,45,79,.045)}
+.kicker{color:var(--accent);font-weight:900;font-size:.86rem}
+.note{padding:15px 19px;background:var(--mint);border-right:4px solid var(--accent);border-radius:12px;margin:22px 0}
+.caution{padding:15px 19px;background:#fff8ea;border-right:4px solid #ac8039;border-radius:12px;font-size:.87rem;margin:21px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+.grid>div{border:1px solid var(--line);padding:14px 18px;border-radius:12px}
+.grid strong{display:block}select{font:inherit;min-height:48px;border:1px solid var(--line);border-radius:10px;background:white;padding:5px 13px;color:var(--ink);max-width:100%;}
+button{font:inherit;cursor:pointer;min-height:54px;border-radius:12px;background:white;color:var(--ink);padding:10px 19px;border:1px solid var(--line);font-weight:800}
+button.primary{background:var(--brand);color:white;border-color:var(--brand)}button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,a:focus-visible{outline:3px solid #c07c2f;outline-offset:3px}
+.actions{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;margin-top:24px}
+.hidden{display:none!important}.progress{height:12px;background:#e8edf4;border-radius:18px;overflow:hidden;margin:15px 0 24px}.progress span{display:block;height:100%;width:0;background:var(--accent);transition:width .15s}
+.choicePair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0 26px}.choicePair div{border:1px solid var(--line);padding:17px;border-radius:14px;background:#fafcfd;font-weight:650}
+.choicePair b{display:block;font-size:.78rem;color:var(--accent);margin-bottom:7px}
+.answers{display:grid;gap:8px}.answer{display:flex;text-align:right;align-items:center;gap:13px;width:100%;border:2px solid var(--line);min-height:61px}
+.answer[aria-pressed="true"]{border-color:var(--accent);background:#eaf5f3}.dot{display:grid;place-items:center;border-radius:50%;width:29px;height:29px;flex-shrink:0;border:1px solid #9db0c0}
+.answer[aria-pressed="true"] .dot{background:var(--accent);color:white;border-color:var(--accent)}
+.axis{padding:23px 0;border-bottom:1px solid var(--line)}.axis:last-child{border:0}
+.axisHeader{display:flex;justify-content:space-between;gap:15px;align-items:baseline}
+.scale{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:.86rem;color:var(--sub);margin-top:10px;direction:rtl}
+.scale span:last-child{text-align:left}
+.track{background:#e9eef5;border-radius:100px;height:18px;position:relative;overflow:hidden;margin-top:5px;direction:ltr}
+.track .marker{position:absolute;top:0;bottom:0;width:9px;border-radius:5px;background:var(--accent);transform:translateX(-50%)}
+.track .mid{position:absolute;left:50%;width:1px;top:0;bottom:0;background:#96a8b9}
+.type{font-family:Vazirmatn,Arial,sans-serif;direction:ltr;font-size:clamp(2.1rem,6vw,3.25rem);font-weight:900;letter-spacing:.11em;color:var(--brand);text-align:center;margin:12px 0}
+.pill{display:inline-block;border-radius:100px;padding:3px 12px;background:#e8f2f3;color:#14585e;font-size:.76rem;font-weight:800}
+.summary{margin:12px 0;padding:16px;background:var(--mint);border-radius:15px}
+.reportQ{border-right:3px solid var(--accent);padding:7px 15px;margin:12px 0;color:var(--sub)}.evidence{margin:12px 0;padding:12px 15px;background:#f4f7fb;border-radius:12px}.evidence li{margin:5px 0}.countLine{font-weight:750;font-size:.92rem;color:var(--ink)}.axis p{margin:10px 0}.axisHeader{flex-wrap:wrap}.answer{line-height:1.6}.answer:hover:not([aria-pressed="true"]){background:#f5f9fb}.muted{line-height:1.75}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.progress span{transition:none}}
+footer{margin-top:32px;font-size:.8rem;color:var(--sub)}
+@media(max-width:600px){.grid,.choicePair{grid-template-columns:1fr}html{font-size:19px}main{padding:12px 12px 50px}.card{padding:22px 18px}.axisHeader{align-items:flex-start}.answer{padding:13px 12px;line-height:1.7}}
+@media print{body{background:white;color:#111}main{max-width:none;padding:0}.card{border:0;box-shadow:none;padding:0;margin:0}header,.noPrint,footer{display:none!important}.axis,.evidence{break-inside:avoid}h1{font-size:1.6rem}.track,.note,.summary,.evidence{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="brand">به‌پرور <span class="muted">/ آزمایشگاه توسعه فردی</span></div><a href="session4.html">بازگشت به جلسه چهارم</a></header>
+<section class="card" id="intro">
+<div class="kicker">Behavioral Preferences · Research Pilot v0.5</div>
+<h1>ارزیابی ترجیحات شخصیتی و کاربرد آن در مدیریت</h1>
+<p>در هر سؤال، دو عبارت کوتاه می‌بینید. <strong>کدام به رفتار معمول شما نزدیک‌تر است؟</strong> پاسخ را بر اساس ترجیح خود بدهید، نه آنچه دیگران از شما انتظار دارند. پاسخ درست یا غلط وجود ندارد.</p>
+<div class="grid">
+<div><strong>۴ جفت ترجیح</strong><span class="muted">E/I، S/N، T/F، J/P</span></div>
+<div><strong>۴۸ سؤال دوگزاره‌ای</strong><span class="muted">۱۲ سؤال برای هر جفت</span></div>
+<div><strong>بدون آزمون قبولی</strong><span class="muted">مدت پیشنهادی: حدود ۱۰ تا ۱۵ دقیقه</span></div>
+<div><strong>گزارش فردی یکسان</strong><span class="muted">برای مدیران و سرپرستان، با چهار ترجیح</span></div>
+</div>
+<div class="caution"><strong>توجه:</strong> این ابزار، آزمون رسمی MBTI® نیست و هیچ گویه رسمیِ دارای حق نشر در آن استفاده نشده است. این نسخه «الهام‌گرفته از چارچوب چهار جفت ترجیح» و <strong>فاقد شواهد اعتبارسنجی روان‌سنجی</strong> است. نتیجه آن نباید مبنای استخدام، ارتقا، ارزیابی عملکرد، برچسب‌گذاری یا تصمیم بالینی باشد.</div>
+<p class="muted">پرسشنامه برای مدیر و سرپرست یکسان است؛ فقط نمونه‌های توسعه‌ای گزارش قابل تغییرند. پاسخ‌ها فقط در حافظه همین صفحه پردازش می‌شوند، به سرور ارسال نمی‌شوند و پس از بارگذاری مجدد پاک می‌شوند. در پایان امکان چاپ یا ذخیره گزارش به‌صورت PDF توسط مرورگر وجود دارد.</p>
+<div class="actions"><button class="primary" id="start">شروع ارزیابی</button></div>
+</section>
+<section class="card hidden" id="quiz" aria-label="پرسشنامه ترجیحات">
+<div class="kicker" id="counter" aria-live="polite">سؤال ۱ از ۴۸</div>
+<div class="progress" id="progress" role="progressbar" aria-label="پیشرفت" aria-valuemin="0" aria-valuemax="48" aria-valuenow="0"><span id="fill"></span></div>
+<h2 id="stem" tabindex="-1">کدام عبارت به ترجیح معمول شما نزدیک‌تر است؟</h2>
+<div class="choicePair"><div><b>عبارت اول</b><span id="first"></span></div><div><b>عبارت دوم</b><span id="second"></span></div></div>
+<p class="muted">اگر ترجیح مشخصی ندارید، گزینه میانی را انتخاب کنید.</p>
+<div class="answers" id="answers" role="group" aria-label="پنج درجه ترجیح"></div>
+<div class="actions"><button id="previous">سؤال قبل</button><button class="primary" id="next" disabled>سؤال بعد</button></div>
+<div class="caption" id="live" aria-live="polite"></div>
+</section>
+<section class="card hidden" id="report">
+<div class="kicker">Personality Preferences · Pilot v0.5</div>
+<h1 tabindex="-1" id="reportHeading">گزارش توصیفیِ پاسخ‌های شما</h1>
+<div class="summary"><div class="muted" style="text-align:center">کد نمایشی حاصل از چهار جفت پاسخ‌ها (آزمون رسمی نیست)</div><div id="type" class="type"></div><p id="typeNote" style="text-align:center"></p></div>
+<div class="caution"><strong>حد تفسیر:</strong> این کد از جمع نمرات همین ۴۸ پاسخ به دست آمده است، نه از یک آزمون استانداردشده. تغییر حتی یک پاسخ می‌تواند یک حرف کم‌فاصله را عوض کند. عددهای گزارش درصد، احتمال تعلق به تیپ، توانایی یا پایایی نیستند. نتایج در ارزیابی شغلی استفاده نشوند.</div>
+<div id="quality" class="note"></div>
+<div id="dimensions"></div>
+<h2 style="margin-top:30px">از نتایج تا گفت‌وگوی توسعه‌ای</h2>
+<div class="noPrint" style="margin:12px 0"><label for="contextRole">برای نمونه‌های کاربردی، نقش خود را انتخاب کنید: </label><select id="contextRole"><option value="supervisor">سرپرست</option><option value="manager">مدیر</option></select></div>
+<div class="note" id="roleReflection" aria-live="polite"></div>
+<div id="synthesis"></div>
+<div class="note"><strong>از شناخت تا اقدام:</strong> تنها یکی از پیشنهادهای توسعه‌ای را انتخاب کنید. آن را یک‌بار در موقعیت واقعی امتحان کنید و ببینید چه اتفاقی می‌افتد. این پیشنهادها بازخورد عملکرد یا تشخیص ضعف شما نیستند.</div>
+<div class="actions noPrint"><button class="primary" id="print">چاپ یا ذخیره PDF</button><button id="restart">شروع مجدد و پاک‌کردن پاسخ‌ها</button></div>
+</section>
+<footer>چارچوب نظری: چهار جفت ترجیح منسوب به Jung–Myers. متن و نمره‌گذاریِ این ابزار اختصاصی است و به MBTI® رسمی وابسته نیست. برای اطلاعات رسمی: <a href="https://www.themyersbriggs.com/en-US/Access-Resources/All-About-the-MBTI-Assessment" target="_blank" rel="noopener">The Myers-Briggs Company</a>.</footer>
+</main>
+<script>
+"use strict";
+const ITEMS=[["EI","E","برای فکرکردن درباره یک ایده، با دیگران حرف می‌زنم.","برای فکرکردن درباره یک ایده، اول خلوت می‌کنم."],["SN","S","برای فهم موضوع، اول یک مثال واقعی می‌خواهم.","برای فهم موضوع، اول تصویر کلی را می‌خواهم."],["TF","T","در تصمیم دشوار، اول معیارهای مشترک را می‌سنجم.","در تصمیم دشوار، اول شرایط افراد را می‌سنجم."],["JP","J","برای هفته‌ام برنامه از پیش مشخص را ترجیح می‌دهم.","برای هفته‌ام برنامه‌ای با امکان تغییر را ترجیح می‌دهم."],["EI","I","برای تجدید انرژی، خلوت را ترجیح می‌دهم.","برای تجدید انرژی، جمع دوستان را ترجیح می‌دهم."],["SN","N","در گزارش‌ها، بیشتر به الگوها توجه می‌کنم.","در گزارش‌ها، بیشتر به جزئیات توجه می‌کنم."],["TF","F","در بازخورددادن، اول می‌خواهم احساس فرد را بفهمم.","در بازخورددادن، اول می‌خواهم شواهد را روشن کنم."],["JP","P","ترجیح می‌دهم گزینه‌ها مدتی باز بمانند.","ترجیح می‌دهم زودتر به تصمیم برسم."],["EI","E","در جمع تازه، گفت‌وگو با افراد بیشتری را ترجیح می‌دهم.","در جمع تازه، گفت‌وگو با یکی دو نفر را ترجیح می‌دهم."],["SN","S","در بررسی راه‌حل، اول امکان اجرای آن را می‌سنجم.","در بررسی راه‌حل، اول فرصت‌های تازه‌اش را می‌سنجم."],["TF","T","در انتخاب میان دو راه، اول هزینه و فایده را می‌سنجم.","در انتخاب میان دو راه، اول اثر آن بر افراد را می‌سنجم."],["JP","J","در یک برنامه گروهی، زمان‌بندی روشن را دوست دارم.","در یک برنامه گروهی، انعطاف در زمان‌بندی را دوست دارم."],["EI","I","پیش از گفتن ایده، آن را در ذهنم مرتب می‌کنم.","هنگام گفت‌وگو، ایده‌ام را شکل می‌دهم."],["SN","N","برای یادگیری، ارتباط میان ایده‌ها برایم جذاب‌تر است.","برای یادگیری، نمونه‌های واقعی برایم جذاب‌تر است."],["TF","F","در تعارض، اول دغدغه‌های دو طرف را می‌شنوم.","در تعارض، اول قواعد و معیارها را روشن می‌کنم."],["JP","P","پس از بررسی اولیه، دوست دارم گزینه‌ها باز بمانند.","پس از بررسی اولیه، دوست دارم به نتیجه روشن برسیم."],["EI","E","برای فهم یک مسئله، گفت‌وگو با دیگران کمکم می‌کند.","برای فهم یک مسئله، فکرکردن به‌تنهایی کمکم می‌کند."],["SN","S","وقتی مسئله‌ای پیش می‌آید، اول وضعیت موجود را می‌بینم.","وقتی مسئله‌ای پیش می‌آید، اول احتمال‌های آینده را می‌بینم."],["TF","T","استدلال روشن زودتر مرا قانع می‌کند.","هم‌خوانی با ارزش‌ها زودتر مرا قانع می‌کند."],["JP","J","در کار گروهی، مسئولیت‌ها را از ابتدا روشن می‌کنم.","در کار گروهی، تقسیم‌کار را قابل تغییر نگه می‌دارم."],["EI","I","گفت‌وگوی عمیق با یک نفر را ترجیح می‌دهم.","گفت‌وگو با افراد مختلف را ترجیح می‌دهم."],["SN","N","امتحان‌کردن راه‌های تازه را ترجیح می‌دهم.","استفاده از روش‌های آزموده را ترجیح می‌دهم."],["TF","F","هنگام تغییر، اول اثر آن بر رابطه‌ها را می‌سنجم.","هنگام تغییر، اول منطق تصمیم را بررسی می‌کنم."],["JP","P","تغییر برنامه روزانه برایم راحت‌تر است.","پیش‌رفتن طبق برنامه روزانه برایم راحت‌تر است."],["EI","E","از گفت‌وگو با افراد گوناگون انرژی می‌گیرم.","از گفت‌وگوی آرام با یک یا دو نفر انرژی می‌گیرم."],["SN","S","در توضیح یک کار، دانستن مرحله‌ها را ترجیح می‌دهم.","در توضیح یک کار، دانستن تصویر کلی را ترجیح می‌دهم."],["TF","T","برای تصمیم درباره افراد، اول معیار ثابت را بررسی می‌کنم.","برای تصمیم درباره افراد، اول شرایط خاص آن‌ها را بررسی می‌کنم."],["JP","J","بعد از تصمیم، ترجیح می‌دهم روی اجرا تمرکز کنم.","بعد از تصمیم، ترجیح می‌دهم گزینه‌ها را باز نگه دارم."],["EI","I","بعد از یک جمع شلوغ، به زمانی برای خودم نیاز دارم.","بعد از یک جمع شلوغ، دوست دارم معاشرت را ادامه دهم."],["SN","N","پرسش «چه می‌شود اگر؟» برایم جذاب‌تر است.","پرسش «الان چه می‌دانیم؟» برایم جذاب‌تر است."],["TF","F","در گفت‌وگوی دشوار، اول دیدگاه فرد را می‌پرسم.","در گفت‌وگوی دشوار، اول خود مسئله را تعریف می‌کنم."],["JP","P","مراحل کار را در طول انجام آن مشخص می‌کنم.","مراحل کار را پیش از شروع مشخص می‌کنم."],["EI","E","در رویدادهای عمومی، دوست دارم با افراد تازه آشنا شوم.","در رویدادهای عمومی، گفت‌وگو با چند نفر آشنا را ترجیح می‌دهم."],["SN","S","در شروع کار، اول جزئیات را روشن می‌کنم.","در شروع کار، اول هدف کلی را روشن می‌کنم."],["TF","T","در بررسی یک پیشنهاد، اول دلیل و منطق آن را می‌سنجم.","در بررسی یک پیشنهاد، اول اثر آن بر افراد را می‌سنجم."],["JP","J","کارها را به ترتیب از پیش تعیین‌شده پیش می‌برم.","ترتیب کارها را با شرایط تغییر می‌دهم."],["EI","I","در بحث کاری، فرصت فکرکردن قبل از پاسخ را ترجیح می‌دهم.","در بحث کاری، شکل‌دادن نظر در گفت‌وگو را ترجیح می‌دهم."],["SN","N","معنای پشت یک اتفاق بیشتر توجهم را جلب می‌کند.","جزئیات خود اتفاق بیشتر توجهم را جلب می‌کند."],["TF","F","در تصمیم‌ها، هماهنگی با ارزش‌ها برایم مهم‌تر است.","در تصمیم‌ها، سازگاری منطقی برایم مهم‌تر است."],["JP","P","وقتی شرایط عوض می‌شود، تغییر برنامه برایم راحت‌تر است.","وقتی شرایط عوض می‌شود، حفظ برنامه برایم راحت‌تر است."],["EI","E","وقتی خبری دارم، دوست دارم زود با دیگران مطرحش کنم.","وقتی خبری دارم، دوست دارم اول خودم به آن فکر کنم."],["SN","S","برای تصمیم، اول تجربه‌های مشابه را بررسی می‌کنم.","برای تصمیم، اول امکان‌های تازه را تصور می‌کنم."],["TF","T","در اختلاف‌نظر، اول به دنبال دلیل و شاهد می‌گردم.","در اختلاف‌نظر، اول به دنبال نیاز و دغدغه می‌گردم."],["JP","J","دوست دارم جلسه با تصمیم روشن تمام شود.","دوست دارم امکان ادامه بررسی باز بماند."],["EI","I","برای شناخت محیط جدید، اول خودم فکر می‌کنم.","برای شناخت محیط جدید، با دیگران گفت‌وگو می‌کنم."],["SN","N","معمولاً بیشتر به روندهای آینده توجه می‌کنم.","معمولاً بیشتر به شواهد موجود توجه می‌کنم."],["TF","F","وقتی خبر سختی می‌دهم، اول به اثرش بر شنونده فکر می‌کنم.","وقتی خبر سختی می‌دهم، اول دلیل تصمیم را بیان می‌کنم."],["JP","P","در کار، امکان تغییر روش برایم مهم است.","در کار، پایبندی به روش مشخص برایم مهم است."]];
+const AXES=[
+{id:"EI",a:"E",b:"I",title:"جهت‌گیری توجه و انرژی",nameA:"تعامل و ابراز",nameB:"تأمل و تمرکز درونی",aText:"گفت‌وگو و تعامل را برای شکل‌گیری افکار ترجیح می‌دهید.",bText:"تأمل فردی را برای شکل‌گیری افکار ترجیح می‌دهید.",q:"در جلسات آینده چگونه می‌توانید هم فرصت مشارکت فعال و هم فرصت فکرکردن مستقل را فراهم کنید؟"},
+{id:"SN",a:"S",b:"N",title:"دریافت و تفسیر اطلاعات",nameA:"واقعیت‌ها و جزئیات",nameB:"الگوها و احتمالات",aText:"شروع از شواهد ملموس و واقعیت‌های کنونی برایتان طبیعی‌تر است.",bText:"شروع از ایده‌ها، الگوها و تصویر آینده برایتان طبیعی‌تر است.",q:"برای تصمیم بعدی خود، کدام بخش را باید آگاهانه تقویت کنید: شواهد عملی یا سناریوهای تازه؟"},
+{id:"TF",a:"T",b:"F",title:"مبنای ترجیحی تصمیم‌گیری",nameA:"منطق و معیار",nameB:"ارزش‌ها و پیامدهای انسانی",aText:"معمولاً از منطق، شواهد و معیار مشترک آغاز می‌کنید.",bText:"معمولاً از ارزش‌ها، رابطه و پیامد انسانی آغاز می‌کنید.",q:"در تصمیم حساس بعدی، چطور می‌توانید هم شواهد و عدالت رویه‌ای، هم اثر انسانی تصمیم را بررسی کنید؟"},
+{id:"JP",a:"J",b:"P",title:"نحوه مواجهه با برنامه و گزینه‌ها",nameA:"ساختار و جمع‌بندی",nameB:"انعطاف و بازماندن گزینه‌ها",aText:"ساختار، موعد و تصمیم نهایی را ترجیح می‌دهید.",bText:"انعطاف، امکان بازنگری و بازماندن گزینه‌ها را ترجیح می‌دهید.",q:"چه زمانی بهتر است زودتر به جمع‌بندی برسید و چه زمانی باز گذاشتن گزینه‌ها نتیجه بهتری دارد؟"}
+];
+const LABELS=["کاملاً به عبارت اول نزدیکم","بیشتر به عبارت اول نزدیکم","تفاوت مشخصی بین دو عبارت ندارم","بیشتر به عبارت دوم نزدیکم","کاملاً به عبارت دوم نزدیکم"];
+let replies=Array(ITEMS.length).fill(null),cursor=0,started=null;
+const $=id=>document.getElementById(id);
+function show(id){for(const key of ["intro","quiz","report"])$(key).classList.toggle("hidden",key!==id);window.scrollTo(0,0)}
+function render(){
+ const item=ITEMS[cursor];
+ $("counter").textContent="سؤال "+(cursor+1)+" از "+ITEMS.length;
+ $("first").textContent=item[2];$("second").textContent=item[3];
+ const completed=replies.filter(x=>x!==null).length;
+ $("counter").textContent="سؤال "+(cursor+1)+" از "+ITEMS.length+" · "+completed+" پاسخ ثبت‌شده";
+ $("progress").setAttribute("aria-valuenow",String(completed));$("fill").style.width=(100*completed/ITEMS.length)+"%";
+ $("answers").replaceChildren();
+ LABELS.forEach((v,i)=>{const btn=document.createElement("button");btn.type="button";btn.className="answer";btn.setAttribute("aria-pressed",String(replies[cursor]===i+1));
+ const mark=document.createElement("span");mark.className="dot";mark.textContent=String(i+1);const t=document.createElement("span");t.textContent=v;btn.append(mark,t);
+ btn.addEventListener("click",()=>{replies[cursor]=i+1;render();$("answers").children[i].focus()});$("answers").append(btn)});
+ $("next").disabled=replies[cursor]===null;$("previous").disabled=cursor===0;$("next").textContent=cursor===ITEMS.length-1?"مشاهده گزارش":"سؤال بعد";
+}
+
+function dimensionEvidence(){
+ if(replies.some(v=>v===null))throw new Error("برای گزارش باید به همه پرسش‌ها پاسخ داده شود.");
+ return Object.fromEntries(AXES.map(axis=>{
+  const rows=ITEMS.map((q,i)=>({q,i,r:replies[i]})).filter(e=>e.q[0]===axis.id).map(e=>{
+   const value=(3-e.r)*(e.q[1]===axis.a?1:-1);
+   return {...e,value,selected:e.r===3?null:(e.r<3?e.q[2]:e.q[3]),strength:Math.abs(value)===2?"خیلی نزدیک":"تا حدی نزدیک"};
+  });
+  const total=rows.reduce((sum,e)=>sum+e.value,0);
+  const aCount=rows.filter(e=>e.value>0).length, bCount=rows.filter(e=>e.value<0).length,neutral=rows.filter(e=>e.value===0).length;
+  return [axis.id,{axis,rows,total,mean:total/12,aCount,bCount,neutral,
+    letter:total>0?axis.a:total<0?axis.b:"?",
+    forward:rows.filter(e=>total!==0 && Math.sign(e.value)===Math.sign(total)).sort((x,y)=>Math.abs(y.value)-Math.abs(x.value)),
+    counter:rows.filter(e=>total!==0 && Math.sign(e.value)===-Math.sign(total)).sort((x,y)=>Math.abs(y.value)-Math.abs(x.value))
+  }];
+ }));
+}
+const PRACTICE={
+ EI:{E:"پیش از شروع بحث، فرصتی کوتاه برای فکرکردن مستقل همه در نظر بگیرید.",I:"در یک گفت‌وگو، ایده‌ای را که آماده کرده‌اید در زمان مشخصی مطرح کنید."},
+ SN:{S:"برای یک تصمیم، علاوه بر واقعیت‌های موجود، یک امکان تازه را هم بررسی کنید.",N:"برای یک ایده، یک مثال واقعی و یک محدودیت اجرایی مشخص کنید."},
+ TF:{T:"در کنار معیارهای تصمیم، از فرد درگیر درباره اثر انسانی آن بپرسید.",F:"در کنار شرایط افراد، معیار مشترک و شواهد تصمیم را روی کاغذ بیاورید."},
+ JP:{J:"در کنار برنامه اصلی، یک زمان بازنگری و گزینه جایگزین مشخص کنید.",P:"برای یکی از گزینه‌های باز، یک موعد روشن برای تصمیم نهایی تعیین کنید."}
+};
+let latestEvidence=null;
+function node(tag,text,className){
+ const element=document.createElement(tag);if(className)element.className=className;if(text!==undefined)element.textContent=String(text);return element;
+}
+function report(){
+ latestEvidence=dimensionEvidence();const data=latestEvidence;
+ const code=AXES.map(axis=>data[axis.id].letter).join("");
+ $("type").textContent=code;
+ const zeroAxes=AXES.filter(axis=>data[axis.id].letter==="?").map(axis=>axis.a+"/"+axis.b);
+ const smallMargins=AXES.filter(axis=>Math.abs(data[axis.id].total)>0 && Math.abs(data[axis.id].total)<=2).map(axis=>axis.a+"/"+axis.b);
+ $("typeNote").textContent=zeroAxes.length
+ ?"در "+zeroAxes.join("، ")+" جمع نمرات برابر شده است؛ به همین دلیل «؟» نمایش داده می‌شود. کد کامل قابل استخراج نیست."
+ :"کد بالا صرفاً نمایش جهت غالب پاسخ‌های همین نوبت است؛ نه تشخیص قطعی یک تیپ.";
+ if(smallMargins.length)$("typeNote").textContent+=" در "+smallMargins.join("، ")+" اختلاف خام فقط ۱ یا ۲ امتیاز از ۲۴ است؛ نتیجه با تغییر یک پاسخ ممکن است عوض شود. این هشدار حسابی است، نه فاصله اطمینان روان‌سنجی.";
+ $("dimensions").replaceChildren();
+ AXES.forEach(axis=>{
+  const d=data[axis.id], v=d.mean;
+  const section=node("section",undefined,"axis");
+  const heading=node("div",undefined,"axisHeader");
+  const title=node("h3",axis.title);
+  const label=node("span",d.letter==="?"?"نتیجه دو سوی بُعد برابر است":(d.letter===axis.a?axis.a+" — "+axis.nameA:axis.b+" — "+axis.nameB),"pill");
+  heading.append(title,label);
+  const scale=node("div",undefined,"scale");
+  scale.append(node("span",axis.a+" · "+axis.nameA),node("span",axis.b+" · "+axis.nameB));
+  const track=node("div",undefined,"track");track.setAttribute("role","img");
+  track.setAttribute("aria-label",axis.title+": جمع جهت‌گیری "+d.total+" از بازه منفی ۲۴ تا مثبت ۲۴؛ سمت اول "+axis.a+" و سمت دوم "+axis.b);
+  const mid=node("span",undefined,"mid"),marker=node("span",undefined,"marker");
+  // In an RTL document, axis.a is the RIGHT endpoint and axis.b is the LEFT endpoint.
+  marker.style.left=(5+((v+2)/4)*90)+"%";track.append(mid,marker);
+  const counts=node("p","در ۱۲ پاسخ: "+d.aCount+" انتخاب به سمت "+axis.a+"، "+d.bCount+" انتخاب به سمت "+axis.b+"، "+d.neutral+" پاسخ میانی. جمع امتیاز: "+d.total+" در بازه ۲۴- تا ۲۴+ (مقادیر مثبت به سمت "+axis.a+").","countLine");
+  const summary=node("p",
+   d.letter==="?"?"در این بُعد، جمع پاسخ‌ها به هیچ‌یک از دو سو بیشتر نیست. از نسبت‌دادن یک ترجیح مشخص خودداری می‌کنیم."
+   :"در این نوبت، جمع امتیاز انتخاب‌های شما به سمت «"+(d.letter===axis.a?axis.nameA:axis.nameB)+"» بوده است. این توصیف پاسخ‌هاست، نه اثبات یک ویژگی ثابت."
+  );
+  const evidence=node("div",undefined,"evidence");
+  evidence.append(node("strong","شواهد مستقیم از انتخاب‌های شما"));
+  const ol=node("ol");
+  if(d.letter==="?" ){
+    ol.append(node("li","از نظر جمع امتیاز، ترجیح غالب دیده نشد. برای داوری بهتر، پاسخ‌های متفاوت خود را مرور کنید."));
+  }else{
+    d.forward.slice(0,2).forEach(e=>ol.append(node("li","سؤال "+(e.i+1)+": «"+e.selected+"» ("+e.strength+" به عبارت انتخابی)")));
+    if(d.counter.length)ol.append(node("li","یک پاسخ در سوی دیگر — سؤال "+(d.counter[0].i+1)+": «"+d.counter[0].selected+"»"));
+  }
+  evidence.append(ol);
+  const prompt=node("p","پرسش تأملی: "+axis.q,"reportQ");
+  const exercise=node("p",d.letter==="?"?"تمرین پیشنهادی: در دو موقعیت واقعی، ببینید کدام شیوه برایتان طبیعی‌تر است؛ نیازی به انتخاب فوری یک حرف نیست.":"تمرین پیشنهادی (اختیاری، نه تشخیص ضعف): "+PRACTICE[axis.id][d.letter]);
+  section.append(heading,scale,track,counts,summary,evidence,prompt,exercise);
+  $("dimensions").append(section);
+ });
+ const suspicious=[];
+ if(new Set(replies).size===1)suspicious.push("همه پاسخ‌ها به یک گزینه یکسان ثبت شده‌اند.");
+ if((Date.now()-started)/1000<120)suspicious.push("زمان تکمیل کمتر از دو دقیقه بوده است.");
+ $("quality").textContent=suspicious.length?
+ "توجه به شیوه پاسخ‌گویی: "+suspicious.join(" ")+" این نشانه‌های اولیه به‌تنهایی اثبات‌کننده بی‌اعتباری پاسخ‌ها نیستند."
+ :"تمام ۴۸ سؤال پاسخ داده شده‌اند. کیفیت روان‌سنجی پاسخ‌ها یا صداقت پاسخ‌دهی با این کنترل ساده تأیید نمی‌شود.";
+ const synthesis=$("synthesis");synthesis.replaceChildren();
+ synthesis.append(node("p","این گزارش فقط چهار الگوی انتخاب شما را کنار هم می‌گذارد. از کد چهارحرفی نمی‌توان موفقیت رهبری، مهارت ارتباطی، توانایی تصمیم‌گیری، مناسب‌بودن برای سمت یا رفتار قطعی را نتیجه گرفت."));
+ const ranked=AXES.map(a=>data[a.id]).filter(d=>d.total!==0).sort((x,y)=>Math.abs(y.total)-Math.abs(x.total));
+ if(ranked.length){
+ const highest=ranked[0];const same=ranked.filter(d=>Math.abs(d.total)===Math.abs(highest.total));
+ synthesis.append(node("p","در این پاسخ‌نامه، بیشترین فاصله عددی از نقطه میانی در "+same.map(d=>d.axis.title).join(" و ")+" دیده می‌شود. این مقایسه فقط درون همین پرسشنامه است و به معنای قوی‌تر بودن یک ویژگی شخصیتی نیست."));
+ }else synthesis.append(node("p","در هر چهار بُعد، جمع امتیاز دو سو برابر است؛ از جمع‌بندی تیپی خودداری می‌کنیم."));
+ synthesis.append(node("p","آیا توضیحات مبتنی بر پاسخ‌های خودتان با تجربه روزمره‌تان هماهنگ است؟ کدام مثال با شما سازگار نیست؟","reportQ"));
+ refreshRoleReflection();show("report");$("reportHeading").focus();
+}
+function refreshRoleReflection(){
+ if(!latestEvidence)return;
+ const role=$("contextRole").value;
+ const ordered=AXES.map(a=>latestEvidence[a.id]).filter(d=>d.total!==0).sort((x,y)=>Math.abs(y.total)-Math.abs(x.total));
+ const top=ordered[0];
+ const scope=role==="manager"?"در تصمیمی که بر چند تیم اثر دارد":"در گفت‌وگویی با یکی از اعضای تیم";
+ const action=top?PRACTICE[top.axis.id][top.letter]:"یک ترجیح را در موقعیت واقعی بررسی کنید و مثال مشخصی یادداشت کنید.";
+ $("roleReflection").textContent="تمرین پیشنهادی "+(role==="manager"?"مدیر":"سرپرست")+"، بر اساس یکی از محورهای برجسته‌تر در همین پاسخ‌ها: "+scope+"، "+action+" این پیشنهاد یک تمرین اختیاری است و مهارت یا عملکرد شما را ارزیابی نمی‌کند.";
+}
+
+$("start").addEventListener("click",()=>{started=Date.now();show("quiz");render();});
+$("previous").addEventListener("click",()=>{if(cursor>0){cursor--;render();$("stem").focus();}});
+$("next").addEventListener("click",()=>{if(replies[cursor]===null)return;if(cursor===ITEMS.length-1)report();else{cursor++;render();$("stem").focus();}});
+
+$("contextRole").addEventListener("change",refreshRoleReflection);
+
+$("print").addEventListener("click",()=>window.print());
+$("restart").addEventListener("click",()=>{replies.fill(null);cursor=0;started=null;show("intro");});
+</script></body></html>

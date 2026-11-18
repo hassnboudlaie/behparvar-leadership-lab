@@ -118,10 +118,10 @@
 .mml-refreshed .mml-toolbar button{border-radius:10px}
 .mml-refreshed .mml-layer h2[tabindex="-1"]:focus-visible{outline:none}
 .mml-refreshed .mml-hub h1[tabindex="-1"]:focus-visible{outline:none}
-.mml-refreshed .mml-switch{display:inline-flex;align-items:center;font-size:var(--mml-meta);font-weight:750;color:#176b73;text-decoration:underline;text-underline-offset:3px;margin-top:9px;min-height:44px}
-.mml-refreshed .mml-switch:focus-visible{outline:3px solid #0b8b82;outline-offset:3px}
+.mml-refreshed .mml-switch{display:inline-flex;align-items:center;font-size:var(--mml-meta);font-weight:750;color:#173673;text-decoration:underline;text-underline-offset:3px;margin-top:9px;min-height:44px}
+.mml-refreshed .mml-switch:focus-visible{outline:3px solid #0b368b;outline-offset:3px}
 @media(max-width:740px){
- .mml-refreshed .mml-toolbar{display:flex;flex-wrap:nowrap;gap:8px;margin:0 13px 12px;padding:8px;background:#f5f9fb}
+ .mml-refreshed .mml-toolbar{display:flex;flex-wrap:nowrap;gap:8px;margin:0 13px 12px;padding:8px;background:#f7f8f9}
  .mml-refreshed .mml-toolbar button[data-mml-open="coaches"]{display:none}
  .mml-refreshed .mml-toolbar button{flex:1 1 50%;width:50%;min-width:0;white-space:normal}
  .mml-refreshed #audienceStatus{display:none!important}
@@ -131,9 +131,9 @@
  .mml-refreshed .mml-zone{padding:12px}
 }
 
-.mml-refreshed .mml-observer{border:1px solid #e1e8ee;border-radius:12px;background:#fafcfd;padding:0 14px;margin:13px 0}
-.mml-refreshed .mml-observer summary{cursor:pointer;font-size:1rem;min-height:48px;font-weight:750;color:#286b70;display:list-item;align-content:center}
+.mml-refreshed .mml-observer{border:1px solid #e1e6ee;border-radius:12px;background:#fbfbfc;padding:0 14px;margin:13px 0}
+.mml-refreshed .mml-observer summary{cursor:pointer;font-size:1rem;min-height:48px;font-weight:750;color:#1d3c7b;display:list-item;align-content:center}
 .mml-refreshed .mml-observer label{display:flex;gap:10px;align-items:center;padding:11px 2px;line-height:1.65;font-size:1.0625rem}
-.mml-refreshed .mml-observer input{width:23px;height:23px;flex:none;accent-color:#207a79}
-.mml-refreshed .mml-observer label+label{border-top:1px solid #edf0f3}
+.mml-refreshed .mml-observer input{width:23px;height:23px;flex:none;accent-color:#1d3d7d}
+.mml-refreshed .mml-observer label+label{border-top:1px solid #f2f3f6}
 .mml-refreshed .mml-practice-feedback p{font-size:1.0625rem!important;margin:4px 0}

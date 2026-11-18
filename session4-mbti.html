@@ -44,6 +44,103 @@ button:focus-visible,a:focus-visible{outline:3px solid #c07c2f;outline-offset:3p
 .examples{border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:20px 0}.examples summary{cursor:pointer;font-weight:850}.examples .grid{margin:12px 0}.note summary{cursor:pointer;font-weight:850}#auditList details{padding:9px 0;border-bottom:1px solid var(--line)}#auditList summary{cursor:pointer}footer{margin-top:32px;font-size:.8rem;color:var(--sub)}
 @media(max-width:600px){.grid,.choicePair{grid-template-columns:1fr}html{font-size:19px}main{padding:12px 12px 50px}.card{padding:22px 18px}.axisHeader{align-items:flex-start}.answer{padding:13px 12px;line-height:1.7}}
 @media print{body{background:white;color:#111}main{max-width:none;padding:0}.card{border:0;box-shadow:none;padding:0;margin:0}header,.noPrint,footer{display:none!important}.axis,.evidence{break-inside:avoid}h1{font-size:1.6rem}.track,.note,.summary,.evidence{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+/* Impeccable-informed report redesign: brand-preserving, RTL, responsive, print-aware */
+main.report-mode{max-width:1130px}
+#report{--report-navy:#173356;--report-teal:#14757a;--report-ink:#172641;--report-muted:#536579;--report-surface:#ffffff;--report-line:#dbe5ed;--report-soft:#f0f5f9;line-height:1.78}
+#report .report-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin:28px 0 20px}
+#report .report-top h1{font-size:clamp(1.85rem,3.6vw,2.7rem);font-weight:900;line-height:1.32;letter-spacing:-.02em;margin:0 0 10px;color:var(--report-navy)}
+#report .report-lead{font-size:1rem;color:var(--report-muted);max-width:64ch;margin:0}
+#report .report-status{font-size:.75rem;font-weight:800;white-space:nowrap;background:#edf5f4;color:#14575e;padding:8px 14px;border-radius:8px}
+#report .report-hero{background:var(--report-navy);color:#fff;display:grid;grid-template-columns:minmax(180px,260px) minmax(0,1fr);gap:28px;border-radius:16px;padding:clamp(24px,4vw,42px);position:relative;overflow:hidden}
+#report .report-hero .result-label{color:#c5e5e8;font-weight:750;font-size:.87rem}
+#report .report-hero .type{font-family:Vazirmatn,Arial,sans-serif;font-size:clamp(3.3rem,8vw,5.3rem);font-weight:900;letter-spacing:.06em;color:#fff;text-align:right;line-height:1.25;margin:13px 0}
+#report .hero-explainer{border-right:1px solid rgba(255,255,255,.3);padding-right:28px}
+#report .hero-explainer h2{font-size:clamp(1.1rem,2.5vw,1.45rem);font-weight:900;margin:0 0 14px;color:white}
+#report .hero-explainer p{font-size:.93rem;color:#e4eff7;margin:0 0 14px;max-width:54ch}
+#report .trait-list{display:flex;flex-wrap:wrap;gap:8px}
+#report .trait-chip{display:inline-flex;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.1);color:#fff;border-radius:8px;padding:5px 11px;font-size:.77rem;font-weight:750}
+#report .report-mini-note{font-size:.77rem;color:var(--report-muted);margin:13px 0 0}
+#report .report-section{margin:44px 0 0}
+#report .section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:18px}
+#report .section-head h2{font-size:clamp(1.28rem,3vw,1.65rem);font-weight:900;color:var(--report-navy);margin:0 0 7px;line-height:1.4}
+#report .section-head p{font-size:.9rem;color:var(--report-muted);margin:0;max-width:68ch}
+#report .dimensions-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+#report .dimension-card{--dim-accent:#14757a;--dim-soft:#e8f6f4;padding:22px 22px 17px;background:var(--report-surface);border:1px solid var(--report-line);border-radius:15px;min-width:0}
+#report .dimension-card:nth-child(2){--dim-accent:#5352a2;--dim-soft:#f0effa}
+#report .dimension-card:nth-child(3){--dim-accent:#a75b3f;--dim-soft:#fff2eb}
+#report .dimension-card:nth-child(4){--dim-accent:#286d8c;--dim-soft:#eaf4f9}
+#report .dim-title{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:13px}
+#report .dim-title h3{font-size:1.1rem;font-weight:900;margin:0;color:var(--report-navy);line-height:1.5}
+#report .dim-index{color:var(--dim-accent);font-size:.77rem;font-weight:900;white-space:nowrap}
+#report .dim-choice{font-size:1rem;font-weight:900;color:var(--dim-accent);margin:0 0 9px}
+#report .dim-desc{font-size:.89rem;line-height:1.75;color:var(--report-ink);min-height:2.8em;margin:0 0 20px}
+#report .dim-poles{display:flex;justify-content:space-between;gap:12px;font-size:.74rem;font-weight:850;color:var(--report-ink);margin:0 0 8px}
+#report .dim-poles span:last-child{text-align:left}
+#report .dim-track{height:12px;background:#e5edf2;border-radius:20px;position:relative;margin-bottom:14px}
+#report .dim-track:before{content:"";position:absolute;inset:0 auto 0 50%;width:2px;background:#7f90a1;z-index:1;transform:translateX(-50%)}
+#report .dim-track .dim-fill{position:absolute;top:1px;bottom:1px;background:var(--dim-accent);border-radius:8px}
+#report .dim-track .dim-point{position:absolute;top:50%;width:17px;height:17px;transform:translate(-50%,-50%);border-radius:100%;border:3px solid white;background:var(--dim-accent);box-shadow:0 1px 6px rgba(16,43,77,.25);z-index:2}
+#report .dim-meta{font-size:.75rem;color:var(--report-muted);font-variant-numeric:tabular-nums;margin:0 0 12px}
+#report .dim-evidence{border-top:1px solid var(--report-line);padding-top:10px}
+#report .dim-evidence summary{font-size:.82rem;font-weight:850;color:var(--dim-accent);cursor:pointer;list-style-position:inside}
+#report .dim-evidence ol{font-size:.82rem;color:var(--report-ink);margin:12px 0 3px;padding-right:23px;line-height:1.85}
+#report .dim-evidence li{padding:3px 0}
+#report .takeaway-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:24px;align-items:start}
+#report .report-panel{border:1px solid var(--report-line);border-radius:15px;background:white;padding:25px;min-width:0}
+#report .report-panel h3{font-size:1.08rem;font-weight:900;color:var(--report-navy);margin:0 0 12px}
+#report #typeOverview{font-size:.91rem;color:var(--report-ink);line-height:1.95;margin:0 0 23px}
+#report #typeCommunication p{font-size:.87rem;line-height:1.9;margin:0 0 10px;border-bottom:1px solid var(--report-line);padding-bottom:10px}
+#report #typeCommunication p:last-child{border:0;margin:0;padding-bottom:0}
+#report .report-scenario{background:var(--report-soft);border-radius:13px;padding:23px}
+#report .report-scenario h3{font-size:1.08rem;font-weight:900;color:var(--report-navy)}
+#report #typeScenario{font-size:.9rem;margin:0;line-height:1.9;color:var(--report-ink)}
+#report .role-toolbar{display:flex;align-items:center;gap:16px;justify-content:space-between;flex-wrap:wrap;background:#eef5f8;border-radius:12px;padding:15px 18px;margin-bottom:17px}
+#report .role-toolbar label{font-weight:900;font-size:.91rem}
+#report .role-toolbar select{background:white;min-width:150px;border-color:#becdd7}
+#report .action-box{background:white;border:1px solid var(--report-line);border-radius:15px;padding:25px}
+#report .action-box h3{font-weight:900;color:var(--report-navy);font-size:1.09rem}
+#report #roleReflection{font-weight:750;font-size:.92rem;line-height:1.9;border-right:3px solid var(--report-teal);padding:13px 18px;background:#eef8f7;border-radius:9px;margin:0 0 20px}
+#report #typeActions ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;padding:0;list-style:none;counter-reset:actions;margin:10px 0 0}
+#report #typeActions li{counter-increment:actions;position:relative;padding:15px 17px 16px;background:var(--report-soft);border-radius:11px;font-size:.85rem;line-height:1.85}
+#report #typeActions li:before{content:counter(actions);font-weight:900;display:block;color:var(--report-teal);font-size:1.25rem;margin-bottom:5px}
+#report .report-method{margin-top:31px;border-top:1px solid var(--report-line);padding:21px 0 0}
+#report .report-method summary{font-weight:900;font-size:.91rem;color:var(--report-navy);cursor:pointer}
+#report .report-method p{color:var(--report-muted);font-size:.83rem;max-width:85ch;line-height:1.95;margin:13px 0}
+#report .report-method .quality-note{background:#fff8e9;color:#725325;border-radius:8px;padding:10px 13px}
+#report .report-actions{display:flex;gap:12px;justify-content:flex-start;flex-wrap:wrap;margin:22px 0 14px}
+#report .report-actions button.primary{background:var(--report-teal);border-color:var(--report-teal)}
+#report .report-actions button{min-height:49px}
+#report #synthesis p{font-size:.86rem;color:var(--report-muted);margin:18px 0 0}
+#report #reportMathNote{font-weight:750;color:var(--report-muted)}
+#report ::selection{background:#c7e8e4;color:#132d4c}
+@media(max-width:760px){
+ main.report-mode{padding-left:13px;padding-right:13px}
+ #report .report-top{display:block;margin-top:24px}
+ #report .report-status{display:inline-block;margin-top:14px}
+ #report .report-hero{grid-template-columns:1fr;gap:12px;padding:25px 21px}
+ #report .hero-explainer{border-right:0;border-top:1px solid rgba(255,255,255,.25);padding:20px 0 0}
+ #report .dimensions-grid,#report .takeaway-grid{grid-template-columns:1fr}
+ #report .report-section{margin-top:35px}
+ #report .report-panel{padding:20px}
+ #report #typeActions ol{grid-template-columns:1fr}
+ #report .dimension-card{padding:21px 18px}
+ #report .dim-desc{min-height:0}
+ #report .role-toolbar{align-items:stretch}
+ #report .role-toolbar select{width:100%}
+}
+@media print{
+ @page{size:A4;margin:15mm}
+ main.report-mode{max-width:none}
+ #report .report-hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ #report .dimensions-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ #report .report-section{margin-top:22px}
+ #report .report-panel,.dimension-card,.action-box{break-inside:avoid}
+ #report .report-method{break-before:auto}
+ #report details:not([open]) > :not(summary){display:block!important}
+ #report .report-status{border:1px solid #ccc}
+}
+
 </style>
 </head>
 <body>
@@ -75,19 +172,30 @@ button:focus-visible,a:focus-visible{outline:3px solid #c07c2f;outline-offset:3p
 <div class="caption" id="live" aria-live="polite"></div>
 </section>
 <section class="card hidden" id="verifyPanel" style="max-width:850px;margin:20px auto;padding:22px"><h2>تأیید ترجیح شخصیتی شما</h2><p>در یک یا چند بُعد، امتیاز دو ترجیح برابر شده است. برای تعیین تیپ چهارحرفی، لطفاً حالتی را انتخاب کنید که در شرایط معمول برایتان طبیعی‌تر و راحت‌تر است.</p><div id="verifyChoices"></div><button type="button" class="primary" id="verifySubmit">تأیید و مشاهده تیپ شخصیتی</button></section>
-<section class="card hidden" id="report">
-<div class="kicker">Personality Preferences · Pilot v0.6</div>
-<h1 tabindex="-1" id="reportHeading">گزارش توصیفیِ پاسخ‌های شما</h1>
-<div class="summary"><div class="muted" style="text-align:center">کد نمایشی حاصل از چهار جفت پاسخ‌ها (آزمون رسمی نیست)</div><div id="type" class="type"></div><p id="typeNote" style="text-align:center"></p></div>
-<div class="caution"><strong>حد تفسیر:</strong> این کد از جمع نمرات همین ۴۸ پاسخ به دست آمده است، نه از یک آزمون استانداردشده. تغییر حتی یک پاسخ می‌تواند یک حرف کم‌فاصله را عوض کند. عددهای گزارش درصد، احتمال تعلق به تیپ، توانایی یا پایایی نیستند. نتایج در ارزیابی شغلی استفاده نشوند.</div>
-<div id="quality" class="note"></div>
-<section id="typeInterpretation" class="axis" aria-label="تفسیر تیپ شخصیتی"><h2>۱. تفسیر تیپ شخصیتی</h2><div id="typeOverview"></div><h3>سبک ارتباطی احتمالی</h3><div id="typeCommunication"></div><h3>نمونه موقعیت کاری</h3><div id="typeScenario" class="note"></div></section><section class="axis" aria-label="شواهد پاسخ‌ها"><h2>۲. شواهد از پاسخ‌های شما</h2><p>نمودارهای چهار بُعد و پاسخ‌های منتخب شما در ادامه آمده‌اند. این شواهد فقط از پاسخ‌های همین آزمون استخراج شده‌اند.</p></section><div id="dimensions"></div>
-<h2 style="margin-top:30px">۳. پیشنهادهای کاربردی توسعه ارتباطات</h2><div id="typeActions" class="note"></div><h3>تمرین متناسب با نقش</h3>
-<div class="noPrint" style="margin:12px 0"><label for="contextRole">برای نمونه‌های کاربردی، نقش خود را انتخاب کنید: </label><select id="contextRole"><option value="supervisor">سرپرست</option><option value="manager">مدیر</option></select></div>
-<div class="note" id="roleReflection" aria-live="polite"></div>
-<div id="synthesis"></div>
-<div class="note"><strong>از شناخت تا اقدام:</strong> تنها یکی از پیشنهادهای توسعه‌ای را انتخاب کنید. آن را یک‌بار در موقعیت واقعی امتحان کنید و ببینید چه اتفاقی می‌افتد. این پیشنهادها بازخورد عملکرد یا تشخیص ضعف شما نیستند.</div>
-<div class="actions noPrint"><button class="primary" id="print">چاپ یا ذخیره PDF</button><button id="restart">شروع مجدد و پاک‌کردن پاسخ‌ها</button></div>
+<section class="hidden" id="report" aria-label="گزارش ترجیحات شخصیتی">
+ <div class="report-top">
+  <div><h1 tabindex="-1" id="reportHeading">نقشه ترجیحات شخصیتی شما</h1><p class="report-lead">خلاصه‌ای روشن از الگوی پاسخ‌های شما و کاربرد احتمالی آن در ارتباطات کاری.</p></div>
+  <span class="report-status">گزارش شخصی · ۴۸ پاسخ</span>
+ </div>
+ <div class="report-hero">
+  <div class="result-identity"><div class="result-label">کد چهارحرفی بر اساس پاسخ‌ها</div><div id="type" class="type" dir="ltr"></div></div>
+  <div class="hero-explainer"><h2>این ترکیب چه چیزی را نشان می‌دهد؟</h2><p>در هر بُعد، پاسخ‌های شما به یکی از دو شیوه نزدیک‌تر بوده‌اند؛ این کد برچسب قطعی شخصیت نیست.</p><div id="heroTraits" class="trait-list"></div></div>
+ </div>
+ <p class="report-mini-note" id="typeNote"></p>
+ <section class="report-section" aria-labelledby="dimsHeading"><div class="section-head"><div><h2 id="dimsHeading">چهار بُعد ترجیح شما</h2><p>نقطه هر نمودار، جهت و فاصله جمع امتیاز پاسخ‌ها از میانه را نشان می‌دهد؛ نه درصد شخصیت یا میزان توانایی.</p></div></div><div id="dimensions" class="dimensions-grid"></div></section>
+ <section class="report-section" aria-labelledby="interpretHeading"><div class="section-head"><div><h2 id="interpretHeading">این الگو در محیط کار چگونه ممکن است دیده شود؟</h2><p>توصیف‌های زیر فرضیه‌هایی برای خودشناسی هستند؛ نه پیش‌بینی رفتار یا ارزیابی شایستگی.</p></div></div>
+  <div class="takeaway-grid"><div class="report-panel"><h3>نمای کلی و شیوه ارتباط</h3><p id="typeOverview"></p><div id="typeCommunication"></div></div><aside class="report-scenario"><h3>یک موقعیت آشنا در به‌پرور</h3><p id="typeScenario"></p></aside></div>
+ </section>
+ <section class="report-section" aria-labelledby="actionHeading"><div class="section-head"><div><h2 id="actionHeading">از شناخت به اقدام</h2><p>با انتخاب نقش خود، یک اقدام کوچک و قابل‌اجرا را در گفت‌وگوی بعدی امتحان کنید.</p></div></div>
+  <div class="role-toolbar noPrint"><label for="contextRole">نقش شما در به‌پرور</label><select id="contextRole"><option value="supervisor">سرپرست</option><option value="manager">مدیر</option></select></div>
+  <div class="action-box"><div id="roleReflection" aria-live="polite"></div><h3>سه پیشنهاد تکمیلی</h3><div id="typeActions"></div></div>
+  <div id="synthesis"></div>
+ </section>
+ <details class="report-method"><summary>محدودیت تفسیر و توضیح روش گزارش</summary>
+ <p>این ابزار، آزمون رسمی MBTI® نیست و شواهد روایی و پایایی آن هنوز ارائه نشده است. کد نمایشی از جمع نمرات ۴۸ پاسخ همین نوبت استخراج می‌شود. از آن برای استخدام، ارتقا، تشخیص، ارزیابی عملکرد یا قضاوت درباره توانایی افراد استفاده نکنید.</p>
+ <p id="reportMathNote"></p><p id="quality"></p>
+ </details>
+ <div class="report-actions noPrint"><button class="primary" id="print">چاپ یا ذخیره گزارش PDF</button><button id="restart">شروع مجدد و پاک‌کردن پاسخ‌ها</button></div>
 </section>
 <footer>چارچوب نظری: چهار جفت ترجیح منسوب به Jung–Myers. متن و نمره‌گذاریِ این ابزار اختصاصی است و به MBTI® رسمی وابسته نیست. برای اطلاعات رسمی: <a href="https://www.themyersbriggs.com/en-US/Access-Resources/All-About-the-MBTI-Assessment" target="_blank" rel="noopener">The Myers-Briggs Company</a>.</footer>
 </main>
@@ -105,7 +213,7 @@ const AXES=[
 const LABELS=["همیشه","بیشتر اوقات","بسته به شرایط","بیشتر اوقات","همیشه"];
 let replies=Array(ITEMS.length).fill(null),cursor=0,started=null;
 const $=id=>document.getElementById(id);
-function show(id){for(const key of ["intro","quiz","report"])$(key).classList.toggle("hidden",key!==id);if(id==="report"||id==="intro")window.scrollTo(0,0)}
+function show(id){for(const key of ["intro","quiz","report"])$(key).classList.toggle("hidden",key!==id);document.querySelector("main").classList.toggle("report-mode",id==="report");if(id==="report"||id==="intro")window.scrollTo(0,0)}
 function render(){
  const item=ITEMS[cursor];
  $("context").textContent=CONTEXTS[cursor]+"؛";
@@ -154,81 +262,76 @@ function node(tag,text,className){
 }
 const TYPE_DETAILS={"ISTJ":["در گفت‌وگو به واقعیت‌ها، جزئیات و تعهدات روشن توجه می‌کند.","در شنیدن، ممکن است ابتدا داده‌ها و شرح دقیق اتفاق را دنبال کند.","بازخورد مبتنی بر رفتار مشخص و معیارهای روشن را ترجیح می‌دهد.","تغییر برنامه تولید؛ ابتدا ظرفیت، زمان تحویل و تعهدات قبلی را بررسی می‌کند.",["پیش از تصمیم، یک دیدگاه متفاوت را بشنوید.","در تغییرات ناگهانی، علاوه بر ریسک‌ها یک فرصت را نیز بررسی کنید.","در بازخورد، ابتدا برداشت و نگرانی همکار را بپرسید."]],"ISFJ":["ارتباط محترمانه، روشن و توجه به نیازهای واقعی دیگران را ترجیح می‌دهد.","در شنیدن، جزئیات مسئله و شرایط شخصی گوینده را جدی می‌گیرد.","بازخورد خصوصی، مشخص و همراه با قدردانی را ترجیح می‌دهد.","تغییر شیفت؛ ابتدا وضعیت افراد و امکان اجرای منظم برنامه را بررسی می‌کند.",["نیازها و محدودیت‌های خود را صریح بیان کنید.","هنگام اختلاف، مسئله را مستقیم اما محترمانه مطرح کنید.","برای تغییرات، فرصت شنیدن ایده‌های جدید را ایجاد کنید."]],"INFJ":["گفت‌وگوی عمیق و معنادار با هدف روشن را ترجیح می‌دهد.","در شنیدن، به انگیزه‌ها و پیامدهای بلندمدت توجه می‌کند.","بازخورد را با توجه به ارزش‌ها و مسیر رشد فرد مطرح می‌کند.","کاهش انگیزه تیم؛ درباره معنای کار و چشم‌انداز مشترک گفت‌وگو می‌کند.",["برداشت خود را با پرسش از طرف مقابل راستی‌آزمایی کنید.","چشم‌انداز را به اقدام و موعد مشخص تبدیل کنید.","در تعارض، نیاز خود را شفاف بیان کنید."]],"INTJ":["ارتباط موجز، مستدل و هدف‌محور را ترجیح می‌دهد.","در شنیدن، به منطق پیشنهاد و پیامدهای آینده توجه می‌کند.","بازخورد را با معیار عملکرد و فرصت بهبود پیوند می‌دهد.","طرح توسعه خط تولید؛ ابتدا پیامدهای بلندمدت و وابستگی‌های سیستم را بررسی می‌کند.",["پیش از نقد راه‌حل، دیدگاه طرف مقابل را کامل بشنوید.","منطق تصمیم را با مثال ملموس توضیح دهید.","در تغییرات، اثر تصمیم بر افراد را نیز بررسی کنید."]],"ISTP":["گفت‌وگوی مستقیم و کاربردی درباره مسئله مشخص را ترجیح می‌دهد.","در شنیدن، به نشانه‌ها و داده‌های عملی توجه می‌کند.","بازخورد کوتاه و قابل اجرا را مفیدتر می‌بیند.","توقف دستگاه؛ ابتدا نشانه‌های خرابی را در محل بررسی می‌کند.",["منطق تصمیم را برای همکاران توضیح دهید.","برای پیگیری کارها زمان توافق‌شده تعیین کنید.","در اختلاف‌ها، نگرانی افراد را نیز بپرسید."]],"ISFP":["ارتباط آرام، محترمانه و بدون فشار را ترجیح می‌دهد.","در شنیدن، به تجربه شخصی و نیازهای واقعی فرد توجه می‌کند.","بازخورد همدلانه و مبتنی بر مثال مشخص را ترجیح می‌دهد.","نارضایتی یک کارمند؛ ابتدا گفت‌وگویی خصوصی و بدون قضاوت ترتیب می‌دهد.",["درخواست یا مخالفت خود را روشن بیان کنید.","برای تعهدات مشترک موعد مشخص بگذارید.","در تصمیم‌های دشوار، معیارها را نیز صریح کنید."]],"INFP":["گفت‌وگوی اصیل و هماهنگ با ارزش‌ها را ترجیح می‌دهد.","در شنیدن، به انگیزه و معنای موضوع برای گوینده توجه می‌کند.","بازخورد را با احترام به هویت و ارزش‌های فرد مطرح می‌کند.","پیشنهاد تغییر سیاست کارکنان؛ ابتدا پیامد آن برای عدالت و معنا را بررسی می‌کند.",["ایده‌ها را به یک اقدام قابل سنجش تبدیل کنید.","اختلاف‌نظر ضروری را به تعویق نیندازید.","پیش از تصمیم، محدودیت‌های اجرایی را بررسی کنید."]],"INTP":["گفت‌وگوی تحلیلی و پرسشگرانه را ترجیح می‌دهد.","در شنیدن، فرض‌ها و سازگاری استدلال را بررسی می‌کند.","بازخورد را با پرسش و شواهد روشن ارائه می‌دهد.","اختلاف داده‌های انبار؛ ابتدا فرضیه‌های توضیح‌دهنده اختلاف را بررسی می‌کند.",["نتیجه تحلیل را ساده و خلاصه بیان کنید.","برای تصمیم‌گیری موعد مشخص بگذارید.","اثر نحوه بیان نقد بر مخاطب را بررسی کنید."]],"ESTP":["ارتباط مستقیم، زنده و متمرکز بر اقدام را ترجیح می‌دهد.","در شنیدن، به مسئله فوری و شواهد میدانی توجه می‌کند.","بازخورد کوتاه و نزدیک به زمان وقوع رفتار را ترجیح می‌دهد.","سفارش فوری مشتری؛ گزینه‌های عملی را همان روز با تیم آزمایش می‌کند.",["پیش از اقدام، پیامد بلندمدت را بررسی کنید.","برای شنیدن کامل نگرانی دیگران زمان بگذارید.","تعهدات بعد از جلسه را مکتوب کنید."]],"ESFP":["ارتباط گرم، مشارکتی و ملموس را ترجیح می‌دهد.","در شنیدن، به تجربه افراد و اتفاق‌های جاری توجه می‌کند.","بازخورد مشخص و همراه با تشویق را ترجیح می‌دهد.","ورود کارمند جدید؛ با معرفی عملی همکاران و همراهی در کار از او استقبال می‌کند.",["برای پیگیری وعده‌ها زمان مشخص تعیین کنید.","در کنار تجربه امروز، پیامد آینده را نیز ببینید.","هنگام اختلاف، معیار تصمیم را روشن کنید."]],"ENFP":["گفت‌وگوی پرایده و الهام‌بخش را ترجیح می‌دهد.","در شنیدن، امکان‌های تازه و انگیزه افراد را می‌بیند.","بازخورد را به فرصت یادگیری و رشد پیوند می‌دهد.","افت مشارکت تیم؛ چند ایده تازه را در گفت‌وگو با کارکنان بررسی می‌کند.",["از میان ایده‌ها یک اولویت عملی انتخاب کنید.","پس از جلسه مسئول و موعد اقدام را مشخص کنید.","در کنار امکان‌ها، داده‌های موجود را هم بررسی کنید."]],"ENTP":["گفت‌وگوی چالشی، پرسشگرانه و ایده‌محور را ترجیح می‌دهد.","در شنیدن، فرض‌های پنهان و راه‌حل‌های جایگزین را جست‌وجو می‌کند.","بازخورد را با استدلال و بررسی گزینه‌ها مطرح می‌کند.","کاهش فروش؛ فرض‌های رایج درباره علت مشکل را به بحث می‌گذارد.",["مراقب باشید نقد ایده به نقد شخص تعبیر نشود.","برای اجرای گزینه منتخب پیگیری منظم داشته باشید.","پیش از طرح راه‌حل، نیاز گوینده را خلاصه کنید."]],"ESTJ":["ارتباط روشن، سازمان‌یافته و نتیجه‌محور را ترجیح می‌دهد.","در شنیدن، به مسئولیت‌ها، داده‌ها و زمان‌بندی توجه می‌کند.","بازخورد مستقیم و مبتنی بر معیار عملکرد ارائه می‌دهد.","تأخیر سفارش؛ مسئولیت هر واحد و برنامه جبران را مشخص می‌کند.",["پیش از تصمیم دیدگاه کارکنان را بشنوید.","در بازخورد به شرایط فرد نیز توجه کنید.","برای پیشنهادهای غیرمعمول فضای بررسی بگذارید."]],"ESFJ":["ارتباط گرم، منظم و هماهنگ‌کننده را ترجیح می‌دهد.","در شنیدن، به نیازهای ملموس و تأثیر تصمیم بر روابط توجه می‌کند.","بازخورد خصوصی، مشخص و همراه با قدردانی را ترجیح می‌دهد.","اختلاف شیفت‌ها؛ برای توافق عملی با افراد درگیر جلسه می‌گذارد.",["در اختلاف‌ها معیارها را شفاف کنید.","برای حفظ هماهنگی از طرح مسئله مهم صرف‌نظر نکنید.","در کنار نیازهای دیگران، ظرفیت خود را هم در نظر بگیرید."]],"ENFJ":["گفت‌وگوی توسعه‌محور و هم‌راستا با هدف مشترک را ترجیح می‌دهد.","در شنیدن، به انگیزه، ظرفیت رشد و نیازهای افراد توجه می‌کند.","بازخورد را با تشویق و توافق بر مسیر رشد همراه می‌کند.","افت عملکرد تیم؛ گفت‌وگوی فردی و هدف مشترک برای بهبود تعریف می‌کند.",["پیش از همراه‌سازی، شواهد عملکرد را روشن کنید.","مسئولیت رشد را با خود فرد تقسیم کنید.","در تصمیم‌ها مرزهای زمانی و اجرایی را مشخص کنید."]],"ENTJ":["ارتباط قاطع، هدفمند و راهبردی را ترجیح می‌دهد.","در شنیدن، به نتیجه، منطق و پیامدهای بلندمدت توجه می‌کند.","بازخورد صریح و متمرکز بر استاندارد و پیشرفت می‌دهد.","توسعه ظرفیت؛ اهداف، منابع و مسئولان اجرا را سریع مشخص می‌کند.",["پیش از جمع‌بندی دیدگاه‌های مخالف را بشنوید.","دلیل تغییر را با زبان قابل‌فهم توضیح دهید.","در بازخورد، تجربه و نگرانی مخاطب را نیز بررسی کنید."]]};
 function report(){
- latestEvidence=dimensionEvidence();const data=latestEvidence;
- const verifiedAxes=AXES.filter(axis=>data[axis.id].total===0 && verifiedPreferences[axis.id]).map(axis=>axis.a+"/"+axis.b);
- const zeroAxes=AXES.filter(axis=>data[axis.id].letter==="?").map(axis=>axis.a+"/"+axis.b);
- const code=AXES.map(axis=>data[axis.id].letter).join("");
- if(!TYPE_PROFILES[code] || !TYPE_DETAILS[code])throw new Error("تیپ چهارحرفی معتبر تعیین نشده است.");
+ latestEvidence=dimensionEvidence();
+ const data=latestEvidence;
+ const verifiedAxes=AXES.filter(a=>data[a.id].total===0&&verifiedPreferences[a.id]).map(a=>a.a+"/"+a.b);
+ const nearAxes=AXES.filter(a=>Math.abs(data[a.id].total)>0&&Math.abs(data[a.id].total)<=2).map(a=>a.a+"/"+a.b);
+ const code=AXES.map(a=>data[a.id].letter).join("");
+ if(!TYPE_PROFILES[code]||!TYPE_DETAILS[code])throw new Error("تیپ چهارحرفی معتبر تعیین نشده است.");
  $("type").textContent=code;
- const smallMargins=AXES.filter(axis=>Math.abs(data[axis.id].total)>0 && Math.abs(data[axis.id].total)<=2).map(axis=>axis.a+"/"+axis.b);
- $("typeNote").textContent=zeroAxes.length
- ?"در بُعد "+zeroAxes.join("، ")+" امتیاز دو ترجیح برابر شده است. بنابراین به‌جای نسبت‌دادن یک تیپ چهارحرفی بدون پشتوانه، هر دو ترجیح را در نمودار پایین می‌بینید."
- :"کد بالا صرفاً نمایش جهت غالب پاسخ‌های همین نوبت است؛ نه تشخیص قطعی یک تیپ.";
- if(verifiedAxes.length)$("typeNote").textContent+=" در "+verifiedAxes.join("، ")+" امتیاز پاسخ‌ها مساوی بود و حرف نهایی با انتخاب خود شما در مرحله تأیید ترجیح تعیین شد؛ این انتخاب نتیجه امتیازدهی نیست.";
- if(smallMargins.length)$("typeNote").textContent+=" در "+smallMargins.join("، ")+" اختلاف خام فقط ۱ یا ۲ امتیاز از ۲۴ است؛ نتیجه با تغییر یک پاسخ ممکن است عوض شود. این هشدار حسابی است، نه فاصله اطمینان روان‌سنجی.";
- const typeDetail=TYPE_DETAILS[code];
- if(typeDetail){
-  $("typeOverview").textContent=TYPE_PROFILES[code];
-  const communication=$("typeCommunication");communication.replaceChildren();
-  ["در گفت‌وگو: ","در شنیدن: ","در بازخورد: "].forEach((prefix,i)=>communication.append(node("p",prefix+typeDetail[i])));
-  $("typeScenario").textContent=typeDetail[3];
-  const actions=$("typeActions");actions.replaceChildren();const list=node("ol");typeDetail[4].forEach(t=>list.append(node("li",t)));actions.append(list);
- }
- const profile=TYPE_PROFILES[code];
- if(profile){$("typeNote").textContent="تیپ پیشنهادی شما: "+code+". این توصیف، گرایش احتمالی را نشان می‌دهد؛ نه توانایی یا عملکرد قطعی. "+$("typeNote").textContent;}
+ $("heroTraits").replaceChildren();
+ AXES.forEach(a=>{
+  const d=data[a.id],term=d.letter===a.a?a.nameA:a.nameB;
+  $("heroTraits").append(node("span",term,"trait-chip"));
+ });
+ const notes=[];
+ if(verifiedAxes.length)notes.push("در بُعد "+verifiedAxes.join(" و ")+" نمره‌ها مساوی بود و ترجیح نهایی را خود شما تعیین کردید.");
+ if(nearAxes.length)notes.push("در "+nearAxes.join(" و ")+" فاصله از میانه کم است و نتیجه با تغییر یک پاسخ ممکن است عوض شود.");
+ $("typeNote").textContent=notes.length?notes.join(" "):"این کد، خلاصه جهت‌گیری پاسخ‌های همین نوبت است؛ نه ویژگی ثابت یا تشخیص قطعی.";
+ $("reportMathNote").textContent="برای هر بُعد ۱۲ پرسش در نظر گرفته شده است. امتیاز جمع‌شده هر بُعد بین ۲۴- و ۲۴+ قرار می‌گیرد. مقدار صفر به معنی برابر بودن دو سوی این بُعد در پاسخ‌هاست. "+(verifiedAxes.length?"در موارد برابر، کد چهارحرفی با ترجیح تأییدشده شما تکمیل شده است.":"");
+ const details=TYPE_DETAILS[code];
+ $("typeOverview").textContent=TYPE_PROFILES[code];
+ const communication=$("typeCommunication");communication.replaceChildren();
+ ["در گفت‌وگو: ","در شنیدن: ","در بازخورد: "].forEach((prefix,i)=>{
+  const p=node("p");p.append(node("strong",prefix),document.createTextNode(details[i]));communication.append(p);
+ });
+ $("typeScenario").textContent=details[3];
+ const actions=$("typeActions");actions.replaceChildren();
+ const actionList=node("ol");details[4].forEach(t=>actionList.append(node("li",t)));actions.append(actionList);
  $("dimensions").replaceChildren();
- AXES.forEach(axis=>{
-  const d=data[axis.id], v=d.mean;
-  const section=node("section",undefined,"axis");
-  const heading=node("div",undefined,"axisHeader");
-  const title=node("h3",axis.title);
-  const label=node("span",d.letter==="?"?"نتیجه دو سوی بُعد برابر است":(d.letter===axis.a?axis.a+" — "+axis.nameA:axis.b+" — "+axis.nameB),"pill");
-  heading.append(title,label);
-  const scale=node("div",undefined,"scale");
-  scale.append(node("span",axis.a+" · "+axis.nameA),node("span",axis.b+" · "+axis.nameB));
-  const track=node("div",undefined,"track");track.setAttribute("role","img");
-  track.setAttribute("aria-label",axis.title+": جمع جهت‌گیری "+d.total+" از بازه منفی ۲۴ تا مثبت ۲۴؛ سمت اول "+axis.a+" و سمت دوم "+axis.b);
-  const mid=node("span",undefined,"mid"),marker=node("span",undefined,"marker");
-  // In an RTL document, axis.a is the RIGHT endpoint and axis.b is the LEFT endpoint.
-  marker.style.left=(5+((v+2)/4)*90)+"%";track.append(mid,marker);
-  const counts=node("p","در ۱۲ پاسخ: "+d.aCount+" انتخاب به سمت "+axis.a+"، "+d.bCount+" انتخاب به سمت "+axis.b+"، "+d.neutral+" پاسخ میانی. جمع امتیاز: "+d.total+" در بازه ۲۴- تا ۲۴+ (مقادیر مثبت به سمت "+axis.a+").","countLine");
-  const summary=node("p",
-   d.total===0 && verifiedPreferences[axis.id]?"در این بُعد امتیاز دو سو برابر بود؛ ترجیح «"+(d.letter===axis.a?axis.nameA:axis.nameB)+"» را خودتان در مرحله تأیید انتخاب کردید. این انتخاب از جمع امتیازها به دست نیامده است.":d.letter==="?"?"در این بُعد، جمع پاسخ‌ها به هیچ‌یک از دو سو بیشتر نیست. از نسبت‌دادن یک ترجیح مشخص خودداری می‌کنیم."
-   :"در این نوبت، جمع امتیاز انتخاب‌های شما به سمت «"+(d.letter===axis.a?axis.nameA:axis.nameB)+"» بوده است. این توصیف پاسخ‌هاست، نه اثبات یک ویژگی ثابت."
-  );
-  const evidence=node("div",undefined,"evidence");
-  evidence.append(node("strong","شواهد مستقیم از انتخاب‌های شما"));
-  const ol=node("ol");
+ AXES.forEach((a,index)=>{
+  const d=data[a.id];
+  const strongSide=d.total===0?"نمره دو سوی بُعد برابر است":(d.total>0?a.nameA:a.nameB);
+  const card=node("article",undefined,"dimension-card");
+  const top=node("div",undefined,"dim-title");
+  top.append(node("h3",a.title),node("span",("۰"+(index+1)).slice(-2)+" / ۰۴","dim-index"));
+  card.append(top,node("p",strongSide,"dim-choice"));
+  card.append(node("p",d.total===0?"در پاسخ‌های شما، برتری عددی مشخصی برای هیچ‌یک از دو شیوه دیده نشد.":(d.total>0?a.aText:a.bText),"dim-desc"));
+  const poles=node("div",undefined,"dim-poles");
+  poles.append(node("span",a.a+" · "+a.nameA),node("span",a.b+" · "+a.nameB));card.append(poles);
+  const track=node("div",undefined,"dim-track");
+  track.setAttribute("role","img");
+  track.setAttribute("aria-label",a.title+": جمع امتیاز "+d.total+" از بازه منفی بیست‌وچهار تا مثبت بیست‌وچهار. جهت مثبت به سمت "+a.nameA+" است.");
+  const position=50+(d.total/24)*45;
+  const fill=node("div",undefined,"dim-fill");
+  fill.style.left=Math.min(50,position)+"%";
+  fill.style.width=Math.abs(position-50)+"%";
+  const dot=node("div",undefined,"dim-point");
+  dot.style.left=position+"%";
+  track.append(fill,dot);card.append(track);
+  card.append(node("p",d.aCount+" پاسخ به سمت "+a.a+" · "+d.bCount+" به سمت "+a.b+" · "+d.neutral+" پاسخ میانی","dim-meta"));
+  const evidence=node("details",undefined,"dim-evidence");evidence.append(node("summary","مشاهده شواهد همین بُعد"));
+  const list=node("ol");
   if(d.total===0){
-    ol.append(node("li","امتیاز دو ترجیح برابر شده است؛ پاسخ‌های زیر نمونه‌هایی از هر دو سوی بُعد هستند."));
-    d.rows.filter(e=>e.value>0).slice(0,1).forEach(e=>ol.append(node("li","سؤال "+(e.i+1)+"، سمت "+axis.a+": «"+e.selected+"»")));
-    d.rows.filter(e=>e.value<0).slice(0,1).forEach(e=>ol.append(node("li","سؤال "+(e.i+1)+"، سمت "+axis.b+": «"+e.selected+"»")));
+   d.rows.filter(r=>r.value>0).slice(0,1).forEach(r=>list.append(node("li","سؤال "+(r.i+1)+": "+r.selected)));
+   d.rows.filter(r=>r.value<0).slice(0,1).forEach(r=>list.append(node("li","سؤال "+(r.i+1)+": "+r.selected)));
+   if(!list.children.length)list.append(node("li","همه پاسخ‌های این بُعد در حالت میانی ثبت شده‌اند."));
   }else{
-    d.forward.slice(0,2).forEach(e=>ol.append(node("li","سؤال "+(e.i+1)+": «"+e.selected+"» ("+e.strength+" به عبارت انتخابی)")));
-    if(d.counter.length)ol.append(node("li","یک پاسخ در سوی دیگر — سؤال "+(d.counter[0].i+1)+": «"+d.counter[0].selected+"»"));
+   d.forward.slice(0,2).forEach(r=>list.append(node("li","سؤال "+(r.i+1)+": "+r.selected)));
+   if(d.counter.length)list.append(node("li","یک انتخاب متفاوت، سؤال "+(d.counter[0].i+1)+": "+d.counter[0].selected));
   }
-  evidence.append(ol);
-  const prompt=node("p","پرسش تأملی: "+axis.q,"reportQ");
-  const exercise=node("p",d.total===0?"تمرین پیشنهادی: در دو موقعیت واقعی، ببینید کدام شیوه برایتان طبیعی‌تر است. انتخاب مرحله تأیید را می‌توانید با این تجربه مقایسه کنید.":"تمرین پیشنهادی (اختیاری، نه تشخیص ضعف): "+PRACTICE[axis.id][d.letter]);
-  section.append(heading,scale,track,counts,summary,evidence,prompt,exercise);
-  $("dimensions").append(section);
+  evidence.append(list);card.append(evidence);$("dimensions").append(card);
  });
  const suspicious=[];
- if(new Set(replies).size===1)suspicious.push("همه پاسخ‌ها به یک گزینه یکسان ثبت شده‌اند.");
- if(started!==null && (Date.now()-started)/1000<120)suspicious.push("زمان تکمیل کمتر از دو دقیقه بوده است.");
- $("quality").textContent=suspicious.length?
- "توجه به شیوه پاسخ‌گویی: "+suspicious.join(" ")+" این نشانه‌های اولیه به‌تنهایی اثبات‌کننده بی‌اعتباری پاسخ‌ها نیستند."
- :"تمام ۴۸ سؤال پاسخ داده شده‌اند. کیفیت روان‌سنجی پاسخ‌ها یا صداقت پاسخ‌دهی با این کنترل ساده تأیید نمی‌شود.";
+ if(new Set(replies).size===1)suspicious.push("همه پاسخ‌ها با یک گزینه یکسان ثبت شده‌اند.");
+ if(started!==null&&(Date.now()-started)/1000<120)suspicious.push("مدت پاسخ‌دهی کمتر از دو دقیقه بوده است.");
+ $("quality").textContent=suspicious.length?"نکته درباره پاسخ‌دهی: "+suspicious.join(" ")+" این نشانه‌ها به‌تنهایی کیفیت پاسخ‌ها را تعیین نمی‌کنند.":"این گزارش از تکمیل همه ۴۸ سؤال حاصل شده است؛ این موضوع به‌معنای تأیید روایی، پایایی یا دقت روان‌سنجی نیست.";
  const synthesis=$("synthesis");synthesis.replaceChildren();
- synthesis.append(node("p","این گزارش فقط چهار الگوی انتخاب شما را کنار هم می‌گذارد. از کد چهارحرفی نمی‌توان موفقیت رهبری، مهارت ارتباطی، توانایی تصمیم‌گیری، مناسب‌بودن برای سمت یا رفتار قطعی را نتیجه گرفت."));
- const ranked=AXES.map(a=>data[a.id]).filter(d=>d.total!==0).sort((x,y)=>Math.abs(y.total)-Math.abs(x.total));
- if(ranked.length){
- const highest=ranked[0];const same=ranked.filter(d=>Math.abs(d.total)===Math.abs(highest.total));
- synthesis.append(node("p","در این پاسخ‌نامه، بیشترین فاصله عددی از نقطه میانی در "+same.map(d=>d.axis.title).join(" و ")+" دیده می‌شود. این مقایسه فقط درون همین پرسشنامه است و به معنای قوی‌تر بودن یک ویژگی شخصیتی نیست."));
- }else synthesis.append(node("p","در هر چهار بُعد، امتیاز دو سو برابر بوده است؛ تیپ چهارحرفی صرفاً بر اساس ترجیحاتی است که خودتان در مرحله تأیید انتخاب کرده‌اید."));
- synthesis.append(node("p","آیا توضیحات مبتنی بر پاسخ‌های خودتان با تجربه روزمره‌تان هماهنگ است؟ کدام مثال با شما سازگار نیست؟","reportQ"));
- refreshRoleReflection();show("report");$("reportHeading").focus();
+ synthesis.append(node("p","پرسش برای تأمل: کدام بخش گزارش با تجربه واقعی شما همخوانی بیشتری دارد و کدام بخش نیازمند بازنگری است؟"));
+ refreshRoleReflection();
+ show("report");$("reportHeading").focus();
 }
+
 function refreshRoleReflection(){
  if(!latestEvidence)return;
  const role=$("contextRole").value;

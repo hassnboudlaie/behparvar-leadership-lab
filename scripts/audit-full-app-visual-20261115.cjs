@@ -154,6 +154,12 @@ async function captureMarketingJpgs() {
    finally{await page.close();}
   }
   fs.writeFileSync(path.join(dir,'source-manifest.json'),JSON.stringify(findings,null,2));
+  // Preserve read-only source snapshot so the final JPEG album can use deeper
+  // original UI states without re-creating or inventing any screens.
+  const {spawnSync}=require('node:child_process');
+  const tar=spawnSync('tar',['--exclude=.git','--exclude=node_modules','--exclude=artifacts','-czf',path.join(OUT,'behparvar-source-snapshot.tar.gz'),'-C',path.resolve(__dirname,'..'),'.'],{encoding:'utf8'});
+  if(tar.status!==0)console.error('Source archive warning',tar.stderr);
+
   console.log('Marketing source JPGs captured',findings);
  }finally{await context.close();await browser.close();}
 }

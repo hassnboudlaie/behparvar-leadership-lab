@@ -47,7 +47,7 @@ for(const token of [".bp-studio-nav",".bp-studio-link",".bp-view-trail",
  assert(styles.includes(token),"Visual system is missing "+token);
 }
 const manifest=JSON.parse(read("manifest.webmanifest"));
-assert.equal(manifest.theme_color,"#103e38");
+assert.equal(manifest.theme_color,"#0b286e");
 const worker=read("sw.js");
 assert(worker.includes(css)&&worker.includes(js),"New visual assets should be PWA cached");
 for(const page of pages){

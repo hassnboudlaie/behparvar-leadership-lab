@@ -27,7 +27,10 @@ check("course card labels are canonical session topics",()=>{
    // than its older generic competency label.
    assert.ok(nearby.includes("سفر ارتباطات"),"Card 4 must identify the communication journey");
    assert.ok(html.includes('href="session4-communication-journey.html"'),"Canonical Session 4 link");
-  }else assert.ok(nearby.includes(lib.DATA[n-1].name),"Card "+n+" differs from course");
+  }else if(n===5){
+    assert.ok(nearby.includes("تمرین تکمیلی ارتباطات"),"Card 5 labels additional practice");
+    assert.ok(html.includes('href="session5-communication-journey.html"'),"Journey entry remains stable for recorded results");
+   }else assert.ok(nearby.includes(lib.DATA[n-1].name),"Card "+n+" differs from course");
  }
  assert.ok(homeJS.includes("SHORT[n-1]"));
  assert.deepEqual(Array.from(lib.DATA,x=>x.name),["رهبری","مدل شایستگی‌های مدیریتی","شایستگی‌های معطوف به خود","شایستگی‌های معطوف به دیگران","شایستگی‌های معطوف به نتایج کسب‌وکار","مدیریت پیشرفته"]);

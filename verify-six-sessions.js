@@ -34,9 +34,9 @@ for(const role of [null,'managers','supervisors']){
  const a=boot({audience:role});assert.equal(a.active(),'welcome');assert.equal(a.all('#course [data-course-session]').length,6);assert.equal(a.q('#workshopSidebar').hidden,true);assert.equal(a.q('#audienceStatus').hidden,true);
  const before=JSON.stringify(a.test.getState());
  for(let n=2;n<=6;n++){
-  if(n===3||n===4){
+  if(n===3||n===4||n===5){
    const href=a.q('[data-course-session="'+n+'"]').getAttribute('href');
-   assert.equal(href,n===3?'session3-self-assessment.html':'session4-communication-journey.html');
+   assert.equal(href,n===3?'session3-self-assessment.html':n===4?'session4-communication-journey.html':'session5-communication-journey.html');
    continue;
   }
   a.q('[data-course-session="'+n+'"]').click();assert.equal(a.active(),'session'+n);assert.equal(a.q('#workshopSidebar').hidden,false);assert.equal(a.q('#sidebarMobileBar').hidden,false);assert.equal(a.q('#audienceStatus').hidden,true);assert.equal(a.doc.body.classList.contains('in-workshop'),true);assert.ok(a.q('#sidebarCourse'));

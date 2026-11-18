@@ -3,7 +3,7 @@ name: Behparvar Session 4 — Playwright Browser Regression
 on:
   pull_request:
     paths:
-      - 'session4-communication-journey.html'
+      - 'session5-communication-journey.html'
       - 'assets/safar-*'
       - 'assets/bp-*'
       - 'scripts/verify-session4-browser.cjs'
@@ -11,7 +11,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'session4-communication-journey.html'
+      - 'session5-communication-journey.html'
       - 'assets/safar-*'
       - 'assets/bp-*'
       - 'scripts/verify-session4-browser.cjs'
@@ -43,10 +43,10 @@ jobs:
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           for attempt in {1..20}; do
-            if curl -fsS --max-time 3 http://127.0.0.1:4173/session4-communication-journey.html > /dev/null; then break; fi
+            if curl -fsS --max-time 3 http://127.0.0.1:4173/session5-communication-journey.html > /dev/null; then break; fi
             sleep 1
           done
-          BEHPARVAR_URL=http://127.0.0.1:4173/session4-communication-journey.html \
+          BEHPARVAR_URL=http://127.0.0.1:4173/session5-communication-journey.html \
             node scripts/verify-session4-browser.cjs
       - name: Save mobile, laptop and JSON QA evidence
         if: always()

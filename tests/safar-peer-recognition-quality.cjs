@@ -1,7 +1,7 @@
 /* Session 4: points, badge artwork, thresholds and private appreciation contract. */
 "use strict";
 const assert=require("node:assert/strict"),fs=require("node:fs"),vm=require("node:vm");
-const read=p=>fs.readFileSync(p,"utf8"),html=read("session4-communication-journey.html");
+const read=p=>fs.readFileSync(p,"utf8"),html=read("session5-communication-journey.html");
 const source={
  score:read("assets/safar-score-feedback-v1.js"),
  peer:read("assets/safar-peer-appreciation-v1.js"),
@@ -11,7 +11,7 @@ const source={
 };
 for(const [key,str] of Object.entries(source))if(key!=="css")new vm.Script(str,{filename:key});
 const inline=html.match(/<script>\s*([\s\S]*?)<\/script>/);
-assert(inline,"Core script present");new vm.Script(inline[1],{filename:"session4 inline core"});
+assert(inline,"Core script present");new vm.Script(inline[1],{filename:"gamified journey inline core"});
 for(const asset of ["safar-score-feedback-v1.js","safar-peer-appreciation-v1.js","safar-recognition-premium-20261113.css"])
  assert(html.includes(asset),"Asset link "+asset);
 assert(html.includes('name="peerRating"'),"Private 1–5 rating field");
@@ -58,7 +58,7 @@ assert(source.gallery.includes("silver:{total:75,quiz:60}"),"Silver conditions p
 assert(source.gallery.includes("gold:{total:90,quiz:72}"),"Gold conditions preserved");
 assert(source.gallery.includes('class="sf-medal-rule"')&&source.gallery.includes("شرایط کسب نشان"));
 const peerCtx={document:dom,window:{},MutationObserver:Observer,requestAnimationFrame:()=>{},
- localStorage:store,location:{href:"https://example.test/session4-communication-journey.html"},URL,history:{replaceState:()=>{}},
+ localStorage:store,location:{href:"https://example.test/session5-communication-journey.html"},URL,history:{replaceState:()=>{}},
  TextEncoder,TextDecoder,Uint8Array,atob,btoa,navigator:{}};
 vm.runInNewContext(source.peer,peerCtx);
 const decode=peerCtx.window.BP_SAFAR_PEER_APPRECIATION.decode;

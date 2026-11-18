@@ -8,7 +8,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
 
-const URL = process.env.BEHPARVAR_URL || 'http://127.0.0.1:4173/session4-communication-journey.html';
+const URL = process.env.BEHPARVAR_URL || 'http://127.0.0.1:4173/session5-communication-journey.html';
 const ARTIFACTS = path.resolve(__dirname, '..', 'artifacts', 'session4-browser');
 const STORAGE_KEY = 'bp-communication-journey-v3';
 fs.mkdirSync(ARTIFACTS, { recursive: true });

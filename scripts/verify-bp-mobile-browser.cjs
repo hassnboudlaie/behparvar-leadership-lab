@@ -48,6 +48,10 @@ async function main(){
     assert.ok(metrics.overflow<=5,"Home overflows by "+metrics.overflow+"px on "+width);
     await page.screenshot({path:path.join(OUT,"home-"+width+".png"),fullPage:true});
     await page.goto(origin+"session4-communication-journey.html",{waitUntil:"domcontentloaded"});
+    await page.locator("#landing .option-journey").waitFor({state:"visible"});
+    assert.equal(await page.locator('#landing a[href="session5-communication-journey.html"]').count(),1,"Hub links to competitive journey");
+    await page.screenshot({path:path.join(OUT,"session4-hub-"+width+".png"),fullPage:true});
+    await page.goto(origin+"session5-communication-journey.html",{waitUntil:"domcontentloaded"});
     await page.locator("#root").waitFor({state:"attached"});
     await page.waitForTimeout(200);
     assert.equal(await page.locator('link[href*="bp-mobile-first-ux-20261115.css"]').count(),1);

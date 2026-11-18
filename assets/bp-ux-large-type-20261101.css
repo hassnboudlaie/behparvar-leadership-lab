@@ -2,7 +2,7 @@
    User acceptance: +~50% text scale, less content per route, Persian-first,
    separate competency and sessions views, persistent Home control. */
 html[dir="rtl"] body.mml-refreshed{
- --g:#173d5d;--ink:#233746;--bg:#f5f8fa;
+ --g:#162f5e;--ink:#142b55;--bg:#f6f7f9;
  font-size:30px!important;line-height:1.72!important;
 }
 body.mml-refreshed #app{padding-bottom:110px}
@@ -12,9 +12,9 @@ body.mml-refreshed #app .bp-global-home{
  position:fixed!important;right:clamp(12px,2.5vw,25px);bottom:max(23px,calc(env(safe-area-inset-bottom) + 14px));
  z-index:2500;display:inline-flex;align-items:center;justify-content:center;gap:10px;
  min-width:138px;min-height:65px;padding:11px 23px;border-radius:18px;
- background:linear-gradient(120deg,#173d5d,#196e78);border:2px solid #cce7e7;
- color:#fff!important;font:900 25px/1.3 Vazirmatn,Tahoma,sans-serif;text-decoration:none;
- box-shadow:0 9px 25px rgba(11,48,67,.24)
+ background:linear-gradient(120deg,#162f5e,#193978);border:2px solid #cdd5e6;
+ color:#ffffff!important;font:900 25px/1.3 Vazirmatn,Tahoma,sans-serif;text-decoration:none;
+ box-shadow:0 9px 25px rgba(11,31,67,.24)
 }
 body.mml-refreshed #app .bp-global-home span{font-size:33px;line-height:1}
 body.mml-refreshed.bp-on-welcome #app .bp-global-home{display:none!important}
@@ -35,7 +35,7 @@ body.mml-refreshed #course :is(.bp-competency-map,.mml-study-guide){display:none
 body.mml-refreshed #competencies #bp-competency-portal{display:none!important}
 body.mml-refreshed #course .mml-hub-head{display:none!important}
 body.mml-refreshed #course .course-heading h1{
- color:#173d5d;font-size:clamp(37px,4.4vw,48px)!important;font-weight:900!important
+ color:#162f5e;font-size:clamp(37px,4.4vw,48px)!important;font-weight:900!important
 }
 body.mml-refreshed #course .course-heading p{font-size:27px!important;line-height:1.6!important}
 body.mml-refreshed #course .mml-session-heading h2{font-size:36px!important}
@@ -56,42 +56,42 @@ body.mml-refreshed #course :is(.mml-course-tile-en,.bp-domain-en){display:none!i
 /* Dedicated 3-domain competency landing. */
 body.mml-refreshed #competencies{max-width:1000px;margin:0 auto}
 body.mml-refreshed .bp-model-intro{margin:5px 0 24px;padding:28px 31px;
- border-radius:22px;background:linear-gradient(112deg,#173d5d 0%,#176b79 90%);color:#fff;
- box-shadow:0 9px 24px rgba(23,61,93,.12)}
+ border-radius:22px;background:linear-gradient(112deg,#162f5e 0%,#173879 90%);color:#ffffff;
+ box-shadow:0 9px 24px rgba(22,47,94,.12)}
 body.mml-refreshed .bp-model-intro .bp-model-kicker{
- display:inline-block;background:#fff;color:#175e6e;border-radius:30px;padding:6px 17px;
+ display:inline-block;background:#ffffff;color:#17356e;border-radius:30px;padding:6px 17px;
  font-size:22px;font-weight:850;margin-bottom:12px
 }
 body.mml-refreshed .bp-model-intro h1{
- color:#fff!important;font-size:clamp(36px,4.4vw,49px)!important;
+ color:#ffffff!important;font-size:clamp(36px,4.4vw,49px)!important;
  line-height:1.5!important;font-weight:900!important;margin:0 0 12px
 }
-body.mml-refreshed .bp-model-intro p{font-size:27px!important;line-height:1.73!important;color:#e7f4f5;margin:0}
+body.mml-refreshed .bp-model-intro p{font-size:27px!important;line-height:1.73!important;color:#f2f3f6;margin:0}
 body.mml-refreshed .bp-model-three{
  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px
 }
 body.mml-refreshed .bp-model-three a{
  display:flex;flex-direction:column;align-items:center;justify-content:center;
- min-height:254px;gap:11px;padding:25px 13px;border:2px solid #d7e7e9;border-top:5px solid #168b8b;
- border-radius:21px;background:#fff;box-shadow:0 8px 25px rgba(23,61,93,.07);
- color:#173d5d;text-decoration:none;text-align:center
+ min-height:254px;gap:11px;padding:25px 13px;border:2px solid #d7dde9;border-top:5px solid #163d8b;
+ border-radius:21px;background:#ffffff;box-shadow:0 8px 25px rgba(22,47,94,.07);
+ color:#162f5e;text-decoration:none;text-align:center
 }
-body.mml-refreshed .bp-model-three a:first-child{border-top-color:#407f9c}
-body.mml-refreshed .bp-model-three a:last-child{border-top-color:#bd914e}
-body.mml-refreshed .bp-model-three a:hover{border-color:#168b8b;background:#f4fbfb}
+body.mml-refreshed .bp-model-three a:first-child{border-top-color:#325cab}
+body.mml-refreshed .bp-model-three a:last-child{border-top-color:#c84350}
+body.mml-refreshed .bp-model-three a:hover{border-color:#163d8b;background:#f6f7f9}
 body.mml-refreshed .bp-model-illustration{
  display:grid;place-items:center;flex:none;width:96px;height:96px;border-radius:26px;
- background:linear-gradient(135deg,#ebf9fa,#ceeeee);font-size:57px;filter:drop-shadow(0 5px 4px rgba(19,76,85,.1))
+ background:linear-gradient(135deg,#f2f3f6,#d3dae9);font-size:57px;filter:drop-shadow(0 5px 4px rgba(19,41,85,.1))
 }
-body.mml-refreshed .bp-model-illustration.bp-others{background:linear-gradient(130deg,#e8f2ff,#d5e4f5)}
-body.mml-refreshed .bp-model-illustration.bp-results{background:linear-gradient(130deg,#fff7e8,#f8e6c9)}
+body.mml-refreshed .bp-model-illustration.bp-others{background:linear-gradient(130deg,#f2f3f6,#dce2ee)}
+body.mml-refreshed .bp-model-illustration.bp-results{background:linear-gradient(130deg,#f2f3f6,#ebd6d8)}
 body.mml-refreshed .bp-model-three strong{font-size:33px!important;font-weight:900!important;line-height:1.42}
-body.mml-refreshed .bp-model-three small{font-size:25px!important;color:#526d79}
+body.mml-refreshed .bp-model-three small{font-size:25px!important;color:#2e559d}
 body.mml-refreshed .bp-model-secondary{display:flex;flex-wrap:wrap;gap:13px;margin:26px 0}
 body.mml-refreshed .bp-model-secondary a{
  display:inline-flex;align-items:center;justify-content:center;min-height:67px;padding:15px 20px;
- border-radius:14px;background:#fff;border:1px solid #cfe1e4;text-decoration:none;
- color:#17505e;font-size:26px;font-weight:850
+ border-radius:14px;background:#ffffff;border:1px solid #cfd6e4;text-decoration:none;
+ color:#16305f;font-size:26px;font-weight:850
 }
 /* Large, click-to-reveal competency lessons: one expanded panel, no practice/evidence here. */
 body.mml-refreshed .bp-c-root{font-size:29px!important;line-height:1.75!important}
@@ -122,13 +122,13 @@ body.mml-refreshed .bp-c-root .bp-c-levels{
  display:grid;gap:13px;margin:15px 0 22px;padding:0;list-style:none
 }
 body.mml-refreshed .bp-c-root .bp-c-levels li{
- border:1px solid #d6e6e8;border-right:5px solid #168b8b;background:#f9fcfc;
+ border:1px solid #d6dce8;border-right:5px solid #163d8b;background:#fafafb;
  border-radius:13px;padding:15px 21px
 }
-body.mml-refreshed .bp-c-root .bp-c-levels strong{font-size:28px!important;color:#173d5d}
+body.mml-refreshed .bp-c-root .bp-c-levels strong{font-size:28px!important;color:#162f5e}
 body.mml-refreshed .bp-c-root .bp-c-levels li p{font-size:26px!important;margin:7px 0 0}
 body.mml-refreshed .bp-c-root .bp-c-example{
- background:#edf8f7;border:1px solid #d0e6e5;border-radius:12px;padding:16px 20px
+ background:#f2f3f6;border:1px solid #d0d7e6;border-radius:12px;padding:16px 20px
 }
 body.mml-refreshed .bp-c-root .bp-c-family-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 body.mml-refreshed .bp-c-root .bp-c-family-grid button{min-height:163px}
@@ -253,7 +253,7 @@ body.mml-refreshed footer .settings{display:none!important}
    Place Home inside the normal masthead row, next to the Behparvar brand. */
 body.mml-refreshed #app .masthead #bp-global-home{
  position:static!important;inset:auto!important;z-index:auto!important;
- box-shadow:0 3px 11px rgba(23,61,93,.08);
+ box-shadow:0 3px 11px rgba(22,47,94,.08);
  margin:0!important;min-height:57px;min-width:111px;
  font-size:23px!important;padding:10px 16px;border-radius:13px;flex:none
 }

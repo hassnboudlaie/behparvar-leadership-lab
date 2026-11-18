@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   capture:
@@ -43,3 +43,20 @@ jobs:
           name: behparvar-full-app-visual-evidence
           path: artifacts/behparvar-full-audit/
           if-no-files-found: warn
+
+      - name: Publish real app JPGs into the isolated marketing branch
+        if: github.event_name == 'pull_request' && github.head_ref == 'marketing/real-app-album-20261118'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f artifacts/behparvar-full-audit/original-app-jpg/01-original-app.jpg
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin "${GITHUB_HEAD_REF}"
+          git checkout "${GITHUB_HEAD_REF}"
+          mkdir -p marketing/real-app-carousel-jpg
+          cp artifacts/behparvar-full-audit/original-app-jpg/*.jpg marketing/real-app-carousel-jpg/
+          cp artifacts/behparvar-full-audit/original-app-jpg/source-manifest.json marketing/real-app-carousel-jpg/
+          git add marketing/real-app-carousel-jpg/
+          git commit -m 'Marketing: publish ten original Behparvar app JPG screenshots' || exit 0
+          git push origin "${GITHUB_HEAD_REF}"

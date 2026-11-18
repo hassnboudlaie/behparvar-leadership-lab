@@ -87,3 +87,22 @@ body[data-bp-brand] main .bp-brand-inline{height:auto;object-fit:contain}
  body[data-bp-brand="session3-self-assessment"] .bp-header-wordmark img,
  body[data-bp-brand="session3-teamship"] header .brand img{width:100px}
 }
+
+/* Optional roleplay is displayed without modifying score, timer, or saved answers. */
+body[data-bp-brand="session5-communication-journey"] .sf-role-card{background:#fff;border:1px solid #c8d7ed;padding:clamp(16px,3vw,28px)}
+body[data-bp-brand="session5-communication-journey"] .sf-role-card .charrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
+body[data-bp-brand="session5-communication-journey"] .sf-role-card .character{background:#f1f5ff;border:1px solid #d7e2f4;padding:15px;border-radius:12px;min-width:0}
+body[data-bp-brand="session5-communication-journey"] .sf-role-card .character b{display:block;color:#0b286e}
+body[data-bp-brand="session5-communication-journey"] .sf-role-dialogue{background:#f6f8ff;border:1px solid #cbd9ee;border-radius:12px;margin-block:14px;padding:12px}
+body[data-bp-brand="session5-communication-journey"] .sf-role-dialogue summary{cursor:pointer;color:#0b286e;font-weight:850;min-height:44px;display:flex;align-items:center}
+body[data-bp-brand="session5-communication-journey"] .sf-role-dialogue li{padding:8px 2px;border-bottom:1px solid #dae4f2}
+body[data-bp-brand="session5-communication-journey"] .sf-role-observer{background:#edf3ff;border-right:4px solid #d3132a;border-radius:12px;padding:16px;margin:12px 0}
+body[data-bp-brand="session5-communication-journey"] .sf-role-observer ul{padding-inline-start:24px;margin:7px 0}
+body[data-bp-brand="session5-communication-journey"] .sf-role-rate{display:grid;gap:12px}
+body[data-bp-brand="session5-communication-journey"] .sf-role-rate fieldset{min-width:0;border:1px solid #cfddf0;border-radius:12px}
+body[data-bp-brand="session5-communication-journey"] .sf-role-rate legend{color:#0b286e;font-weight:800}
+body[data-bp-brand="session5-communication-journey"] .sf-role-scale{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+body[data-bp-brand="session5-communication-journey"] .sf-role-scale label{display:flex;align-items:center;justify-content:center;gap:4px;border:1px solid #cbd9ed;border-radius:9px;background:#f5f8ff;min-height:49px;padding:6px;cursor:pointer}
+body[data-bp-brand="session5-communication-journey"] .sf-role-scale label:has(input:checked){background:#e6efff;border-color:#0b286e}
+body[data-bp-brand="session5-communication-journey"] #saverp{min-height:52px;background:#d3132a;border-color:#a60a20;color:#fff;justify-self:start}
+@media(max-width:600px){body[data-bp-brand="session5-communication-journey"] .sf-role-card .charrow{grid-template-columns:minmax(0,1fr)}body[data-bp-brand="session5-communication-journey"] #saverp{justify-self:stretch}body[data-bp-brand="session5-communication-journey"] .sf-role-scale{gap:4px}}

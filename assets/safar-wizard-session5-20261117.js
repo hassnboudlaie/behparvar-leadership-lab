@@ -21,7 +21,7 @@ const icons={lesson:"📖",self:"✍️",decision1:"🎯",decision2:"⚖️",res
 let tracked=null;
 let currentPhase="lesson",scheduled=false;
 function sequence(s){
- return ["lesson","self","decision1","decision2",...(INCIDENTS.some(x=>x.stage===s.stage+1)?["resource"]:[]),...([2,7].includes(s.stage)?["peer"]:[]),"wrap",...([2,6].includes(s.stage)?["rest"]:[])];
+ return ["lesson","self","decision1","decision2",...(INCIDENTS.some(x=>x.stage===s.stage+1)?["resource"]:[]),"role",...([2,7].includes(s.stage)?["peer"]:[]),"wrap",...([2,6].includes(s.stage)?["rest"]:[])];
 }
 function phaseKey(s){return String(s.startedAt)+":"+String(s.stage)}
 const REST_MS=30000;
@@ -71,7 +71,7 @@ function eligibility(s,p){
 }
 function skipNotice(s,p){
  if(p==="resource"&&!s.alloc?.[s.stage])return "چالش تخصیص منابع هنوز ثبت نشده. می‌خواهی بدون امتیاز آن ادامه بدهی؟";
- if(p==="role"&&!s.rp?.[s.stage])return "تمرین دونفره هنوز تأیید نشده است. می‌خواهی بدون امتیاز آن ادامه بدهی؟";
+ if(p==="role"&&!s.rp?.[s.stage])return "تمرین دونفره اختیاری است و به امتیاز رقابتی اضافه نمی‌کند؛ می‌توانی ادامه بدهی."; 
  if(p==="peer"&&!s.peer?.[s.stage])return "بازخورد تحلیلی تکمیلی هنوز ثبت نشده است. می‌خواهی بدون امتیاز آن ادامه بدهی؟";
  return "";
 }

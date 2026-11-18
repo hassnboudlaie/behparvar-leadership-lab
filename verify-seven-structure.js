@@ -37,9 +37,9 @@ for(const role of ['managers','supervisors']){
  const a=boot({audience:role});assert.equal(a.active(),'welcome');assert.equal(a.all('[data-course-session]').length,6);assert.equal(a.all('#home .module-card').length,7);
  const untouched=JSON.stringify(a.test.getState());
  for(let n=2;n<=6;n++){
-  if(n===3||n===4){
+  if(n===3||n===4||n===5){
    assert.equal(a.q('[data-course-session="'+n+'"]').getAttribute('href'),
-    n===3?'session3-self-assessment.html':'session4-communication-journey.html');
+    n===3?'session3-self-assessment.html':n===4?'session4-communication-journey.html':'session5-communication-journey.html');
    continue;
   }
   a.q('[data-course-session="'+n+'"]').click();assert.equal(a.active(),'session'+n);assert.equal(a.all('#workshopNavigation a').length,7);assert.equal(a.q('#workshopSidebar').hidden,false);

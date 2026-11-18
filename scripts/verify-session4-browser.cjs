@@ -45,6 +45,15 @@ async function inspect(name,viewport,browser){
   assert.equal(await p.locator("#start").isEnabled(),true);
   p.on("dialog",d=>d.accept());
   await p.locator("#start").click();
+  await p.waitForTimeout(300);
+  const diagnostic=await p.evaluate(k=>({
+    saved:JSON.parse(localStorage.getItem(k)||"null")?.startedAt||0,
+    current:document.querySelector("#root")?.innerText?.slice(0,320)||"",
+    wizard:!!document.querySelector("#sfWizardHead"),
+    bodyMode:document.body.className,
+    rootChildren:document.querySelector("#root")?.children.length
+  }),key);
+  console.log("JOURNEY_START_DIAGNOSTIC",JSON.stringify({device:name,...diagnostic,errors}));
   await p.locator("#sfWizardHead").waitFor({state:"visible",timeout:12000});
   const state=await p.evaluate(k=>JSON.parse(localStorage.getItem(k)||"null"),key);
   assert.equal(state?.role,"managers");assert.equal(state?.mode,"competitive");assert.equal(state?.stage,0);

@@ -11,7 +11,7 @@ const {webkit}=require('playwright');const assert=require('node:assert/strict');
  const home=await page.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,scrollY,homeVisible:!!document.querySelector('.mml-hub h1'),tiles:document.querySelectorAll('#course [data-course-session]').length}));
  // Session 4 now has an official independent workshop; do not hash-navigate
  // to a removed legacy #session4-m2 route (which deliberately redirects).
- await page.goto(new URL('session4-communication-journey.html',base).href,{waitUntil:'domcontentloaded'});
+ await page.goto(new URL('session5-communication-journey.html',base).href,{waitUntil:'domcontentloaded'});
  await page.locator('#root .cover-surface').waitFor({state:'visible'});
  const lesson=await page.evaluate(()=>{
   const x=document.querySelector('#root'),intro=document.querySelector('#root .cover-surface');

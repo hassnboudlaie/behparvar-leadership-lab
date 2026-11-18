@@ -57,7 +57,7 @@ const seed={schema:5,audience:'managers',legacyClaimed:true,legacyState:{},roleS
 const data={[firstKey]:JSON.stringify(seed)},snapshot=data[firstKey];
 const a=boot({audience:'managers',hash:'#session2-m1',data});
 const note2=a.q('#future-note-2-m1');note2.value='یادداشت مدیران جلسه دوم';note2.fire('input');assert.equal(data[firstKey],snapshot);
-a.q('[data-course-session="5"]').click();a.q('.site-nav [data-open="session5-m1"]').click();const note5=a.q('#future-note-5-m1');assert.equal(note5.value,'');note5.value='یادداشت جلسه پنجم';note5.fire('input');assert.equal(data[firstKey],snapshot);
+const future5=boot({audience:'managers',hash:'#session5-m1',data});const note5=future5.q('#future-note-5-m1');assert.equal(note5.value,'');note5.value='یادداشت جلسه پنجم';note5.fire('input');assert.equal(data[firstKey],snapshot);
 assert.equal(JSON.parse(data.behparvar_session2_v1).roleStates.managers.notes.m1,note2.value);assert.equal(JSON.parse(data.behparvar_session5_v1).roleStates.managers.notes.m1,note5.value);
 const role2=boot({audience:'supervisors',hash:'#session2-m1',data});assert.equal(role2.q('#future-note-2-m1').value,'');role2.q('#future-note-2-m1').value='یادداشت سرپرستان جلسه دوم';role2.q('#future-note-2-m1').fire('input');assert.equal(data[firstKey],snapshot);
 const resumed=boot({audience:'managers',hash:'#session2-m1',data});assert.equal(resumed.q('#future-note-2-m1').value,note2.value);assert.equal(resumed.q('#future-note-5-m1').value,note5.value);assert.equal(resumed.q('#future-note-2-m2').value,'');

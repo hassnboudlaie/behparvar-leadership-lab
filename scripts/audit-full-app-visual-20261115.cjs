@@ -117,4 +117,43 @@ async function main() {
   }
  } finally {await browser.close()}
 }
-main().catch(err=>{console.error('AUDIT HARNESS FAILED',err);process.exitCode=1});
+main().then(captureMarketingJpgs).catch(err=>{console.error('AUDIT HARNESS FAILED',err);process.exitCode=1});
+
+// Read-only marketing evidence: 10 original app screenshots exported as JPEG.
+// All captures come from actual HTML routes. No generated or altered app UIs.
+async function captureMarketingJpgs() {
+ const targets = [
+  ['01-original-app','index.html#course',0],
+  ['02-communication-training','session4-communication-journey.html',0],
+  ['03-training-ten-stages','session4-communication-journey.html',780],
+  ['04-personality-preferences','session4-mbti.html',0],
+  ['05-real-assessment-items','session4-mbti.html',880],
+  ['06-competitive-journey','session5-communication-journey.html',0],
+  ['07-scoring-system','session5-communication-journey.html',720],
+  ['08-recognition-badges','session5-communication-journey.html',1510],
+  ['09-facilitator-mode','session5-facilitator.html',0],
+  ['10-business-results-path','session6-business-results.html',0]
+ ];
+ const dir=path.join(OUT,'original-app-jpg');
+ fs.mkdirSync(dir,{recursive:true});
+ const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+ const context=await browser.newContext({viewport:{width:540,height:675},deviceScaleFactor:2,isMobile:true,hasTouch:true,reducedMotion:'reduce'});
+ const findings=[];
+ try{
+  for(let i=0;i<targets.length;i++){
+   const [name,route,scroll]=targets[i];
+   const page=await context.newPage();
+   try{
+    const res=await page.goto(BASE+route,{waitUntil:'domcontentloaded',timeout:30000});
+    await page.waitForTimeout(1000);
+    await page.evaluate(async y=>{await document.fonts.ready;window.scrollTo(0,y);},scroll);
+    await page.waitForTimeout(400);
+    await page.screenshot({path:path.join(dir,name+'.jpg'),type:'jpeg',quality:93,animations:'disabled'});
+    findings.push({name,route,requestedScroll:scroll,actualScroll:await page.evaluate(()=>scrollY),httpStatus:res?.status()});
+   }catch(e){findings.push({name,route,error:String(e)});}
+   finally{await page.close();}
+  }
+  fs.writeFileSync(path.join(dir,'source-manifest.json'),JSON.stringify(findings,null,2));
+  console.log('Marketing source JPGs captured',findings);
+ }finally{await context.close();await browser.close();}
+}

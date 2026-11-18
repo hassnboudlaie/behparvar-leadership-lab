@@ -28,6 +28,7 @@ jobs:
         run: node tests/safar-journey-quality.cjs
       - name: Verify score and private appreciation integration
         run: |
+          node tests/safar-state-contract.cjs
           node tests/safar-peer-recognition-quality.cjs
           node tests/safar-content-v4-audit.cjs
   browser-peer:

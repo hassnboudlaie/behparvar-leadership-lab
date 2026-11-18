@@ -13,6 +13,7 @@ const assetHref="assets/bp-mobile-first-ux-20261115.css?v="+styleVersion;
 const htmlFiles=[
  "index.html",
  "session4-communication-journey.html",
+ "session5-communication-journey.html",
  "session3-self-assessment.html",
  "session3-teamship.html",
  "session3-special.html",
@@ -41,7 +42,9 @@ ok(css.includes("env(safe-area-inset-bottom"),"gesture-safe mobile actions");
 const cacheName=sw.match(/^const CACHE="([^"]+)"/m)?.[1];
 ok(Boolean(cacheName)&&cacheName!=="mml-root-20261115-mobile-ux-v61","updated PWA cache identity");
 ok(Boolean(styleVersion)&&sw.includes("./"+assetHref),"new style available offline");
-const journey=read("session4-communication-journey.html");
+const hub=read("session4-communication-journey.html");
+ok(hub.includes('href="session5-communication-journey.html"'),"Session-four hub links to original journey");
+const journey=read("session5-communication-journey.html");
 for(const term of ["safar-overtime-v1.js","safar-journey-coach-v5.js","safar-score-feedback-v1.js","safar-peer-appreciation-v1.js","safar-approved-recognition-20261115.js","id=\"clock\""]){
  ok(journey.includes(term),"preserved journey module "+term);
 }

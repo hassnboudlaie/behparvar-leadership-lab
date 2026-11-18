@@ -125,14 +125,17 @@ async function run() {
       await examine(page, id+"-mobile", p);
       if(id==="communication"){
         try{
+          // The real learning controls are behind the three-path landing page.
+          assert.equal(await page.locator('a[href="session5-communication-journey.html"]').count(),1);
+          await page.locator("#goLearning").click();
           await page.locator('[data-role="managers"]').click();
-          await page.locator("#sfStartStudy").click();
-          await page.waitForTimeout(200);
+          assert.equal(await page.locator('[data-role="managers"]').getAttribute("aria-pressed"),"true");
+          await page.locator('#stagebar [data-stage="1"]').click();
+          assert.match(await page.locator("#stageCount").innerText(),/۲ از ۱۰/);
+          assert.equal(await page.locator(".roleplay-panel").count(),1);
           await examineState(page,"communication-study");
-          await page.locator('button[data-sf-study-step="1"]').first().click();
-          assert.match(await page.locator("body").innerText(),/پیشرفت مطالعه:\s*۲۰٪/);
-          await page.reload({waitUntil:"load"});
-          assert.match(await page.locator("body").innerText(),/پیشرفت مطالعه:\s*۲۰٪/);
+          await page.locator("#backHome").click();
+          assert.equal(await page.locator("#landing").isVisible(),true);
         }catch(e){fail("study-flow",e.message);}
       }
       if(id==="teamship"){

@@ -19,3 +19,71 @@ body[data-bp-brand] header .brand:not(:has(img)){display:inline-flex;align-items
 body[data-bp-brand] header .brand:not(:has(img))::before{content:"";display:inline-block;flex:0 0 auto;width:clamp(105px,19vw,145px);height:38px;background:url("behparvar-official-logo.png") center/contain no-repeat}
 body[data-bp-brand] .sf-fac-heading::before{content:"";display:block;width:135px;height:38px;margin-bottom:9px;background:#fff url("behparvar-official-logo.png") center/contain no-repeat;border-radius:8px;padding:5px}
 @media(max-width:700px){body[data-bp-brand] header .brand:not(:has(img))::before{width:100px;height:30px}}
+
+/* Corporate identity refinements | explicit logo placement | accessibility */
+body[data-bp-brand] .bp-header-wordmark,
+body[data-bp-brand] header .brand:has(img){display:inline-flex;align-items:center;gap:12px;flex-wrap:wrap;min-width:0;font-weight:850}
+body[data-bp-brand] .bp-header-wordmark img,
+body[data-bp-brand] header .brand img,
+body[data-bp-brand] .bp-brand-inline {width:130px;max-width:35vw;height:auto;max-height:44px;object-fit:contain;flex:none;background:#fff;border-radius:6px;padding:2px}
+body[data-bp-brand] :is(.brand-context,.bp-header-wordmark>span){color:#132e69;font-size:clamp(15px,2.7vw,19px);border-right:1px solid #cbd8ed;padding-right:12px}
+body[data-bp-brand] :is(.topbar,.top,.bar) .bp-header-wordmark>span {color:inherit}
+body[data-bp-brand="session4-communication-journey"] header.bar{
+ display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 2px 18px}
+body[data-bp-brand="session4-communication-journey"] header.bar>.brand-wrap,
+body[data-bp-brand="session4-communication-journey"] header.bar>div:first-child{min-width:0}
+body[data-bp-brand="session4-communication-journey"] header.bar .brand{font-size:17px}
+body[data-bp-brand="session4-communication-journey"] header.bar>.brand-wrap .minor,
+body[data-bp-brand="session4-communication-journey"] header.bar>div:first-child .minor{font-size:14px;color:#4c607e}
+body[data-bp-brand="session4-communication-journey"] header.bar>a,
+body[data-bp-brand="session4-mbti"] header>a,
+body[data-bp-brand="session3-teamship-assessment"] main header>a{
+ min-height:48px;display:inline-flex;align-items:center;padding:9px 14px;
+ border:1px solid #c9d6eb;background:#fff;color:#0b286e;text-decoration:none;
+ border-radius:12px;font-weight:800;line-height:1.5
+}
+body[data-bp-brand="session4-communication-journey"] #landing .hero{
+ padding:clamp(22px,4vw,34px);border-radius:22px;
+ background:linear-gradient(120deg,#071d56,#113775 76%,#174596)
+}
+body[data-bp-brand="session4-communication-journey"] #landing .hero h1{
+ font-size:clamp(27px,4vw,42px);line-height:1.58;letter-spacing:0
+}
+body[data-bp-brand="session4-communication-journey"] #landing .hero .eyebrow{
+ font-size:clamp(15px,2.5vw,18px);letter-spacing:0;color:#dfeaff
+}
+body[data-bp-brand="session4-communication-journey"] #landing .hero p{font-size:clamp(16px,2.6vw,19px);line-height:1.85}
+body[data-bp-brand="session4-communication-journey"] #landing .grid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+body[data-bp-brand="session4-communication-journey"] #landing .option{min-width:0;padding:clamp(18px,3vw,27px)}
+body[data-bp-brand="session4-communication-journey"] #landing .option h2{font-size:clamp(21px,3.5vw,26px)}
+body[data-bp-brand="session4-communication-journey"] #landing .option-journey{
+ grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 18px;
+ border:2px solid #d3132a;background:linear-gradient(125deg,#fff,#fff7f9)
+}
+body[data-bp-brand="session4-communication-journey"] #landing .option-journey .icon{grid-column:1/-1}
+body[data-bp-brand="session4-communication-journey"] #landing .option-journey :is(h2,p,.note){grid-column:1/-1}
+body[data-bp-brand="session4-communication-journey"] #landing .option-journey .btn-journey{
+ background:#c81129;border-color:#c81129;color:white;min-height:52px;grid-column:1;justify-self:start}
+body[data-bp-brand="session4-communication-journey"] #landing .option-journey .secondary-journey-link{
+ grid-column:2;align-self:center;justify-self:end;color:#0b286e;font-size:16px;min-height:44px;
+ display:inline-flex;align-items:center;padding:8px 6px;text-underline-offset:4px}
+body[data-bp-brand="session4-mbti"] header .brand{flex-wrap:wrap}
+body[data-bp-brand="session3-teamship-assessment"] main header .bp-brand-inline{margin-bottom:12px}
+body[data-bp-brand="session5-facilitator"] main header .bp-brand-inline{display:block;margin:0 0 14px}
+body[data-bp-brand] main .bp-brand-inline{height:auto;object-fit:contain}
+@media(max-width:700px){
+ body[data-bp-brand="session4-communication-journey"] header.bar{align-items:stretch;flex-direction:column;gap:10px}
+ body[data-bp-brand="session4-communication-journey"] header.bar>a{align-self:flex-start}
+ body[data-bp-brand="session4-communication-journey"] #landing .grid{grid-template-columns:minmax(0,1fr);gap:12px}
+ body[data-bp-brand="session4-communication-journey"] #landing .option-journey{grid-column:1;grid-template-columns:minmax(0,1fr);gap:10px}
+ body[data-bp-brand="session4-communication-journey"] #landing .option-journey .btn-journey,
+ body[data-bp-brand="session4-communication-journey"] #landing .option-journey .secondary-journey-link{
+ grid-column:1;justify-self:stretch;justify-content:center;text-align:center}
+ body[data-bp-brand="session4-communication-journey"] #landing .hero h1{font-size:clamp(27px,7vw,34px)}
+ body[data-bp-brand="session4-communication-journey"] #landing .hero p{font-size:17px}
+ body[data-bp-brand="session4-mbti"] header{flex-wrap:wrap;gap:10px}
+ body[data-bp-brand="session4-mbti"] header>a{max-width:100%}
+ body[data-bp-brand="session3-self-assessment"] .bp-header-wordmark img,
+ body[data-bp-brand="session3-teamship"] header .brand img{width:100px}
+}

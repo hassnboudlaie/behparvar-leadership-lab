@@ -57,12 +57,12 @@ const seed={schema:5,audience:'managers',legacyClaimed:true,legacyState:{},roleS
 const data={[firstKey]:JSON.stringify(seed)},snapshot=data[firstKey];
 const a=boot({audience:'managers',hash:'#session2-m1',data});
 const note2=a.q('#future-note-2-m1');note2.value='یادداشت مدیران جلسه دوم';note2.fire('input');assert.equal(data[firstKey],snapshot);
-const future6=boot({audience:'managers',hash:'#session6-m1',data});const note6=future6.q('#future-note-6-m1');assert.equal(note6.value,'');note6.value='یادداشت جلسه پنجم';note6.fire('input');assert.equal(data[firstKey],snapshot);
+const future6=boot({audience:'managers',hash:'#session6-m1',data});const note6=future6.q('#future-note-6-m1');assert.equal(note6.value,'');note6.value='یادداشت جلسه ششم';note6.fire('input');assert.equal(data[firstKey],snapshot);
 assert.equal(JSON.parse(data.behparvar_session2_v1).roleStates.managers.notes.m1,note2.value);assert.equal(JSON.parse(data.behparvar_session6_v1).roleStates.managers.notes.m1,note6.value);
 const role2=boot({audience:'supervisors',hash:'#session2-m1',data});assert.equal(role2.q('#future-note-2-m1').value,'');role2.q('#future-note-2-m1').value='یادداشت سرپرستان جلسه دوم';role2.q('#future-note-2-m1').fire('input');assert.equal(data[firstKey],snapshot);
 const resumed=boot({audience:'managers',hash:'#session2-m1',data});assert.equal(resumed.q('#future-note-2-m1').value,note2.value);assert.equal(resumed.q('#future-note-6-m1').value,note6.value);assert.equal(resumed.q('#future-note-2-m2').value,'');
 resumed.q('#reset').click();assert.equal(data[firstKey],snapshot,'session-one reset cannot run from a future session');assert.equal(JSON.parse(data.behparvar_session2_v1).roleStates.supervisors.notes.m1,'یادداشت سرپرستان جلسه دوم');
-const first=boot({audience:'managers',hash:'#action',data});assert.equal(first.q('#actionWhen').value,'یادداشت جلسه اول');assert.equal(first.q('[data-question="conversation"][data-value="clear"]').getAttribute('aria-pressed'),'true');assert.equal(first.q('.scale-options button[data-index="0"][data-value="6"]').getAttribute('aria-pressed'),'true');
+const first=boot({audience:'managers',hash:'#action',data});assert.equal(first.q('#actionWhen').value,'یادداشت جلسه اول');assert.equal(first.q('[data-question="conversation"][data-value="clear"]').getAttribute('aria-pressed'),'true');assert.equal(first.q('.scale-options button[data-index="0"][data-value="5"]').getAttribute('aria-pressed'),'true');
 for(let n of [2,6]){
  const gate=boot({audience:null,hash:'#session'+n+'-quiz'});assert.equal(gate.active(),'session'+n);assert.ok(gate.q('#session'+n+'Prompt').textContent.includes('ابتدا'));gate.q('#session'+n+' [data-session-audience="supervisors"]').click();assert.equal(gate.location.hash,'#session'+n+'-quiz');assert.equal(new URL(gate.location.href).searchParams.get('audience'),'supervisors');
 }

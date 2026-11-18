@@ -167,6 +167,11 @@ main.report-mode{max-width:1130px}
 @media(max-width:760px){#report .types-directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media print{#report .types-directory{display:none}}
 
+#report .mbti-terms{margin:18px 0 0;border-top:1px solid #dbe5ed;padding:15px 0 0}
+#report .mbti-terms summary{font-weight:900;font-size:.86rem;color:#17476b;cursor:pointer}
+#report .mbti-terms div{padding:10px 0;border-bottom:1px solid #e5edf2;font-size:.84rem;line-height:1.9}
+#report .mbti-terms div:last-child{border:0}
+#report .mbti-terms strong{color:#173356}
 </style>
 </head>
 <body>
@@ -208,7 +213,13 @@ main.report-mode{max-width:1130px}
   <div class="hero-explainer"><p class="hero-subtitle">معرفی تیپ شخصیتی</p><h2 id="heroTypeTitle">معرفی تیپ</h2><p id="heroSummary"></p><div id="heroTraits" class="trait-list"></div></div>
  </div>
  <p class="report-mini-note" id="typeNote"></p><p id="sampleNote" class="sample-note" hidden>این یک نمونه نمایشی است. همه پاسخ‌ها فرضی هستند و نتیجه به هیچ فردی تعلق ندارد. هدف فقط مشاهده طراحی و ساختار گزارش است.</p>
- <section class="report-section" aria-labelledby="dimsHeading"><div class="section-head"><div><h2 id="dimsHeading">چهار بُعد ترجیح شما</h2><p>نقطه هر نمودار، جهت و فاصله جمع امتیاز پاسخ‌ها از میانه را نشان می‌دهد؛ نه درصد شخصیت یا میزان توانایی.</p></div></div><div id="dimensions" class="dimensions-grid"></div></section>
+ <section class="report-section" aria-labelledby="dimsHeading"><div class="section-head"><div><h2 id="dimsHeading">چهار بُعد ترجیح شما</h2><p>نقطه هر نمودار، جهت و فاصله جمع امتیاز پاسخ‌ها از میانه را نشان می‌دهد؛ نه درصد شخصیت یا میزان توانایی.</p></div></div><div id="dimensions" class="dimensions-grid"></div>
+ <details class="mbti-terms"><summary>معنای دقیق اصطلاح‌های چهار جفت ترجیح در MBTI</summary>
+ <div><strong>برون‌گرایی (Extraversion / E) و درون‌گرایی (Introversion / I):</strong> تمرکز ترجیحی انرژی و توجه بر تعامل با دنیای بیرون یا تأمل در دنیای درون؛ نه میزان اجتماعی‌بودن یا توانایی سخن‌گفتن.</div>
+ <div><strong>حسی (Sensing / S) و شهودی (Intuition / N):</strong> ترجیح دریافت اطلاعات از واقعیت‌ها و تجربه ملموس یا از الگوها و امکان‌های مرتبط؛ نه تفاوت در هوش.</div>
+ <div><strong>تفکری (Thinking / T) و احساسی (Feeling / F):</strong> ترجیح آغاز تصمیم با تحلیل منطقی و معیار مشترک یا با ارزش‌ها و پیامدهای انسانی؛ «احساسی» به معنی غیرمنطقی و «تفکری» به معنی بی‌احساس نیست.</div>
+ <div><strong>قضاوت‌گر (Judging / J) و ادراکی (Perceiving / P):</strong> ترجیح ساختار و جمع‌بندی یا انعطاف و بازگذاشتن گزینه‌ها در مواجهه با جهان بیرون؛ «قضاوت‌گر» به معنی قضاوت‌کردن درباره شخصیت دیگران نیست.</div>
+ </details></section>
  <section class="report-section" aria-labelledby="interpretHeading"><div class="section-head"><div><h2 id="interpretHeading">این الگو در محیط کار چگونه ممکن است دیده شود؟</h2><p>توصیف‌های زیر فرضیه‌هایی برای خودشناسی هستند؛ نه پیش‌بینی رفتار یا ارزیابی شایستگی.</p></div></div>
   <div class="role-toolbar noPrint"><label for="contextRole">نقش خود را برای نمونه‌های کاری انتخاب کنید</label><select id="contextRole"><option value="supervisor">سرپرست</option><option value="manager">مدیر</option></select></div>
   <div class="takeaway-grid"><div class="report-panel"><h3>شیوه ارتباط و بازخورد</h3><p id="typeOverview"></p><div id="typeCommunication"></div></div><aside class="report-scenario"><h3>تحلیل یک موقعیت کاری فرضی</h3><p class="scenario-caption">این مثال، رفتار واقعی شما را پیش‌بینی نمی‌کند.</p><div id="typeScenario"></div></aside></div>

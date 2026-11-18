@@ -2,7 +2,7 @@
  * Browser-local pause: one voluntary five-minute pause per competitive journey.
  */
 (()=>{"use strict";
-const KEY="bp-communication-journey-v3",NAV="bp-safar-nested-v3",BREAK_MS=5*60000;
+const KEY="bp-session5-communication-journey-v1",NAV="bp-safar-nested-session5-v1",BREAK_MS=5*60000;
 const data=window.BP_SAFAR_DATA,applied=window.BP_SAFAR_APPLIED;
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fa=n=>Number(n||0).toLocaleString("fa-IR");

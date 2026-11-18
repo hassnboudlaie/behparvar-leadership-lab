@@ -4,7 +4,7 @@
  * Browser-local gamification, not a secure official examination.
  */
 (()=>{"use strict";
-const KEY="bp-communication-journey-v3",FREE=2,COST=2;
+const KEY="bp-session5-communication-journey-v1",FREE=2,COST=2;
 const data=window.BP_SAFAR_DATA,units=window.BP_SAFAR_APPLIED?.units||[];
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fa=n=>Number(n||0).toLocaleString("fa-IR");

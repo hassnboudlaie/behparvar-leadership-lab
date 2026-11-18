@@ -6,7 +6,7 @@
 const root=document.getElementById("root");
 const data=window.BP_SAFAR_DATA;
 if(!root||!data?.stages||data.stages.length!==10)return;
-const KEY="bp-communication-journey-v3";
+const KEY="bp-session5-communication-journey-v1";
 const lessons=window.BP_SAFAR_RESTORED_CONTENT?.content||[];
 const skills=window.BP_SAFAR_CLASSROOM?.content||[];
 const fa=n=>Number(n||0).toLocaleString("fa-IR");

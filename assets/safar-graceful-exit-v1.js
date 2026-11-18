@@ -3,7 +3,7 @@
  * A partial journey is never represented as completion of all 10 stages.
  */
 (()=>{"use strict";
-const KEY="bp-communication-journey-v3";
+const KEY="bp-session5-communication-journey-v1";
 const root=document.getElementById("root");
 const stages=window.BP_SAFAR_DATA?.stages||[];
 const incidents=window.BP_SAFAR_DATA?.incidents||[];

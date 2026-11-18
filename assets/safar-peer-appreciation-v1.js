@@ -5,7 +5,7 @@
 (()=>{"use strict";
 const root=document.getElementById("root");
 if(!root)return;
-const STATE="bp-communication-journey-v3",KEY="bp-safar-appreciation-v1";
+const STATE="bp-session5-communication-journey-v1",KEY="bp-safar-appreciation-v1";
 const phrases=[
  "از اینکه حرفم را تا پایان شنیدی، ممنونم.",
  "از پرسش روشن و تلاش برای پیدا کردن توافق، قدردانم.",

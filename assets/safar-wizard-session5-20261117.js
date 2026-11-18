@@ -9,7 +9,7 @@ if(!root)return;
 const source=window.BP_SAFAR_DATA;
 if(!source?.stages?.length)return;
 const STAGES=source.stages,INCIDENTS=source.incidents||[];
-const STORAGE="bp-communication-journey-v3",NAVKEY="bp-safar-nested-v3";
+const STORAGE="bp-session5-communication-journey-v1",NAVKEY="bp-safar-nested-session5-v1";
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fa=n=>Number(n??0).toLocaleString("fa-IR");
 const card=(f)=>Array.from(root.children).find(node=>node.classList?.contains("card")&&f(node));

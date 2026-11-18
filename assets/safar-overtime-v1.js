@@ -11,7 +11,7 @@ function giftMinutes(s){
  const t=Number(s?.startedAt)||0;
  return s?.mode!=="study" && t>=CLASS_GIFT_START && t<CLASS_GIFT_END?30:0;
 }
-const KEY="bp-communication-journey-v3";
+const KEY="bp-session5-communication-journey-v1";
 let live=null,overlay=null;
 const fa=n=>Number(n||0).toLocaleString("fa-IR");
 function grants(s){return Array.isArray(s?.overtime?.grants)?s.overtime.grants:[];}
@@ -50,7 +50,7 @@ function restartFromExpired(){
   pause:{since:0,spentMs:0,usedOnce:false},overtime:{pauseMs:0,grants:[]},guide:{uses:[]}};
  try{
   localStorage.setItem(KEY,JSON.stringify(fresh));
-  sessionStorage.removeItem("bp-safar-nested-v3");
+  sessionStorage.removeItem("bp-safar-nested-session5-v1");
  }catch(e){alert("ذخیره شروع مجدد ممکن نیست. از گزینه خروج به فهرست استفاده کن.");return;}
  hide();window.location.reload();
 }
@@ -61,7 +61,7 @@ function continueAsStudy(){
  s.mode="study";s.studyStage=stage;s.stage=stage;s.startedAt=0;s.finished=false;
  s.answers={};s.orders={};s.self={};s.alloc={};s.rp={};s.peer={};s.events=[];
  s.overtime={pauseMs:0,grants:[]};s.pause={since:0,spentMs:0,usedOnce:false};
- try{localStorage.setItem(KEY,JSON.stringify(s));sessionStorage.removeItem("bp-safar-nested-v3")}
+ try{localStorage.setItem(KEY,JSON.stringify(s));sessionStorage.removeItem("bp-safar-nested-session5-v1")}
  catch(e){alert("تغییر به مطالعه آزاد ذخیره نشد. از گزینه خروج استفاده کن.");return}
  hide();window.location.reload();
 }

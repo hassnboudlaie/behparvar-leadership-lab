@@ -2,7 +2,7 @@
 (()=>{"use strict";
 const root=document.getElementById("root"),stages=window.BP_SAFAR_DATA?.stages||[];
 if(!root||stages.length!==10)return;
-const KEY="bp-communication-journey-v3",fa=n=>Number(n||0).toLocaleString("fa-IR");
+const KEY="bp-session5-communication-journey-v1",fa=n=>Number(n||0).toLocaleString("fa-IR");
 function decorate(){
  let s;try{s=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){return}
  if(!s?.finished)return;

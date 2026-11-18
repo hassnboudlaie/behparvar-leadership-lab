@@ -5,7 +5,7 @@
 const root=document.getElementById("root");
 const stages=window.BP_SAFAR_DATA?.stages||[];
 if(!root||stages.length!==10)return;
-const MAIN="bp-communication-journey-v3",HISTORY="bp-safar-communication-history-v1",NAV="bp-safar-nested-v3";
+const MAIN="bp-session5-communication-journey-v1",HISTORY="bp-safar-communication-history-v1",NAV="bp-safar-nested-session5-v1";
 const escape=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fa=n=>Number(n||0).toLocaleString("fa-IR");
 const read=(key)=>{try{return JSON.parse(localStorage.getItem(key)||"null")}catch(e){return null}};

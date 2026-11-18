@@ -3,7 +3,7 @@
  * Official logo is always read from #brandlogo; all labels use the locally hosted Vazirmatn face.
  */
 (()=>{"use strict";
-const ROOT=document.getElementById("root"),KEY="bp-communication-journey-v3";
+const ROOT=document.getElementById("root"),KEY="bp-session5-communication-journey-v1";
 if(!ROOT)return;
 const fa=n=>Number(n||0).toLocaleString("fa-IR");
 const skillNames=[

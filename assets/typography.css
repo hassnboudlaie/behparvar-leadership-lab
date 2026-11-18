@@ -1,14 +1,14 @@
 /* Behparvar reading hierarchy. Shared by the workshop and screen handout. */
 @media screen {
   :root {
-    --ink: #24344f;
-    --muted: #536179;
-    --type-brand: #132c68;
-    --type-emphasis: #97223d;
-    --type-action: #146268;
-    --type-key-bg: #fff5f7;
-    --type-action-bg: #eef7f5;
-    --type-dialogue-bg: #f0f4fc;
+    --ink: #162f5d;
+    --muted: #2e559e;
+    --type-brand: #133168;
+    --type-emphasis: #a01927;
+    --type-action: #143068;
+    --type-key-bg: #f9fafb;
+    --type-action-bg: #f2f3f6;
+    --type-dialogue-bg: #f5f6f7;
     --type-body: 20px;
     --type-lead: 21px;
     --type-meta: 17px;
@@ -129,7 +129,7 @@
   .leader-switch button, .technique-switch button, .picture-switch button {
     font-size: var(--type-meta); font-weight: 750; line-height: 1.8;
   }
-  .feedback { background: #f1f5fc; }
+  .feedback { background: #f5f6f8; }
   .feedback strong { font-size: var(--type-subheading); font-weight: 800; line-height: 1.85; color: var(--type-brand); margin-bottom: 10px; }
   .feedback p { font-size: var(--type-body); font-weight: 450; line-height: 2; }
   .practice-field label { font-size: var(--type-heading); font-weight: 800; line-height: 1.8; }

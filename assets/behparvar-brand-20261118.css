@@ -1,0 +1,21 @@
+/* Official Behparvar identity: blue / white / red.
+   Visual skin only: do not alter instructional stages, timer, scores or content. */
+:root{--bp-brand-blue:#0b286e;--bp-brand-blue-deep:#081c56;--bp-brand-red:#d3132a;--bp-brand-white:#fff}
+body[data-bp-brand]{--g:#0b286e;--ink:#172b52;--muted:#51617b;--bg:#f5f8ff;--line:#d4dfef;--soft:#edf3ff;--red:#d3132a;--bp-pr-forest:#0b286e;--bp-pr-deep:#081c56;--bp-pr-green:#1d4995;--bp-pr-emerald:#2056a4;--bp-pr-ivory:#f7f9ff;--bp-pr-paper:#fff;--bp-pr-sage:#edf3ff;--bp-pr-stroke:#d2def0;--bp-pr-ink:#172b52;--bp-pr-muted:#51617b;--bp-mob-deep:#0b286e;--bp-mob-border:#d4dfef;--bp-mob-paper:#fff;--mml-navy:#0b286e;--mml-teal:#21539d;--mml-ink:#193158;--mml-line:#d4dfef;--type-brand:#0b286e;--type-emphasis:#d3132a;--type-action:#2254a3;--type-key-bg:#fff3f4;--type-action-bg:#eff4ff;--type-dialogue-bg:#eef4ff;accent-color:#1e4c98;background-color:#f5f8ff}
+body[data-bp-brand] :is(button,a,input,select,textarea,summary):focus-visible{outline:3px solid #d3132a!important;outline-offset:3px}
+body[data-bp-brand] :is(.btn.primary,.btn.magenta,.bp-install-action,#bp-install-action,.bp-recognition-download,.bp-recognition-exportall,.sf-medal-feature-actions button){background:#d3132a!important;border-color:#b40d24!important;color:white!important}
+body[data-bp-brand] :is(.btn.primary,.btn.magenta,.bp-install-action,#bp-install-action,.bp-recognition-download,.bp-recognition-exportall,.sf-medal-feature-actions button):hover{background:#a90b21!important}
+body[data-bp-brand] :is(.bp-studio-link.is-active,.course-session-number,.mml-course-tile-icon,.sf-wizard-step.done,.sf-fac-stages button[aria-current="step"]){background:#eaf0ff!important;color:#0b286e!important;border-color:#bfd0ed!important}
+body[data-bp-brand] :is(.sf-wizard-step.current,.sf-wizard-step[aria-current="step"]){background:#fff2f4!important;color:#a50d25!important;border:2px solid #d3132a!important}
+body[data-bp-brand] :is(.sf-wizard-head,.sf-fac-header,.course-heading,.home-hero,.workshop-sidebar .sidebar-heading){background:linear-gradient(135deg,#081c56,#1b458f)!important;color:white!important}
+body[data-bp-brand] #app .bp-welcome-hero{background:#0b286e!important}
+body[data-bp-brand] #app .bp-welcome-photo-shade{background:linear-gradient(0deg,rgba(6,21,66,.88) 0%,rgba(12,42,115,.6) 60%,rgba(10,38,107,.12) 100%)!important}
+body[data-bp-brand] :is(.sf-wizard-head h2,.sf-fac-heading h1,.course-heading h1,.home-hero h1){color:white!important}
+body[data-bp-brand] :is(.bp-welcome-tile:hover,.course-session:hover){border-color:#6a8dcb!important}
+body[data-bp-brand] :is(.sf-score-track span,.mml-course-progress-track i,.tri-progress-track span){background:#1c4b9d!important}
+body[data-bp-brand] .sf-rating-options label:has(input:checked) span{background:#e9f0ff!important;border-color:#0b286e!important;color:#0b286e!important}
+body[data-bp-brand] :is(.bp-recognition-shield,.sf-medal-art,.sf-reception-diamond){filter:none}
+body[data-bp-brand] header .brand:not(:has(img)){display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap}
+body[data-bp-brand] header .brand:not(:has(img))::before{content:"";display:inline-block;flex:0 0 auto;width:clamp(105px,19vw,145px);height:38px;background:url("behparvar-official-logo.png") center/contain no-repeat}
+body[data-bp-brand] .sf-fac-heading::before{content:"";display:block;width:135px;height:38px;margin-bottom:9px;background:#fff url("behparvar-official-logo.png") center/contain no-repeat;border-radius:8px;padding:5px}
+@media(max-width:700px){body[data-bp-brand] header .brand:not(:has(img))::before{width:100px;height:30px}}

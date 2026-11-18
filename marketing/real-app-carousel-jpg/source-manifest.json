@@ -1,0 +1,72 @@
+[
+  {
+    "name": "01-original-app",
+    "route": "index.html#course",
+    "requestedScroll": 0,
+    "actualScroll": 0,
+    "httpStatus": 200
+  },
+  {
+    "name": "02-communication-training",
+    "route": "session4-communication-journey.html",
+    "requestedScroll": 0,
+    "actualScroll": 0,
+    "httpStatus": 200
+  },
+  {
+    "name": "03-training-ten-stages",
+    "route": "session4-communication-journey.html",
+    "requestedScroll": 780,
+    "actualScroll": 765,
+    "httpStatus": 200
+  },
+  {
+    "name": "04-personality-preferences",
+    "route": "session4-mbti.html",
+    "requestedScroll": 0,
+    "actualScroll": 0,
+    "httpStatus": 200
+  },
+  {
+    "name": "05-real-assessment-items",
+    "route": "session4-mbti.html",
+    "requestedScroll": 880,
+    "actualScroll": 880,
+    "httpStatus": 200
+  },
+  {
+    "name": "06-competitive-journey",
+    "route": "session5-communication-journey.html",
+    "requestedScroll": 0,
+    "actualScroll": 0,
+    "httpStatus": 200
+  },
+  {
+    "name": "07-scoring-system",
+    "route": "session5-communication-journey.html",
+    "requestedScroll": 720,
+    "actualScroll": 720,
+    "httpStatus": 200
+  },
+  {
+    "name": "08-recognition-badges",
+    "route": "session5-communication-journey.html",
+    "requestedScroll": 1510,
+    "actualScroll": 1510,
+    "httpStatus": 200
+  },
+  {
+    "name": "09-facilitator-mode",
+    "route": "session5-facilitator.html",
+    "requestedScroll": 0,
+    "actualScroll": 0,
+    "httpStatus": 200
+  },
+  {
+    "name": "10-business-results-path",
+    "route": "session6-business-results.html",
+    "requestedScroll": 0,
+    "actualScroll": 0,
+    "httpStatus": 200
+  }
+]

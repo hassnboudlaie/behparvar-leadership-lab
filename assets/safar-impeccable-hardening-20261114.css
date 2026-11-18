@@ -17,44 +17,44 @@
   z-index: 65;
   width: min(100%, 1120px);
   margin: 10px auto 16px;
-  border: 1px solid #b66d39;
+  border: 1px solid #bf303e;
   border-radius: 14px;
-  background: #fff5e9;
-  color: #633b1a;
+  background: #f2f3f6;
+  color: #65181f;
   padding: 14px 18px;
-  box-shadow: 0 7px 20px rgba(80, 49, 19, .10);
+  box-shadow: 0 7px 20px rgba(80,19,25,.10);
 }
 .sf-storage-warning p { margin: 0 0 10px; line-height: 1.8; }
 .sf-storage-warning button {
   min-height: 44px;
   padding: 8px 15px;
-  border: 1px solid #906237;
+  border: 1px solid #9a2d38;
   border-radius: 10px;
-  background: #fff;
-  color: #5b3719;
+  background: #ffffff;
+  color: #5e161d;
   font: inherit;
   font-weight: 800;
 }
 #root .role-card[aria-pressed="true"] {
-  border-color: #175e49;
-  background: #e9f5ee;
-  box-shadow: inset 0 0 0 2px rgba(23,94,73,.12);
+  border-color: #162e5f;
+  background: #f2f3f6;
+  box-shadow: inset 0 0 0 2px rgba(22,46,95,.12);
 }
 #root .role-card[aria-pressed="true"]::after {
   content: "✓ انتخاب شد";
   display: block;
-  color: #185a46;
+  color: #162d5c;
   font-size: 15px;
   margin-top: 8px;
   font-weight: 800;
 }
 #root [data-scale][aria-pressed="true"] {
-  outline: 2px solid #145b48;
+  outline: 2px solid #142c5b;
   outline-offset: 2px;
 }
 #root h1[tabindex="-1"]:focus,
 #root h2[tabindex="-1"]:focus {
-  outline: 3px solid #ba8d3f;
+  outline: 3px solid #c33644;
   outline-offset: 5px;
 }
 @media (max-width: 700px) {
@@ -96,10 +96,10 @@
     width: 100%;
     padding: 7px 2px;
     border-radius: 10px;
-    background: #eaf2ed;
+    background: #f2f3f6;
     text-align: center;
     font-size: 15px !important;
-    color: #184c3e;
+    color: #132851;
   }
   .top .top-actions > #sfModeControls {
     grid-column: 1;
@@ -160,7 +160,7 @@
     padding: 7px 9px !important;
     gap: 0 !important;
     border-radius: 14px !important;
-    box-shadow: 0 5px 17px rgba(10, 37, 30, .22) !important;
+    box-shadow: 0 5px 17px rgba(9,19,38,.22) !important;
   }
   .sf-guide-floating .sf-guide-label { font-size: 15px !important; line-height: 1.5; }
   .sf-guide-floating small { display: none !important; }

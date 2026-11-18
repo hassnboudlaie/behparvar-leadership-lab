@@ -1,13 +1,13 @@
 /* Session 4 recognition / gallery — minimalist premium presentation.
    Decorative styling only; original downloadable SVG and score logic preserved. */
 #sfMedalGallery.sf-medal-gallery{
-  background:linear-gradient(135deg,#f7f6ef 0%,#edf4eb 100%);
-  border:1px solid #d7e3d7;border-radius:23px;
-  box-shadow:0 9px 29px rgba(10,57,43,.09);
+  background:linear-gradient(135deg,#f7f6ef 0%,#f2f3f6 100%);
+  border:1px solid #d7dbe3;border-radius:23px;
+  box-shadow:0 9px 29px rgba(10,26,57,.09);
   padding:14px 18px;margin:22px 0 26px;
 }
 #sfMedalGallery>summary{
-  color:#194c3c;font-size:21px;font-weight:900;
+  color:#132852;font-size:21px;font-weight:900;
   line-height:1.65;cursor:pointer;padding:6px 4px;
   list-style:none;display:flex;align-items:center;gap:11px;
 }
@@ -25,7 +25,7 @@
 #sfMedalGallery.sf-medal-gallery:not([open]){padding:12px 18px}
 #sfMedalGallery .sf-medal-gallery-grid{
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:16px;padding:18px 1px 5px;border-top:1px solid #e1e9dc;
+  gap:16px;padding:18px 1px 5px;border-top:1px solid #dce0e9;
   margin-top:10px;min-width:0;
 }
 #sfMedalGallery .sf-medal-mini,
@@ -34,26 +34,26 @@
 #sfMedalGallery .sf-medal-mini.bronze{
   min-width:0;margin:0;padding:16px 13px 12px;
   display:flex;flex-direction:column;align-items:center;gap:11px;
-  background:#fffef9;border:1px solid #d8e4d8;border-radius:18px;
-  box-shadow:0 8px 19px rgba(16,58,42,.07);overflow:visible;
+  background:#fffef9;border:1px solid #d8dce4;border-radius:18px;
+  box-shadow:0 8px 19px rgba(14,29,60,.07);overflow:visible;
 }
 #sfMedalGallery .sf-medal-mini svg{
   width:100%;max-width:260px;height:auto;aspect-ratio:900/1180;
-  display:block;filter:drop-shadow(0 7px 10px rgba(8,48,36,.17));
+  display:block;filter:drop-shadow(0 7px 10px rgba(8,21,48,.17));
   border-radius:10px;
 }
 #sfMedalGallery .sf-medal-mini figcaption{
-  color:#1b513f;font-size:18px;font-weight:900;line-height:1.5;
+  color:#152b57;font-size:18px;font-weight:900;line-height:1.5;
   padding:0 2px 1px;text-align:center;
 }
 #sfMedalFeature.sf-medal-feature{
   max-width:740px;margin:25px auto;padding:clamp(20px,3vw,34px);
-  background:linear-gradient(135deg,#fdfbf4,#eff5ed);
-  border:1px solid #d6e3d6;border-radius:27px;
-  box-shadow:0 12px 34px rgba(15,59,43,.12);
+  background:linear-gradient(135deg,#fdfbf4,#f2f3f6);
+  border:1px solid #d6dae3;border-radius:27px;
+  box-shadow:0 12px 34px rgba(14,29,60,.12);
 }
 #sfMedalFeature h2{
-  color:#155440;font-size:clamp(26px,3.1vw,34px);
+  color:#142a55;font-size:clamp(26px,3.1vw,34px);
   margin:3px 0 21px;font-weight:900;
 }
 #sfMedalFeature .sf-medal-feature-preview{
@@ -61,28 +61,28 @@
 }
 #sfMedalFeature .sf-medal-feature-preview svg{
   width:100%;height:auto;max-height:none;
-  border-radius:14px;filter:drop-shadow(0 18px 19px rgba(4,47,36,.17));
+  border-radius:14px;filter:drop-shadow(0 18px 19px rgba(4,18,47,.17));
 }
 #sfMedalFeature .sf-medal-feature-actions{gap:11px;margin:25px 0 0}
 #sfMedalFeature .sf-medal-feature-actions button{
-  background:linear-gradient(112deg,#0c614d,#0d7b60);
-  border:1px solid #0b6a52;border-radius:13px;min-height:54px;
+  background:linear-gradient(112deg,#0c2861,#0d327b);
+  border:1px solid #0b2b6a;border-radius:13px;min-height:54px;
   padding:10px 15px;color:white;font-size:17px;font-weight:900;
   flex:1;min-width:146px;max-width:none;
 }
 #sfMedalFeature .sf-medal-feature-actions .sf-medal-pdf{
   background:linear-gradient(115deg,#c39b60,#b58b4f);
-  border-color:#b18b56;color:#163d31;
+  border-color:#b18b56;color:#102143;
 }
 #sfMedalFeature .sf-medal-feature-actions .sf-medal-svg{
-  background:#e7f0e8;border-color:#bbd2c2;color:#195540;
+  background:#f2f3f6;border-color:#a7bce6;color:#152c59;
 }
 #sfMedalFeature .sf-medal-criteria{
-  text-align:right;margin:12px 0;border:1px solid #d6e3d9;
-  border-radius:12px;padding:10px 15px;background:#f5f8f1;
+  text-align:right;margin:12px 0;border:1px solid #d6dae3;
+  border-radius:12px;padding:10px 15px;background:#f3f4f6;
 }
 #sfMedalFeature .sf-medal-criteria summary{
-  cursor:pointer;font-size:17px;color:#20523e;font-weight:800;
+  cursor:pointer;font-size:17px;color:#162d5c;font-weight:800;
 }
 #sfMedalFeature .sf-medal-criteria p{font-size:16px;line-height:1.9}
 @media(max-width:720px){
@@ -94,7 +94,7 @@
     overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
     scroll-padding-inline:2px;padding:17px 2px 18px;
     -webkit-overflow-scrolling:touch;
-    scrollbar-width:thin;scrollbar-color:#b4c4b1 #edf2eb;
+    scrollbar-width:thin;scrollbar-color:#95aee0 #f2f3f6;
   }
   #sfMedalGallery .sf-medal-mini{scroll-snap-align:start}
   #sfMedalGallery .sf-medal-mini svg{max-width:250px}

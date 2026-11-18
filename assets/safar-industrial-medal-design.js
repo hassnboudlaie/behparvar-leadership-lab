@@ -2,9 +2,9 @@
    SVG design only; award thresholds, PDF/PNG/SVG pipeline unchanged. */
 (()=>{"use strict";
 const palettes={
- gold:{name:"زرین",title:"تمایز در ارتباط حرفه‌ای",dark:"#956C33",mid:"#D7B26B",light:"#FFF0C5",rim:"#D0A85C",glint:"#F8DC9C",ink:"#183C34"},
- silver:{name:"سیمین",title:"تسلط بر گفت‌وگوی حرفه‌ای",dark:"#607A80",mid:"#B9C9CB",light:"#F5FAF9",rim:"#B1C9C9",glint:"#E7F0ED",ink:"#183C34"},
- bronze:{name:"برنزی",title:"پایه‌گذاری تعامل مؤثر",dark:"#875C42",mid:"#C5916B",light:"#FFE2C4",rim:"#BD845D",glint:"#F1C8A4",ink:"#183C34"}
+ gold:{name:"زرین",title:"تمایز در ارتباط حرفه‌ای",dark:"#956C33",mid:"#D7B26B",light:"#FFF0C5",rim:"#D0A85C",glint:"#F8DC9C",ink:"#0b286e"},
+ silver:{name:"سیمین",title:"تسلط بر گفت‌وگوی حرفه‌ای",dark:"#607A80",mid:"#B9C9CB",light:"#F5FAF9",rim:"#B1C9C9",glint:"#E7F0ED",ink:"#0b286e"},
+ bronze:{name:"برنزی",title:"پایه‌گذاری تعامل مؤثر",dark:"#875C42",mid:"#C5916B",light:"#FFE2C4",rim:"#BD845D",glint:"#F1C8A4",ink:"#0b286e"}
 };
 const escape=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fa=n=>Number(n||0).toLocaleString("fa-IR");
@@ -26,7 +26,7 @@ function seal(type,opts={}){
  const plaque=preview?'<path d="M330 952H570" stroke="'+p.mid+'" opacity=".48"/>'+
  '<text x="450" y="1014" text-anchor="middle" direction="rtl" '+font+' font-size="25" fill="#C3D5CB">نمونه نشان</text>':
  '<rect x="125" y="945" width="650" height="105" rx="15" fill="#F7F6ED"/>'+
- '<text x="450" y="1007" text-anchor="middle" direction="rtl" '+font+' font-size="'+(name.length>34?"28":name.length>24?"33":"40")+'" font-weight="850" fill="#124B3E">'+escape(name)+'</text>'+
+ '<text x="450" y="1007" text-anchor="middle" direction="rtl" '+font+' font-size="'+(name.length>34?"28":name.length>24?"33":"40")+'" font-weight="850" fill="#153b83">'+escape(name)+'</text>'+
  '<text x="450" y="1098" text-anchor="middle" direction="rtl" '+font+' font-size="24" fill="#E7E4CB">'+score+' امتیاز از ۱۰۰ · '+escape(date)+'</text>';
  return '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1180" viewBox="0 0 900 1180" role="img" aria-label="نشان '+kind+' سفر ارتباطات به‌پرور">'+
  '<defs><linearGradient id="'+id+'-bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0A3029"/><stop offset=".54" stop-color="#145549"/><stop offset="1" stop-color="#092D28"/></linearGradient>'+

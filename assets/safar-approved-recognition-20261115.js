@@ -141,7 +141,7 @@ async function exportPng(items,s,fileName){
  const ctx=canvas.getContext("2d");if(!ctx)throw Error("Canvas unavailable");
  ctx.scale(scale,scale);ctx.fillStyle="#f8f4e9";ctx.fillRect(0,0,w,h);
  rounded(ctx,14,14,w-28,h-28,20,"#faf7ee","#d7ad65");
- rounded(ctx,28,29,w-56,190,17,"#0b3535","#c7a35d");
+ rounded(ctx,28,29,w-56,190,17,"#0b286e","#c7a35d");
  ctx.textAlign="center";ctx.direction="rtl";
  if(document.fonts){try{await document.fonts.load("800 36px Vazirmatn");await document.fonts.ready}catch(e){}}
  await drawLogo(ctx,(w-220)/2,57,220,64);
@@ -153,14 +153,14 @@ async function exportPng(items,s,fileName){
   // Hexagonal shield in the approved deep-teal / restrained-gold palette.
   ctx.beginPath();ctx.moveTo(x+100,y+51);ctx.lineTo(x+cellW-100,y+51);ctx.lineTo(x+cellW-55,y+90);
   ctx.lineTo(x+cellW-55,y+196);ctx.lineTo(x+cellW/2,y+235);ctx.lineTo(x+55,y+196);
-  ctx.lineTo(x+55,y+90);ctx.closePath();ctx.fillStyle="#06413d";ctx.fill();
+  ctx.lineTo(x+55,y+90);ctx.closePath();ctx.fillStyle="#0b286e";ctx.fill();
   ctx.strokeStyle="#d5ad60";ctx.lineWidth=7;ctx.stroke();
   const bitmap=await iconBitmap(item);ctx.drawImage(bitmap,x+cellW/2-56,y+94,112,112);
   rounded(ctx,x+28,y+241,cellW-62,63,13,"#f0e5c9","#c9ab6f");
-  ctx.fillStyle="#173e3c";ctx.font="800 25px Vazirmatn, Tahoma";ctx.fillText(item.title,x+cellW/2,y+284);
+  ctx.fillStyle="#133774";ctx.font="800 25px Vazirmatn, Tahoma";ctx.fillText(item.title,x+cellW/2,y+284);
  }
  const name=String(s.name||"شرکت‌کننده به‌پرور").trim().slice(0,64);
- ctx.fillStyle="#16413d";ctx.font="700 26px Vazirmatn, Tahoma";
+ ctx.fillStyle="#133774";ctx.font="700 26px Vazirmatn, Tahoma";
  ctx.fillText(name,w/2,h-53);
  const blob=await new Promise(res=>canvas.toBlob(res,"image/png"));if(!blob)throw Error("PNG export failed");
  saveBlob(blob,fileName);

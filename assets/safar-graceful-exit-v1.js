@@ -22,7 +22,7 @@ function settle(s){
  const rows=completed.map(i=>{
   const st=stages[i],a=s.answers[i],self=s.self?.[i]||[];
   const quiz=(a.q1===st.c1?4:0)+(a.q2.best===st.best?2:0)+(a.q2.worst===st.worst?2:0);
-  let bonus=(s.rp?.[i]?0.5:0)+(self.length===3?0.5:0)+(s.peer?.[i]&&[2,7].includes(i)?2:0);
+  let bonus=(!s.s5gameVersion&&s.rp?.[i]?0.5:0)+(self.length===3&&self.every(v=>Number.isInteger(v)&&v>=1&&v<=4)?(s.s5gameVersion?1:0.5):0)+(s.peer?.[i]&&[2,7].includes(i)?2:0);
   const inc=incidents.find(x=>x.stage===i+1),values=s.alloc?.[i];
   if(inc&&Array.isArray(values)&&values.length===inc.ideal.length){
    const diff=values.reduce((sum,v,j)=>sum+Math.abs(v-inc.ideal[j]),0);

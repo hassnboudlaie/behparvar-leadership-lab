@@ -33,6 +33,7 @@ jobs:
           node tests/safar-state-contract.cjs
           node tests/safar-solo-quality.cjs
           node tests/safar-rubric-v2.cjs
+          node tests/safar-premium-awards.cjs
           node tests/safar-content-v4-audit.cjs
   browser-solo:
     needs: audit

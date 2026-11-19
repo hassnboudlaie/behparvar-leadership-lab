@@ -62,6 +62,6 @@ assert(wiz.includes("sf-wrap-takeaway"));
 assert(read("assets/safar-participant-ux-v2.js").includes('id="sfLessonRead"'));
 assert(read("assets/safar-participant-ux-v2.js").includes('id="sfSaveEvidence"'));
 assert(read("assets/safar-participant-ux-v2.css").includes('body.sf-wizard-on .top #sound'));
-assert(read("assets/safar-approved-recognition-20261115.js").includes("BP_SAFAR_GOLDEN_QUOTES"));
-assert(read("assets/safar-industrial-medal-design.js").includes("const golden="));
+assert(read("assets/safar-approved-recognition-20261115.js").includes("BP_SAFAR_RECOGNITION_COPY"));
+assert(read("assets/safar-industrial-medal-design.js").includes("BP_SAFAR_RECOGNITION_COPY"));
 console.log("PASS Safar v2: 10x10 points, 85 without evidence, 100 with three quality evidence samples per stage, readable items, low/high self parity, medal floors, lean UI and golden awards");

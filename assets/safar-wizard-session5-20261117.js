@@ -63,7 +63,7 @@ function setPhase(s,p){
 function eligibility(s,p){
  const a=s.answers?.[s.stage]||{};
  if(p==="lesson"&&s.rubricV2===2)return !!s.learned?.[s.stage];
- if(p==="self")return (s.self?.[s.stage]||[]).filter(v=>Number(v)>=1&&Number(v)<=4).length===3;
+ if(p==="self")return (s.self?.[s.stage]||[]).filter(v=>Number(v)>=1&&Number(v)<=(s.rubricV2===2?5:4)).length===3;
  if(p==="decision1")return Number.isInteger(a.q1)&&a.q1>=0&&a.q1<4;
  if(p==="decision2")return !!a.q2&&Number.isInteger(a.q2.best)&&Number.isInteger(a.q2.worst);
  if(p==="wrap")return !!a.q2&&Number.isInteger(a.q1);

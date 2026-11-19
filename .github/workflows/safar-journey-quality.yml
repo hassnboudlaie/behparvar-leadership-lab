@@ -60,3 +60,4 @@ jobs:
           node tests/safar-solo-browser.cjs
           node tests/safar-full-journey-browser.cjs
           node tests/safar-current-exit-browser.cjs
+          node tests/safar-signature-awards-browser.cjs

@@ -62,6 +62,7 @@ function setPhase(s,p){
 }
 function eligibility(s,p){
  const a=s.answers?.[s.stage]||{};
+ if(p==="lesson"&&s.rubricV2===2)return !!s.learned?.[s.stage];
  if(p==="self")return (s.self?.[s.stage]||[]).filter(v=>Number(v)>=1&&Number(v)<=4).length===3;
  if(p==="decision1")return Number.isInteger(a.q1)&&a.q1>=0&&a.q1<4;
  if(p==="decision2")return !!a.q2&&Number.isInteger(a.q2.best)&&Number.isInteger(a.q2.worst);
@@ -135,7 +136,11 @@ function renderTop(s){
  const p=window.BP_SAFAR_STEP_POINTS?.pts(s,s.stage),total=window.BP_SAFAR_STEP_POINTS?.progress(s);
  const notice=p?'از '+fa(p.max)+' امتیاز ممکن این مرحله، '+fa(p.earned)+' امتیاز گرفتی. مجموع سفر: '+fa(total.sum)+' از ۱۰۰.':
  'پاسخ‌ها ثبت شدند؛ امتیاز مرحله در حال محاسبه است و کلید در پایان سفر باز می‌شود.';
+ const quote=window.BP_SAFAR_GOLDEN_QUOTES?.[s.stage]||stage.tip||"مهارت را به اقدام واقعی تبدیل کن.";
+ const takeaway=window.BP_SAFAR_APPLIED?.units?.[s.stage]?.transfer||stage.tip||"یک رفتار مشخص را تمرین کن.";
  wrap.innerHTML='<div class="soft-icon">✓</div><h3>مرحله '+fa(s.stage+1)+' تکمیل شد</h3><p>'+notice+'</p>'+
+ '<div class="sf-wrap-takeaway"><strong>نکته طلایی این مهارت</strong><blockquote>'+esc(quote)+'</blockquote>'+
+ '<p><b>کاربرد فردا:</b> '+esc(takeaway)+'</p></div>'+
  ([2,5,9].includes(s.stage)?'<span class="sf-milestone">✦ نقطه عطف سفر</span>':"");
  nav.insertAdjacentElement("beforebegin",wrap);
  if([2,6].includes(s.stage)){
@@ -263,5 +268,7 @@ function tickRest(){
  if(hint)hint.textContent=remaining>0?"از این مکث کوتاه استفاده کن؛ ادامه تا "+fa(Math.ceil(remaining/1000))+" ثانیه دیگر فعال می‌شود.":"چه خوب! ایستگاه آرامش کامل شد؛ آماده ادامه سفر هستی.";
 }
 setInterval(tickRest,250);
+window.BP_SAFAR_WIZARD_REFRESH=()=>apply(true);
+window.addEventListener("bp-safar-rubric-updated",()=>apply(true));
 apply();
 })();

@@ -144,7 +144,21 @@ function normalizeFivePointSelf(){
  }
  state.selfScaleV5=5;save();
 }
-function render(){if(!state.startedAt&&!state.finished){state.s5gameVersion=1;state.soloVersion=1;state.rubricV2=2;save();}normalizeFivePointSelf();if(state.withdrawn){$("#root").innerHTML="";return;}if(state.mode==="study"){modes.renderStudy(state);return;}topClock();const root=$("#root");if(state.finished){renderEnd();return}if(!state.startedAt){renderIntro();return}renderStage()}
+function pruneFutureStageData(){
+ if(!state.startedAt||state.finished||state.mode!=="competitive"||state.rubricV2!==2)return;
+ let changed=false;
+ for(const key of ["answers","self","learned","evidence","alloc","orders"]){
+  const records=state[key];
+  if(!records||typeof records!=="object")continue;
+  for(const index of Object.keys(records)){
+   if(/^\\d+$/.test(index)&&Number(index)>state.stage){
+    delete records[index];changed=true;
+   }
+  }
+ }
+ if(changed)save();
+}
+function render(){if(!state.startedAt&&!state.finished){state.s5gameVersion=1;state.soloVersion=1;state.rubricV2=2;save();}normalizeFivePointSelf();pruneFutureStageData();if(state.withdrawn){$("#root").innerHTML="";return;}if(state.mode==="study"){modes.renderStudy(state);return;}topClock();const root=$("#root");if(state.finished){renderEnd();return}if(!state.startedAt){renderIntro();return}renderStage()}
 function renderIntro(){
 $("#root").innerHTML='<div class="cover-surface"><img src="assets/safar-ertebatat-cover.svg?v=photoaudit-20261119" alt="پوستر اصلی سفر ارتباطات، به‌پرور، با لوگوی رسمی شرکت و تصویر واقعی مجموعه"></div><div class="introgrid"><div class="stat"><strong>۱۰</strong><span>مرحله متوالی</span></div><div class="stat"><strong>۲۰</strong><span>پرسش تصمیم‌گیری</span></div><div class="stat"><strong>۱۰۰</strong><span>امتیاز ممکن</span></div></div><section class="card"><div class="section-head">👋 سلام! خوش اومدی به سفر ارتباطات</div><p>این یک تجربه کاملاً انفرادی است و به هم‌گروهی یا همراه نیاز نداری. قرار نیست فقط پاسخ درست را حدس بزنی؛ موقعیت‌های گفت‌وگو را شخصاً تحلیل می‌کنی، تصمیم می‌گیری و با محدودیت‌های واقعی روبه‌رو می‌شوی. امتیاز هر مرحله همان‌جا نمایش داده می‌شود؛ درست و غلط و تحلیل گزینه‌ها فقط در پایان سفر باز می‌شوند.</p><label class="field-label" for="learner">نام و نام خانوادگی برای نشان (اختیاری)</label><input id="learner" class="field" maxlength="80" placeholder="نام شما" value="'+E(state.name)+'"><p class="field-label">مسیرت رو انتخاب کن:</p><div class="roles"><button type="button" class="role-card '+(transient.role==="supervisors"?"active":"")+'" data-role="supervisors" aria-pressed="'+(transient.role==="supervisors"?"true":"false")+'"><b>👥 سرپرستان</b>رابطه با کارکنان و همکاران</button><button type="button" class="role-card '+(transient.role==="managers"?"active":"")+'" data-role="managers" aria-pressed="'+(transient.role==="managers"?"true":"false")+'"><b>🎯 مدیران</b>تصمیم و همکاری میان‌واحدی</button></div><p class="inline-note">در مسیر رقابتی، تایمر ۹۰ دقیقه‌ای با شروع مأموریت فعال می‌شود؛ پس از پایان زمان، ادامه رقابت با درخواست وقت اضافه و پذیرش کسر امتیاز امکان‌پذیر است؛ هر ۵ دقیقه یا بخشی از آن، ۲ امتیاز کسر می‌شود.</p><div class="sf-mode-choices"><div class="sf-mode-choice"><h3>⏱ مسیر رقابتی</h3><p>۹۰ دقیقه، آزمون‌ها، امتیاز و نشان پایان سفر؛ یک مکث ۵ دقیقه‌ای و امکان درخواست وقت اضافه.</p><strong>برای محک‌زدن مهارت و مدیریت زمان</strong><button id="start" type="button" '+(!transient.role?"disabled":"")+'>شروع مأموریت ۹۰ دقیقه‌ای</button></div></div></section>';
 }

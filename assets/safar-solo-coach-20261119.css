@@ -19,3 +19,9 @@
 @keyframes sfCoachEnter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:600px){.sf-wizard-coach-actions button,.sf-coach-mini-actions button{flex:1 1 120px}.sf-coach-dialog{padding:20px 16px}.sf-coach-option-list button{flex:1 1 170px}}
 @media(prefers-reduced-motion:reduce){.sf-wizard-coach,.sf-coach-inline{animation:none}.sf-wizard-coach-actions button,.sf-coach-mini-actions button,.sf-coach-option-list button{transition:none;transform:none!important}}
+
+/* Keep interactive post-answer feedback unobstructed by the sticky step footer. */
+html:has(#sfCoachInline){scroll-padding-top:154px}
+body:has(#sfCoachInline) #sfWizardNav{position:relative!important;bottom:auto!important}
+#sfCoachInline{position:relative;z-index:65;scroll-margin-top:155px;scroll-margin-bottom:30px}
+#sfCoachInline .sf-coach-mini-actions button{position:relative;scroll-margin-top:155px;touch-action:manipulation}

@@ -35,7 +35,7 @@ function selfFeedback(st,s,index){
  '<span>امتیاز تکمیل: ۱ از ۱؛ مستقل از بالا یا پایین بودن پاسخ‌ها</span><p><strong>بازخورد کوچ:</strong> '+E(mentor+" "+(st.tip||""))+'</p></div>';
 }
 function evidenceResult(s,index){
- const item=s.evidence?.[index],review=window.BP_SAFAR_RUBRIC.reviewEvidence(item?.texts||[]);
+ const item=s.evidence?.[index],review=window.BP_SAFAR_RUBRIC.evidenceFor(s,index);
  if(!item)return '<p class="smaller">شواهد اختیاری‌اند. تا وقتی ثبت نشوند امتیاز اضافی ندارند.</p>';
  return '<div class="sf-evidence-result" role="status">'+
  '<strong>نتیجه بررسی شواهد: '+fa(review.total)+' از ۱٫۵ امتیاز افزوده</strong>'+

@@ -73,6 +73,7 @@ h2{font-size:31px;margin:4px 0 15px;line-height:1.5}.card{background:#ffffff;bor
 <link rel="stylesheet" href="assets/safar-solo-coach-20261119.css?v=2">
 <link rel="stylesheet" href="assets/safar-participant-clean-v2-20261119.css?v=1">
 <link rel="stylesheet" href="assets/safar-participant-ux-v2.css?v=4">
+<link rel="stylesheet" href="assets/safar-participant-photo-audit-20261119.css?v=1">
 </head>
 <body data-bp-brand="session5-communication-journey">
 <div class="shell">
@@ -95,13 +96,13 @@ h2{font-size:31px;margin:4px 0 15px;line-height:1.5}.card{background:#ffffff;bor
 <script src="assets/safar-applied-curriculum-20261113.js?v=20261113-content4"></script>
 <script src="assets/safar-applied-curriculum-adapter-20261113.js?v=20261113-content4"></script>
 <script src="assets/safar-content-quality-v5-20261115.js?v=20261115-a"></script>
-<script src="assets/safar-self-items-plain-20261119.js?v=2"></script>
+<script src="assets/safar-self-items-plain-20261119.js?v=photoaudit-20261119"></script>
 <script src="assets/safar-golden-quotes-20261119.js?v=1"></script>
 <script src="assets/safar-overtime-v1.js?v=20261119-90min-self-v1"></script>
 <script src="assets/safar-learning-modes-v1.js?v=20261118-keysync-v1"></script>
 <script src="assets/safar-context-guide-v1.js?v=20261119-solo-v1"></script>
-<script src="assets/safar-rubric-v2-20261119.js?v=20261119-audit3"></script>
-<script src="assets/safar-participant-ux-v2.js?v=20261119-audit3"></script>
+<script src="assets/safar-rubric-v2-20261119.js?v=photoaudit-20261119"></script>
+<script src="assets/safar-participant-ux-v2.js?v=photoaudit-20261119"></script>
 <script>
 (function(){
 "use strict";
@@ -145,7 +146,7 @@ function normalizeFivePointSelf(){
 }
 function render(){if(!state.startedAt&&!state.finished){state.s5gameVersion=1;state.soloVersion=1;state.rubricV2=2;save();}normalizeFivePointSelf();if(state.withdrawn){$("#root").innerHTML="";return;}if(state.mode==="study"){modes.renderStudy(state);return;}topClock();const root=$("#root");if(state.finished){renderEnd();return}if(!state.startedAt){renderIntro();return}renderStage()}
 function renderIntro(){
-$("#root").innerHTML='<div class="cover-surface"><img src="assets/safar-ertebatat-cover.svg" alt="پوستر اصلی سفر ارتباطات، به‌پرور، با لوگوی رسمی شرکت و تصویر واقعی مجموعه"></div><div class="introgrid"><div class="stat"><strong>۱۰</strong><span>مرحله متوالی</span></div><div class="stat"><strong>۲۰</strong><span>پرسش تصمیم‌گیری</span></div><div class="stat"><strong>۱۰۰</strong><span>امتیاز ممکن</span></div></div><section class="card"><div class="section-head">👋 سلام! خوش اومدی به سفر ارتباطات</div><p>این یک تجربه کاملاً انفرادی است و به هم‌گروهی یا همراه نیاز نداری. قرار نیست فقط پاسخ درست را حدس بزنی؛ موقعیت‌های گفت‌وگو را شخصاً تحلیل می‌کنی، تصمیم می‌گیری و با محدودیت‌های واقعی روبه‌رو می‌شوی. امتیاز هر مرحله همان‌جا نمایش داده می‌شود؛ درست و غلط و تحلیل گزینه‌ها فقط در پایان سفر باز می‌شوند.</p><label class="field-label" for="learner">نام و نام خانوادگی برای نشان (اختیاری)</label><input id="learner" class="field" maxlength="80" placeholder="نام شما" value="'+E(state.name)+'"><p class="field-label">مسیرت رو انتخاب کن:</p><div class="roles"><button type="button" class="role-card '+(transient.role==="supervisors"?"active":"")+'" data-role="supervisors" aria-pressed="'+(transient.role==="supervisors"?"true":"false")+'"><b>👥 سرپرستان</b>رابطه با کارکنان و همکاران</button><button type="button" class="role-card '+(transient.role==="managers"?"active":"")+'" data-role="managers" aria-pressed="'+(transient.role==="managers"?"true":"false")+'"><b>🎯 مدیران</b>تصمیم و همکاری میان‌واحدی</button></div><p class="inline-note">در مسیر رقابتی، تایمر ۹۰ دقیقه‌ای با شروع مأموریت فعال می‌شود؛ پس از پایان زمان، ادامه رقابت با درخواست وقت اضافه و پذیرش کسر امتیاز امکان‌پذیر است؛ هر ۵ دقیقه یا بخشی از آن، ۲ امتیاز کسر می‌شود.</p><div class="sf-mode-choices"><div class="sf-mode-choice"><h3>⏱ مسیر رقابتی</h3><p>۹۰ دقیقه، آزمون‌ها، امتیاز و نشان پایان سفر؛ یک مکث ۵ دقیقه‌ای و امکان درخواست وقت اضافه.</p><strong>برای محک‌زدن مهارت و مدیریت زمان</strong><button id="start" type="button" '+(!transient.role?"disabled":"")+'>شروع مأموریت ۹۰ دقیقه‌ای</button></div></div></section>';
+$("#root").innerHTML='<div class="cover-surface"><img src="assets/safar-ertebatat-cover.svg?v=photoaudit-20261119" alt="پوستر اصلی سفر ارتباطات، به‌پرور، با لوگوی رسمی شرکت و تصویر واقعی مجموعه"></div><div class="introgrid"><div class="stat"><strong>۱۰</strong><span>مرحله متوالی</span></div><div class="stat"><strong>۲۰</strong><span>پرسش تصمیم‌گیری</span></div><div class="stat"><strong>۱۰۰</strong><span>امتیاز ممکن</span></div></div><section class="card"><div class="section-head">👋 سلام! خوش اومدی به سفر ارتباطات</div><p>این یک تجربه کاملاً انفرادی است و به هم‌گروهی یا همراه نیاز نداری. قرار نیست فقط پاسخ درست را حدس بزنی؛ موقعیت‌های گفت‌وگو را شخصاً تحلیل می‌کنی، تصمیم می‌گیری و با محدودیت‌های واقعی روبه‌رو می‌شوی. امتیاز هر مرحله همان‌جا نمایش داده می‌شود؛ درست و غلط و تحلیل گزینه‌ها فقط در پایان سفر باز می‌شوند.</p><label class="field-label" for="learner">نام و نام خانوادگی برای نشان (اختیاری)</label><input id="learner" class="field" maxlength="80" placeholder="نام شما" value="'+E(state.name)+'"><p class="field-label">مسیرت رو انتخاب کن:</p><div class="roles"><button type="button" class="role-card '+(transient.role==="supervisors"?"active":"")+'" data-role="supervisors" aria-pressed="'+(transient.role==="supervisors"?"true":"false")+'"><b>👥 سرپرستان</b>رابطه با کارکنان و همکاران</button><button type="button" class="role-card '+(transient.role==="managers"?"active":"")+'" data-role="managers" aria-pressed="'+(transient.role==="managers"?"true":"false")+'"><b>🎯 مدیران</b>تصمیم و همکاری میان‌واحدی</button></div><p class="inline-note">در مسیر رقابتی، تایمر ۹۰ دقیقه‌ای با شروع مأموریت فعال می‌شود؛ پس از پایان زمان، ادامه رقابت با درخواست وقت اضافه و پذیرش کسر امتیاز امکان‌پذیر است؛ هر ۵ دقیقه یا بخشی از آن، ۲ امتیاز کسر می‌شود.</p><div class="sf-mode-choices"><div class="sf-mode-choice"><h3>⏱ مسیر رقابتی</h3><p>۹۰ دقیقه، آزمون‌ها، امتیاز و نشان پایان سفر؛ یک مکث ۵ دقیقه‌ای و امکان درخواست وقت اضافه.</p><strong>برای محک‌زدن مهارت و مدیریت زمان</strong><button id="start" type="button" '+(!transient.role?"disabled":"")+'>شروع مأموریت ۹۰ دقیقه‌ای</button></div></div></section>';
 }
 function lessonView(){return window.BP_SAFAR_UI_V2.lessonView(cdata(),state,state.stage)}
 function selfFeedback(){return window.BP_SAFAR_UI_V2.selfFeedback(cdata(),state,state.stage)}
@@ -257,18 +258,18 @@ modes.initListeners(()=>state,save,render);hintCoach.bind(()=>state,save);render
 })();
 </script>
 
-<script src="assets/safar-wizard-session5-20261117.js?v=rubric2-scroll-20261119"></script>
+<script src="assets/safar-wizard-session5-20261117.js?v=photoaudit-20261119"></script>
 <script src="assets/safar-industrial-medal-design.js?v=rubric2-20261119"></script>
 <script src="assets/safar-industrial-medals.js?v=rubric2-20261119"></script>
-<script src="assets/safar-journey-coach-v5.js?v=20261119-solo-v1"></script>
+<script src="assets/safar-journey-coach-v5.js?v=photoaudit-20261119"></script>
 <script src="assets/safar-session-controls-v4.js?v=20261118-keysync-v1"></script>
 <script src="assets/safar-score-feedback-v1.js?v=rubric2-20261119"></script>
-<script src="assets/safar-final-review-v4.js?v=20261118-keysync-v1"></script>
+<script src="assets/safar-final-review-v4.js?v=photoaudit-20261119"></script>
 <script defer src="assets/bp-life-standard-shell-20261113.js?v=20261113a"></script>
 <script src="assets/safar-impeccable-accessibility-20261114.js?v=1"></script>
 <script src="assets/bp-impeccable-unified-navigation-20261114.js?v=2"></script>
-<script src="assets/safar-approved-recognition-20261115.js?v=rubric2-20261119"></script>
-<script src="assets/safar-graceful-exit-v1.js?v=rubric2-20261119"></script>
+<script src="assets/safar-approved-recognition-20261115.js?v=photoaudit-20261119"></script>
+<script src="assets/safar-graceful-exit-v1.js?v=photoaudit-20261119"></script>
 
 <script defer src="assets/bp-pwa-register-20261114.js?v=1"></script>
 </body></html>

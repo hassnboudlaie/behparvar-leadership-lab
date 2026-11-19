@@ -20,7 +20,15 @@ function renderExpandedProfile(code){
  const narrative=node("div",undefined,"profile-narrative");
  m.story.forEach(p=>narrative.append(node("p",p)));
  area.append(narrative);
- area.append(node("div",undefined,"mentor-divider"));
+ const highlights=node("div",undefined,"mentor-highlights");
+ [["نقطه قوتی که می‌توانید روی آن حساب کنید",m.gifts],["جایی که بهتر است کمی بیشتر مراقب باشید",m.watch]].forEach(([heading,copy])=>{
+  if(!copy)return;
+  const section=node("section",undefined,"mentor-highlight");
+  section.append(node("h3",heading),node("p",copy));highlights.append(section);
+ });
+ area.append(highlights);
+ const more=node("details",undefined,"mentor-more");
+ more.append(node("summary","کمی بیشتر درباره سبک شما در محیط کار"));
  const grid=node("div",undefined,"profile-grid");
  const parts=[
   ["در ارتباط با دیگران",m.communication],
@@ -32,7 +40,7 @@ function renderExpandedProfile(code){
   const item=node("section",undefined,"profile-detail");
   item.append(node("h3",label),node("p",body));grid.append(item);
  });
- area.append(grid);
+ more.append(grid);area.append(more);
  const prompt=node("div",undefined,"mentor-question");
  prompt.append(node("strong","یک سؤال برای فکرکردن"),node("span",m.question));
  area.append(prompt);
@@ -69,7 +77,7 @@ function upgradedReport(){
  const complete=!code.includes("?"),m=complete?MENTOR[code]:null,p=complete?EXPANDED[code]:null;
  if(complete&&(!m||!p||!TYPE_INSIGHTS[code]))throw Error("توصیف این تیپ در بانک گزارش موجود نیست: "+code);
  $("type").textContent=code;
- $("heroTypeTitle").textContent=complete?m.name:"در چند بُعد هنوز پاسخ روشنی نداریم";
+ $("heroTypeTitle").textContent=complete?m.name:"نتیجه یک یا چند بُعد هنوز مشخص نیست";
  $("heroSummary").textContent=complete?m.lead:"پاسخ‌های شما در یکی از چهار بُعد، ترجیح غالبی را نشان نمی‌دهند. این نتیجه را بدون حدس یا پرسش اضافی، همان‌طور که هست نمایش می‌دهیم.";
  $("reportHeading").textContent=demoMode?"نمونه‌ای از گزارش ترجیحات شخصیتی":"گزارش ترجیحات شخصیتی شما";
  $("reportStatus").textContent=demoMode?"نمونه نمایشی":"گزارش فردی";
@@ -87,7 +95,7 @@ function upgradedReport(){
  renderExpandedProfile(code);
  scenarioRender(code,$("contextRole").value);
  const actionArea=$("typeActions");actionArea.replaceChildren();
- const tips=p?.actions||[
+ const tips=m?.suggestions||p?.actions||[
  "در یک گفت‌وگوی واقعی، ببینید هنگام شنیدن موضوع جدید ابتدا به اطلاعات ملموس توجه می‌کنید یا ارتباط‌های پنهان آن. تجربه‌تان را کوتاه یادداشت کنید.",
  "وقتی اختلاف‌نظر رخ می‌دهد، علاوه بر منطق تصمیم، از ارزش‌ها و نگرانی‌های طرف مقابل نیز بپرسید. شنیدن این تفاوت به فهم بهتر کمک می‌کند.",
  "در پایان یک جلسه، درباره زمان تصمیم‌گیری و پیگیری با دیگران توافق کنید. تفاوت در ترجیح برنامه‌ریزی می‌تواند با گفت‌وگو مدیریت شود."
@@ -97,8 +105,8 @@ function upgradedReport(){
  AXES.forEach((a,index)=>{
   const d=data[a.id],card=node("article",undefined,"dimension-card");
   const head=node("div",undefined,"dim-title");head.append(node("h3",a.title),node("span",(index+1).toLocaleString("fa-IR")+" از ۴","dim-index"));card.append(head);
-  card.append(node("p",d.total===0?"پاسخ‌ها در میانه‌اند":("نزدیک‌تر به "+(d.total>0?a.nameA:a.nameB)),"dim-choice"));
-  card.append(node("p",d.total===0?"در این بُعد، هیچ‌یک از دو شیوه برتری عددی ندارد.":AXIS_SIMPLE[a.id][d.letter],"dim-desc"));
+  card.append(node("p",d.total===0?"دو گرایش امتیاز برابر دارند":("نزدیک‌تر به "+(d.total>0?a.nameA:a.nameB)),"dim-choice"));
+  card.append(node("p",d.total===0?"جمع پاسخ‌ها به دو سمت برابر شده است؛ ممکن است انتخاب‌ها متفاوت بوده باشند.":AXIS_SIMPLE[a.id][d.letter],"dim-desc"));
   const poles=node("div",undefined,"dim-poles");poles.append(node("span",a.a+" · "+a.nameA),node("span",a.b+" · "+a.nameB));card.append(poles);
   const track=node("div",undefined,"dim-track");track.setAttribute("role","img");
   track.setAttribute("aria-label",a.title+": "+(d.total===0?"امتیاز دو سمت برابر است":"گرایش پاسخ‌ها به "+(d.total>0?a.nameA:a.nameB))+". نمودار درصد شخصیت را نشان نمی‌دهد.");

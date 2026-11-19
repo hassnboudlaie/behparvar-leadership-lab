@@ -19,7 +19,8 @@ for(const file of ["assets/safar-overtime-v1.js","assets/safar-learning-modes-v1
 }
 const wiz=read("assets/safar-wizard-session5-20261117.js");
 assert(!wiz.includes('"role",...([2,7]'),"Roleplay must be removed from stage navigation");
-assert(wiz.includes("data-sf-wizard-focus"),"On-screen coach interaction required");
+assert(!wiz.includes("data-sf-wizard-focus"),"No repetitive fixed coach buttons");
+assert(wiz.includes("unit.decisionLens"),"Stage-specific coach guidance preserved");
 assert(wiz.includes('bp-safar-nested-session5-v1'),"Wizard navigation must not share an unrelated journey");
 const sw=read("sw.js");
 assert(sw.includes("./session5-communication-journey.html"),"Competition route must remain offline");

@@ -396,7 +396,7 @@ $("contextRole").addEventListener("change",refreshRoleReflection);
 
 $("print").addEventListener("click",()=>window.print());
 $("restart").addEventListener("click",clearAndRestart);
-if(new URLSearchParams(window.location.search).get("demo")==="1")openDemoReport();
+if(new URLSearchParams(window.location.search).get("demo")==="1")window.addEventListener("load",openDemoReport,{once:true});
 </script>
 <script src="session4-mbti-report-upgrade-20261119.js?v=2"></script>
 </body></html>

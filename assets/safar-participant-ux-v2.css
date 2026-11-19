@@ -49,3 +49,11 @@ body.sf-wizard-on .sf-score-strip{margin-block:8px}
 body.sf-wizard-on .sf-wizard-nav{margin-block:14px;padding:9px 12px}
 @media(max-width:480px){.sf-self-card .scalebtns{grid-template-columns:1fr 1fr;gap:7px}.sf-self-card .scalebtn{font-size:13.2px;min-height:53px;padding:7px 5px}body.sf-wizard-on .top{padding:5px 9px}body.sf-wizard-on .top #clock{min-width:75px;font-size:18px}.sf-evidence-details{padding:11px 12px}.sf-wrap-takeaway{padding:12px 14px}}
 @media(prefers-reduced-motion:reduce){.sf-read-ack,.sf-evidence-details{scroll-behavior:auto}}
+
+/* Collectible skill insignia: contemporary, premium and calm with brand-consistent highlights. */
+.bp-recognition-badge{position:relative;overflow:hidden;background:linear-gradient(155deg,#fff 0%,#f2f5fb 72%,#eaf0f9 100%);border:1px solid #b6c6df!important;border-top:4px solid #B6243B!important;box-shadow:0 6px 19px #1A37611a;border-radius:18px!important}
+.bp-recognition-badge .bp-recognition-shield{filter:drop-shadow(0 4px 8px #142e4e23)}
+.bp-recognition-badge strong{color:#12376F;font-weight:900}
+.sf-recognition-quote{font-size:15px!important;font-weight:740;color:#A9213C;line-height:1.8;margin:10px 0!important;min-height:50px}
+.bp-recognition-badge .bp-recognition-download{background:#153E7B!important;color:#fff!important;border:1px solid #153E7B!important;min-height:46px}
+.bp-recognition-badge.is-earned{border-color:#C49D61!important;box-shadow:0 9px 22px #18407823}

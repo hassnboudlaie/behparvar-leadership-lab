@@ -42,7 +42,12 @@ const evidence=[
 const review=R.reviewEvidence(evidence);
 assert.equal(review.total,1.5,"Three specific, independently grounded evidence descriptions can earn 1.5");
 assert.equal(R.reviewEvidence([evidence[0],evidence[0],evidence[0]]).total,0,"Duplicates must not earn points");
-stages.forEach((_,i)=>low.evidence[i]={texts:evidence});
+stages.forEach((stage,i)=>low.evidence[i]={texts:evidence.map((text,j)=>
+ text+" در همین مهارت، شاهد مستقل: "+stage.selfItems[j]+"؛ این رفتار را در محل کارم انجام دادم و نتیجه آن را پیگیری کردم.")});
+assert.equal(R.total(low).total,100,"Ten distinct sets of stage-specific evidence can attain 100");
+const repeated=prepare(1,true);stages.forEach((_,i)=>repeated.evidence[i]={texts:evidence});
+assert.equal(R.total(repeated).total,86.5,"Reusing identical three cases across all stages must not earn 100");
+assert.equal(R.evidenceFor(repeated,1).total,0,"Previously scored cases cannot receive credit again");
 assert.equal(R.total(low).total,100,"Ten fully evidenced stages total exactly 100");
 assert(R.total(low).parts.every(p=>p.earned===10&&p.max===10));
 assert.equal(R.tier(55,35),"bronze");

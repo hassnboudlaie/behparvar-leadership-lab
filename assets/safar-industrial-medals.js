@@ -12,12 +12,12 @@ function score(s){
  let quiz=0,rp=0,reflect=0,resources=0,feedback=0;
  stages.forEach((stage,i)=>{
   const a=s.answers?.[i]||{};
-  if(a.q1===stage.c1)quiz+=4;
+  if(a.q1===stage.c1)quiz+=4+(s.soloVersion&&[2,7].includes(i)?2:0);
   if(a.q2?.best===stage.best)quiz+=2;
   if(a.q2?.worst===stage.worst)quiz+=2;
-  if(!s.s5gameVersion&&s.rp?.[i])rp+=0.5;
+  if(!s.soloVersion&&!s.s5gameVersion&&s.rp?.[i])rp+=0.5;
   const ratings=s.self?.[i]||[];if(ratings.length===3&&ratings.every(n=>Number.isInteger(n)&&n>=1&&n<=4))reflect+=s.s5gameVersion?1:0.5;
-  if([2,7].includes(i)&&s.peer?.[i])feedback+=2;
+  if(!s.soloVersion&&[2,7].includes(i)&&s.peer?.[i])feedback+=2;
   const incident=incidents.find(x=>x.stage===i+1),v=s.alloc?.[i];
   if(incident&&Array.isArray(v)){
    const dist=v.reduce((n,val,j)=>n+Math.abs(val-incident.ideal[j]),0);
@@ -27,7 +27,7 @@ function score(s){
  return Math.max(0,quiz+rp+reflect+resources+feedback-(window.BP_SAFAR_OVERTIME?.penalty(s)||0)-(window.BP_SAFAR_GUIDE?.penalty(s)||0));
 }
 function quizScore(s){
- let n=0;stages.forEach((stage,i)=>{const a=s.answers?.[i]||{};if(a.q1===stage.c1)n+=4;if(a.q2?.best===stage.best)n+=2;if(a.q2?.worst===stage.worst)n+=2});return n;
+ let n=0;stages.forEach((stage,i)=>{const a=s.answers?.[i]||{};if(a.q1===stage.c1)n+=4+(s.soloVersion&&[2,7].includes(i)?2:0);if(a.q2?.best===stage.best)n+=2;if(a.q2?.worst===stage.worst)n+=2});return n;
 }
 function tier(value,quiz=80){return value>=90&&quiz>=72?"gold":value>=75&&quiz>=60?"silver":value>=60&&quiz>=44?"bronze":null}
 function details(s,total){
@@ -49,7 +49,7 @@ function medalCards(s){
    '<div class="sf-medal-caption"><strong>نشان '+p.name+'</strong><span class="sf-medal-state '+state+'">'+status+'</span></div>'+
    '<details class="sf-medal-rule"><summary>شرایط کسب نشان</summary>'+
    '<div class="sf-medal-rule-content"><p><b>'+fa(r.total)+'</b> امتیاز از ۱۰۰ امتیاز کل</p>'+
-   '<p><b>'+fa(r.quiz)+'</b> امتیاز از ۸۰ امتیاز آزمون</p>'+
+   '<p><b>'+fa(r.quiz)+'</b> امتیاز از '+fa(s?.soloVersion?84:80)+' امتیاز آزمون</p>'+
    '<p>پایان سفر ۱۰مرحله‌ای</p></div></details>'+
    '</article>';
  }).join("")+'</div>';

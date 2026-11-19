@@ -5,7 +5,7 @@
 const root=document.querySelector("#root"),D=window.BP_SAFAR_BADGE_DESIGN;
 const stages=window.BP_SAFAR_DATA?.stages||[],incidents=window.BP_SAFAR_DATA?.incidents||[];
 if(!root||!D||stages.length!==10)return;
-const KEY="bp-communication-journey-v3",types=["gold","silver","bronze"];
+const KEY="bp-session5-communication-journey-v1",types=["gold","silver","bronze"];
 const fa=n=>Number(n??0).toLocaleString("fa-IR");
 function getState(){try{const s=JSON.parse(localStorage.getItem(KEY)||"null");return s?.version===3?s:null}catch(e){return null}}
 function score(s){
@@ -15,8 +15,8 @@ function score(s){
   if(a.q1===stage.c1)quiz+=4;
   if(a.q2?.best===stage.best)quiz+=2;
   if(a.q2?.worst===stage.worst)quiz+=2;
-  if(s.rp?.[i])rp+=0.5;
-  const ratings=s.self?.[i]||[];if(ratings.length===3&&ratings.every(n=>Number.isInteger(n)&&n>=1&&n<=4))reflect+=0.5;
+  if(!s.s5gameVersion&&s.rp?.[i])rp+=0.5;
+  const ratings=s.self?.[i]||[];if(ratings.length===3&&ratings.every(n=>Number.isInteger(n)&&n>=1&&n<=4))reflect+=s.s5gameVersion?1:0.5;
   if([2,7].includes(i)&&s.peer?.[i])feedback+=2;
   const incident=incidents.find(x=>x.stage===i+1),v=s.alloc?.[i];
   if(incident&&Array.isArray(v)){

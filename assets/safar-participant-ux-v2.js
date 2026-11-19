@@ -18,6 +18,7 @@ function lessonView(st,s,index){
  '<div class="bullets sf-learn-principle"><strong>'+E(title)+'</strong><p>'+E(how)+'</p>'+
  (example?'<blockquote>'+E(example)+'</blockquote>':"")+'</div>'+
  '<p class="sf-learn-takeaway"><strong>نکته اجرایی:</strong> '+E(unit.transfer||st.tip||"این مهارت را در موقعیت بعدی به کار بگیر.")+'</p>'+
+ '<p class="sf-learn-lens"><strong>معیار انتخاب در آزمون:</strong> '+E(unit.decisionLens||st.tip||"پیامد هر گزینه را بررسی کن.")+'</p>'+
  '<label class="sf-read-ack"><input type="checkbox" id="sfLessonRead" '+(read?"checked":"")+'/>'+
  '<span>مطالعه کردم؛ آماده‌ام به گام بعد بروم. <small>۰٫۵ امتیاز</small></span></label>'+
  '</section>';

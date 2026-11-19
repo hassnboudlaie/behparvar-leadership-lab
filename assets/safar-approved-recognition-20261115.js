@@ -139,43 +139,63 @@ async function iconBitmap(item){
 function rounded(ctx,x,y,w,h,r,fill,stroke){
  ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.lineWidth=4;ctx.strokeStyle=stroke;ctx.stroke()}
 }
+function linesOf(text,max=31,limit=3){
+ const words=String(text||"").split(/\s+/).filter(Boolean),lines=[];
+ let row="";
+ for(const word of words){
+  if(row&&(row+" "+word).length>max){lines.push(row);row=word}else row+=(row?" ":"")+word;
+ }
+ if(row)lines.push(row);
+ if(lines.length>limit){const kept=lines.slice(0,limit-1);kept.push(lines.slice(limit-1).join(" "));return kept}
+ return lines;
+}
 async function exportPng(items,s,fileName){
- const scale=2,cols=items.length===1?1:2,cellW=items.length===1?470:420,cellH=470,rows=Math.ceil(items.length/cols);
- const w=cols*cellW+70,h=rows*cellH+365;
+ const scale=2,cols=items.length===1?1:2,cellW=items.length===1?570:460,cellH=555,rows=Math.ceil(items.length/cols);
+ const w=cols*cellW+80,h=rows*cellH+330;
  const canvas=document.createElement("canvas");canvas.width=w*scale;canvas.height=h*scale;
  const ctx=canvas.getContext("2d");if(!ctx)throw Error("Canvas unavailable");
- ctx.scale(scale,scale);ctx.fillStyle="#f8f4e9";ctx.fillRect(0,0,w,h);
- rounded(ctx,14,14,w-28,h-28,20,"#faf7ee","#d7ad65");
- rounded(ctx,28,29,w-56,190,17,"#0b286e","#c7a35d");
+ ctx.scale(scale,scale);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";
  ctx.textAlign="center";ctx.direction="rtl";
- if(document.fonts){try{await document.fonts.load("800 36px Vazirmatn");await document.fonts.ready}catch(e){}}
- await drawLogo(ctx,(w-220)/2,57,220,64);
- ctx.fillStyle="#f8f2df";ctx.font="800 35px Vazirmatn, Tahoma";
- ctx.fillText("سفر ارتباطات · جلسه چهارم",w/2,169);
+ if(document.fonts){try{await document.fonts.load("800 34px Vazirmatn");await document.fonts.ready}catch(e){}}
+ ctx.fillStyle="#F4F6F9";ctx.fillRect(0,0,w,h);
+ rounded(ctx,14,14,w-28,h-28,22,"#FCFDFE","#C7D1DF");
+ rounded(ctx,28,28,w-56,176,17,"#102F59","#D0AF73");
+ ctx.fillStyle="#B92C46";ctx.fillRect(48,38,w-96,5);
+ await drawLogo(ctx,(w-210)/2,48,210,60);
+ ctx.fillStyle="#F7F4EE";ctx.font="800 31px Vazirmatn, Tahoma";
+ ctx.fillText("ده مهارت، ده یادگار",w/2,157);
+ ctx.font="500 16px Vazirmatn, Tahoma";ctx.fillStyle="#D8E4F4";
+ ctx.fillText("سفر شایستگی‌های ارتباطی به‌پرور",w/2,183);
  for(let i=0;i<items.length;i++){
-  const item=items[i],col=i%cols,row=Math.floor(i/cols),x=35+col*cellW,y=245+row*cellH;
-  rounded(ctx,x+10,y+7,cellW-26,cellH-25,18,"#fffdfd","#d4bb8a");
-  ctx.fillStyle="#BE273C";ctx.fillRect(x+25,y+18,cellW-56,7);
-  // Hexagonal shield in the approved deep-teal / restrained-gold palette.
-  ctx.beginPath();ctx.moveTo(x+100,y+51);ctx.lineTo(x+cellW-100,y+51);ctx.lineTo(x+cellW-55,y+90);
-  ctx.lineTo(x+cellW-55,y+196);ctx.lineTo(x+cellW/2,y+235);ctx.lineTo(x+55,y+196);
-  ctx.lineTo(x+55,y+90);ctx.closePath();ctx.fillStyle="#0b286e";ctx.fill();
-  ctx.strokeStyle="#d5ad60";ctx.lineWidth=7;ctx.stroke();
-  const bitmap=await iconBitmap(item);ctx.drawImage(bitmap,x+cellW/2-111,y+31,222,247);
-  rounded(ctx,x+28,y+281,cellW-62,63,13,"#f0e5c9","#c9ab6f");
-  ctx.fillStyle="#133774";ctx.font="800 25px Vazirmatn, Tahoma";ctx.fillText(item.title,x+cellW/2,y+324,cellW-60);
-  const golden=item.kind==="skill"?(window.BP_SAFAR_GOLDEN_QUOTES?.[item.idx]||"مهارت در عمل معنا پیدا می‌کند."):"وقت‌شناسی، احترام به مسیر یادگیری است.";
-  const words=golden.split(" "),first=words.slice(0,Math.ceil(words.length/2)).join(" "),second=words.slice(Math.ceil(words.length/2)).join(" ");
-  ctx.fillStyle="#A72037";ctx.font="750 20px Vazirmatn, Tahoma";
-  ctx.fillText("«"+first,x+cellW/2,y+343,cellW-68);
-  ctx.fillText(second+"»",x+cellW/2,y+377,cellW-68);
-  ctx.fillStyle="#1B447C";ctx.font="650 15px Vazirmatn, Tahoma";
-  ctx.fillText(item.kind==="skill"?"نشان مهارت "+fa(item.idx+1)+" از ۱۰":"نشان ویژه",x+cellW/2,y+425,cellW-68);
+  const item=items[i],meta=item.kind==="skill"?narrative.skills?.[item.idx]||{}:narrative.time||{};
+  const col=i%cols,row=Math.floor(i/cols),x=40+col*cellW,y=220+row*cellH,mid=x+cellW/2;
+  rounded(ctx,x+7,y+8,cellW-16,cellH-20,19,"#FFFFFF","#BECADD");
+  ctx.fillStyle="#B82C46";ctx.fillRect(x+26,y+21,cellW-54,3);
+  const bitmap=await iconBitmap(item);
+  ctx.drawImage(bitmap,mid-105,y+30,210,245);
+  ctx.font="800 25px Vazirmatn, Tahoma";ctx.fillStyle="#123C74";
+  ctx.fillText(item.displayTitle||item.title,mid,y+303,cellW-48);
+  ctx.font="600 16px Vazirmatn, Tahoma";ctx.fillStyle="#5C7293";
+  ctx.fillText(item.kind==="skill"?"ایستگاه "+fa(item.idx+1)+" · "+item.title:"نشان ویژه · "+item.title,mid,y+333,cellW-52);
+  ctx.strokeStyle="#DAE0EB";ctx.lineWidth=1.4;
+  ctx.beginPath();ctx.moveTo(x+45,y+351);ctx.lineTo(x+cellW-45,y+351);ctx.stroke();
+  const quote=meta.quote||"یادگیری وقتی ماندگار می‌شود که جایی به کارش ببریم.";
+  const quoteLines=linesOf("«"+quote+"»",36,3);
+  ctx.font="700 19px Vazirmatn, Tahoma";ctx.fillStyle="#8A344B";
+  quoteLines.forEach((line,k)=>ctx.fillText(line,mid,y+385+k*29,cellW-54));
+  const next=meta.next||"در گفت‌وگوی بعدی، یک رفتار مشخص را تمرین کن.";
+  const nextLines=linesOf("برای عمل: "+next,46,2);
+  ctx.fillStyle="#315077";ctx.font="550 15px Vazirmatn, Tahoma";
+  nextLines.forEach((line,k)=>ctx.fillText(line,mid,y+485+k*26,cellW-56));
  }
- const name=String(s.name||"شرکت‌کننده به‌پرور").trim().slice(0,64);
- ctx.fillStyle="#133774";ctx.font="700 26px Vazirmatn, Tahoma";
- ctx.fillText(name,w/2,h-53);
- const blob=await new Promise(res=>canvas.toBlob(res,"image/png"));if(!blob)throw Error("PNG export failed");
+ const recipient=String(s.name||"شرکت‌کننده به‌پرور").trim().slice(0,64);
+ const date=new Intl.DateTimeFormat("fa-IR",{year:"numeric",month:"long",day:"numeric"}).format(new Date(s.finishedAt||Date.now()));
+ ctx.font="700 22px Vazirmatn, Tahoma";ctx.fillStyle="#143B73";
+ ctx.fillText(recipient,w/2,h-66,w-90);
+ ctx.font="500 15px Vazirmatn, Tahoma";ctx.fillStyle="#657892";
+ ctx.fillText("یادگار یک تجربه یادگیری · "+date+" · این کارت گواهی احراز شایستگی شغلی نیست.",w/2,h-37,w-90);
+ const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/png"));
+ if(!blob)throw Error("PNG export failed");
  saveBlob(blob,fileName);
 }
 document.addEventListener("click",async e=>{

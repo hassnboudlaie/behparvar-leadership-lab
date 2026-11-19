@@ -60,3 +60,6 @@ body.sf-wizard-on .sf-wizard-nav{margin-block:14px;padding:9px 12px}
 
 .sf-learn-lens{padding:12px 15px;border-radius:11px;background:#edf3fb;color:#193f7a;border:1px dashed #8eabd5;font-size:16px;line-height:1.9}
 .sf-learn-lens strong{color:#a42236}
+
+/* The premium minted-medal feature is the only final badge; hide obsolete emoji-style duplication. */
+body:has(#sfMedalFeature) .result-hero .badge-medal,body:has(#sfMedalFeature) .result-hero #badgepng,body:has(#sfMedalFeature) .result-hero #badgepdf{display:none!important}

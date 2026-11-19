@@ -1,5 +1,5 @@
 /* Participant-only interface: quiet, RTL, focus-first. */
-body.sf-wizard-on .top .top-actions>:not(#clock){display:none!important}
+body.sf-wizard-on .top .top-actions>:not(#clock):not(.sf-home-only){display:none!important}
 body.sf-wizard-on .top .logos{pointer-events:none;cursor:default}
 body.sf-wizard-on .top .top-actions{gap:0}
 body.sf-wizard-on .top #clock{font-variant-numeric:tabular-nums;font-size:clamp(18px,2vw,25px);font-weight:900;color:#173c79}

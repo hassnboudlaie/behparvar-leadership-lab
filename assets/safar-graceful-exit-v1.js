@@ -13,10 +13,28 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const read=()=>{try{return JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){return null}};
 const valid=(s,i)=>{const a=s.answers?.[i]||{},self=s.self?.[i]||[];
  return a.q1!==undefined&&a.q2?.best!==undefined&&a.q2?.worst!==undefined&&
- self.length===3&&self.every(v=>Number.isInteger(v)&&v>=1&&v<=4);
+ self.length===3&&self.every(v=>Number.isInteger(v)&&v>=1&&v<=4)&&(!s.rubricV2||!!s.learned?.[i]);
 };
 const maxStage=(i,s)=>9+(incidents.some(x=>x.stage===i+1)?2:0)+([2,7].includes(i)?2:0);
 function settle(s){
+ if(s.rubricV2===2&&s.mode!=="study"){
+  const completed=stages.map((_,i)=>i).filter(i=>valid(s,i));
+  const rows=completed.map(i=>{
+   const p=window.BP_SAFAR_RUBRIC.points(s,i);
+   return{stage:i+1,title:stages[i].title,quiz:p.quiz,bonus:p.earned-p.quiz,score:p.earned,max:10};
+  });
+  const raw=Math.round(rows.reduce((n,r)=>n+r.score,0)*100)/100,max=10*rows.length;
+  const quiz=Math.round(rows.reduce((n,r)=>n+r.quiz,0)*100)/100;
+  const timePenalty=window.BP_SAFAR_OVERTIME?.penalty(s)||0;
+  const guidePenalty=window.BP_SAFAR_GUIDE?.penalty(s)||0;
+  const penalty=timePenalty+guidePenalty,score=Math.max(0,Math.round((raw-penalty)*100)/100);
+  const skill=["شروع حرفه‌ای و اعتماد","روشن‌سازی پیام","شنود و همدلی","لحن و بیان","بازخورد مؤثر","گفت‌وگوی دشوار","هماهنگی بین‌واحدی","نه‌گفتن محترمانه","بازسازی اعتماد","مذاکره و توافق"];
+  const viewed=completed.length,unfinished=10-completed.length;
+  return{study:false,completed:viewed,viewed,rows,score,raw,max,quiz,timePenalty,guidePenalty,
+   penalty,badges:completed.map(i=>skill[i]),unfinished,ongoing:!valid(s,Math.min(9,Math.max(0,Number(s.stage)||0)))&&unfinished>0,
+   ratio:max?Math.round(100*score/max):null};
+ }
+
  const study=s.mode==="study";
  const completed=study?[]:stages.map((_,i)=>i).filter(i=>valid(s,i));
  const rows=completed.map(i=>{

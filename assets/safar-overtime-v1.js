@@ -2,15 +2,10 @@
  * All state is browser-local; this is learning gamification, not tamper-proof grading.
  */
 (()=>{"use strict";
-const BASE_MS=60*60000,MAX_REQUEST_MINUTES=60,BLOCK_MINUTES=5,POINTS_PER_BLOCK=2;
-// One-time, no-penalty 30-minute classroom gift for journeys started on 2026-11-16 (Tehran time).
-// Scope by attempt start time so later classes keep the original 60-minute policy.
-const CLASS_GIFT_START=Date.parse("2026-11-16T00:00:00+03:30");
-const CLASS_GIFT_END=Date.parse("2026-11-17T00:00:00+03:30");
-function giftMinutes(s){
- const t=Number(s?.startedAt)||0;
- return s?.mode!=="study" && t>=CLASS_GIFT_START && t<CLASS_GIFT_END?30:0;
-}
+const BASE_MS=90*60000,MAX_REQUEST_MINUTES=60,BLOCK_MINUTES=5,POINTS_PER_BLOCK=2;
+// Permanent 90-minute competition baseline. Former single-day 30-minute gift
+// is now included in the baseline. Retain this no-op for backwards compatibility.
+function giftMinutes(){return 0;}
 const KEY="bp-session5-communication-journey-v1";
 let live=null,overlay=null;
 const fa=n=>Number(n||0).toLocaleString("fa-IR");
@@ -117,15 +112,7 @@ function show(s){
 function sync(s){
  live=s;
  // Visible confirmation after a safe reload; does not reset or replace learner state.
- const showGift=giftMinutes(s)>0&&!s?.finished;
- let note=document.getElementById("sfClassGiftNotice");
- if(showGift&&!note){
-  note=document.createElement("div");
-  note.id="sfClassGiftNotice";note.setAttribute("role","status");note.dir="rtl";
-  note.textContent="هدیه امروز کلاس: ۳۰ دقیقه زمان اضافه، بدون کسر امتیاز. زمان پایه سفر شما ۹۰ دقیقه است؛ پاسخ‌های قبلی محفوظ‌اند.";
-  note.style.cssText="background:#e6f5ed;border:1px solid #a7d2bd;border-radius:14px;padding:12px 17px;margin:14px 0;color:#17553f;font-weight:800;font-size:17px;line-height:1.8;";
-  document.getElementById("root")?.insertAdjacentElement("beforebegin",note);
- }else if(!showGift&&note)note.remove();
+ document.getElementById("sfClassGiftNotice")?.remove();
  const clock=document.getElementById("clock");
  if(clock){clock.classList.toggle("sf-overtime-active",spentMinutes(s)>0&&!!s?.startedAt&&!s.finished);clock.classList.toggle("sf-overtime-ended",expired(s));}
  if(s?.mode==="study"||!s?.startedAt||s.finished){hide();return;}

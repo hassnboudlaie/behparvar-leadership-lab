@@ -23,9 +23,6 @@ const icons=[
 '<path d="M15 8h25l10 10v36H15Z"/><path d="M40 8v11h10M23 27h17M23 35h12"/><path d="m27 46 6 5 12-15"/>'
 ];
 const participation=[
-{id:"active",title:"حضور فعال",hint:"ثبت دست‌کم ۳ تمرین دونفره",icon:'<circle cx="32" cy="14" r="8"/><path d="M15 50V39c0-12 34-12 34 0v11M9 28l6 5m40-5-6 5M32 2v5"/>'},
-{id:"practice",title:"تکمیل تمرین‌ها",hint:"ثبت دست‌کم ۷ تمرین دونفره",icon:'<rect x="13" y="8" width="38" height="49" rx="3"/><path d="m19 21 5 5 8-10m-13 20 5 5 8-10m4-9h9m-9 15h9"/>'},
-{id:"team",title:"همفکری تیمی",hint:"ثبت ۲ بازخورد رفتاری همکار",icon:'<circle cx="18" cy="27" r="6"/><circle cx="46" cy="27" r="6"/><circle cx="32" cy="17" r="7"/><path d="M7 49c0-10 22-10 22 0m6 0c0-10 22-10 22 0M19 55c0-13 26-13 26 0"/>'},
 {id:"time",title:"مدیریت زمان",hint:"پایان ۱۰ مرحله در ۹۰ دقیقه بدون وقت اضافه",icon:'<circle cx="30" cy="32" r="22"/><path d="M30 15v18l11 7M22 3h16M45 10l5-5"/>'}
 ];
 const all=[...skillNames.map((title,i)=>({id:"s"+i,title,kind:"skill",idx:i,icon:icons[i],hint:"تکمیل تصمیم‌ها و خودارزیابی ایستگاه "+fa(i+1)})),...participation.map(x=>({...x,kind:"participation"}))];
@@ -38,11 +35,6 @@ function earned(s){
   const a=s.answers?.[i]||{},self=s.self?.[i]||[];
   if(a.q1!==undefined&&a.q2!==undefined&&self.length===3&&self.every(n=>Number.isInteger(n)&&n>=1&&n<=4))levels.add("s"+i);
  }
- const count=Object.keys(s.rp||{}).filter(k=>!!s.rp[k]).length;
- if(count>=3)levels.add("active");
- if(count>=7)levels.add("practice");
- const peer=Object.keys(s.peer||{}).filter(k=>!!s.peer[k]).length;
- if(peer>=2)levels.add("team");
  const paused=Number(s.pause?.spentMs)||0,extra=Number(s.overtime?.pauseMs)||0;
  if(s.finished&&!s.withdrawn&&s.finishedAt&&s.startedAt&&s.finishedAt-s.startedAt-paused-extra<=5400000&&
     !(s.overtime?.grants||[]).length)levels.add("time");

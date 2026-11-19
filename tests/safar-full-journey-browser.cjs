@@ -49,7 +49,7 @@ const key="bp-session5-communication-journey-v1";
    await page.locator("#best").selectOption(String(stages[i].best));
    await page.locator("#worst").selectOption(String(stages[i].worst));
    await page.locator('[data-saveq="2"]').click();
-   const resource=[0,3,8].includes(i);
+   const resource=await page.evaluate(index=>window.BP_SAFAR_DATA.incidents.some(c=>c.stage===index+1),i);
    if(resource)await next("resource");
    await next("wrap");
    const record=await page.evaluate(({k,index})=>{

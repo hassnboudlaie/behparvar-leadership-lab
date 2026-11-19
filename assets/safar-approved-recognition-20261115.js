@@ -33,7 +33,7 @@ function earned(s){
  if(s?.mode!=="competitive"||!s?.startedAt)return levels;
  for(let i=0;i<completed;i++){
   const a=s.answers?.[i]||{},self=s.self?.[i]||[];
-  if(a.q1!==undefined&&a.q2!==undefined&&self.length===3&&self.every(n=>Number.isInteger(n)&&n>=1&&n<=4))levels.add("s"+i);
+  if(a.q1!==undefined&&a.q2!==undefined&&self.length===3&&self.every(n=>Number.isInteger(n)&&n>=1&&n<=4)&&(!s.rubricV2||!!s.learned?.[i]))levels.add("s"+i);
  }
  const paused=Number(s.pause?.spentMs)||0,extra=Number(s.overtime?.pauseMs)||0;
  if(s.finished&&!s.withdrawn&&s.finishedAt&&s.startedAt&&s.finishedAt-s.startedAt-paused-extra<=5400000&&
@@ -64,7 +64,7 @@ function shareMenu(s){
  section.innerHTML='<summary><span class="bp-recognition-summary-copy"><b>نشان‌های سفر ارتباطات</b><small>'+
  (intro?"مهارت‌ها و شرایط کسب نشان":fa(n)+" نشان مهارتی از ۱۰ ایستگاه")+
  '</small></span><span class="bp-recognition-summary-mark" aria-hidden="true">'+fa(n)+'/۱۰</span></summary>'+
- '<div class="bp-recognition-inner"><p>نشان مهارتی پس از تکمیل تصمیم‌ها و خودارزیابی آن ایستگاه ثبت می‌شود. بج‌های مشارکتی فقط با ثبت رفتار قابل مشاهده فعال می‌شوند.</p>'+
+ '<div class="bp-recognition-inner"><p>نشان مهارتی پس از تکمیل تصمیم‌ها و خودارزیابی آن ایستگاه ثبت می‌شود. در این سفر همه نشان‌ها فردی هستند و هیچ نشان گروهی وجود ندارد.</p>'+
  '<h3>نشان‌های مهارتی</h3><div class="bp-recognition-grid">'+all.filter(x=>x.kind==="skill").map(x=>badge(x,got.has(x.id))).join("")+'</div>'+
  '<h3>بج‌های مشارکت</h3><div class="bp-recognition-grid bp-participation-grid">'+all.filter(x=>x.kind==="participation").map(x=>badge(x,got.has(x.id))).join("")+'</div>'+
  '<p class="bp-recognition-note">'+(s.withdrawn?'این سفر زودتر پایان یافته است؛ نشان‌های کسب‌شده محفوظ‌اند، اما مدال تکمیل ۱۰ مرحله صادر نمی‌شود.':'مدال پایان سفر فقط یکی است: زرین، سیمین یا برنزی بر اساس امتیاز نهایی. مشاهده این مجموعه امتیازی ایجاد نمی‌کند.')+'</p>'+

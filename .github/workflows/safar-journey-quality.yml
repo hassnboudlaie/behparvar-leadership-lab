@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'session4-communication-journey.html'
+      - 'session5-communication-journey.html'
       - 'assets/safar-*.js'
       - 'assets/safar-*.css'
       - 'tests/safar-*.cjs'
@@ -10,6 +11,7 @@ on:
   pull_request:
     paths:
       - 'session4-communication-journey.html'
+      - 'session5-communication-journey.html'
       - 'assets/safar-*.js'
       - 'assets/safar-*.css'
       - 'tests/safar-*.cjs'
@@ -26,12 +28,12 @@ jobs:
           node-version: '20'
       - name: Validate Safar Ertebatat learning journey
         run: node tests/safar-journey-quality.cjs
-      - name: Verify score and private appreciation integration
+      - name: Verify individual-only scoring and context-aware coach
         run: |
           node tests/safar-state-contract.cjs
-          node tests/safar-peer-recognition-quality.cjs
+          node tests/safar-solo-quality.cjs
           node tests/safar-content-v4-audit.cjs
-  browser-peer:
+  browser-solo:
     needs: audit
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -51,11 +53,6 @@ jobs:
           python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/safar-peer-browser.log 2>&1 &
           sleep 2
           curl -fsSI http://127.0.0.1:8765/
-      - name: Test classroom peer rating and recognition handoff
+      - name: Test solo journey, active coaching and useful contextual guide
         run: |
-          node tests/safar-peer-browser.cjs
-          node tests/safar-content-v4-browser.cjs
-          node tests/safar-overtime-browser.cjs
-          node tests/safar-learning-modes-browser.cjs
-          node tests/safar-context-guide-browser.cjs
-          node tests/safar-graceful-exit-browser.cjs
+          node tests/safar-solo-browser.cjs

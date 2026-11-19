@@ -58,3 +58,4 @@ jobs:
         run: |
           node tests/safar-solo-browser.cjs
           node tests/safar-full-journey-browser.cjs
+          node tests/safar-current-exit-browser.cjs

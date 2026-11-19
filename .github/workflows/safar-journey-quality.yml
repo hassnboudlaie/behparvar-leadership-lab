@@ -57,3 +57,4 @@ jobs:
       - name: Test solo journey, active coaching and useful contextual guide
         run: |
           node tests/safar-solo-browser.cjs
+          node tests/safar-full-journey-browser.cjs

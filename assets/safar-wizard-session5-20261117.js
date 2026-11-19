@@ -16,12 +16,12 @@ const card=(f)=>Array.from(root.children).find(node=>node.classList?.contains("c
 const state=()=>{try{let o=JSON.parse(localStorage.getItem(STORAGE)||"null");return o?.version===3?o:null}catch(e){return null}};
 const navState=()=>{try{return JSON.parse(sessionStorage.getItem(NAVKEY)||"null")}catch(e){return null}};
 const persist=(o)=>{try{sessionStorage.setItem(NAVKEY,JSON.stringify(o))}catch(e){}};
-const labels={lesson:"یادگیری",self:"خودارزیابی",decision1:"تصمیم ۱",decision2:"تصمیم ۲",resource:"تخصیص منابع",role:"تمرین و بازخورد",peer:"بازخورد تکمیلی",wrap:"جمع‌بندی",rest:"ایستگاه آرامش"};
-const icons={lesson:"📖",self:"✍️",decision1:"🎯",decision2:"⚖️",resource:"🪙",role:"💬",peer:"🔎",wrap:"✓",rest:"🌿"};
+const labels={lesson:"یادگیری",self:"خودارزیابی",decision1:"تصمیم ۱",decision2:"تصمیم ۲",resource:"تخصیص منابع",wrap:"جمع‌بندی",rest:"ایستگاه آرامش"};
+const icons={lesson:"📖",self:"✍️",decision1:"🎯",decision2:"⚖️",resource:"🪙",wrap:"✓",rest:"🌿"};
 let tracked=null;
 let currentPhase="lesson",scheduled=false;
 function sequence(s){
- return ["lesson","self","decision1","decision2",...(INCIDENTS.some(x=>x.stage===s.stage+1)?["resource"]:[]),"role",...([2,7].includes(s.stage)?["peer"]:[]),"wrap",...([2,6].includes(s.stage)?["rest"]:[])];
+ return ["lesson","self","decision1","decision2",...(INCIDENTS.some(x=>x.stage===s.stage+1)?["resource"]:[]),"wrap",...([2,6].includes(s.stage)?["rest"]:[])];
 }
 function phaseKey(s){return String(s.startedAt)+":"+String(s.stage)}
 const REST_MS=30000;
@@ -71,8 +71,6 @@ function eligibility(s,p){
 }
 function skipNotice(s,p){
  if(p==="resource"&&!s.alloc?.[s.stage])return "چالش تخصیص منابع هنوز ثبت نشده. می‌خواهی بدون امتیاز آن ادامه بدهی؟";
- if(p==="role"&&!s.rp?.[s.stage])return "تمرین دونفره اختیاری است و به امتیاز رقابتی اضافه نمی‌کند؛ می‌توانی ادامه بدهی."; 
- if(p==="peer"&&!s.peer?.[s.stage])return "بازخورد تحلیلی تکمیلی هنوز ثبت نشده است. می‌خواهی بدون امتیاز آن ادامه بدهی؟";
  return "";
 }
 function companion(s,p){
@@ -83,8 +81,6 @@ function companion(s,p){
   decision1:"رسیدیم به اولین انتخاب. قبل از ثبت، پیامد هر گزینه رو برای رابطه و نتیجه بررسی کن.",
   decision2:"این بار دو کار داری: بهترین و ضعیف‌ترین اقدام رو جدا تشخیص بده. عجله نکن.",
   resource:"شرایط تغییر کرده و منابع محدودن؛ همه کارها رو نمی‌شه هم‌زمان در اولویت اول گذاشت.",
-  role:"حالا با یک همکار گفت‌وگو کن. یه نکته: شنیدن، سؤال خوب و توافق روشن رو فراموش نکن.",
-  peer:"فقط بگو چه رفتاری واقعاً دیدی و یک پیشنهاد اجرایی بده.",
   wrap:"آفرین، این مرحله رو پشت سر گذاشتی! پاسخ‌ها ثبت شدن؛ تحلیل و امتیاز در پایان سفر دیده می‌شن.",
   rest:"حالا وقت یه استراحت کوتاهه. شانه‌هات رو رها کن و با دقت به تصویر نگاه کن؛ تا چند ثانیه دیگه ادامه می‌دیم."
  };
@@ -95,8 +91,6 @@ function panelFor(s,p){
  if(p==="self")return card(n=>!!n.querySelector(".self-list"));
  if(p==="decision1"||p==="decision2")return card(n=>!!n.querySelector(".question"));
  if(p==="resource")return card(n=>n.classList.contains("alert"));
- if(p==="role")return card(n=>!!n.querySelector(".charrow"));
- if(p==="peer")return card(n=>(n.textContent||"").includes("چالش تکمیلی: بازخورد تحلیلی"));
  if(p==="wrap")return root.querySelector("#sfWizardWrap");
  if(p==="rest")return root.querySelector("#sfWizardRest");
  return null;

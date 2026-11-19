@@ -9,6 +9,7 @@ if(!root||!data?.stages||data.stages.length!==10)return;
 const KEY="bp-session5-communication-journey-v1";
 const lessons=window.BP_SAFAR_RESTORED_CONTENT?.content||[];
 const skills=window.BP_SAFAR_CLASSROOM?.content||[];
+const applied=window.BP_SAFAR_APPLIED?.units||[];
 const fa=n=>Number(n||0).toLocaleString("fa-IR");
 const escape=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const state=()=>{try{const s=JSON.parse(localStorage.getItem(KEY)||"null");return s?.version===3?s:null}catch(e){return null}};
@@ -53,6 +54,7 @@ function draw(msg){
  (msg.celebrate?'<img class="sf-celebration-image" src="assets/safar-stage-celebration.svg" alt="مسیر پیشرفت و نشان موفقیت، ویژه به‌پرور" loading="eager">':"")+
  '<h3>'+escape(msg.title)+'</h3><p>'+escape(msg.text)+'</p>'+
  (msg.tip?'<div class="sf-coach-note">💡 '+escape(msg.tip)+'</div>':"")+
+ (msg.choices?.length?'<div class="sf-coach-decision"><strong>از کدام زاویه می‌خواهی شروع کنی؟</strong><div class="sf-coach-option-list">'+msg.choices.map((c,i)=>'<button type="button" data-coach-choice="'+i+'" aria-pressed="false">'+escape(c.label)+'</button>').join('')+'</div><p id="sfCoachChoiceResponse" role="status" aria-live="polite">یک گزینه را انتخاب کن تا کوچ یک پیشنهاد مشخص بدهد.</p></div>':"")+
  (pct!==null?'<div class="sf-coach-progress" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><span style="width:'+pct+'%"></span></div>':"")+
  '<button type="button" id="sfCoachContinue">'+escape(msg.action||"ادامه سفر")+'</button>'+
  (msg.correctness?'<p class="sf-status">پاسخ ثبت و قفل شده است؛ گزینه صحیح و تحلیل کامل در پایان سفر نمایش داده می‌شود.</p>':"")+
@@ -71,60 +73,87 @@ function draw(msg){
   }
   setTimeout(showNext,85);
  }
+ cover.querySelectorAll("[data-coach-choice]").forEach(button=>button.addEventListener("click",()=>{
+  const n=Number(button.dataset.coachChoice),chosen=msg.choices?.[n];
+  if(!chosen)return;
+  cover.querySelectorAll("[data-coach-choice]").forEach(x=>x.setAttribute("aria-pressed",String(x===button)));
+  const target=cover.querySelector("#sfCoachChoiceResponse");if(target)target.textContent=chosen.response;
+ }));
  cover.querySelector("#sfCoachContinue")?.addEventListener("click",end,{once:true});
  cover.querySelector("#sfCoachClose")?.addEventListener("click",end,{once:true});
  // Do not dismiss by tapping outside; the user's choice to continue is intentional.
 }
 function showNext(){if(showing||!queue.length)return;draw(queue.shift())}
 function inform(msg){queue.push(msg);showNext()}
-function inlineFeedback(kind,title,message,tip){
- const existing=document.getElementById("sfCoachInline");if(existing)existing.remove();
- const root=document.getElementById("root"),anchor=root?.querySelector("#sfWizardCoach");
+function inlineFeedback(kind,title,message,tip,options){
+ document.getElementById("sfCoachInline")?.remove();
+ const anchor=root?.querySelector("#sfWizardCoach");
  const note=document.createElement("div");note.id="sfCoachInline";
- note.className="sf-coach-inline sf-wizard-visible "+(kind==="correct"?"is-positive":"is-support");
+ note.className="sf-coach-inline sf-wizard-visible "+(kind==="positive"?"is-positive":"is-support");
  note.setAttribute("role","status");note.setAttribute("aria-live","polite");
- note.innerHTML='<strong>'+(kind==="correct"?"✨ ":"🌱 ")+escape(title)+'</strong>'+
- '<p>'+escape(message)+'</p><small>💡 '+escape(tip)+'</small>'+
+ note.innerHTML='<strong>◈ '+escape(title)+'</strong>'+
+ '<p>'+escape(message)+'</p><small>'+escape(tip||"")+'</small>'+
+ (options?'<div class="sf-coach-mini-actions"><button type="button" data-sf-coach-view="risk">ریسک پنهان</button><button type="button" data-sf-coach-view="next">قدم بعدی</button></div><p class="sf-coach-choice-answer" aria-live="polite"></p>':"")+
  '<button type="button" id="sfCoachInlineClose" aria-label="بستن پیام">×</button>';
  if(anchor)anchor.insertAdjacentElement("afterend",note);else root?.prepend(note);
+ if(options)note.querySelectorAll("[data-sf-coach-view]").forEach(btn=>btn.addEventListener("click",()=>{
+  note.querySelectorAll("[data-sf-coach-view]").forEach(x=>x.setAttribute("aria-pressed",String(x===btn)));
+  note.querySelector(".sf-coach-choice-answer").textContent=btn.dataset.sfCoachView==="risk"?options.risk:options.next;
+ }));
  note.querySelector("#sfCoachInlineClose")?.addEventListener("click",()=>note.remove(),{once:true});
 }
 function feedback(stage,q,answer){
- // Do not leak correctness, the answer key or option rationale before the final review.
- const st=data.stages[stage],valid=q===1?Number.isInteger(answer.q1):!!answer.q2;
- if(!valid)return;
- const title=q===1?"تصمیم اول ثبت شد":"تصمیم دوم ثبت شد";
- const text="انتخابت ثبت و قفل شد. با پایان هر مرحله امتیاز کسب‌شده‌ات را می‌بینی؛ کلید و درست/غلط پاسخ‌ها فقط پس از پایان سفر باز می‌شوند.";
- if(q===1)inlineFeedback("support",title,text,st.tip);
- else inform({kind:"info",icon:"🧭",title,text,tip:"برای رشد حرفه‌ای، قبل از دیدن کلید تلاش کن معیار تصمیم را خودت توضیح بده.",correctness:false,advance:false});
+ // Deliberately neutral: no right/wrong, score or answer-key leak before final review.
+ if(q===1&&!Number.isInteger(answer.q1)||q===2&&!answer.q2)return;
+ const unit=applied[stage]||{},first=q===1;
+ const observations=[
+ ["انتخابت درباره آغاز ارتباط ثبت شد؛ به برداشت مخاطب و مرز توقع کاری هم‌زمان فکر کن.","در پیگیری، تفاوت خوش‌قولی و ثبت تعهد را از دست نده."],
+ ["یک تصمیم درباره شفافیت گرفتی؛ حالا ببین کدام برداشت هنوز نیاز به تأیید دارد.","اگر مسئول یا شرط پذیرش مبهم مانده باشد، احتمال سوءتفاهم چقدر است؟"],
+ ["در این انتخاب، شنیدن را از موافقت فوری جدا کن.","بعد از شنیدن، آیا می‌توانی بدون قول شتاب‌زده به یک قدم قابل بررسی برسی؟"],
+ ["تصمیمت درباره بیان پیام ثبت شد؛ به فرصت واقعیِ پرسش هم فکر کن.","اگر مخاطب تصمیم را جور دیگری فهمیده باشد، چطور متوجه می‌شوی؟"],
+ ["انتخابت درباره بازخورد ثبت شد؛ رفتار قابل تغییر را از شخصیت تفکیک کن.","آیا اقدام بعدی با مسئولیت‌پذیری فرد و یک نقطه بازبینی همراه است؟"],
+ ["در تعارض، بین فشار کار و محدودیت فنی تفاوت بگذار.","فرض کن فردا درباره این تصمیم پاسخ‌گو هستی؛ چه شاهدی برای دفاع از مرز اختیار داری؟"],
+ ["این تصمیم بر همکاری دو واحد اثر دارد؛ هر دو محدودیت را در ذهن نگه دار.","اگر یک واحد نتواند به تعهد برسد، مسیر اطلاع‌رسانی چگونه خواهد بود؟"],
+ ["در نه‌گفتن، صداقت درباره امکان اجرا یک سرمایه است.","آیا ذی‌نفع بعد از این گفت‌وگو، گزینه واقعی و حدود تعهد را می‌داند؟"],
+ ["انتخابت به اعتماد مربوط است؛ مسئولیت اطلاع‌رسانی را فراموش نکن.","اگر نتیجه بررسی هنوز آماده نیست، چه چیزی را باید صادقانه اعلام کرد؟"],
+ ["یک تصمیم درباره اقناع ثبت شد؛ توافق ظاهری را با تعهد قابل اجرا یکی ندان.","چطور می‌فهمی هر طرف مسئول، موعد و شرط تصمیم را یکسان فهمیده است؟"]
+ ];
+ const text=observations[stage]?.[first?0:1]||"انتخابت ثبت شد؛ اثر واقعی آن را روی رابطه و نتیجه بسنج.";
+ const title=first?"تصمیم اول ثبت شد · مکث تحلیلی":"تصمیم دوم ثبت شد · آزمون اجرا";
+ const tip=first?"پاسخ تو قفل است؛ کوچ درباره درست یا غلط بودن آن قضاوت نمی‌کند.":"حالا می‌توانی به گام بعد بروی. کلید و تحلیل کامل در پایان سفر نمایش داده می‌شود.";
+ inlineFeedback("support",title,text,tip,{
+  risk:unit.trap||"احساس رضایت کوتاه‌مدت الزاماً به تصمیم قابل اجرا تبدیل نمی‌شود.",
+  next:unit.transfer||unit.decisionLens||"یک اقدام قابل مشاهده با مسئول و زمان مشخص انتخاب کن."
+ });
 }
 function stageComplete(index){
  const s=state();
+ if(![2,5,9].includes(index))return; // No repetitive modal after every stage.
  const p=window.BP_SAFAR_STEP_POINTS?.pts(s,index);
  const total=window.BP_SAFAR_STEP_POINTS?.progress(s);
- const earned=p?"از "+fa(p.max)+" امتیاز ممکن این مرحله، "+fa(p.earned)+" امتیاز به دست آوردی. ":"";
- const collected=total?" مجموع تا اینجا: "+fa(total.sum)+" از ۱۰۰. ":"";
- const closer=window.BP_SAFAR_STEP_POINTS?.nextMedal(s)||"به مسیر بعدی نزدیک‌تر شده‌ای.";
- inform({kind:"milestone",icon:"✦",celebrate:true,
- title:index===9?"سفر ارتباطات را کامل کردی!":"مرحله "+fa(index+1)+" را با موفقیت به پایان رساندی!",
- text:earned+collected+closer,
- tip:completion[index]+" "+fullTip(index),
- progress:(index+1)*10,action:index===9?"مشاهده تحلیل و نشان":"ورود به مرحله بعد"});
+ const earned=p?fa(p.earned)+" از "+fa(p.max)+" امتیاز این مرحله":"مرحله تکمیل شد";
+ inform({kind:"milestone",icon:index===9?"★":"✦",celebrate:true,
+ title:index===9?"به پایان سفر انفرادی رسیدی":"نقطه عطف "+fa(index+1)+" از ۱۰",
+ text:earned+"؛ امتیاز کل تا اینجا: "+fa(total?.sum||0)+" از ۱۰۰. "+completion[index],
+ tip:index===9?"نتیجه و پاسخ‌نامه اکنون آماده مرورند.":fullTip(index),
+ progress:(index+1)*10,action:index===9?"مرور کارنامه":"مرحله بعدی"});
 }
 function eventMessage(i,startedAt){
  const incident=data.incidents?.find(x=>x.stage===i+1);
  if(!incident)return;
  const key="bp-safar-event-"+String(startedAt)+"-"+i;
  try{if(sessionStorage.getItem(key))return;sessionStorage.setItem(key,"1")}catch(e){}
- inform({kind:"event",icon:"🚨",title:"یک اتفاق غیرمنتظره!",
- text:"شرایط این مرحله تغییر کرده و باید با منابع محدود تصمیم بگیری. همه گزینه‌ها وسوسه‌کننده‌اند؛ اما منابع برای همه کافی نیست.",
- tip:starts[i],action:"چالش منابع رو می‌پذیرم"});
+ inlineFeedback("support","یک تغییر در منابع؛ آماده تصمیمی تازه‌ای؟",
+ "این بار لازم است شش سکه را بین اقدام‌ها تخصیص بدهی. اول ریسک‌های فوری را پیدا کن، بعد درباره بده‌بستان تصمیم بگیر.",
+ "تخصیص منابع کاملاً فردی است و در صورت نیاز می‌توانی راهنمای این گام را باز کنی.",
+ {risk:applied[i]?.trap||"منابع را صرفاً مساوی تقسیم نکن؛ شدت پیامد مهم است.",
+  next:"ابتدا فوری‌ترین ریسک را نام ببر؛ سپس به اقدام‌های قابل تأخیر سکه اختصاص بده."});
 }
 document.addEventListener("click",e=>{
  const t=e.target.closest("button");if(!t)return;
  const q=t.dataset?.saveq;
  const isNext=t.id==="next";
- const tracked=q==="1"||q==="2"||["start","savealloc","saverp","savepeer","next"].includes(t.id);
+ const tracked=q==="1"||q==="2"||["start","savealloc","next"].includes(t.id);
  if(!tracked)return;
  const before=state();
  const at=before?.stage??-1;
@@ -132,8 +161,6 @@ document.addEventListener("click",e=>{
  const beforeQ=q==="1"?initial.q1:initial.q2;
  const fromStarted=before?.startedAt||0;
  const beforeAlloc=before?.alloc?.[at]||null;
- const beforeRP=before?.rp?.[at]||null;
- const beforePeer=before?.peer?.[at]||null;
  const name=t.id;
  // The original synchronous handler performs its irreversible commit first.
  setTimeout(()=>{
@@ -141,24 +168,18 @@ document.addEventListener("click",e=>{
   if(!after)return;
   if(name==="start"&&!fromStarted&&after.startedAt)
    return inform({kind:"milestone",icon:"🧭",title:"خوش اومدی به سفر ارتباطات!",
-     text:"ده موقعیت واقعی پیش روته. یک کوچ کنار تو می‌مونه؛ قرار نیست کامل باشی، قراره مهارتت رو به کار بگیری.",
-     tip:starts[0],action:"سفر رو شروع می‌کنم",progress:0});
+     text:"ده مرحله کاملاً انفرادی پیش روته. هر بار یک تصمیم واقعی را تمرین می‌کنی، به رفتار خودت نگاه می‌کنی و بازخورد متناسب می‌گیری.",
+     tip:"راهنما دو بار رایگان است؛ برای تصمیم‌ها جواب را لو نمی‌دهد.",action:"سفر رو شروع می‌کنم",progress:0,
+     choices:[{label:"اول معیار تصمیم را پیدا کنم",response:"قبل از هر پاسخ، معیار خودت را با سه واژه بنویس: اثر، اختیار، پیگیری."},
+              {label:"اول ریسک را بشناسم",response:"از خودت بپرس کدام پیامد ناخواسته می‌تواند رابطه یا اجرای کار را آسیب بزند."},
+              {label:"اول موقعیت را دقیق بخوانم",response:"واقعیت‌های قطعی را از برداشت‌ها و حدس‌ها جدا کن؛ سپس درباره اقدام تصمیم بگیر."}]});
   if(q==="1"&&beforeQ===undefined&&after.answers?.[at]?.q1!==undefined)
    return feedback(at,1,after.answers[at]);
   if(q==="2"&&beforeQ===undefined&&after.answers?.[at]?.q2!==undefined)
    return feedback(at,2,after.answers[at]);
   if(name==="savealloc"&&!beforeAlloc&&after.alloc?.[at])
-   return inform({kind:"milestone",icon:"🪙",title:"تصمیم با منابع محدود ثبت شد!",
-     text:"با شش سکه تصمیم گرفتی؛ انتخاب‌ها قفل شدند و اثر آن‌ها را در پایان می‌بینی.",
-     tip:"گاهی هنر مدیریت، انتخاب‌کردن مهم‌ترین اقدام و کنارگذاشتن کارهای کم‌اولویت‌تر است.",action:"ادامه سفر"});
-  if(name==="saverp"&&!beforeRP&&after.rp?.[at])
-   return inform({kind:"milestone",icon:"🤝",title:"گفت‌وگوی واقعی ثبت شد!",
-     text:"این بار با همکار کناری گفت‌وگو کردی و ارزیابی محرمانه را در گوشی خودت ثبت کردی.",
-     tip:fullTip(at),action:"ادامه تمرین"});
-  if(name==="savepeer"&&!beforePeer&&after.peer?.[at])
-   return inform({kind:"milestone",icon:"🔎",title:"بازخورد همکارت ثبت شد!",
-     text:"دیدن رفتار واقعی، از جمله‌های کلی ارزشمندتره. یک مشاهده مشخص، راه بهبود رو روشن می‌کنه.",
-     action:"ادامه سفر"});
+   return inlineFeedback("positive","تخصیص منابع ثبت شد","انتخاب شش سکه ذخیره شد. درباره نتیجه تصمیم خودت فکر کن.",
+     "این مرحله بر اولویت‌بندی فردی و پذیرش پیامدها تمرکز دارد.");
   if(isNext&&(after.stage>at||after.finished)&&at>=0)stageComplete(at);
  },90);
 },true);

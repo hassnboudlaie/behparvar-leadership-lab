@@ -52,7 +52,7 @@ function upgradedReport(){
   throw Error("توصیف تیپ در اطلاعات برنامه موجود نیست: "+code);
  $("type").textContent=code;
  $("heroTypeTitle").textContent=complete?(insight.title+" · "+code):"در یک یا چند بُعد، ترجیح غالب مشخص نیست";
- $("heroSummary").textContent=complete?profile.identity[0]:
+ $("heroSummary").textContent=complete?insight.summary:
   "جمع پاسخ‌های یک یا چند بُعد، دو ترجیح را به صورت برابر نشان می‌دهد. بدون سؤال تکمیلی یا حدس، امکان تعیین کد کامل چهارحرفی وجود ندارد. علامت سؤال در کد، نشانگر همین عدم‌قطعیت است.";
  $("reportHeading").textContent=demoMode?"نمونه گزارش ترجیحات شخصیتی":"نقشه ترجیحات شخصیتی شما";
  $("reportStatus").textContent=demoMode?"نمونه نمایشی · پاسخ‌های فرضی":"گزارش فردی · ۴۸ پاسخ";

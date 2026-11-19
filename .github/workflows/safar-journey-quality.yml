@@ -49,7 +49,8 @@ jobs:
       - name: Install test-only browser dependencies
         run: |
           npm install --no-save --package-lock=false playwright@1.56.1
-          npx playwright install --with-deps chromium
+          # Use runner's existing Ubuntu libraries; avoid flaky optional xfonts apt mirrors.
+          npx playwright install chromium
       - name: Serve same-origin PWA locally
         run: |
           python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/safar-peer-browser.log 2>&1 &

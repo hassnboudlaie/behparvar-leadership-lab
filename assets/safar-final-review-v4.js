@@ -21,9 +21,17 @@ function decorate(){
    '<span>تشخیص ضعیف‌ترین اقدام: '+(goodWorst?"درست":"نادرست")+'</span></div>');
   const self=s.self?.[i]||[];
   if(self.length===3){
-   const sum=self.reduce((n,v)=>n+Number(v),0);
    const note=document.createElement("p");note.className="sf-final-self-note";
-   note.textContent="خودارزیابی رفتاری این مرحله: "+fa(sum)+" از ۱۲ (نتیجه بازتابی، نه آزمون دانش).";
+   if(s.rubricV2===2){
+    const count=self.filter(v=>Number.isInteger(v)&&v>=1&&v<=5).length;
+    const mean=self.reduce((n,v)=>n+Number(v),0)/3;
+    note.textContent=count===3?
+      "بازتاب رفتاری: "+(mean<2.5?"این رفتارها طبق گزارش تو هنوز نیازمند تمرین بیشترند.":mean<4?"در برخی موقعیت‌ها این رفتارها را به کار می‌بری؛ برای ثبات بیشتر، یک شاهد واقعی ثبت کن.":"این رفتارها را در بسیاری از موقعیت‌ها انجام می‌دهی؛ برداشتت را با شواهد رفتاری محک بزن.")+
+      " این یک توصیف از پاسخ‌های خودت است، نه نمره مهارت.":"خودارزیابی این مرحله کامل نشده است.";
+   }else{
+    const sum=self.reduce((n,v)=>n+Number(v),0);
+    note.textContent="شاخص خودارزیابی نسخه قبلی: "+fa(sum)+" از ۱۲؛ برای بازتاب شخصی، نه آزمون مهارت.";
+   }
    entry.append(note);
   }
   entry.dataset.sfReviewed="1";

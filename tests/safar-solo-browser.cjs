@@ -13,17 +13,19 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   await page.locator('[data-role="supervisors"]').click();
   await page.locator("#start").click();
   await page.locator("#sfCoachOverlay").waitFor({state:"visible",timeout:15000});
-  await page.locator('[data-coach-choice="1"]').click();
-  assert((await page.locator("#sfCoachChoiceResponse").innerText()).length>25,"Coach welcome offers a meaningful choice");
+  assert.equal(await page.locator('[data-coach-choice]').count(),0,"No nonfunctional pre-journey choices");
+  assert((await page.locator("#sfCoachOverlay .sf-coach-dialog").innerText()).includes("ده مرحله"),"Solo welcome visible");
   await page.locator("#sfCoachContinue").click();
   await page.locator("#sfCoachOverlay").waitFor({state:"detached"});
   await page.locator("#sfWizardHead").waitFor({state:"visible"});
   assert.equal(await page.locator('.sf-wizard-step[data-sf-phase="role"]').count(),0,"No roleplay phase");
   assert.equal(await page.locator('.sf-wizard-step[data-sf-phase="peer"]').count(),0,"No peer feedback phase");
   assert.equal(await page.locator("#saverp,#savepeer,.sf-role-rate").count(),0,"No pair activity");
-  await page.locator('[data-sf-wizard-focus="risk"]').click();
-  assert((await page.locator(".sf-wizard-coach-answer").innerText()).length>15,"On-stage coach has interactive risk lens");
-  assert.equal(await page.locator("#sound").isVisible(),false,"Learner does not see sound or facilitator links");
+  assert.equal(await page.locator('[data-sf-wizard-focus]').count(),0,"Repetitive risk/practice buttons removed");
+  assert((await page.locator("#sfWizardCoach").innerText()).includes("همراه مسیر"),"Stage mentor visible");
+  assert.equal(await page.locator("#sound").count(),0,"Learner has no sound toggle");
+  assert.equal(await page.locator('a[href="session5-facilitator.html"]').count(),0,"No facilitator link");
+  assert.equal(await page.locator(".sf-home-only").count(),1,"Exactly one home control");
   assert(await page.locator(".sf-learning-card .sf-learn-principle").innerText(),"Lesson contains a practical technique");
   assert.equal(await page.locator("#sfNext").isDisabled(),true,"Reading requires acknowledgement");
   await page.locator("#sfLessonRead").check();
@@ -31,8 +33,8 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   await page.locator("#sfNext").click(); // lesson -> self
   await page.waitForFunction(()=>document.querySelector("#sfWizardHead")?.dataset.phase==="self");
   for(let i=0;i<3;i++)await page.locator('[data-scale="'+i+'"][data-val="1"]').click();
-  assert((await page.locator(".sf-self-feedback").innerText()).includes("۳"),"Honest low self-rating yields reflection");
-  assert((await page.locator(".sf-self-feedback").innerText()).includes("۱ از ۱"),"Full completion point independent of ratings");
+  assert((await page.locator(".sf-self-feedback").innerText()).includes("بازتاب کوچ"),"Narrative reflection visible");
+  assert(!(await page.locator(".sf-self-feedback").innerText()).includes("از ۱۲"),"No numeric self score");
   await page.locator("#sfEvidenceSection summary").click();
   const samples=[
    "در جلسه روز دوشنبه با کارشناس فروش پرسیدم کدام خروجی تا ساعت ۲ آماده می‌شود و پس از آن موعد تحویل روشن شد.",
@@ -54,8 +56,8 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   await page.locator('[data-saveq="1"]').click();
   await page.locator("#sfCoachInline").waitFor({state:"visible",timeout:8000});
   assert.equal(await page.locator("#sfCoachOverlay").count(),0,"Answer feedback is inline, not recurring modal");
-  await page.locator('[data-sf-coach-view="next"]').click();
-  assert((await page.locator(".sf-coach-choice-answer").innerText()).length>10,"Feedback offers a contextual next step");
+  assert.equal(await page.locator('[data-sf-coach-view]').count(),0,"No broken mini buttons");
+  assert((await page.locator("#sfCoachInline p").innerText()).length>18,"Readable contextual feedback");
   // Use canonical saved data to simulate a completed individual journey.
   await page.evaluate(()=>{
    const KEY="bp-session5-communication-journey-v1",s=JSON.parse(localStorage.getItem(KEY));

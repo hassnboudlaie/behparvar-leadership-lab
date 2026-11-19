@@ -151,7 +151,7 @@ function pruneFutureStageData(){
   const records=state[key];
   if(!records||typeof records!=="object")continue;
   for(const index of Object.keys(records)){
-   if(/^\\d+$/.test(index)&&Number(index)>state.stage){
+   if(Number.isSafeInteger(Number(index))&&String(Number(index))===index&&Number(index)>state.stage){
     delete records[index];changed=true;
    }
   }

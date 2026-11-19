@@ -2,9 +2,9 @@
    SVG design only; award thresholds, PDF/PNG/SVG pipeline unchanged. */
 (()=>{"use strict";
 const palettes={
- gold:{name:"زرین",title:"تمایز در ارتباط حرفه‌ای",dark:"#956C33",mid:"#D7B26B",light:"#FFF0C5",rim:"#D0A85C",glint:"#F8DC9C",ink:"#0b286e"},
- silver:{name:"سیمین",title:"تسلط بر گفت‌وگوی حرفه‌ای",dark:"#607A80",mid:"#B9C9CB",light:"#F5FAF9",rim:"#B1C9C9",glint:"#E7F0ED",ink:"#0b286e"},
- bronze:{name:"برنزی",title:"پایه‌گذاری تعامل مؤثر",dark:"#875C42",mid:"#C5916B",light:"#FFE2C4",rim:"#BD845D",glint:"#F1C8A4",ink:"#0b286e"}
+ gold:{name:"زرین",title:"تمایز در ارتباط حرفه‌ای",dark:"#9A6327",mid:"#E9B75F",light:"#FFF4C8",rim:"#D6A447",glint:"#FFDF93",ink:"#183C76"},
+ silver:{name:"سیمین",title:"تسلط بر گفت‌وگوی حرفه‌ای",dark:"#60738B",mid:"#B7C7DB",light:"#F8FBFF",rim:"#ACBDD4",glint:"#E6EDF7",ink:"#173968"},
+ bronze:{name:"برنزی",title:"پایه‌گذاری تعامل مؤثر",dark:"#8C593E",mid:"#C99268",light:"#FFE6C8",rim:"#C78A5C",glint:"#F6CFA8",ink:"#173968"}
 };
 const escape=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fa=n=>Number(n||0).toLocaleString("fa-IR");
@@ -17,6 +17,7 @@ function seal(type,opts={}){
  const id="sf-mint-"+type+"-"+(preview?"preview":"earned"),met="url(#"+id+"-metal)",bg="url(#"+id+"-bg)",face="url(#"+id+"-face)";
  const font='font-family="Vazirmatn,Tahoma,Arial,sans-serif"';
  const score=fa(opts.score),kind=escape(p.name);
+ const golden=escape({gold:"گفت‌وگوی اثرگذار، به اقدام پایدار تبدیل می‌شود.",silver:"شنیدن دقیق و تصمیم روشن، پایه اعتماد است.",bronze:"رشد ارتباطی با یک رفتار کوچک آغاز می‌شود."}[type]);
  const ticks=Array.from({length:40},(_,i)=>{
   const angle=i*Math.PI/20,ri=i%5===0?184:188,ro=194;
   return '<path d="M'+(450+ri*Math.sin(angle)).toFixed(1)+' '+(469-ri*Math.cos(angle)).toFixed(1)+
@@ -25,29 +26,29 @@ function seal(type,opts={}){
  }).join("");
  const plaque=preview?'<path d="M330 952H570" stroke="'+p.mid+'" opacity=".48"/>'+
  '<text x="450" y="1014" text-anchor="middle" direction="rtl" '+font+' font-size="25" fill="#C3D5CB">نمونه نشان</text>':
- '<rect x="125" y="945" width="650" height="105" rx="15" fill="#F7F6ED"/>'+
- '<text x="450" y="1007" text-anchor="middle" direction="rtl" '+font+' font-size="'+(name.length>34?"28":name.length>24?"33":"40")+'" font-weight="850" fill="#153b83">'+escape(name)+'</text>'+
+ '<rect x="125" y="955" width="650" height="95" rx="15" fill="#F8FAFF"/>'+
+ '<text x="450" y="1012" text-anchor="middle" direction="rtl" '+font+' font-size="'+(name.length>34?"28":name.length>24?"33":"40")+'" font-weight="850" fill="#153b83">'+escape(name)+'</text>'+
  '<text x="450" y="1098" text-anchor="middle" direction="rtl" '+font+' font-size="24" fill="#E7E4CB">'+score+' امتیاز از ۱۰۰ · '+escape(date)+'</text>';
  return '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1180" viewBox="0 0 900 1180" role="img" aria-label="نشان '+kind+' سفر ارتباطات به‌پرور">'+
- '<defs><linearGradient id="'+id+'-bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0A3029"/><stop offset=".54" stop-color="#145549"/><stop offset="1" stop-color="#092D28"/></linearGradient>'+
+ '<defs><linearGradient id="'+id+'-bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071936"/><stop offset=".54" stop-color="#163F7D"/><stop offset="1" stop-color="#091C40"/></linearGradient>'+
  '<linearGradient id="'+id+'-metal" x1=".12" y1=".03" x2=".89" y2="1"><stop stop-color="'+p.dark+'"/><stop offset=".19" stop-color="'+p.light+'"/><stop offset=".42" stop-color="'+p.mid+'"/><stop offset=".67" stop-color="'+p.dark+'"/><stop offset=".85" stop-color="'+p.glint+'"/><stop offset="1" stop-color="'+p.dark+'"/></linearGradient>'+
- '<radialGradient id="'+id+'-face" cx=".40" cy=".26" r=".82"><stop stop-color="#286455"/><stop offset=".65" stop-color="#12463B"/><stop offset="1" stop-color="#082D27"/></radialGradient>'+
+ '<radialGradient id="'+id+'-face" cx=".40" cy=".26" r=".82"><stop stop-color="#284F87"/><stop offset=".65" stop-color="#142D60"/><stop offset="1" stop-color="#07193C"/></radialGradient>'+
  '<filter id="'+id+'-shadow" x="-35%" y="-35%" width="170%" height="170%"><feDropShadow dx="0" dy="20" stdDeviation="18" flood-color="#031913" flood-opacity=".34"/></filter>'+
  '</defs>'+
  '<rect width="900" height="1180" rx="28" fill="'+bg+'"/>'+
  '<rect x="26" y="26" width="848" height="1128" rx="19" fill="none" stroke="'+p.mid+'" stroke-width="2.3" opacity=".78"/>'+
  '<rect x="43" y="43" width="814" height="1094" rx="12" fill="none" stroke="'+p.light+'" stroke-width=".9" opacity=".2"/>'+
  '<path d="M73 131V75H129 M771 75H827V131 M73 1049V1105H129 M771 1105H827V1049" stroke="'+p.mid+'" stroke-width="2" opacity=".58" fill="none"/>'+
- '<rect x="287" y="59" width="326" height="100" rx="16" fill="#F9F8EF" stroke="'+p.mid+'" stroke-width="2"/>'+
+ '<rect x="287" y="59" width="326" height="100" rx="16" fill="#F9FBFF" stroke="'+p.mid+'" stroke-width="2"/>'+
  (logo?'<image href="'+logo+'" x="307" y="73" width="286" height="69" preserveAspectRatio="xMidYMid meet"/>':
  '<text x="450" y="120" text-anchor="middle" '+font+' font-size="43" font-weight="900" fill="#155343">به‌پرور</text>')+
  '<text x="450" y="220" text-anchor="middle" direction="rtl" '+font+' font-size="30" font-weight="800" fill="#F7F6E9">سفر ارتباطات</text>'+
  '<path d="M326 252H419 M481 252H574" stroke="'+p.mid+'" stroke-width="2" opacity=".56"/>'+
  '<path d="M450 240L462 252 450 264 438 252Z" fill="'+p.glint+'"/>'+
  '<g filter="url(#'+id+'-shadow)">'+
- '<circle cx="450" cy="469" r="215" fill="#0A2D28" stroke="'+p.dark+'" stroke-width="4"/>'+
+ '<circle cx="450" cy="469" r="215" fill="#081D42" stroke="'+p.dark+'" stroke-width="4"/>'+
  '<circle cx="450" cy="469" r="208" fill="'+met+'" stroke="'+p.light+'" stroke-width="2.3"/>'+
- '<circle cx="450" cy="469" r="198" fill="#0B372F" stroke="'+p.dark+'" stroke-width="1.6"/>'+
+ '<circle cx="450" cy="469" r="198" fill="#0E306A" stroke="'+p.dark+'" stroke-width="1.6"/>'+
  ticks+
  '<circle cx="450" cy="469" r="178" fill="'+face+'" stroke="'+p.light+'" stroke-width="2.5"/>'+
  '<circle cx="450" cy="469" r="161" fill="none" stroke="'+p.mid+'" stroke-width="1.8" opacity=".47"/>'+
@@ -63,7 +64,8 @@ function seal(type,opts={}){
  '<path d="M286 727H408 M492 727H614" stroke="'+p.mid+'" stroke-width="2" opacity=".63"/>'+
  '<path d="M450 717L460 727 450 737 440 727Z" fill="'+p.glint+'"/>'+
  '<text x="450" y="825" text-anchor="middle" direction="rtl" '+font+' font-size="78" font-weight="900" fill="'+p.light+'">نشان '+kind+'</text>'+
- '<text x="450" y="883" text-anchor="middle" direction="rtl" '+font+' font-size="26" font-weight="560" fill="#D9E6DC">'+escape(p.title)+'</text>'+
+ '<text x="450" y="866" text-anchor="middle" direction="rtl" '+font+' font-size="26" font-weight="750" fill="#F5F7FE">'+escape(p.title)+'</text>'+
+ '<text x="450" y="920" text-anchor="middle" direction="rtl" '+font+' font-size="21" font-weight="680" fill="'+p.light+'">'+golden+'</text>'+
  plaque+
  '<path d="M337 1133H563" stroke="'+p.mid+'" opacity=".47"/>'+
  '</svg>';

@@ -52,3 +52,29 @@
  body.sf-withdrawn .sf-exit-hero{background:#102246!important;color:#ffffff!important}
  body.sf-withdrawn .sf-exit-coach,body.sf-withdrawn .sf-exit-ledger{break-inside:avoid;box-shadow:none}
 }
+
+/* One unobtrusive, persistent exit/report option throughout the competitive journey. */
+body[data-bp-brand="session5-communication-journey"] #sfGracefulExitFixed{
+ position:fixed!important;bottom:max(19px,env(safe-area-inset-bottom,19px))!important;
+ left:max(14px,env(safe-area-inset-left,14px))!important;right:auto!important;
+ z-index:140!important;display:inline-flex!important;align-items:center;justify-content:center;
+ padding:10px 16px!important;min-height:46px!important;max-width:min(245px,66vw)!important;
+ font:750 15px/1.55 Vazirmatn,Tahoma,sans-serif!important;
+ color:#123c7c!important;background:#fff!important;border:2px solid #587bb8!important;
+ border-radius:13px!important;box-shadow:0 5px 19px #112d6530!important;
+ cursor:pointer;white-space:normal;text-align:center;direction:rtl
+}
+body[data-bp-brand="session5-communication-journey"] #sfGracefulExitFixed:hover{background:#f0f5ff!important}
+body[data-bp-brand="session5-communication-journey"] #sfGracefulExitFixed:focus-visible{
+ outline:3px solid #a92d45!important;outline-offset:3px
+}
+body.sf-coach-open #sfGracefulExitFixed,body:has(.sf-guide-backdrop) #sfGracefulExitFixed{
+ visibility:hidden!important;pointer-events:none!important
+}
+@media(max-width:530px){
+ body[data-bp-brand="session5-communication-journey"] #sfGracefulExitFixed{
+  min-height:44px!important;padding:8px 12px!important;font-size:13px!important;
+  max-width:51vw!important
+ }
+}
+@media print{#sfGracefulExitFixed{display:none!important}}

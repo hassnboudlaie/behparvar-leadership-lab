@@ -13,7 +13,7 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const read=()=>{try{return JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){return null}};
 const valid=(s,i)=>{const a=s.answers?.[i]||{},self=s.self?.[i]||[];
  return a.q1!==undefined&&a.q2?.best!==undefined&&a.q2?.worst!==undefined&&
- self.length===3&&self.every(v=>Number.isInteger(v)&&v>=1&&v<=4)&&(!s.rubricV2||!!s.learned?.[i]);
+ self.length===3&&self.every(v=>Number.isInteger(v)&&v>=1&&v<=(s.rubricV2===2?5:4))&&(!s.rubricV2||!!s.learned?.[i]);
 };
 const maxStage=(i,s)=>9+(incidents.some(x=>x.stage===i+1)?2:0)+([2,7].includes(i)?2:0);
 function settle(s){

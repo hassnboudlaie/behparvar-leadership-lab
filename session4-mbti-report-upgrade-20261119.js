@@ -21,7 +21,7 @@ function renderExpandedProfile(code){
  m.story.forEach(p=>narrative.append(node("p",p)));
  area.append(narrative);
  const highlights=node("div",undefined,"mentor-highlights");
- [["نقطه قوتی که می‌توانید روی آن حساب کنید",m.gifts],["جایی که بهتر است کمی بیشتر مراقب باشید",m.watch]].forEach(([heading,copy])=>{
+ [["ظرفیتی که ممکن است در خودتان ببینید",m.gifts],["جایی که بهتر است کمی بیشتر مراقب باشید",m.watch]].forEach(([heading,copy])=>{
   if(!copy)return;
   const section=node("section",undefined,"mentor-highlight");
   section.append(node("h3",heading),node("p",copy));highlights.append(section);

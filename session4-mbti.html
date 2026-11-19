@@ -197,7 +197,7 @@ main.report-mode{max-width:1130px}
 @media print{#report .profile-detail,#report .profile-narrative{break-inside:avoid}}
 </style>
 <link rel="stylesheet" href="assets/behparvar-brand-20261118.css?v=1">
-<link rel="stylesheet" href="assets/behparvar-mbti-mentor-20261119.css?v=1">
+<link rel="stylesheet" href="assets/behparvar-mbti-mentor-20261119.css?v=2">
 </head>
 <body data-bp-brand="session4-mbti">
 <main>
@@ -304,7 +304,7 @@ main.report-mode{max-width:1130px}
 <script src="session4-mbti-bank-20261119.js?v=2"></script>
 <script src="session4-mbti-insights.js?v=20261118b"></script>
 <script src="session4-mbti-profiles-20261119.js?v=2"></script>
-<script src="session4-mbti-mentor-copy-20261119.js?v=1"></script>
+<script src="session4-mbti-mentor-copy-20261119.js?v=2"></script>
 <script>
 "use strict";
 const ITEMS=window.BEHPARVAR_MBTI_BANK.items;
@@ -431,9 +431,20 @@ $("next").addEventListener("click",()=>{if(replies[cursor]===null)return;if(curs
 
 $("contextRole").addEventListener("change",refreshRoleReflection);
 
+const printDisclosures=new Map();
+window.addEventListener("beforeprint",()=>{
+ document.querySelectorAll("#report .mentor-more").forEach(d=>{
+  if(!printDisclosures.has(d))printDisclosures.set(d,d.open);
+  d.open=true;
+ });
+});
+window.addEventListener("afterprint",()=>{
+ for(const [d,wasOpen] of printDisclosures)d.open=wasOpen;
+ printDisclosures.clear();
+});
 $("print").addEventListener("click",()=>window.print());
 $("restart").addEventListener("click",clearAndRestart);
 if(new URLSearchParams(window.location.search).get("demo")==="1")window.addEventListener("load",openDemoReport,{once:true});
 </script>
-<script src="session4-mbti-report-upgrade-20261119.js?v=3"></script>
+<script src="session4-mbti-report-upgrade-20261119.js?v=4"></script>
 </body></html>

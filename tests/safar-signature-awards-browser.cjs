@@ -13,7 +13,7 @@ const root=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   assert.equal(await page.locator(".medal-card img").count(),3,"Exactly three tier medal previews");
   assert(await page.locator(".badges .sf-recognition-quote").first().isVisible(),"Human skill quote visible");
   assert((await page.locator(".badges").innerText()).includes("برای فردا:"),"Every card encourages transfer to work");
-  assert(!(await page.locator(".badges").innerText()).includes("کسب‌شده"),"Preview never falsely says awards are earned");
+  assert.equal(await page.locator(".badges .bp-recognition-state").filter({hasText:"نمونه طراحی، نه نشان کسب‌شده"}).count(),10,"Every badge clearly marks preview, not achievement");
   const images=await page.locator(".medal-card img").evaluateAll(nodes=>nodes.map(x=>({complete:x.complete,width:x.naturalWidth,height:x.naturalHeight})));
   assert(images.every(x=>x.complete&&x.width>300&&x.height>300),"All medal SVGs visually load in browser");
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+8),true,"Gallery fits desktop width");

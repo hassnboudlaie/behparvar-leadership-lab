@@ -50,7 +50,7 @@ function medalCards(s){
    '<div class="sf-medal-caption"><strong>نشان '+p.name+'</strong><span class="sf-medal-state '+state+'">'+status+'</span></div>'+
    '<details class="sf-medal-rule"><summary>شرایط کسب نشان</summary>'+
    '<div class="sf-medal-rule-content"><p><b>'+fa(r.total)+'</b> امتیاز از ۱۰۰ امتیاز کل</p>'+
-   '<p><b>'+fa(r.quiz)+'</b> امتیاز از '+fa(s?.soloVersion?84:80)+' امتیاز آزمون</p>'+
+   '<p><b>'+fa(r.quiz)+'</b> امتیاز از '+fa(s?.rubricV2===2?70:s?.soloVersion?84:80)+' امتیاز آزمون</p>'+
    '<p>پایان سفر ۱۰مرحله‌ای</p></div></details>'+
    '</article>';
  }).join("")+'</div>';

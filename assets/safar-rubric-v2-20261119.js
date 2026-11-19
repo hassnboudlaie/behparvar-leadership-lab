@@ -59,7 +59,7 @@ function evidenceFor(s,i){
 }
 function validSelf(s,i){
  const a=s?.self?.[i];
- return Array.isArray(a)&&a.length===3&&a.every(v=>Number.isInteger(v)&&v>=1&&v<=4);
+ return Array.isArray(a)&&a.length===3&&a.every(v=>Number.isInteger(v)&&v>=1&&v<=5);
 }
 function points(s,i){
  const st=window.BP_SAFAR_DATA?.stages?.[i],ans=s?.answers?.[i]||{},self=validSelf(s,i);

@@ -52,7 +52,7 @@ assert(landing.includes("https://hassnboudlaie.github.io/behparvar-leadership-la
 const sw=read("sw.js");
 for(const name of ["safar-content-quality-v4.js","safar-stage-celebration.svg","safar-final-review-v4.js","session4-classroom-qr.html"])assert(sw.includes(name),"PWA offline "+name);
 const pts=read("assets/safar-score-feedback-v1.js");
-const sample={window:{BP_SAFAR_DATA:data},document:{getElementById:()=>({querySelector:()=>null}),addEventListener:()=>{}},
+const sample={window:{BP_SAFAR_DATA:data,addEventListener:()=>{}},document:{getElementById:()=>({querySelector:()=>null}),addEventListener:()=>{}},
 localStorage:{getItem:()=>null},MutationObserver:class{observe(){}},requestAnimationFrame:()=>{}};
 vm.runInNewContext(pts,sample);
 const points=sample.window.BP_SAFAR_STEP_POINTS,answers={},rp={},self={},peer={},alloc={};

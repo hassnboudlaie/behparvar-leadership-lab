@@ -29,6 +29,15 @@ body[data-bp-brand="session4-mbti"] #report{--report-navy:#132e66;--report-muted
 #report .expanded-profile{background:none;border:0;padding:0;border-radius:0}
 #report .profile-narrative p{font-size:18px;line-height:2.13;color:#243652;margin:0 0 17px;font-weight:440}
 #report .profile-narrative p:last-child{margin-bottom:4px}
+#report .mentor-highlights{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0 22px}
+#report .mentor-highlight{padding:13px 0 0;border-top:2px solid #dfe6f1}
+#report .mentor-highlight:nth-child(2){border-top-color:#eac9d0}
+#report .mentor-highlight h3{font-size:16px;color:#1a386d;line-height:1.7;margin:0 0 7px;font-weight:850}
+#report .mentor-highlight p{font-size:16px;line-height:2.02;color:#384b66;margin:0}
+#report .mentor-more{border-top:1px solid #e9edf4;border-bottom:1px solid #e9edf4;margin:8px 0 16px;padding:12px 0}
+#report .mentor-more>summary{font-size:15.5px;line-height:1.8;font-weight:800;color:#254a81;cursor:pointer;list-style-position:inside}
+#report .mentor-more[open]>summary{margin-bottom:6px}
+#report .mentor-more .profile-grid{margin:0}
 #report .mentor-divider{height:1px;background:#e8ecf2;margin:26px 0 20px}
 #report .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;margin:0}
 #report .profile-detail{background:none!important;border:0!important;border-bottom:1px solid #edf0f4!important;border-radius:0!important;padding:17px 0 19px!important;box-shadow:none}
@@ -83,6 +92,13 @@ body[data-bp-brand="session4-mbti"] #report{--report-navy:#132e66;--report-muted
 #report .report-actions button.primary{background:#153574;border-color:#153574;color:#fff}
 #report #print{order:0}
 @media(max-width:700px){
+ #report .mentor-highlights{grid-template-columns:1fr;gap:14px;margin:20px 0}
+ #report .mentor-highlight{padding-top:10px}
+ #report .mentor-highlight h3{font-size:15.5px}
+ #report .mentor-highlight p{font-size:15.7px;line-height:2}
+ #report .mentor-more{margin:5px 0 13px}
+ #report .mentor-more>summary{font-size:15px}
+
  body[data-bp-brand="session4-mbti"] main.report-mode{padding:0 14px 46px}
  body[data-bp-brand="session4-mbti"] #report{font-size:17px}
  #report .report-top{margin:21px 0 16px;display:block}
@@ -117,6 +133,8 @@ body[data-bp-brand="session4-mbti"] #report{--report-navy:#132e66;--report-muted
  body[data-bp-brand="session4-mbti"] main.report-mode{max-width:none}
  #report .report-hero,#report .mentor-story,#report .work-section .report-scenario,#report .action-box{box-shadow:none}
  #report .profile-detail{break-inside:avoid}
- #report .report-status,#report .sample-note,.report-actions,.noPrint{display:none!important}
+ #report .report-status,.report-actions,.noPrint{display:none!important}
+ #report .sample-note:not([hidden]){display:block!important;color:#6e232d;border:1px solid #dc9ba8;background:#fff5f6;font-weight:750;padding:9px 12px;margin:12px 0}
+ #report .mentor-highlights{display:grid;grid-template-columns:1fr 1fr}
  #report .dim-evidence{display:none}
 }

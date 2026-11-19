@@ -10,7 +10,7 @@ const data=ctx.window.BP_SAFAR_DATA,stages=data.stages,R=ctx.window.BP_SAFAR_RUB
 assert.equal(stages.length,10);assert.equal(R.STAGE_MAX,10);
 assert.deepEqual(JSON.parse(JSON.stringify(R.MAX)),{lesson:.5,self:2.5,decision1:3.5,decision2:3.5});
 assert.equal(new Set(stages.flatMap(s=>s.selfItems)).size,30,"30 distinct plain-language self-items");
-assert(ctx.window.BP_SAFAR_SELF_ITEMS.scale.length===4);
+assert.equal(ctx.window.BP_SAFAR_SELF_ITEMS.scale.length,5,"Five descriptive anchors");
 const copy=()=>({rubricV2:2,soloVersion:1,s5gameVersion:1,learned:{},self:{},evidence:{},answers:{},peer:{},rp:{},alloc:{}});
 function prepare(v,correct){
  const s=copy();
@@ -22,10 +22,11 @@ function prepare(v,correct){
  });
  return s;
 }
-const low=prepare(1,true),high=prepare(4,true),wrong=prepare(1,false);
+const low=prepare(1,true),high=prepare(5,true),wrong=prepare(1,false);
 assert.equal(R.total(low).total,85);
 assert.equal(R.total(high).total,85,"Self-endorsement level must not affect competitive score");
 assert.equal(R.points(low,0).max,10);
+assert.equal(R.points(high,0).selfBase,1,"Level five earns same completion points");
 assert.equal(R.points(low,0).lesson,.5);
 assert.equal(R.points(low,0).selfBase,1);
 assert.equal(R.points(low,0).oneCompletion,1.5);

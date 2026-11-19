@@ -33,7 +33,7 @@ function earned(s){
  if(s?.mode!=="competitive"||!s?.startedAt)return levels;
  for(let i=0;i<completed;i++){
   const a=s.answers?.[i]||{},self=s.self?.[i]||[];
-  if(a.q1!==undefined&&a.q2!==undefined&&self.length===3&&self.every(n=>Number.isInteger(n)&&n>=1&&n<=4)&&(!s.rubricV2||!!s.learned?.[i]))levels.add("s"+i);
+  if(a.q1!==undefined&&a.q2!==undefined&&self.length===3&&self.every(n=>Number.isInteger(n)&&n>=1&&n<=(s.rubricV2===2?5:4))&&(!s.rubricV2||!!s.learned?.[i]))levels.add("s"+i);
  }
  const paused=Number(s.pause?.spentMs)||0,extra=Number(s.overtime?.pauseMs)||0;
  if(s.finished&&!s.withdrawn&&s.finishedAt&&s.startedAt&&s.finishedAt-s.startedAt-paused-extra<=5400000&&

@@ -268,7 +268,14 @@ function tickRest(){
  if(hint)hint.textContent=remaining>0?"از این مکث کوتاه استفاده کن؛ ادامه تا "+fa(Math.ceil(remaining/1000))+" ثانیه دیگر فعال می‌شود.":"چه خوب! ایستگاه آرامش کامل شد؛ آماده ادامه سفر هستی.";
 }
 setInterval(tickRest,250);
-window.BP_SAFAR_WIZARD_REFRESH=()=>apply(true);
+window.BP_SAFAR_WIZARD_REFRESH=()=>{
+ const s=state();if(!s?.startedAt||s.finished)return;
+ const next=root.querySelector("#sfNext"),eligible=eligibility(s,currentPhase);
+ if(next)next.disabled=!eligible;
+ const hint=root.querySelector("#sfWizardNav small");
+ if(hint)hint.textContent=eligible?"آماده ادامه مسیر هستی.":"برای ادامه، ابتدا فعالیت این صفحه را ثبت کن.";
+ syncVisibility(s);
+};
 window.addEventListener("bp-safar-rubric-updated",()=>apply(true));
 apply();
 })();

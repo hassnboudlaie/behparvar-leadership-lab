@@ -32,7 +32,7 @@ body[data-bp-brand="session4-mbti"] #report{--report-navy:#132e66;--report-muted
 #report .mentor-divider{height:1px;background:#e8ecf2;margin:26px 0 20px}
 #report .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;margin:0}
 #report .profile-detail{background:none!important;border:0!important;border-bottom:1px solid #edf0f4!important;border-radius:0!important;padding:17px 0 19px!important;box-shadow:none}
-#report .profile-detail:last-child{grid-column:1/-1;border:0!important}
+#report .profile-detail:last-child{grid-column:auto;border-bottom:1px solid #edf0f4!important}
 #report .profile-detail h3{font-size:17px;line-height:1.65;color:#183974;margin:0 0 6px;font-weight:850}
 #report .profile-detail p{font-size:16.5px;line-height:2.0;color:#3b4c69;margin:0}
 #report .mentor-question{margin:26px 0 0;border-right:3px solid #c81729;padding:8px 17px;font-size:16px;line-height:1.95;color:#344965;background:transparent}

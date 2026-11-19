@@ -59,7 +59,7 @@ async function inspect(name,viewport,browser){
   assert.equal(state?.role,"managers");assert.equal(state?.mode,"competitive");assert.equal(state?.stage,0);
   assert.ok(state?.startedAt>0);
   const phases=await p.locator("[data-sf-phase]").allTextContents();
-  assert.ok(phases.some(x=>x.includes("تمرین")),"Role play accessible in ten-step wizard");
+  assert.ok(!phases.some(x=>x.includes("بازخورد همتا")||x.includes("تمرین و بازخورد")),"Competition is entirely individual");
   await snap("journey-stage-one");
   const gameOverflow=await overflow();assert.ok(gameOverflow<=5,"Game overflow "+gameOverflow);
   assert.deepEqual(errors,[],"JavaScript errors");
@@ -70,6 +70,6 @@ async function inspect(name,viewport,browser){
  const browser=await chromium.launch({headless:true,args:["--no-sandbox"]});
  try{const report=[];for(const x of [{name:"laptop",viewport:{width:1366,height:768}},{name:"mobile",viewport:{width:390,height:844}}])report.push(await inspect(x.name,x.viewport,browser));
  fs.writeFileSync(path.join(OUT,"report.json"),JSON.stringify(report,null,2));
- console.log("PASS Behparvar responsive education, roleplay entry, gamified timer and preserved state",JSON.stringify(report));
+ console.log("PASS Behparvar responsive education, solo competitive journey, 90-minute timer and preserved state",JSON.stringify(report));
  }finally{await browser.close()}
 })().catch(err=>{console.error("FAILED:",err);process.exitCode=1});

@@ -14,7 +14,7 @@ for(const kind of ["gold","silver","bronze"]){
  const svg=window.BP_SAFAR_BADGE_DESIGN.seal(kind,{preview:true});
  assert(svg.startsWith("<svg")&&svg.includes("</svg>"),"Medal has full SVG for "+kind);
  assert(svg.includes("ribbon")&&svg.includes("<image href="),"Medal ribbon and official logo for "+kind);
- assert(svg.includes("مدال ")&&svg.includes("گفت‌وگو"),"Medal branding and skill motto");
+ assert(svg.includes("مدال ")&&svg.includes(window.BP_SAFAR_BADGE_DESIGN.palettes[kind].title),"Medal branding and tier-specific skill motto");
  assert(gallery.includes("behparvar-safar-medal-"+kind+"-official.svg"),"Gallery includes "+kind);
  assert(get("assets/previews/behparvar-safar-medal-"+kind+"-official.svg").includes("ribbon"),"Official preview matches current medal");
 }

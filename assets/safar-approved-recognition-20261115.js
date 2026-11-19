@@ -47,6 +47,7 @@ function badge(item,yes){
  return '<article class="bp-recognition-badge '+(yes?"is-earned":"is-locked")+'" aria-label="'+item.title+'، '+(yes?"دریافت شده":"دریافت نشده")+'">'+
  '<div class="bp-recognition-shield">'+symbol(item.icon)+'</div>'+
  '<strong>'+item.title+'</strong>'+
+ (item.kind==="skill"?'<p class="sf-recognition-quote">«'+String(window.BP_SAFAR_GOLDEN_QUOTES?.[item.idx]||"مهارت را در عمل نشان بده.")+'»</p>':"")+
  '<span class="bp-recognition-state">'+(yes?"کسب‌شده":item.kind==="skill"?"در انتظار تکمیل":"هنوز کسب نشده")+'</span>'+
  (yes?'<button type="button" class="bp-recognition-download" data-bp-download="'+item.id+'" aria-label="دانلود نشان '+item.title+'">دریافت PNG</button>':
  '<small class="bp-recognition-rule">'+item.hint+'</small>')+'</article>';

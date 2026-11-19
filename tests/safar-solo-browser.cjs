@@ -26,12 +26,15 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   assert.equal(await page.locator("#sound").count(),0,"Learner has no sound toggle");
   assert.equal(await page.locator('a[href="session5-facilitator.html"]').count(),0,"No facilitator link");
   assert.equal(await page.locator(".sf-home-only").count(),1,"Exactly one home control");
+  await page.locator("#sfGracefulExitFixed").waitFor({state:"visible",timeout:10000});
+  assert.equal(await page.locator("#sfGracefulExitTop").count(),0,"No exit button pollutes header");
   assert(await page.locator(".sf-learning-card .sf-learn-principle").innerText(),"Lesson contains a practical technique");
   assert.equal(await page.locator("#sfNext").isDisabled(),true,"Reading requires acknowledgement");
   await page.locator("#sfLessonRead").check();
   assert.equal(await page.locator("#sfNext").isEnabled(),true);
   await page.locator("#sfNext").click(); // lesson -> self
   await page.waitForFunction(()=>document.querySelector("#sfWizardHead")?.dataset.phase==="self");
+  assert(await page.locator("#sfGracefulExitFixed").isVisible(),"Exit and report is visible in self-assessment");
   for(let i=0;i<3;i++)await page.locator('[data-scale="'+i+'"][data-val="1"]').click();
   assert((await page.locator(".sf-self-feedback").innerText()).includes("بازتاب کوچ"),"Narrative reflection visible");
   assert(!(await page.locator(".sf-self-feedback").innerText()).includes("از ۱۲"),"No numeric self score");
@@ -47,6 +50,7 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
   assert.equal(await page.locator("#sfSelfFeedbackHolder").isVisible(),true);
   await page.locator("#sfNext").click(); // self -> first decision
   await page.waitForFunction(()=>document.querySelector("#sfWizardHead")?.dataset.phase==="decision1");
+  assert(await page.locator("#sfGracefulExitFixed").isVisible(),"Exit and report remains accessible on decision screen");
   await page.locator("#sfGuideFloating").click();
   await page.locator("#sfGuideReveal").click();
   const help=await page.locator("#sfGuideBody").innerText();

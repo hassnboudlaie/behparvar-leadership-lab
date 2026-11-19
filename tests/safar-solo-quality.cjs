@@ -20,7 +20,8 @@ assert(!/\"role\"|\"peer\"/.test(segment(wizard,"function sequence(s)","function
 assert(!recognition.includes('id:"team"')&&!recognition.includes('id:"active"')&&!recognition.includes('id:"practice"'),"No group/role badges");
 assert(guide.includes("FREE=2,COST=2"),"Two free then paid guide preserved");
 assert(guide.includes("fieldTools=[")&&guide.includes("گام عملی برای همین موقعیت"),"Contextual actionable help");
-assert(coach.includes("data-coach-choice")&&coach.includes("data-sf-coach-view"),"Welcome and inline feedback are interactive");
+assert(!coach.includes("data-coach-choice")&&!coach.includes("data-sf-coach-view"),"Pointless intro choices and broken feedback buttons removed");
+assert(wizard.includes("unit.decisionLens")&&wizard.includes("unit.trap"),"Stage-specific coach content present");
 assert(coach.includes("![2,5,9].includes(index)"),"Coach overlay restricted to milestones");
 const ctx={window:{}};vm.runInNewContext(read("assets/safar-ertebatat-data.js"),ctx);
 const stages=ctx.window.BP_SAFAR_DATA.stages,incidents=ctx.window.BP_SAFAR_DATA.incidents;

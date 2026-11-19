@@ -9,7 +9,7 @@ const TIERS={bronze:{total:55,quiz:35},silver:{total:70,quiz:45},gold:{total:88,
 const temporal=/(امروز|دیروز|هفته|ماه|روز|سال|شیفت|جلسه|پروژه|مشتری|کارشناس|گزارش|آخرین|قبلی|گذشته|صبح|عصر|هنگام|وقتی|نوبت|ساعت|مورخ|تاریخ|بار|حین|در جریان|موقع|بارگیری|تولید)/;
 const action=/(پرسید|گفت|نوشتم|نوشت|بیان|توضیح|ثبت|روشن|هماهنگ|گوش|شنید|پیگیری|ارسال|فرستاد|تأیید|تایید|مکث|خلاصه|توافق|اشاره|پیشنهاد|گذاشت|کردم|کردیم|دادم|گرفت|انتخاب|رد کردم|اطلاع|تقسیم|یادداشت|بررسی|اصلاح|تعیین)/;
 const consequence=/(نتیجه|باعث|بنابراین|در نتیجه|پس از|بعد از|موجب|کم شد|کاهش|بهبود|پذیرفت|فهمید|متوجه|جلوگیری|پیش رفت|حل شد|روشن شد|مطمئن|قابل پیگیری|موعد|توافق|قرار شد|تحویل|نهایی|به موقع|به‌موقع|تغییر کرد|به همین دلیل)/;
-const specificity=/(\\d|[۰-۹]|دقیقه|ساعت|نفر|واحد|گروه|کارشناس|سرپرست|مدیر|مشتری|همکار|فنی|تولید|انبار|عملیات|کیفیت|تحویل|گزارش|پیام|ایمیل|جلسه|شیفت|سفارش|برنامه|نارضایتی|اعتراض|قرارداد|ارسال)/;
+const specificity=/([0-9]|[۰-۹]|دقیقه|ساعت|نفر|واحد|گروه|کارشناس|سرپرست|مدیر|مشتری|همکار|فنی|تولید|انبار|عملیات|کیفیت|تحویل|گزارش|پیام|ایمیل|جلسه|شیفت|سفارش|برنامه|نارضایتی|اعتراض|قرارداد|ارسال)/;
 const normalize=x=>String(x??"").normalize("NFKC").replace(/[ي]/g,"ی").replace(/[ك]/g,"ک").replace(/\s+/g," ").trim();
 function meaningful(text){
  const t=normalize(text);
@@ -22,10 +22,17 @@ function similarity(a,b){
  let shared=0;for(const word of A)if(B.has(word))shared++;
  return shared/(A.size+B.size-shared);
 }
-function reviewEvidence(texts){
+function reviewEvidence(texts,priorTexts=[]){
  const arr=Array.isArray(texts)?texts.slice(0,3).map(normalize):[];
  const unique=arr.length===3&&arr.every(meaningful)&&similarity(arr[0],arr[1])<.75&&similarity(arr[0],arr[2])<.75&&similarity(arr[1],arr[2])<.75;
  if(!unique)return{complete:false,submission:0,quality:0,total:0,criteria:[false,false,false,false],notes:["برای دریافت اعتبار شواهد، برای هر رفتار یک موقعیت واقعی و متفاوت با حداقل ۲۵ نویسه ثبت کن."]};
+ // Previous stages are authoritative. Avoid scoring the same evidence repeatedly;
+ // earlier achievements never lose credit when later stages are submitted.
+ const earlier=Array.isArray(priorTexts)?priorTexts.map(normalize).filter(Boolean):[];
+ if(arr.some(t=>earlier.some(previous=>previous===t||similarity(previous,t)>.9))){
+  return{complete:false,submission:0,quality:0,total:0,criteria:[false,false,false,false],
+   notes:["یک یا چند شاهد قبلاً در مرحله دیگری ثبت شده‌اند. برای این مهارت، موقعیت یا رفتار مستقل و مشخصی بنویس؛ ثبت شواهد اختیاری است."]};
+ }
  const counts=[0,0,0,0],per=[];
  for(const t of arr){
   const checks=[temporal.test(t),action.test(t),consequence.test(t),specificity.test(t)];
@@ -42,6 +49,14 @@ function reviewEvidence(texts){
  if(!notes.length)notes.push("شواهد از نظر ساختار زمانی، اقدام و نتیجه روشن‌اند. تطابق آن‌ها با واقعیت فقط از متن قابل احراز نیست.");
  return{complete:true,submission:.5,quality,total:Math.round((.5+quality)*100)/100,criteria:counts.map(c=>c===3),notes,per};
 }
+function evidenceFor(s,i){
+ const history=[];
+ for(let j=0;j<i;j++){
+  const earlier=s?.evidence?.[j]?.texts;
+  if(Array.isArray(earlier))history.push(...earlier);
+ }
+ return reviewEvidence(s?.evidence?.[i]?.texts||[],history);
+}
 function validSelf(s,i){
  const a=s?.self?.[i];
  return Array.isArray(a)&&a.length===3&&a.every(v=>Number.isInteger(v)&&v>=1&&v<=4);
@@ -49,7 +64,7 @@ function validSelf(s,i){
 function points(s,i){
  const st=window.BP_SAFAR_DATA?.stages?.[i],ans=s?.answers?.[i]||{},self=validSelf(s,i);
  const learned=!!s?.learned?.[i],lesson=learned?.5:0;
- const e=reviewEvidence(s?.evidence?.[i]?.texts||[]);
+ const e=evidenceFor(s,i);
  const selfBase=self?1:0,submission=self?e.submission:0,coachQuality=self?e.quality:0;
  const oneSaved=Number.isInteger(ans.q1)&&ans.q1>=0&&ans.q1<=3;
  const twoSaved=Number.isInteger(ans.q2?.best)&&Number.isInteger(ans.q2?.worst)&&ans.q2.best!==ans.q2.worst;
@@ -81,5 +96,5 @@ function tier(score,quiz){
  if(score>=TIERS.bronze.total&&quiz>=TIERS.bronze.quiz)return"bronze";
  return null;
 }
-window.BP_SAFAR_RUBRIC={STAGE_MAX,MAX,TIERS,reviewEvidence,meaningful,points,total,tier};
+window.BP_SAFAR_RUBRIC={STAGE_MAX,MAX,TIERS,reviewEvidence,evidenceFor,meaningful,points,total,tier};
 })();

@@ -6,9 +6,11 @@
 const ROOT=document.getElementById("root"),KEY="bp-session5-communication-journey-v1";
 if(!ROOT)return;
 const fa=n=>Number(n||0).toLocaleString("fa-IR");
-const skillNames=[
-"شروع حرفه‌ای و اعتماد","روشن‌سازی پیام","شنود و همدلی","لحن و بیان","بازخورد مؤثر",
-"گفت‌وگوی دشوار","هماهنگی بین‌واحدی","نه‌گفتن محترمانه","بازسازی اعتماد","مذاکره و توافق"
+const narrative=window.BP_SAFAR_RECOGNITION_COPY||{skills:[],medals:{}};
+const safe=x=>String(x??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+const skillNames=narrative.skills.length===10?narrative.skills.map(x=>x.official):[
+ "شروع حرفه‌ای و اعتماد","روشن‌سازی پیام","شنود و همدلی","لحن و بیان","بازخورد مؤثر",
+ "گفت‌وگوی دشوار","هماهنگی بین‌واحدی","نه‌گفتن محترمانه","بازسازی اعتماد","مذاکره و توافق"
 ];
 const icons=[
 '<path d="M11 51 28 29 35 38 47 18 56 51H11Z"/><path d="M47 18V7m0 0 13 4-13 5"/><path d="m17 49 12-12 7 5"/>',
@@ -23,9 +25,9 @@ const icons=[
 '<path d="M15 8h25l10 10v36H15Z"/><path d="M40 8v11h10M23 27h17M23 35h12"/><path d="m27 46 6 5 12-15"/>'
 ];
 const participation=[
-{id:"time",title:"مدیریت زمان",hint:"پایان ۱۰ مرحله در ۹۰ دقیقه بدون وقت اضافه",icon:'<circle cx="30" cy="32" r="22"/><path d="M30 15v18l11 7M22 3h16M45 10l5-5"/>'}
+{id:"time",title:"مدیریت زمان",hint:"ده مرحله در زمان پایه، بدون دریافت وقت اضافه",icon:'<circle cx="30" cy="32" r="22"/><path d="M30 15v18l11 7M22 3h16M45 10l5-5"/>'}
 ];
-const all=[...skillNames.map((title,i)=>({id:"s"+i,title,kind:"skill",idx:i,icon:icons[i],hint:"تکمیل تصمیم‌ها و خودارزیابی ایستگاه "+fa(i+1)})),...participation.map(x=>({...x,kind:"participation"}))];
+const all=[...skillNames.map((title,i)=>({id:"s"+i,title,displayTitle:narrative.skills?.[i]?.title||title,kind:"skill",idx:i,icon:icons[i],hint:"تکمیل یادگیری، خودارزیابی و دو تصمیم ایستگاه "+fa(i+1)})),...participation.map(x=>({...x,kind:"participation",displayTitle:narrative.time?.name||x.title}))];
 function state(){try{const x=JSON.parse(localStorage.getItem(KEY)||"null");return x?.version===3?x:null}catch(e){return null}}
 function earned(s){
  const completed=s?.withdrawn?10:(s?.finished?10:Math.min(10,Math.max(0,Number(s?.stage)||0)+1));
@@ -45,13 +47,19 @@ function symbol(item){
  return art||'<svg viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">'+item.icon+'</svg>';
 }
 function badge(item,yes){
- return '<article class="bp-recognition-badge '+(yes?"is-earned":"is-locked")+'" aria-label="'+item.title+'، '+(yes?"دریافت شده":"دریافت نشده")+'">'+
+ const copy=item.kind==="skill"?(narrative.skills[item.idx]||{}):(narrative.time||{});
+ const headline=item.displayTitle||item.title;
+ const quote=copy.quote||"هر تمرین کوچک، می‌تواند راهِ یک گفت‌وگوی بهتر را باز کند.";
+ const status=yes?"این یادگار همراه توست":"هنوز در مسیر این نشان";
+ return '<article class="bp-recognition-badge '+(yes?"is-earned":"is-locked")+'" aria-label="'+safe(item.title)+'، '+(yes?"دریافت شده":"دریافت نشده")+'">'+
  '<div class="bp-recognition-shield">'+symbol(item)+'</div>'+
- '<strong>'+item.title+'</strong>'+
- (item.kind==="skill"?'<p class="sf-recognition-quote">«'+String(window.BP_SAFAR_GOLDEN_QUOTES?.[item.idx]||"مهارت را در عمل نشان بده.")+'»</p>':"")+
- '<span class="bp-recognition-state">'+(yes?"کسب‌شده":item.kind==="skill"?"در انتظار تکمیل":"هنوز کسب نشده")+'</span>'+
- (yes?'<button type="button" class="bp-recognition-download" data-bp-download="'+item.id+'" aria-label="دانلود نشان '+item.title+'">دریافت PNG</button>':
- '<small class="bp-recognition-rule">'+item.hint+'</small>')+'</article>';
+ '<span class="bp-recognition-eyebrow">'+(item.kind==="skill"?"ایستگاه "+fa(item.idx+1)+" از ۱۰":"نشان ویژه سفر")+'</span>'+
+ '<strong>'+safe(headline)+'</strong>'+
+ '<small class="bp-recognition-official">'+safe(item.title)+'</small>'+
+ '<p class="sf-recognition-quote">«'+safe(quote)+'»</p>'+
+ '<span class="bp-recognition-state">'+status+'</span>'+
+ (yes?'<button type="button" class="bp-recognition-download" data-bp-download="'+item.id+'" aria-label="ذخیره تصویر یادگاری '+safe(item.title)+'">ذخیره کارت یادگاری</button>':
+ '<small class="bp-recognition-rule">'+safe(item.hint)+'</small>')+'</article>';
 }
 let lastState=null,lastToast=null;
 function shareMenu(s){
@@ -63,14 +71,14 @@ function shareMenu(s){
  section.id="bp-recognition-collection";
  section.className="bp-recognition-collection";
  if(s.finished)section.open=true;
- section.innerHTML='<summary><span class="bp-recognition-summary-copy"><b>نشان‌های سفر ارتباطات</b><small>'+
- (intro?"مهارت‌ها و شرایط کسب نشان":fa(n)+" نشان مهارتی از ۱۰ ایستگاه")+
+ section.innerHTML='<summary><span class="bp-recognition-summary-copy"><b>یادگارهای سفر ارتباطات</b><small>'+
+ (intro?"ده موقعیت برای تمرین گفت‌وگوهای بهتر":fa(n)+" یادگار مهارتی از ۱۰ ایستگاه")+
  '</small></span><span class="bp-recognition-summary-mark" aria-hidden="true">'+fa(n)+'/۱۰</span></summary>'+
- '<div class="bp-recognition-inner"><p>نشان مهارتی پس از تکمیل تصمیم‌ها و خودارزیابی آن ایستگاه ثبت می‌شود. در این سفر همه نشان‌ها فردی هستند و هیچ نشان گروهی وجود ندارد.</p>'+
- '<h3>نشان‌های مهارتی</h3><div class="bp-recognition-grid">'+all.filter(x=>x.kind==="skill").map(x=>badge(x,got.has(x.id))).join("")+'</div>'+
- '<h3>نشان ویژه زمان‌بندی</h3><div class="bp-recognition-grid bp-participation-grid">'+all.filter(x=>x.kind==="participation").map(x=>badge(x,got.has(x.id))).join("")+'</div>'+
- '<p class="bp-recognition-note">'+(s.withdrawn?'این سفر زودتر پایان یافته است؛ نشان‌های کسب‌شده محفوظ‌اند، اما مدال تکمیل ۱۰ مرحله صادر نمی‌شود.':'مدال پایان سفر فقط یکی است: زرین، سیمین یا برنزی بر اساس امتیاز نهایی. مشاهده این مجموعه امتیازی ایجاد نمی‌کند.')+'</p>'+
- (got.size?'<button type="button" class="bp-recognition-exportall" id="bpExportEarned">دریافت کارت نشان‌های کسب‌شده (PNG)</button>':"")+
+ '<div class="bp-recognition-inner"><p>هر نشان یادآورِ موقعیتی است که در آن مکث کردی، خواندی و تصمیم گرفتی. آن را نگه دار و یک رفتار کوچک را به گفت‌وگوی واقعی بعدی ببر. این‌ها یادگار تجربه یادگیری‌اند، نه گواهی تسلط شغلی.</p>'+
+ '<h3>ده مهارت، ده یادگار</h3><div class="bp-recognition-grid">'+all.filter(x=>x.kind==="skill").map(x=>badge(x,got.has(x.id))).join("")+'</div>'+
+ '<h3>یادگار ویژه مدیریت زمان</h3><div class="bp-recognition-grid bp-participation-grid">'+all.filter(x=>x.kind==="participation").map(x=>badge(x,got.has(x.id))).join("")+'</div>'+
+ '<p class="bp-recognition-note">'+(s.withdrawn?'این سفر زودتر پایان یافته است؛ نشان‌های کسب‌شده محفوظ‌اند، اما مدال تکمیل ۱۰ مرحله صادر نمی‌شود.':'در پایان، متناسب با نتیجه تمرین‌هایت یکی از سه مدال دریافت می‌کنی. دیدن این مجموعه امتیازی ایجاد نمی‌کند.')+'</p>'+
+ (got.size?'<button type="button" class="bp-recognition-exportall" id="bpExportEarned">ذخیره مجموعه یادگارهای من</button>':"")+
  '</div>';
  const original=root.querySelector("#bp-recognition-collection");
  if(original){const open=original.open;if(!s.finished)section.open=open;original.replaceWith(section);return}
@@ -97,11 +105,14 @@ function refresh(){
 function toast(item){
  if(!item||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
  document.querySelector("#bp-recognition-toast")?.remove();
+ const copy=item.kind==="skill"?narrative.skills[item.idx]:narrative.time;
  const node=document.createElement("div");node.id="bp-recognition-toast";node.setAttribute("role","status");
- node.innerHTML='<div class="bp-recognition-toast-icon">'+symbol(item)+'</div><div><strong>نشان «'+item.title+'» ثبت شد</strong><span>برای دریافت تصویر، مجموعه نشان‌ها را باز کن.</span></div><button type="button" aria-label="بستن پیام نشان" id="bpCloseBadgeToast">×</button>';
+ node.innerHTML='<div class="bp-recognition-toast-icon">'+symbol(item)+'</div><div><strong>'+
+ safe(copy?.title||item.title)+'</strong><span>'+safe(copy?.message||"یک یادگار تازه به مسیرت اضافه شد.")+
+ '</span></div><button type="button" aria-label="بستن پیام نشان" id="bpCloseBadgeToast">×</button>';
  document.body.append(node);
  if(lastToast)clearTimeout(lastToast);
- lastToast=setTimeout(()=>node.remove(),4200);
+ lastToast=setTimeout(()=>node.remove(),5200);
 }
 function saveBlob(blob,file){
  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=file;

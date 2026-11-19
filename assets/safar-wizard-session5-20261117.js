@@ -43,7 +43,7 @@ function restStation(s){
  '<div class="sf-rest-body"><div class="sf-rest-seconds"><span id="sfRestSeconds">۳۰</span><small>ثانیه استراحت</small></div>'+
  '<div><strong>یک تمرین کوچک برای همین لحظه</strong><p id="sfBreathText">'+(first?'چند لحظه به رودخانه نگاه کن؛ تنش شانه‌ها را رها کن.':'به مسیر حرکت آب نگاه کن؛ یک گفت‌وگوی دشوار را بدون قضاوت به یاد بیاور.')+'</p>'+
  '<button type="button" id="sfBreathe" class="sf-rest-breathe">◉ یک دم و بازدم آگاهانه</button></div></div>'+
- '<p class="sf-rest-foot">این ۳۰ ثانیه بخشی از زمان ۶۰دقیقه‌ای سفر است. بعد از اتمام، دکمه ادامه فعال می‌شود.</p>';
+ '<p class="sf-rest-foot">این ۳۰ ثانیه بخشی از زمان ۹۰دقیقه‌ای سفر است. بعد از اتمام، دکمه ادامه فعال می‌شود.</p>';
 }
 function ensureState(s){
  const k=phaseKey(s);

@@ -23,11 +23,21 @@ for(let i=0;i<11;i++){
  const art=window.BP_SAFAR_SKILL_BADGE_ART.badge({kind:i===10?"participation":"skill",idx:i,icon});
  assert(art.startsWith("<svg")&&art.includes("</svg>")&&art.includes("linearGradient"),"Premium art "+i);
 }
-assert.equal((gallery.match(/class="bp-recognition-badge is-earned"/g)||[]).length,10,"All ten skills in visual gallery");
+assert.equal((gallery.match(/class="bp-recognition-badge is-preview"/g)||[]).length,10,"Ten skill previews do not claim actual attainment");
 assert(page.includes("safar-skill-badge-art-20261119.js"),"Main app loads badge renderer");
 assert(page.includes("safar-awards-premium-20261119.css"),"Main app loads premium CSS");
-assert(page.includes("awardredesign-20261119"),"Main app busts legacy medallion caches");
+assert(page.includes("safar-recognition-copy-20261119.js")&&page.includes("signature-v1"),"Main app pins signature copy and invalidates old caches");
 assert(reco.includes("BP_SAFAR_SKILL_BADGE_ART")&&reco.includes("data-bp-download"),"Live cards use actual vector and retain downloads");
+assert(reco.includes("displayTitle")&&reco.includes("این یادگار همراه توست"),"Learner cards use human, skill-specific recognition");
+assert(reco.includes("linesOf(")&&reco.includes("meta.next"),"Personal downloadable card carries an action point");
+const narrative=get("assets/safar-recognition-copy-20261119.js"),quotes=get("assets/safar-golden-quotes-20261119.js");
+new vm.Script(narrative);new vm.Script(quotes);
+vm.runInNewContext(narrative,{window});
+vm.runInNewContext(quotes,{window});
+assert.equal(window.BP_SAFAR_RECOGNITION_COPY.skills.length,10,"Ten authored recognition narratives");
+assert.equal(window.BP_SAFAR_GOLDEN_QUOTES.length,10,"Ten stage reflection lines");
+assert(window.BP_SAFAR_RECOGNITION_COPY.skills.every(skill=>skill.title&&skill.quote&&skill.next&&skill.official&&skill.message&&skill.reflection),"Each award has a meaningful purpose and next action");
+assert(window.BP_SAFAR_RECOGNITION_COPY.skills.every(skill=>gallery.includes(skill.quote)&&gallery.includes(skill.title)),"Gallery matches actual user-facing copy");
 assert(reco.includes('ctx.drawImage(bitmap'),"PNG exports use the new skill artwork");
 assert(medals.includes('format==="pdf"')&&medals.includes('format==="png"')&&medals.includes('format==="svg"'),"Medal download formats retained");
-console.log("PASS premium awards: three branded metallic medallions, eleven SVG badge motifs, ten live skill cards, visual gallery and exports");
+console.log("PASS signature awards: three branded medals, ten human-authored badges, correct preview, and personal PNG/PDF/SVG outputs");

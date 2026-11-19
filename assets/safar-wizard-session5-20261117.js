@@ -154,7 +154,7 @@ function syncVisibility(s){
  }
  for(const n of root.children){
   let show=n.classList?.contains("minibanner")||n.classList?.contains("statusbar")||n.classList?.contains("progressrow")||
-  n.id==="sfWizardHead"||n.id==="sfWizardCoach"||n.id==="sfWizardNav"||n===chosen;
+  n.id==="sfWizardHead"||n.id==="sfWizardCoach"||n.id==="sfCoachInline"||n.id==="sfEarnedStep"||n.id==="sfWizardNav"||n===chosen;
   if(n.id==="sfWizardWrap"&&currentPhase==="wrap")show=true;
   if(n.id==="sfWizardWrap"&&currentPhase!=="wrap")show=false;
   if(n.id==="sfWizardRest"&&currentPhase!=="rest")show=false;

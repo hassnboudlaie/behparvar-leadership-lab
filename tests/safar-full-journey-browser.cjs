@@ -33,7 +33,8 @@ const key="bp-session5-communication-journey-v1";
     const node=document.querySelector("#sfWizardHead");
     return node?.dataset.phase==="lesson"&&Number(JSON.parse(localStorage.getItem("bp-session5-communication-journey-v1")).stage)===n;
    },i,{timeout:15000});
-   await dismissMilestone(); // Stage-3/6/10 achievements deliberately use a one-time overlay.
+   await page.waitForTimeout(120); // Allow coach milestone dispatch to settle before the next learner action.
+   await dismissMilestone();
    assert.equal(await page.locator("#sfLessonRead").isChecked(),false);
    assert.equal(await page.locator("#sfNext").isDisabled(),true);
    await page.locator("#sfLessonRead").check();
@@ -77,6 +78,9 @@ const key="bp-session5-communication-journey-v1";
    }
    if(i!==9){
     await page.locator("#sfNext").click();
+    if([2,5].includes(i)){
+     await page.locator("#sfCoachOverlay").waitFor({state:"visible",timeout:4000});
+    }
     await dismissMilestone();
    }else{
     await page.locator("#sfNext").click();

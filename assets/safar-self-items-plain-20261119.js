@@ -8,5 +8,5 @@ let old=null;try{old=JSON.parse(localStorage.getItem("bp-session5-communication-
 if(old?.startedAt&&!old.rubricV2&&(old?.finished||old?.soloVersion!==1))return;
 const d=window.BP_SAFAR_DATA;if(!d?.stages||d.stages.length!==10)return;
 d.stages.forEach((s,i)=>{s.selfItems=items[i].slice()});
-window.BP_SAFAR_SELF_ITEMS={items,scale:["۰ از ۴ موقعیت اخیر","۱ از ۴ موقعیت اخیر","۲ یا ۳ از ۴ موقعیت اخیر","۴ از ۴ موقعیت اخیر"]};
+window.BP_SAFAR_SELF_ITEMS={items,scale:["هرگز","به‌ندرت","گاهی","اغلب","تقریباً همیشه"]};
 })();

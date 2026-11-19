@@ -7,6 +7,7 @@ const stages=window.BP_SAFAR_DATA?.stages||[],incidents=window.BP_SAFAR_DATA?.in
 if(!root||!D||stages.length!==10)return;
 const KEY="bp-session5-communication-journey-v1",types=["gold","silver","bronze"];
 const fa=n=>Number(n??0).toLocaleString("fa-IR");
+const narrative=window.BP_SAFAR_RECOGNITION_COPY?.medals||{};
 function getState(){try{const s=JSON.parse(localStorage.getItem(KEY)||"null");return s?.version===3?s:null}catch(e){return null}}
 function score(s){
  if(s?.rubricV2===2)return window.BP_SAFAR_RUBRIC.total(s).total;
@@ -43,11 +44,12 @@ function medalCards(s){
  return '<div class="sf-medal-gallery-grid" aria-label="نشان‌های قابل دریافت">'+types.map(type=>{
   const p=D.palettes[type],r=(s?.rubricV2===2?rulesV2:rules)[type],ok=s?.finished&&current>=r.total&&quiz>=r.quiz;
   const progressing=s?.startedAt&&!s.finished&&current>0;
-  const status=ok?"کسب شده":progressing?"در حال پیشرفت":"قفل";
+  const status=ok?"این مدال همراه توست":progressing?"هنوز در مسیر": "برای پایان سفر";
   const state=ok?"earned":progressing?"ongoing":"locked";
   return '<article class="sf-medal-mini '+type+' '+state+'" aria-label="نشان '+p.name+'، '+status+'">'+
    '<div class="sf-medal-art">'+D.seal(type,{preview:true})+'</div>'+
-   '<div class="sf-medal-caption"><strong>نشان '+p.name+'</strong><span class="sf-medal-state '+state+'">'+status+'</span></div>'+
+   '<div class="sf-medal-caption"><strong>مدال '+p.name+'</strong><span class="sf-medal-state '+state+'">'+status+'</span></div>'+
+   '<p class="sf-medal-story">'+String(narrative[type]?.title||p.title)+'</p>'+
    '<details class="sf-medal-rule"><summary>شرایط کسب نشان</summary>'+
    '<div class="sf-medal-rule-content"><p><b>'+fa(r.total)+'</b> امتیاز از ۱۰۰ امتیاز کل</p>'+
    '<p><b>'+fa(r.quiz)+'</b> امتیاز از '+fa(s?.rubricV2===2?70:s?.soloVersion?84:80)+' امتیاز آزمون</p>'+
@@ -59,7 +61,7 @@ function gallery(){
  if(root.querySelector("#sfMedalGallery"))return;
  const stat=root.querySelector(".introgrid");if(!stat)return;
  const item=document.createElement("details");item.id="sfMedalGallery";item.className="sf-medal-gallery";
- item.innerHTML='<summary>نشان‌های پایان سفر</summary>'+medalCards(getState());
+ item.innerHTML='<summary>سه مدال، سه روایت از یک سفر</summary><p class="sf-medal-lead">مدال، یادگارِ نتیجه تصمیم‌های تو در همین تجربه است؛ نه برچسبی برای ارزش یا توانمندی تو.</p>'+medalCards(getState());
  stat.insertAdjacentElement("afterend",item);
 }
 function finalGallery(s){
@@ -67,7 +69,7 @@ function finalGallery(s){
  const featured=root.querySelector("#sfMedalFeature");
  if(!featured)return;
  const item=document.createElement("section");item.id="sfFinalMedalGallery";item.className="sf-medal-gallery sf-final-gallery";
- item.innerHTML='<h3>نشان‌ها و شرایط دریافت</h3>'+medalCards(s);
+ item.innerHTML='<h3>مسیرهای رشد، مدال‌های این سفر</h3><p class="sf-medal-lead">هر کدام از این مدال‌ها، نقطه‌ای برای شروع یک رفتار بهتر در محیط کار است.</p>'+medalCards(s);
  featured.insertAdjacentElement("afterend",item);
 }
 function download(blob,name){
@@ -140,16 +142,19 @@ function resultPage(s){
  hero.classList.add("sf-medal-result-hero");
  section.id="sfMedalFeature";section.className="sf-medal-feature";
  if(!kind){
-   section.innerHTML='<h2>نشان پایان سفر</h2><p>امتیاز ثبت شد؛ این بار نشان دریافت نشد.</p>'+
+   section.innerHTML='<h2>پایان سفر، آغاز تمرین‌های واقعی</h2><p>این بار امتیازت برای دریافت مدال کافی نبود، اما تصمیم‌ها و بازخوردهای این مسیر همچنان برای تو می‌مانند. از میان آن‌ها یک رفتار برای تمرین در کار روزمره انتخاب کن.</p>'+
    '<details class="sf-medal-criteria"><summary>شرایط دریافت نشان‌ها</summary>'+
    '<p>برای دیدن شرایط دقیق هر نشان، کارت‌های پایین را باز کن.</p></details>';
  }else{
   const p=D.palettes[kind];
-  section.innerHTML='<h2>نشان '+p.name+'</h2>'+
+  const c=narrative[kind]||{};
+  section.innerHTML='<h2>مدال '+p.name+' · '+String(c.title||p.title)+'</h2>'+
+  '<p class="sf-medal-story-lead">'+String(c.story||"این یادگار به نتیجه تمرین‌های این سفر تعلق دارد.")+'</p>'+
   '<div class="sf-medal-feature-preview">'+D.seal(kind,details(s,points))+'</div>'+
-  '<div class="sf-medal-feature-actions"><button type="button" data-sf-export="png">دریافت تصویر</button>'+
-  '<button type="button" class="sf-medal-pdf" data-sf-export="pdf">دریافت PDF</button>'+
-  '<button type="button" class="sf-medal-svg" data-sf-export="svg">دریافت SVG</button></div>';
+  '<p class="sf-medal-next-step"><strong>یک قدم برای بعد از سفر:</strong> '+String(c.next||"یک گفت‌وگوی واقعی را برای تمرین انتخاب کن.")+'</p>'+
+  '<div class="sf-medal-feature-actions"><button type="button" data-sf-export="png">ذخیره تصویر یادگاری</button>'+
+  '<button type="button" class="sf-medal-pdf" data-sf-export="pdf">نسخه چاپی PDF</button>'+
+  '<button type="button" class="sf-medal-svg" data-sf-export="svg">فایل برداری SVG</button></div>';
   section.addEventListener("click",async ev=>{
    const b=ev.target.closest("button[data-sf-export]");if(!b||b.disabled)return;
    const format=b.dataset.sfExport,caption=b.textContent;

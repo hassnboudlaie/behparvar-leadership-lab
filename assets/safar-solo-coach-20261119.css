@@ -1,0 +1,21 @@
+/* Safar 2026-11-19: individual learning and responsive coaching; Behparvar official palette. */
+.sf-wizard-coach{border-right:5px solid #b71f31;box-shadow:0 7px 19px #102a581e;animation:sfCoachEnter .26s ease both}
+.sf-wizard-coach strong{display:block;margin-bottom:8px;font-weight:850}
+.sf-wizard-coach p{margin:0 0 10px;line-height:1.85}
+.sf-wizard-coach-actions,.sf-coach-mini-actions,.sf-coach-option-list{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+.sf-wizard-coach-actions button,.sf-coach-mini-actions button,.sf-coach-option-list button{border:1px solid #9eb4d6;color:#153c78;background:#fff;border-radius:11px;padding:9px 13px;min-height:44px;font-size:15px;font-weight:750;cursor:pointer;transition:background .18s ease,transform .18s ease,border-color .18s ease}
+.sf-wizard-coach-actions button:hover,.sf-coach-mini-actions button:hover,.sf-coach-option-list button:hover{transform:translateY(-1px);border-color:#bb2336;background:#fff3f4}
+.sf-wizard-coach-actions button[aria-pressed="true"],.sf-coach-mini-actions button[aria-pressed="true"],.sf-coach-option-list button[aria-pressed="true"]{background:#173e80;color:#fff;border-color:#173e80}
+.sf-wizard-coach-answer,.sf-coach-choice-answer,#sfCoachChoiceResponse{background:#f5f7fb;border-right:3px solid #b92737;border-radius:10px;margin:11px 0 0;padding:12px 14px;color:#16366e;line-height:1.9;font-weight:650}
+.sf-wizard-coach-answer:empty,.sf-coach-choice-answer:empty{display:none}
+.sf-coach-decision{margin:16px 0 14px;padding:15px;border:1px solid #c5d0e4;background:#f7f8fb;border-radius:13px}
+.sf-coach-decision>strong{display:block;margin-bottom:8px}
+.sf-coach-dialog{width:min(570px,100%);max-height:calc(100dvh - 32px);overflow-y:auto}
+.sf-coach-dialog .sf-coach-option-list{gap:7px}
+.sf-coach-dialog .sf-coach-option-list button{font-size:14px}
+.sf-coach-inline{border-right:4px solid #b42337;animation:sfCoachEnter .22s ease both}
+.sf-coach-inline .sf-coach-choice-answer{font-size:16px}
+.sf-coach-inline .sf-coach-mini-actions button{font-size:14px}
+@keyframes sfCoachEnter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.sf-wizard-coach-actions button,.sf-coach-mini-actions button{flex:1 1 120px}.sf-coach-dialog{padding:20px 16px}.sf-coach-option-list button{flex:1 1 170px}}
+@media(prefers-reduced-motion:reduce){.sf-wizard-coach,.sf-coach-inline{animation:none}.sf-wizard-coach-actions button,.sf-coach-mini-actions button,.sf-coach-option-list button{transition:none;transform:none!important}}

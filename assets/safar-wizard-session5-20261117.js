@@ -74,17 +74,17 @@ function skipNotice(s,p){
  return "";
 }
 function companion(s,p){
- const tips=STAGES[s.stage]?.tip||"در گفت‌وگو، دیدگاه مقابل را جدی بگیر.";
- const messages={
-  lesson:"خوش اومدی به مهارت این مرحله. "+tips,
-  self:"حالا به رفتار خودت فکر کن. این پاسخ‌ها برای شناخت بهتر مهارته، نه قضاوت درباره تو.",
-  decision1:"رسیدیم به اولین انتخاب. قبل از ثبت، پیامد هر گزینه رو برای رابطه و نتیجه بررسی کن.",
-  decision2:"این بار دو کار داری: بهترین و ضعیف‌ترین اقدام رو جدا تشخیص بده. عجله نکن.",
-  resource:"شرایط تغییر کرده و منابع محدودن؛ همه کارها رو نمی‌شه هم‌زمان در اولویت اول گذاشت.",
-  wrap:"آفرین، این مرحله رو پشت سر گذاشتی! پاسخ‌ها ثبت شدن؛ تحلیل و امتیاز در پایان سفر دیده می‌شن.",
-  rest:"حالا وقت یه استراحت کوتاهه. شانه‌هات رو رها کن و با دقت به تصویر نگاه کن؛ تا چند ثانیه دیگه ادامه می‌دیم."
- };
- return messages[p]||messages.lesson;
+ const unit=window.BP_SAFAR_APPLIED?.units?.[s.stage]||{};
+ const skill=unit.skill||STAGES[s.stage]?.title||"این مهارت";
+ const a=s.answers?.[s.stage]||{},self=s.self?.[s.stage]||[];
+ if(p==="lesson")return "در این ایستگاه روی «"+skill+"» کار می‌کنی. پیش از تمرین، به یک موقعیت واقعی خودت فکر کن.";
+ if(p==="self")return self.length===3?"هر سه پاسخ ثبت شدند؛ نمره‌های پایین هم به اندازه نمره‌های بالا اعتبار تکمیل دارند.":"این بخش درباره واقعیت رفتار توست، نه اینکه خودت را بهترین معرفی کنی؛ هر سطح پاسخ امتیاز برابر دارد.";
+ if(p==="decision1")return a.q1!==undefined?"تصمیم اولت قفل شده است. به پیامد واقعی آن فکر کن؛ درست/غلط را در انتها خواهی دید.":"ملاک انتخابت را مشخص کن: اثر بر رابطه، اختیار اقدام و قابلیت پیگیری. فقط عبارت خوش‌آهنگ را انتخاب نکن.";
+ if(p==="decision2")return a.q2!==undefined?"دو انتخاب ثبت شدند. یک ریسک اجرایی و یک فرصت یادگیری را برای خودت نام ببر.":"برای بهترین و ضعیف‌ترین اقدام، پیامدهای متفاوت را مستقل بررسی کن؛ پاسخ درست فعلاً پنهان می‌ماند.";
+ if(p==="resource")return "چالش شش سکه کاملاً فردی است؛ هر سکه هزینه فرصت دارد. اول اثر و فوریت را جداگانه بسنج.";
+ if(p==="wrap")return "خلاصه این مهارت را به یک رفتار فردی قابل مشاهده تبدیل کن. امتیاز مرحله را ببین و برای مرحله بعد آماده شو.";
+ if(p==="rest")return "سی ثانیه با ریتم خودت استراحت کن؛ قرار نیست تمرین یا همکاری جدیدی انجام دهی.";
+ return skill;
 }
 function panelFor(s,p){
  if(p==="lesson")return card(n=>!!n.querySelector(".bullets"));
@@ -115,7 +115,9 @@ function renderTop(s){
  const guide=document.createElement("div");
  guide.id="sfWizardCoach";
  guide.className="sf-wizard-coach sf-wizard-visible";
- guide.innerHTML='<strong>💛 همراه سفر</strong>'+esc(companion(s,currentPhase));
+ guide.innerHTML='<strong>◈ کوچ همراه · '+fa(s.stage+1)+' / ۱۰</strong><p>'+esc(companion(s,currentPhase))+'</p>'+
+ (["decision1","decision2","self","lesson","wrap"].includes(currentPhase)?
+ '<div class="sf-wizard-coach-actions"><button type="button" data-sf-wizard-focus="risk">ریسک پنهان</button><button type="button" data-sf-wizard-focus="action">تمرین کاربردی</button></div><p class="sf-wizard-coach-answer" aria-live="polite"></p>':"");
  top.insertAdjacentElement("afterend",guide);
  const nav=document.createElement("nav");
  nav.id="sfWizardNav";
@@ -220,6 +222,18 @@ function schedule(){
 const observer=new MutationObserver(schedule);
 observer.observe(root,{childList:true,subtree:false});
 document.addEventListener("click",e=>{
+ const coachButton=e.target.closest("[data-sf-wizard-focus]");
+ if(coachButton){
+  const current=state(),unit=window.BP_SAFAR_APPLIED?.units?.[current?.stage]||{};
+  if(!current)return;
+  const message=coachButton.dataset.sfWizardFocus==="risk"?
+   (unit.trap||"قبل از اقدام، اثر ناخواسته انتخاب را بررسی کن."):
+   (unit.tools?.[1]?.[2]||unit.transfer||"یک رفتار قابل اجرا با زمان و مسئول مشخص انتخاب کن.");
+  const target=root.querySelector(".sf-wizard-coach-answer");
+  if(target)target.textContent=message;
+  root.querySelectorAll("[data-sf-wizard-focus]").forEach(x=>x.setAttribute("aria-pressed",String(x===coachButton)));
+  return;
+ }
  const next=e.target.closest("#sfNext");if(next){e.preventDefault();forward();return}
  const prev=e.target.closest("#sfPrev");if(prev){e.preventDefault();backward();return}
  const direct=e.target.closest("[data-sf-phase]");

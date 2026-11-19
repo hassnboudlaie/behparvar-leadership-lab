@@ -24,15 +24,23 @@ function lessonView(st,s,index){
  '</section>';
 }
 function selfFeedback(st,s,index){
- const vals=s.self?.[index]||[],complete=vals.length===3&&vals.every(v=>Number.isInteger(v)&&v>=1&&v<=4);
- if(!complete)return '<p class="sf-self-hint">برای هر رفتار، چهار موقعیت اخیر را در نظر بگیر؛ پاسخ ۱ یا ۴ امتیاز بیشتری ندارد.</p>';
- const sum=vals.reduce((n,v)=>n+v,0);
- const mentor=sum<=5?"یک رفتار مشخص برای تمرین در موقعیت بعدی انتخاب کن.":
- sum<=8?"کدام شرایط به تو کمک می‌کند این رفتار را پایدارتر انجام بدهی؟":
- sum<=10?"برای تأیید برداشت مثبت، یک شاهد واقعی ثبت کن.":
- "خوب است که تصویر مثبتی داری؛ آن را با شواهد و پیامد واقعی بررسی کن.";
- return '<div class="sf-self-feedback" role="status"><strong>شاخص خودارزیابی (غیررقابتی): '+fa(sum)+' از ۱۲</strong>'+
- '<span>امتیاز تکمیل: ۱ از ۱؛ مستقل از بالا یا پایین بودن پاسخ‌ها</span><p><strong>بازخورد کوچ:</strong> '+E(mentor+" "+(st.tip||""))+'</p></div>';
+ const vals=s.self?.[index]||[],complete=vals.length===3&&vals.every(v=>Number.isInteger(v)&&v>=1&&v<=5);
+ if(!complete)return '<p class="sf-self-hint">سه رفتار را بر اساس تجربه واقعی خودت بررسی کن. هیچ گزینه‌ای پاسخ صحیح یا امتیاز بالاتر نیست.</p>';
+ const mean=vals.reduce((n,v)=>n+v,0)/3;
+ const description=mean<1.8?"بر اساس پاسخ‌های خودت، این رفتارها هنوز به بخشی از روال ارتباطی روزمره تبدیل نشده‌اند.":
+ mean<2.6?"این رفتارها را در موقعیت‌های محدودی به کار می‌بری و فرصت تمرین بیشتری دارند.":
+ mean<3.5?"در برخی گفت‌وگوها این رفتارها را انجام می‌دهی، اما هنوز در همه موقعیت‌ها یکسان نیستند.":
+ mean<4.5?"از نگاه خودت، در بسیاری از موقعیت‌های کاری این رفتارها را به کار می‌بری.":
+ "بر اساس برداشت خودت، این رفتارها در بیشتر موقعیت‌های اخیر حضور داشته‌اند.";
+ const strongest=vals.indexOf(Math.max(...vals)),priority=vals.indexOf(Math.min(...vals)),items=st.selfItems||[];
+ const focus=items[priority]||"یک رفتار ارتباطی مشخص";
+ const observed=items[strongest]||"یکی از رفتارهای این مهارت";
+ return '<div class="sf-self-feedback sf-self-narrative" role="status">'+
+ '<strong>بازتاب کوچ از خودارزیابی تو</strong><p>'+E(description)+'</p>'+
+ '<p><b>رفتاری که بیشتر گزارش کرده‌ای:</b> '+E(observed)+'</p>'+
+ '<p><b>فرصت تمرین و رشد:</b> '+E(focus)+'</p>'+
+ '<p class="sf-self-coach-next"><b>گام بعد:</b> در گفت‌وگوی بعدی، یک نمونه واقعی از این رفتار را مشاهده و برای خودت ثبت کن.</p>'+
+ '<small>این یک توصیف مبتنی بر برداشت خودت است، نه نمره توانمندی یا ارزیابی عملکرد واقعی. تکمیل سه پاسخ در امتیاز فعالیت لحاظ شده است.</small></div>';
 }
 function evidenceResult(s,index){
  const item=s.evidence?.[index],review=window.BP_SAFAR_RUBRIC.evidenceFor(s,index);
@@ -45,9 +53,9 @@ function evidenceResult(s,index){
 }
 function selfView(st,s,index){
  const vals=s.self?.[index]||[],saved=s.evidence?.[index]?.texts||[];
- const anchors=["تقریباً هیچ‌وقت · ۰ از ۴","گاهی · ۱ از ۴","بیشتر وقت‌ها · ۲ یا ۳ از ۴","تقریباً همیشه · ۴ از ۴"];
+ const anchors=["هرگز · هیچ‌کدام از چهار موقعیت اخیر","به‌ندرت · یک موقعیت از چهار","گاهی · دو موقعیت از چهار","اغلب · سه موقعیت از چهار","تقریباً همیشه · هر چهار موقعیت"];
  return '<section class="card sf-self-card"><div class="section-head"><span class="number">۲</span>خودارزیابی رفتاری</div>'+
- '<p class="smaller">به چهار موقعیت کاری اخیر فکر کن. پاسخ‌ها فقط برای شناخت رفتار خودت هستند؛ انتخاب سطح بالاتر امتیاز رقابتی بیشتری ندارد.</p>'+
+ '<p class="smaller">به چهار موقعیت کاری اخیر فکر کن. فقط توصیف کن چقدر این رفتار را انجام داده‌ای؛ مقیاس پنج‌گزینه‌ای است و هیچ گزینه‌ای امتیاز رقابتی بالاتری ندارد.</p>'+
  '<div class="self-list">'+(st.selfItems||st.lesson).map((q,i)=>
  '<div class="self-item"><p><strong>'+fa(i+1)+'.</strong> '+E(q)+'</p><div class="scalebtns">'+anchors.map((label,j)=>
  '<button type="button" aria-pressed="'+(vals[i]===j+1?"true":"false")+'" class="scalebtn '+(vals[i]===j+1?"selected":"")+'" data-scale="'+i+'" data-val="'+(j+1)+'">'+label+'</button>'

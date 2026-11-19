@@ -51,7 +51,7 @@ assert(core.includes("انتخاب شما:")&&core.includes("بهترین اقد
 assert(core.includes("quiz>=72"),"Gold badge requires minimum 72/80 quiz mastery");
 const wiz=read("assets/safar-wizard-v3.js");
 assert(wiz.includes("REST_MS=30000")&&wiz.includes('[2,6].includes(s.stage)?["rest"]'),"Two 30-second scenic pauses");
-assert(read("assets/safar-journey-coach-v5.js").includes('if(q===1)inlineFeedback'),"Contextual nonmodal coaching for first choice");
+assert(read("assets/safar-journey-coach-v5.js").includes('inlineFeedback("support",title,text,tip'),"Contextual nonmodal coaching for both choices");
 assert(read("assets/safar-session-controls-v4.js").includes("storeHistory"),"New journeys archive prior achievements");
 assert(read("assets/safar-industrial-medals.js").includes("rasterSvg=svg.replace"),"Mobile badge raster export safety");
 assert(!html.includes('id="session4-m1"'),"Obsolete session-four content is absent");

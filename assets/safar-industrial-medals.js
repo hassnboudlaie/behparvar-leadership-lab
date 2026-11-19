@@ -9,6 +9,7 @@ const KEY="bp-session5-communication-journey-v1",types=["gold","silver","bronze"
 const fa=n=>Number(n??0).toLocaleString("fa-IR");
 function getState(){try{const s=JSON.parse(localStorage.getItem(KEY)||"null");return s?.version===3?s:null}catch(e){return null}}
 function score(s){
+ if(s?.rubricV2===2)return window.BP_SAFAR_RUBRIC.total(s).total;
  let quiz=0,rp=0,reflect=0,resources=0,feedback=0;
  stages.forEach((stage,i)=>{
   const a=s.answers?.[i]||{};
@@ -27,20 +28,20 @@ function score(s){
  return Math.max(0,quiz+rp+reflect+resources+feedback-(window.BP_SAFAR_OVERTIME?.penalty(s)||0)-(window.BP_SAFAR_GUIDE?.penalty(s)||0));
 }
 function quizScore(s){
+ if(s?.rubricV2===2)return window.BP_SAFAR_RUBRIC.total(s).quiz;
  let n=0;stages.forEach((stage,i)=>{const a=s.answers?.[i]||{};if(a.q1===stage.c1)n+=4+(s.soloVersion&&[2,7].includes(i)?2:0);if(a.q2?.best===stage.best)n+=2;if(a.q2?.worst===stage.worst)n+=2});return n;
 }
-function tier(value,quiz=80){return value>=90&&quiz>=72?"gold":value>=75&&quiz>=60?"silver":value>=60&&quiz>=44?"bronze":null}
+function tier(value,quiz=80,modern=false){return modern?window.BP_SAFAR_RUBRIC.tier(value,quiz):value>=90&&quiz>=72?"gold":value>=75&&quiz>=60?"silver":value>=60&&quiz>=44?"bronze":null}
 function details(s,total){
  return{name:(s.name||"").trim()||"شرکت‌کننده به‌پرور",
  score:total,role:s.role,date:new Intl.DateTimeFormat("fa-IR",{year:"numeric",month:"long",day:"numeric"}).format(new Date(s.finishedAt||Date.now()))};
 }
-const rules={
- bronze:{total:60,quiz:44},silver:{total:75,quiz:60},gold:{total:90,quiz:72}
-};
+const rules={bronze:{total:60,quiz:44},silver:{total:75,quiz:60},gold:{total:90,quiz:72}};
+const rulesV2={bronze:{total:55,quiz:35},silver:{total:70,quiz:45},gold:{total:88,quiz:58}};
 function medalCards(s){
  const current=s?score(s):0,quiz=s?quizScore(s):0;
  return '<div class="sf-medal-gallery-grid" aria-label="نشان‌های قابل دریافت">'+types.map(type=>{
-  const p=D.palettes[type],r=rules[type],ok=s?.finished&&current>=r.total&&quiz>=r.quiz;
+  const p=D.palettes[type],r=(s?.rubricV2===2?rulesV2:rules)[type],ok=s?.finished&&current>=r.total&&quiz>=r.quiz;
   const progressing=s?.startedAt&&!s.finished&&current>0;
   const status=ok?"کسب شده":progressing?"در حال پیشرفت":"قفل";
   const state=ok?"earned":progressing?"ongoing":"locked";
@@ -135,7 +136,7 @@ async function exportSeal(kind,format,opts){
 function resultPage(s){
  if(root.querySelector("#sfMedalFeature"))return;
  const hero=root.querySelector(".result-hero");if(!hero)return;
- const points=score(s),qpoints=quizScore(s),kind=tier(points,qpoints),section=document.createElement("section");
+ const points=score(s),qpoints=quizScore(s),kind=tier(points,qpoints,s?.rubricV2===2),section=document.createElement("section");
  hero.classList.add("sf-medal-result-hero");
  section.id="sfMedalFeature";section.className="sf-medal-feature";
  if(!kind){

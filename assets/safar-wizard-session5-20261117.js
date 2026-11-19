@@ -76,19 +76,25 @@ function skipNotice(s,p){
 }
 function companion(s,p){
  const unit=window.BP_SAFAR_APPLIED?.units?.[s.stage]||{};
- const skill=unit.skill||STAGES[s.stage]?.title||"این مهارت";
+ const skill=unit.skill||STAGES[s.stage]?.title||"ارتباط کاری";
  const a=s.answers?.[s.stage]||{},self=s.self?.[s.stage]||[];
- if(p==="lesson")return "در این ایستگاه روی «"+skill+"» کار می‌کنی. پیش از تمرین، به یک موقعیت واقعی خودت فکر کن.";
- if(p==="self")return self.length===3?"هر سه پاسخ ثبت شدند؛ نمره‌های پایین هم به اندازه نمره‌های بالا اعتبار تکمیل دارند.":"این بخش درباره واقعیت رفتار توست، نه اینکه خودت را بهترین معرفی کنی؛ هر سطح پاسخ امتیاز برابر دارد.";
- if(p==="decision1")return a.q1!==undefined?"تصمیم اولت قفل شده است. به پیامد واقعی آن فکر کن؛ درست/غلط را در انتها خواهی دید.":"ملاک انتخابت را مشخص کن: اثر بر رابطه، اختیار اقدام و قابلیت پیگیری. فقط عبارت خوش‌آهنگ را انتخاب نکن.";
- if(p==="decision2")return a.q2!==undefined?"دو انتخاب ثبت شدند. یک ریسک اجرایی و یک فرصت یادگیری را برای خودت نام ببر.":"برای بهترین و ضعیف‌ترین اقدام، پیامدهای متفاوت را مستقل بررسی کن؛ پاسخ درست فعلاً پنهان می‌ماند.";
- if(p==="resource")return "چالش شش سکه کاملاً فردی است؛ هر سکه هزینه فرصت دارد. اول اثر و فوریت را جداگانه بسنج.";
- if(p==="wrap")return "خلاصه این مهارت را به یک رفتار فردی قابل مشاهده تبدیل کن. امتیاز مرحله را ببین و برای مرحله بعد آماده شو.";
- if(p==="rest")return "سی ثانیه با ریتم خودت استراحت کن؛ قرار نیست تمرین یا همکاری جدیدی انجام دهی.";
+ if(p==="lesson")return "در «"+skill+"» قرار است یک رفتار مشخص را تمرین کنی؛ پیش از علامت‌زدن مطالعه، ببین مثال درس چگونه در کار تو قابل اجراست.";
+ if(p==="self")return self.length===3?
+ "سه برداشت تو ثبت شدند؛ حالا به‌جای مقایسه عددها، یک شاهد واقعی از «"+skill+"» پیدا کن.":
+ "برای «"+skill+"» چهار موقعیت واقعی اخیر را به یاد بیاور؛ پاسخ صادقانه از پاسخ ظاهراً عالی ارزشمندتر است.";
+ if(p==="decision1")return a.q1!==undefined?
+ "تصمیم ثبت شد. حالا به این معیار حرفه‌ای فکر کن: "+(unit.decisionLens||"تصمیم با احترام و قابلیت اجرا همراه باشد."):
+ "معیار انتخاب در این موقعیت: "+(unit.decisionLens||"اثر بر رابطه، اختیار اجرا و پیگیری روشن.");
+ if(p==="decision2")return a.q2!==undefined?
+ "برای مرحله بعد، این نکته را به خاطر بسپار: "+(unit.transfer||"توافق روشن را به اقدام قابل مشاهده تبدیل کن."):
+ "این خطر را در انتخاب بهترین و ضعیف‌ترین اقدام در نظر بگیر: "+(unit.trap||"وعده غیرواقعی یا نتیجه‌گیری شتاب‌زده.");
+ if(p==="resource")return "در «"+skill+"»، شش سکه را بر اساس فوریت، ریسک و اثربخشی تخصیص بده؛ تقسیم مساوی الزاماً بهترین راه نیست.";
+ if(p==="wrap")return "برداشت کاربردی از «"+skill+"»: "+(unit.transfer||"برای موقعیت بعدی یک رفتار روشن انتخاب کن.");
+ if(p==="rest")return "این مکث سی‌ثانیه‌ای برای بازگشت تمرکز است؛ تمرین اضافی یا همکاری لازم نیست.";
  return skill;
 }
 function panelFor(s,p){
- if(p==="lesson")return card(n=>!!n.querySelector(".bullets"));
+ if(p==="lesson")return card(n=>n.classList.contains("sf-learning-card"));
  if(p==="self")return card(n=>!!n.querySelector(".self-list"));
  if(p==="decision1"||p==="decision2")return card(n=>!!n.querySelector(".question"));
  if(p==="resource")return card(n=>n.classList.contains("alert"));
@@ -116,9 +122,7 @@ function renderTop(s){
  const guide=document.createElement("div");
  guide.id="sfWizardCoach";
  guide.className="sf-wizard-coach sf-wizard-visible";
- guide.innerHTML='<strong>◈ کوچ همراه · '+fa(s.stage+1)+' / ۱۰</strong><p>'+esc(companion(s,currentPhase))+'</p>'+
- (["decision1","decision2","self","lesson","wrap"].includes(currentPhase)?
- '<div class="sf-wizard-coach-actions"><button type="button" data-sf-wizard-focus="risk">ریسک پنهان</button><button type="button" data-sf-wizard-focus="action">تمرین کاربردی</button></div><p class="sf-wizard-coach-answer" aria-live="polite"></p>':"");
+ guide.innerHTML='<strong>همراه مسیر · '+fa(s.stage+1)+' / ۱۰</strong><p>'+esc(companion(s,currentPhase))+'</p>';
  top.insertAdjacentElement("afterend",guide);
  const nav=document.createElement("nav");
  nav.id="sfWizardNav";
@@ -227,18 +231,6 @@ function schedule(){
 const observer=new MutationObserver(schedule);
 observer.observe(root,{childList:true,subtree:false});
 document.addEventListener("click",e=>{
- const coachButton=e.target.closest("[data-sf-wizard-focus]");
- if(coachButton){
-  const current=state(),unit=window.BP_SAFAR_APPLIED?.units?.[current?.stage]||{};
-  if(!current)return;
-  const message=coachButton.dataset.sfWizardFocus==="risk"?
-   (unit.trap||"قبل از اقدام، اثر ناخواسته انتخاب را بررسی کن."):
-   (unit.tools?.[1]?.[2]||unit.transfer||"یک رفتار قابل اجرا با زمان و مسئول مشخص انتخاب کن.");
-  const target=root.querySelector(".sf-wizard-coach-answer");
-  if(target)target.textContent=message;
-  root.querySelectorAll("[data-sf-wizard-focus]").forEach(x=>x.setAttribute("aria-pressed",String(x===coachButton)));
-  return;
- }
  const next=e.target.closest("#sfNext");if(next){e.preventDefault();forward();return}
  const prev=e.target.closest("#sfPrev");if(prev){e.preventDefault();backward();return}
  const direct=e.target.closest("[data-sf-phase]");

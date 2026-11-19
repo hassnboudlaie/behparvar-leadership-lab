@@ -40,12 +40,13 @@ function earned(s){
     !(s.overtime?.grants||[]).length)levels.add("time");
  return levels;
 }
-function symbol(icon){
- return '<svg viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">'+icon+'</svg>';
+function symbol(item){
+ const art=window.BP_SAFAR_SKILL_BADGE_ART?.badge(item);
+ return art||'<svg viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">'+item.icon+'</svg>';
 }
 function badge(item,yes){
  return '<article class="bp-recognition-badge '+(yes?"is-earned":"is-locked")+'" aria-label="'+item.title+'، '+(yes?"دریافت شده":"دریافت نشده")+'">'+
- '<div class="bp-recognition-shield">'+symbol(item.icon)+'</div>'+
+ '<div class="bp-recognition-shield">'+symbol(item)+'</div>'+
  '<strong>'+item.title+'</strong>'+
  (item.kind==="skill"?'<p class="sf-recognition-quote">«'+String(window.BP_SAFAR_GOLDEN_QUOTES?.[item.idx]||"مهارت را در عمل نشان بده.")+'»</p>':"")+
  '<span class="bp-recognition-state">'+(yes?"کسب‌شده":item.kind==="skill"?"در انتظار تکمیل":"هنوز کسب نشده")+'</span>'+
@@ -97,7 +98,7 @@ function toast(item){
  if(!item||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
  document.querySelector("#bp-recognition-toast")?.remove();
  const node=document.createElement("div");node.id="bp-recognition-toast";node.setAttribute("role","status");
- node.innerHTML='<div class="bp-recognition-toast-icon">'+symbol(item.icon)+'</div><div><strong>نشان «'+item.title+'» ثبت شد</strong><span>برای دریافت تصویر، مجموعه نشان‌ها را باز کن.</span></div><button type="button" aria-label="بستن پیام نشان" id="bpCloseBadgeToast">×</button>';
+ node.innerHTML='<div class="bp-recognition-toast-icon">'+symbol(item)+'</div><div><strong>نشان «'+item.title+'» ثبت شد</strong><span>برای دریافت تصویر، مجموعه نشان‌ها را باز کن.</span></div><button type="button" aria-label="بستن پیام نشان" id="bpCloseBadgeToast">×</button>';
  document.body.append(node);
  if(lastToast)clearTimeout(lastToast);
  lastToast=setTimeout(()=>node.remove(),4200);
@@ -107,7 +108,7 @@ function saveBlob(blob,file){
  document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),9000);
 }
 function svgIcon(item){
- return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#f4d89a" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">'+item.icon+'</svg>';
+ return window.BP_SAFAR_SKILL_BADGE_ART?.badge(item)||symbol(item);
 }
 async function drawLogo(ctx,x,y,w,h){
  const img=document.querySelector("#brandlogo");if(!img)return false;
@@ -149,9 +150,9 @@ async function exportPng(items,s,fileName){
   ctx.lineTo(x+cellW-55,y+196);ctx.lineTo(x+cellW/2,y+235);ctx.lineTo(x+55,y+196);
   ctx.lineTo(x+55,y+90);ctx.closePath();ctx.fillStyle="#0b286e";ctx.fill();
   ctx.strokeStyle="#d5ad60";ctx.lineWidth=7;ctx.stroke();
-  const bitmap=await iconBitmap(item);ctx.drawImage(bitmap,x+cellW/2-56,y+94,112,112);
-  rounded(ctx,x+28,y+241,cellW-62,63,13,"#f0e5c9","#c9ab6f");
-  ctx.fillStyle="#133774";ctx.font="800 25px Vazirmatn, Tahoma";ctx.fillText(item.title,x+cellW/2,y+284,cellW-60);
+  const bitmap=await iconBitmap(item);ctx.drawImage(bitmap,x+cellW/2-111,y+31,222,247);
+  rounded(ctx,x+28,y+281,cellW-62,63,13,"#f0e5c9","#c9ab6f");
+  ctx.fillStyle="#133774";ctx.font="800 25px Vazirmatn, Tahoma";ctx.fillText(item.title,x+cellW/2,y+324,cellW-60);
   const golden=item.kind==="skill"?(window.BP_SAFAR_GOLDEN_QUOTES?.[item.idx]||"مهارت در عمل معنا پیدا می‌کند."):"وقت‌شناسی، احترام به مسیر یادگیری است.";
   const words=golden.split(" "),first=words.slice(0,Math.ceil(words.length/2)).join(" "),second=words.slice(Math.ceil(words.length/2)).join(" ");
   ctx.fillStyle="#A72037";ctx.font="750 20px Vazirmatn, Tahoma";

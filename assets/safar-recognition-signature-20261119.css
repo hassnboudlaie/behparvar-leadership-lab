@@ -1,0 +1,130 @@
+/* Signature Recognition · editorial direction, not stock/arcade rewards.
+ * Behparvar navy, controlled crimson, enamel jewels, discreet metallic details.
+ * The same system styles live cards, medal results and the public visual gallery.
+ */
+:root{--bp-award-navy:#102F59;--bp-award-ink:#173862;--bp-award-crimson:#B32B47;--bp-award-foil:#C7A36B;--bp-award-muted:#5A6E87}
+#bp-recognition-collection,.sf-medal-gallery,.sf-medal-feature{
+ font-family:Vazirmatn,Tahoma,sans-serif!important;color:var(--bp-award-ink)!important;direction:rtl
+}
+#bp-recognition-collection{
+ background:#fff!important;border:1px solid #D4DDE9!important;border-radius:21px!important;overflow:hidden!important;
+ box-shadow:0 10px 28px #17385B0d!important
+}
+#bp-recognition-collection>summary{
+ background:#102F59!important;color:#fff!important;padding:18px 23px!important
+}
+#bp-recognition-collection .bp-recognition-summary-copy>b{font-size:clamp(19px,2vw,25px)!important;line-height:1.6!important}
+#bp-recognition-collection .bp-recognition-summary-copy>small{color:#DCE6F2!important;font-size:14px!important}
+#bp-recognition-collection .bp-recognition-inner{background:#FBFCFE!important;padding:clamp(13px,2.5vw,25px)!important}
+#bp-recognition-collection .bp-recognition-inner>p{max-width:780px;color:#3A5272!important;font-size:16px!important;line-height:1.9!important}
+#bp-recognition-collection .bp-recognition-inner h3{font-size:clamp(20px,2.4vw,27px)!important;letter-spacing:0!important;color:#133862!important}
+#bp-recognition-collection .bp-recognition-grid,.badges{
+ display:grid!important;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))!important;gap:16px!important
+}
+#bp-recognition-collection .bp-recognition-badge,.badges .bp-recognition-badge{
+ background:#FFFFFF!important;border:1px solid #D1DCE8!important;border-top:4px solid #B32B47!important;
+ border-bottom:1px solid #D1DCE8!important;border-radius:18px!important;box-shadow:0 8px 25px #102E580c!important;
+ padding:18px 15px 21px!important;min-height:465px!important;gap:7px!important;
+ display:flex!important;flex-direction:column!important;align-items:center!important;text-align:center!important;
+ transition:box-shadow .2s ease,transform .2s ease!important
+}
+#bp-recognition-collection .bp-recognition-badge.is-earned,.badges .bp-recognition-badge.is-earned{
+ border-top-color:#BD984E!important;box-shadow:0 9px 27px #102E5818!important
+}
+#bp-recognition-collection .bp-recognition-shield,.badges .bp-recognition-shield{
+ width:145px!important;height:175px!important;min-height:175px!important;flex:none!important;
+ background:none!important;border:0!important;clip-path:none!important;overflow:visible!important;
+ margin:4px 0 2px!important;padding:0!important
+}
+#bp-recognition-collection .bp-recognition-shield svg,.badges .bp-recognition-shield svg{
+ display:block!important;width:140px!important;height:169px!important;max-width:100%!important;
+ filter:drop-shadow(0 5px 6px #15375B22)!important
+}
+#bp-recognition-collection .bp-recognition-badge.is-locked .bp-recognition-shield{
+ filter:grayscale(.7)!important;opacity:.57!important
+}
+#bp-recognition-collection .bp-recognition-badge strong,.badges .bp-recognition-badge strong{
+ font-size:clamp(17px,2vw,21px)!important;line-height:1.6!important;font-weight:850!important;
+ color:#133A73!important;min-height:0!important;margin:4px 0 0!important
+}
+#bp-recognition-collection .bp-recognition-eyebrow,.badges .bp-recognition-eyebrow{
+ color:#A13C51!important;font-size:12px!important;font-weight:800!important;letter-spacing:0!important;
+ background:#FDF3F4!important;padding:3px 11px!important;border-radius:20px!important
+}
+#bp-recognition-collection .bp-recognition-official,.badges .bp-recognition-official{
+ color:#637894!important;font-size:13px!important;font-weight:600!important;line-height:1.6!important;
+ margin:0!important;max-width:310px!important
+}
+#bp-recognition-collection .sf-recognition-quote,.badges .sf-recognition-quote{
+ color:#3D4E69!important;font-size:clamp(14px,1.8vw,16px)!important;line-height:1.85!important;
+ font-weight:550!important;margin:9px 0!important;max-width:290px!important;min-height:65px!important
+}
+#bp-recognition-collection .bp-recognition-state,.badges .bp-recognition-state{
+ margin-top:auto!important;background:#F1F4F8!important;color:#37567A!important;
+ border:1px solid #DFE5EF!important;font-size:12px!important;font-weight:750!important;
+ border-radius:20px!important;padding:5px 12px!important
+}
+#bp-recognition-collection .bp-recognition-badge.is-earned .bp-recognition-state{
+ background:#F4F8F5!important;color:#315D48!important;border-color:#D5E9DC!important
+}
+#bp-recognition-collection .bp-recognition-rule,.badges .bp-recognition-rule{
+ font-size:12px!important;color:#6A7D92!important;margin-top:6px!important;line-height:1.7!important
+}
+#bp-recognition-collection .bp-recognition-download{
+ margin:9px 0 0!important;min-height:44px!important;padding:9px 16px!important;
+ border-radius:11px!important;font:750 14px Vazirmatn,Tahoma,sans-serif!important;
+ background:#163F77!important;color:#FFFFFF!important;box-shadow:none!important
+}
+#bp-recognition-collection .bp-recognition-download:hover{background:#B32B47!important}
+#bp-recognition-collection .bp-recognition-exportall{background:#102F59!important;color:#FFF!important;border-radius:12px!important;padding:12px 16px!important}
+#bp-recognition-toast{
+ border-right:4px solid #BF9A56!important;background:#FFFEFC!important;color:#1E3C6A!important;
+ box-shadow:0 8px 25px #102E5822!important;border-radius:15px!important
+}
+#bp-recognition-toast strong{color:#173D73!important;font-size:17px!important}
+#bp-recognition-toast span{color:#435774!important;line-height:1.8!important}
+#bp-recognition-toast .bp-recognition-toast-icon{width:62px!important;height:77px!important;flex:none!important}
+#bp-recognition-toast .bp-recognition-toast-icon svg{width:60px!important;height:75px!important}
+.sf-medal-gallery,.sf-medal-feature{
+ background:#FFFFFF!important;border:1px solid #D1DCE7!important;border-radius:21px!important;box-shadow:0 11px 29px #102E580c!important
+}
+.sf-medal-gallery>summary,.sf-medal-gallery>h3,.sf-medal-feature>h2{color:#153A6C!important}
+.sf-medal-lead{color:#526881!important;line-height:1.85!important;font-size:16px!important;margin:0 0 12px!important}
+.sf-medal-gallery-grid{gap:17px!important}
+.sf-medal-mini{border-radius:17px!important;border:1px solid #D4DFEA!important;box-shadow:none!important;background:#F9FBFD!important}
+.sf-medal-mini .sf-medal-art{border-radius:14px!important;box-shadow:0 7px 19px #15345C19!important}
+.sf-medal-caption strong{color:#173C70!important;font-size:19px!important}
+.sf-medal-story{color:#506783!important;font-size:15px!important;line-height:1.8!important;text-align:center!important;margin:0 0 9px!important}
+.sf-medal-state{background:#F1F5FA!important;color:#2D557E!important;font-size:12px!important}
+.sf-medal-feature .sf-medal-story-lead{
+ max-width:730px!important;margin:12px auto 20px!important;color:#334F73!important;
+ font-size:clamp(16px,1.9vw,18px)!important;line-height:2!important;text-align:right!important
+}
+.sf-medal-feature .sf-medal-next-step{
+ background:#F5F8FC!important;border-right:4px solid #B52E46!important;
+ max-width:730px!important;margin:18px auto!important;padding:12px 16px!important;
+ border-radius:11px!important;color:#233F68!important;line-height:1.9!important
+}
+.sf-medal-feature .sf-medal-feature-preview{
+ max-width:465px!important;margin:auto!important;box-shadow:0 10px 31px #0E325322!important;border-radius:18px!important;overflow:hidden!important
+}
+.sf-medal-feature .sf-medal-feature-actions button{
+ background:#173E75!important;color:#fff!important;border:0!important;border-radius:11px!important;
+ min-height:46px!important;font-family:Vazirmatn,Tahoma,sans-serif!important;font-weight:700!important
+}
+.sf-medal-feature .sf-medal-feature-actions button:hover{background:#B32B47!important}
+@media(max-width:660px){
+ #bp-recognition-collection .bp-recognition-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+ #bp-recognition-collection .bp-recognition-badge{padding:13px 9px!important;min-height:440px!important}
+ #bp-recognition-collection .bp-recognition-shield{width:115px!important;height:142px!important;min-height:142px!important}
+ #bp-recognition-collection .bp-recognition-shield svg{width:110px!important;height:135px!important}
+ #bp-recognition-collection .bp-recognition-badge strong{font-size:15px!important}
+ #bp-recognition-collection .sf-recognition-quote{font-size:12px!important;min-height:85px!important}
+}
+@media(max-width:410px){
+ #bp-recognition-collection .bp-recognition-grid{grid-template-columns:1fr!important}
+ #bp-recognition-collection .bp-recognition-badge{min-height:420px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #bp-recognition-collection .bp-recognition-badge{transition:none!important}
+}

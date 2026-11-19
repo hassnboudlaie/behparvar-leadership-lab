@@ -15,20 +15,20 @@ const valid=(s,i)=>{const a=s.answers?.[i]||{},self=s.self?.[i]||[];
  return a.q1!==undefined&&a.q2?.best!==undefined&&a.q2?.worst!==undefined&&
  self.length===3&&self.every(v=>Number.isInteger(v)&&v>=1&&v<=4);
 };
-const maxStage=i=>9+(incidents.some(x=>x.stage===i+1)?2:0)+([2,7].includes(i)?2:0);
+const maxStage=(i,s)=>9+(incidents.some(x=>x.stage===i+1)?2:0)+([2,7].includes(i)?2:0);
 function settle(s){
  const study=s.mode==="study";
  const completed=study?[]:stages.map((_,i)=>i).filter(i=>valid(s,i));
  const rows=completed.map(i=>{
   const st=stages[i],a=s.answers[i],self=s.self?.[i]||[];
-  const quiz=(a.q1===st.c1?4:0)+(a.q2.best===st.best?2:0)+(a.q2.worst===st.worst?2:0);
-  let bonus=(!s.s5gameVersion&&s.rp?.[i]?0.5:0)+(self.length===3&&self.every(v=>Number.isInteger(v)&&v>=1&&v<=4)?(s.s5gameVersion?1:0.5):0)+(s.peer?.[i]&&[2,7].includes(i)?2:0);
+  const quiz=(a.q1===st.c1?4+(s.soloVersion&&[2,7].includes(i)?2:0):0)+(a.q2.best===st.best?2:0)+(a.q2.worst===st.worst?2:0);
+  let bonus=(!s.soloVersion&&!s.s5gameVersion&&s.rp?.[i]?0.5:0)+(self.length===3&&self.every(v=>Number.isInteger(v)&&v>=1&&v<=4)?(s.s5gameVersion?1:0.5):0)+(!s.soloVersion&&s.peer?.[i]&&[2,7].includes(i)?2:0);
   const inc=incidents.find(x=>x.stage===i+1),values=s.alloc?.[i];
   if(inc&&Array.isArray(values)&&values.length===inc.ideal.length){
    const diff=values.reduce((sum,v,j)=>sum+Math.abs(v-inc.ideal[j]),0);
    bonus+=diff===0?2:diff<=2?1:0;
   }
-  return {stage:i+1,title:st.title,quiz,bonus,score:quiz+bonus,max:maxStage(i)};
+  return {stage:i+1,title:st.title,quiz,bonus,score:quiz+bonus,max:maxStage(i,s)};
  });
  const raw=rows.reduce((n,x)=>n+x.score,0),max=rows.reduce((n,x)=>n+x.max,0);
  const quiz=rows.reduce((n,x)=>n+x.quiz,0);
@@ -39,11 +39,6 @@ function settle(s){
  const viewed=study?Math.min(10,Math.max(1,Number(s.studyStage??s.stage??0)+1)):completed.length;
  const skill=["شروع حرفه‌ای و اعتماد","روشن‌سازی پیام","شنود و همدلی","لحن و بیان","بازخورد مؤثر","گفت‌وگوی دشوار","هماهنگی بین‌واحدی","نه‌گفتن محترمانه","بازسازی اعتماد","مذاکره و توافق"];
  const badges=study?[]:completed.map(i=>skill[i]);
- const rpCount=Object.values(s.rp||{}).filter(Boolean).length;
- const peerCount=Object.values(s.peer||{}).filter(Boolean).length;
- if(!study&&rpCount>=3)badges.push("حضور فعال");
- if(!study&&rpCount>=7)badges.push("تکمیل تمرین‌ها");
- if(!study&&peerCount>=2)badges.push("همفکری تیمی");
  // The full-journey time medal is never earned after a voluntary withdrawal.
  const unfinished=!study&&Math.max(0,10-completed.length);
  return {study,completed:completed.length,viewed,rows,score,raw,max,quiz,

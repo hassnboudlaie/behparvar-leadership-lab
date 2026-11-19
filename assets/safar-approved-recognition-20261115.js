@@ -28,7 +28,7 @@ const participation=[
 const all=[...skillNames.map((title,i)=>({id:"s"+i,title,kind:"skill",idx:i,icon:icons[i],hint:"تکمیل تصمیم‌ها و خودارزیابی ایستگاه "+fa(i+1)})),...participation.map(x=>({...x,kind:"participation"}))];
 function state(){try{const x=JSON.parse(localStorage.getItem(KEY)||"null");return x?.version===3?x:null}catch(e){return null}}
 function earned(s){
- const completed=s?.withdrawn?10:(s?.finished?10:Math.min(10,Math.max(0,Number(s?.stage)||0)));
+ const completed=s?.withdrawn?10:(s?.finished?10:Math.min(10,Math.max(0,Number(s?.stage)||0)+1));
  const levels=new Set();
  if(s?.mode!=="competitive"||!s?.startedAt)return levels;
  for(let i=0;i<completed;i++){
@@ -66,7 +66,7 @@ function shareMenu(s){
  '</small></span><span class="bp-recognition-summary-mark" aria-hidden="true">'+fa(n)+'/۱۰</span></summary>'+
  '<div class="bp-recognition-inner"><p>نشان مهارتی پس از تکمیل تصمیم‌ها و خودارزیابی آن ایستگاه ثبت می‌شود. در این سفر همه نشان‌ها فردی هستند و هیچ نشان گروهی وجود ندارد.</p>'+
  '<h3>نشان‌های مهارتی</h3><div class="bp-recognition-grid">'+all.filter(x=>x.kind==="skill").map(x=>badge(x,got.has(x.id))).join("")+'</div>'+
- '<h3>بج‌های مشارکت</h3><div class="bp-recognition-grid bp-participation-grid">'+all.filter(x=>x.kind==="participation").map(x=>badge(x,got.has(x.id))).join("")+'</div>'+
+ '<h3>نشان ویژه زمان‌بندی</h3><div class="bp-recognition-grid bp-participation-grid">'+all.filter(x=>x.kind==="participation").map(x=>badge(x,got.has(x.id))).join("")+'</div>'+
  '<p class="bp-recognition-note">'+(s.withdrawn?'این سفر زودتر پایان یافته است؛ نشان‌های کسب‌شده محفوظ‌اند، اما مدال تکمیل ۱۰ مرحله صادر نمی‌شود.':'مدال پایان سفر فقط یکی است: زرین، سیمین یا برنزی بر اساس امتیاز نهایی. مشاهده این مجموعه امتیازی ایجاد نمی‌کند.')+'</p>'+
  (got.size?'<button type="button" class="bp-recognition-exportall" id="bpExportEarned">دریافت کارت نشان‌های کسب‌شده (PNG)</button>':"")+
  '</div>';
@@ -75,7 +75,7 @@ function shareMenu(s){
  const anchor=s.finished?(root.querySelector("#sfMedalFeature")||root.querySelector(".result-hero")):(root.querySelector(".introgrid")||root.querySelector(".progressrow"));
  if(anchor)anchor.insertAdjacentElement("afterend",section);
 }
-function stageSignature(s){return [s?.startedAt,s?.stage,s?.finished,s?.mode,Object.keys(s?.rp||{}).length,Object.keys(s?.peer||{}).length].join(":")}
+function stageSignature(s){return [s?.startedAt,s?.stage,s?.finished,s?.mode,Object.values(s?.answers||{}).filter(x=>x?.q2).length,Object.keys(s?.learned||{}).length].join(":")}
 let signature=null;
 function refresh(){
  const s=state();if(!s||s.mode==="study")return;
@@ -127,7 +127,7 @@ function rounded(ctx,x,y,w,h,r,fill,stroke){
  ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.lineWidth=4;ctx.strokeStyle=stroke;ctx.stroke()}
 }
 async function exportPng(items,s,fileName){
- const scale=2,cols=items.length===1?1:3,cellW=360,cellH=372,rows=Math.ceil(items.length/cols);
+ const scale=2,cols=items.length===1?1:2,cellW=items.length===1?470:420,cellH=470,rows=Math.ceil(items.length/cols);
  const w=cols*cellW+70,h=rows*cellH+365;
  const canvas=document.createElement("canvas");canvas.width=w*scale;canvas.height=h*scale;
  const ctx=canvas.getContext("2d");if(!ctx)throw Error("Canvas unavailable");
@@ -141,7 +141,8 @@ async function exportPng(items,s,fileName){
  ctx.fillText("سفر ارتباطات · جلسه چهارم",w/2,169);
  for(let i=0;i<items.length;i++){
   const item=items[i],col=i%cols,row=Math.floor(i/cols),x=35+col*cellW,y=245+row*cellH;
-  rounded(ctx,x+10,y+7,cellW-26,cellH-25,18,"#fffdf5","#d4bb8a");
+  rounded(ctx,x+10,y+7,cellW-26,cellH-25,18,"#fffdfd","#d4bb8a");
+  ctx.fillStyle="#BE273C";ctx.fillRect(x+25,y+18,cellW-56,7);
   // Hexagonal shield in the approved deep-teal / restrained-gold palette.
   ctx.beginPath();ctx.moveTo(x+100,y+51);ctx.lineTo(x+cellW-100,y+51);ctx.lineTo(x+cellW-55,y+90);
   ctx.lineTo(x+cellW-55,y+196);ctx.lineTo(x+cellW/2,y+235);ctx.lineTo(x+55,y+196);
@@ -149,7 +150,14 @@ async function exportPng(items,s,fileName){
   ctx.strokeStyle="#d5ad60";ctx.lineWidth=7;ctx.stroke();
   const bitmap=await iconBitmap(item);ctx.drawImage(bitmap,x+cellW/2-56,y+94,112,112);
   rounded(ctx,x+28,y+241,cellW-62,63,13,"#f0e5c9","#c9ab6f");
-  ctx.fillStyle="#133774";ctx.font="800 25px Vazirmatn, Tahoma";ctx.fillText(item.title,x+cellW/2,y+284);
+  ctx.fillStyle="#133774";ctx.font="800 25px Vazirmatn, Tahoma";ctx.fillText(item.title,x+cellW/2,y+284,cellW-60);
+  const golden=item.kind==="skill"?(window.BP_SAFAR_GOLDEN_QUOTES?.[item.idx]||"مهارت در عمل معنا پیدا می‌کند."):"وقت‌شناسی، احترام به مسیر یادگیری است.";
+  const words=golden.split(" "),first=words.slice(0,Math.ceil(words.length/2)).join(" "),second=words.slice(Math.ceil(words.length/2)).join(" ");
+  ctx.fillStyle="#A72037";ctx.font="750 20px Vazirmatn, Tahoma";
+  ctx.fillText("«"+first,x+cellW/2,y+343,cellW-68);
+  ctx.fillText(second+"»",x+cellW/2,y+377,cellW-68);
+  ctx.fillStyle="#1B447C";ctx.font="650 15px Vazirmatn, Tahoma";
+  ctx.fillText(item.kind==="skill"?"نشان مهارت "+fa(item.idx+1)+" از ۱۰":"نشان ویژه",x+cellW/2,y+425,cellW-68);
  }
  const name=String(s.name||"شرکت‌کننده به‌پرور").trim().slice(0,64);
  ctx.fillStyle="#133774";ctx.font="700 26px Vazirmatn, Tahoma";

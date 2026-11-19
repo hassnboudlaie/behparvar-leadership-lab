@@ -166,34 +166,30 @@ async function png(s,r){
  link.href=canvas.toDataURL("image/png");link.click();
 }
 function enhance(){
- const s=read();if(!s)return;
- if(s.withdrawn){renderReport(s);return;}
- const active=(!s.finished&&!!s.startedAt)||(!s.finished&&s.mode==="study");
- const actions=document.querySelector(".top-actions");
- if(!active){document.getElementById("sfGracefulExitTop")?.remove();return;}
- if(actions&&!document.getElementById("sfGracefulExitTop")){
-  const button=document.createElement("button");button.id="sfGracefulExitTop";
-  button.type="button";button.className="sf-graceful-exit-trigger";
-  button.textContent="پایان زودهنگام و کارنامه";actions.append(button);
+ const s=read();
+ if(!s){document.getElementById("sfGracefulExitFixed")?.remove();return}
+ if(s.withdrawn){document.getElementById("sfGracefulExitFixed")?.remove();renderReport(s);return;}
+ const active=!s.finished&&(!!s.startedAt||s.mode==="study");
+ // The learner header has just one home icon; do not reintroduce facilitator controls.
+ document.getElementById("sfGracefulExitTop")?.remove();
+ document.getElementById("sfGracefulExitInline")?.remove();
+ document.getElementById("sfGracefulExitPause")?.remove();
+ const old=document.getElementById("sfGracefulExitFixed");
+ if(!active){old?.remove();return}
+ if(!old){
+   const button=document.createElement("button");
+   button.id="sfGracefulExitFixed";button.type="button";
+   button.className="sf-graceful-exit-fixed";
+   button.textContent="انصراف و دریافت کارنامه";
+   button.setAttribute("aria-label","انصراف از سفر و دریافت کارنامه مراحل کامل‌شده");
+   document.body.append(button);
  }
- const bottom=root.querySelector(".actions, .sf-mode-next, .sf-mode-action");
- if(bottom&&!bottom.querySelector("#sfGracefulExitInline")){
-  const b=document.createElement("button");b.type="button";b.id="sfGracefulExitInline";
-  b.className="sf-graceful-exit-inline";b.textContent="انصراف و دریافت کارنامه";
-  bottom.append(b);
- }
- const overdue=document.querySelector("#sfOvertimeExit");
+ const overdue=document.getElementById("sfOvertimeExit");
  if(overdue)overdue.textContent="انصراف و دریافت کارنامه";
- const paused=document.querySelector(".sf-mode-pause-panel");
- if(paused&&!paused.querySelector("#sfGracefulExitPause")){
-  const b=document.createElement("button");b.type="button";b.id="sfGracefulExitPause";
-  b.textContent="پایان سفر و دریافت کارنامه";b.className="sf-graceful-exit-inline";
-  paused.append(b);
- }
 }
 document.addEventListener("click",e=>{
  const b=e.target.closest("button");if(!b)return;
- if(["sfGracefulExitTop","sfGracefulExitInline","sfGracefulExitPause","sfOvertimeExit","sfOvertimeExitTop"].includes(b.id)){
+ if(["sfGracefulExitFixed","sfOvertimeExit","sfOvertimeExitTop"].includes(b.id)){
   // Capture phase prevents the existing timeout exit from silently losing the report.
   const s=read();if(s&&!s.finished&&(s.startedAt||s.mode==="study")){
    e.preventDefault();e.stopImmediatePropagation();requestExit();

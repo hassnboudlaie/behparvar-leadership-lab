@@ -67,7 +67,7 @@ const base=process.env.AUDIT_URL||"http://127.0.0.1:8765/";
     "هفته گذشته در شیفت صبح برای مدیر تولید پیام توضیحی فرستادم و نتیجه این بود که مسئول گزارش مشخص شد.",
     "دیروز در جلسه هماهنگی با همکار واحد انبار یک پیشنهاد ثبت کردم و در نتیجه اختلاف درباره زمان تحویل حل شد."
    ];
-   data.stages.forEach((st,i)=>{s.answers[i]={q1:st.c1,q2:{best:st.best,worst:st.worst}};s.self[i]=[1,1,1];s.learned[i]=true;s.evidence[i]={texts:samples};
+   data.stages.forEach((st,i)=>{s.answers[i]={q1:st.c1,q2:{best:st.best,worst:st.worst}};s.self[i]=[1,1,1];s.learned[i]=true;s.evidence[i]={texts:samples.map((t,j)=>t+" در این مرحله، شاهد مستقل: "+st.selfItems[j]+"؛ این رفتار را در موقعیت واقعی خودم انجام دادم و پیامدش را پیگیری کردم.")};
     const inc=data.incidents.find(x=>x.stage===i+1);if(inc)s.alloc[i]=inc.ideal.slice();});
    s.guide={uses:[]};s.finished=true;s.finishedAt=Date.now();
    localStorage.setItem(KEY,JSON.stringify(s));

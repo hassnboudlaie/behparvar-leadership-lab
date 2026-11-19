@@ -63,3 +63,17 @@ body.sf-wizard-on #sfWizardCoach p{color:#27446b!important;font-size:15px!import
  body[data-bp-brand="session5-communication-journey"] .top .top-sub{display:none}
  #root[data-sf-wizard="on"] > #sfCoachInline,#root[data-sf-wizard="on"] > #sfEarnedStep{padding:11px 41px 11px 12px!important}
  #sfCoachOverlay .sf-coach-dialog{padding:20px 16px!important}}
+
+/* A compact, always-available guide in the left upper rail cannot cover right-aligned answer choices. */
+body[data-bp-brand="session5-communication-journey"] #sfGuideFloating{
+ position:fixed!important;left:max(9px,env(safe-area-inset-left,9px))!important;right:auto!important;
+ top:80px!important;bottom:auto!important;z-index:140!important;
+ width:64px!important;min-width:64px!important;max-width:64px!important;
+ height:60px!important;min-height:60px!important;
+ padding:7px 4px!important;border-radius:13px!important;
+ box-shadow:0 4px 13px #0c234b32!important;gap:2px!important}
+body[data-bp-brand="session5-communication-journey"] #sfGuideFloating .sf-guide-label{
+ font-size:12px!important;line-height:1.3!important;color:#fff!important}
+body[data-bp-brand="session5-communication-journey"] #sfGuideFloating small{display:none!important}
+body[data-bp-brand="session5-communication-journey"] #sfGuideFloating .sf-guide-symbol{
+ right:-6px!important;top:-8px!important;width:22px!important;height:22px!important;font-size:16px!important}

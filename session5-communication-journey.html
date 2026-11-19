@@ -114,6 +114,16 @@ let saved;try{saved=JSON.parse(localStorage.getItem(K)||localStorage.getItem(LEG
 let state=saved&&saved.version===3?saved:{version:3,role:"",name:"",startedAt:0,stage:0,answers:{},self:{},alloc:{},rp:{},peer:{},events:[],finished:false,finishedAt:0,sound:false};
 let transient={role:state.role,q1:null,best:null,worst:null,alloc:[0,0,0,0],evidence:"",observer:"",note:"",checks:[false,false,false],feedback:"",suggestion:""};
 const save=()=>{try{localStorage.setItem(K,JSON.stringify(state));document.getElementById("sfStorageWarning")?.setAttribute("hidden","");return true}catch(e){console.warn("Save unavailable",e);document.getElementById("sfStorageWarning")?.removeAttribute("hidden");return false}};
+ // Active solo journeys migrate once to the transparent 10x10 rubric.
+ // Archive their exact pre-migration state; completed previous stages are grandfathered
+ // for the new reading-checkbox gate. Finished records keep their original rubric.
+ if(state.startedAt&&!state.finished&&state.mode!=="study"&&state.soloVersion===1&&state.rubricV2!==2){
+  try{localStorage.setItem(K+"-pre-rubric-v2-"+state.startedAt,JSON.stringify(state))}catch(e){}
+  state.rubricV2=2;state.learned=state.learned||{};state.evidence=state.evidence||{};
+  for(let j=0;j<Math.min(10,Number(state.stage)||0);j++)state.learned[j]=true;
+  state.rubricMigrationAt=Date.now();save();
+ }
+
 const timefmt=(ms)=>{let s=Math.max(0,Math.floor(ms/1000));return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")};
 const activeRole=()=>state.role==="managers"?"mgr":"sup";
 const cdata=()=>stages[state.stage];

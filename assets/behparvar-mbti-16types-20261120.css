@@ -1,0 +1,76 @@
+/* 2026-11-20 / Behparvar: coherent 16-type mentor report.
+   Keep participant copy readable, optional technical notes collapsed. */
+#report .type-blend{
+ margin:20px 0 18px;padding:17px 20px;
+ background:#f5f7fb;border-right:3px solid #284b84;border-radius:11px;
+}
+#report .type-blend h3{font-size:16px;line-height:1.65;color:#1b3a70;font-weight:850;margin:0 0 7px}
+#report .type-blend p{font-size:16px;line-height:1.95;color:#31445f;margin:0}
+#report .report-hero .hero-explainer #heroSummary{
+ color:#2b3e5a!important;opacity:1!important;visibility:visible!important;
+ text-shadow:none!important;font-weight:470!important;
+}
+#report .report-hero .hero-explainer h2{color:#152e65!important}
+#report #synthesis p{font-size:13px!important;color:#68768c!important;line-height:1.85}
+#report .mentor-story .mentor-highlight h3{letter-spacing:0}
+@media(max-width:700px){
+ #report .type-blend{margin:17px 0;padding:15px 16px}
+ #report .type-blend h3{font-size:15.5px}
+ #report .type-blend p{font-size:15.5px;line-height:2}
+}
+@media print{
+ @page{size:A4;margin:12mm 13mm}
+ html,body{background:white!important}
+ body[data-bp-brand="session4-mbti"] main.report-mode{max-width:none!important;padding:0!important}
+ #report{line-height:1.65!important;font-size:12.5px!important}
+ #report .report-top{margin:0 0 11px!important}
+ #report .report-top h1{font-size:19px!important;line-height:1.4!important}
+ #report .report-lead{font-size:11.5px!important;line-height:1.6!important}
+ #report .report-hero{
+  padding:14px 17px!important;margin:0!important;
+  border:1px solid #d9e0ea!important;box-shadow:none!important;
+  grid-template-columns:115px minmax(0,1fr)!important;gap:15px!important;
+  break-inside:avoid-page;
+ }
+ #report .result-identity{padding-left:12px!important}
+ #report .report-hero .type{font-size:34px!important}
+ #report .hero-explainer h2{font-size:18px!important;line-height:1.45!important;margin-bottom:5px!important}
+ #report .hero-explainer #heroSummary{font-size:12px!important;line-height:1.6!important;margin-bottom:8px!important}
+ #report .trait-chip{font-size:10px!important;padding:1px 6px!important}
+ #report #typeNote{font-size:10px!important;margin:6px 0!important}
+ #report .report-section{margin-top:15px!important}
+ #report .section-head{margin:0 0 6px!important}
+ #report .section-head h2{font-size:16px!important;line-height:1.45!important}
+ #report .section-head p{font-size:10.5px!important;line-height:1.65!important}
+ #report .mentor-story,#report .work-section .report-scenario,#report .action-box{
+  padding:13px 16px!important;box-shadow:none!important;
+  border:1px solid #dfe4ed!important;border-radius:10px!important;
+ }
+ #report .profile-narrative p{font-size:12px!important;line-height:1.72!important;margin:0 0 8px!important}
+ #report .type-blend{margin:9px 0!important;padding:9px 12px!important;break-inside:avoid-page}
+ #report .type-blend h3{font-size:12px!important;margin:0 0 3px!important}
+ #report .type-blend p{font-size:11.5px!important;line-height:1.7!important}
+ #report .mentor-highlights{grid-template-columns:1fr 1fr!important;gap:13px!important;margin:11px 0 5px!important}
+ #report .mentor-highlight{padding-top:6px!important;break-inside:avoid-page}
+ #report .mentor-highlight h3{font-size:11.5px!important;margin:0 0 3px!important;line-height:1.5!important}
+ #report .mentor-highlight p{font-size:11px!important;line-height:1.7!important}
+ #report .mentor-question{margin:9px 0 0!important;padding:4px 9px!important;font-size:11.5px!important;line-height:1.55!important}
+ #report .mentor-question strong{font-size:11px!important;margin:0!important}
+ #report .scenario-row{padding:4px 0!important;break-inside:avoid-page}
+ #report .scenario-row p{font-size:11.5px!important;line-height:1.62!important;margin:1px 0!important}
+ #report .scenario-row strong{font-size:11.5px!important}
+ #report .scenario-row.next-step{margin-top:6px!important;padding-right:8px!important}
+ #report #typeActions li{padding:7px 0!important;font-size:11.5px!important;line-height:1.65!important;grid-template-columns:24px 1fr!important}
+ #report #typeActions li:before{width:21px!important;height:21px!important;font-size:11px!important;margin-top:0!important}
+ #report #synthesis p{font-size:10px!important;line-height:1.6!important}
+ #report .dimensions-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+ #report .dimension-card{padding:10px 12px!important;break-inside:avoid-page!important}
+ #report .dim-title h3{font-size:12px!important}
+ #report .dim-desc,#report .dim-choice{font-size:11px!important;line-height:1.6!important}
+ #report .dim-poles{font-size:10px!important}
+ #report .mentor-more,#report .small-practice,#report .report-method,#report .types-directory,#report .bestfit-section,
+ #report .dim-evidence,#report .role-toolbar{display:none!important}
+ #report .report-actions,#report .report-status,header,footer{display:none!important}
+ #report .sample-note:not([hidden]){font-size:10px!important;padding:5px!important}
+ #report .report-hero,#report .mentor-story{break-inside:avoid-page}
+}

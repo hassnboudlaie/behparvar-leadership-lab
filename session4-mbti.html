@@ -210,6 +210,7 @@ main:not(.report-mode) footer{display:none}
 </style>
 <link rel="stylesheet" href="assets/behparvar-brand-20261118.css?v=1">
 <link rel="stylesheet" href="assets/behparvar-mbti-mentor-20261119.css?v=2">
+<link rel="stylesheet" href="assets/behparvar-mbti-16types-20261120.css?v=1">
 </head>
 <body data-bp-brand="session4-mbti">
 <main>
@@ -294,7 +295,8 @@ main:not(.report-mode) footer{display:none}
       <div><strong>تفکری (T) / احساسی (F):</strong> وزن‌دادن بیشتر به منطق و معیارهای غیرشخصی، یا ارزش‌ها و پیامدهای انسانی در تصمیم‌گیری؛ هر دو ترجیح از فکر و احساس استفاده می‌کنند.</div>
       <div><strong>قضاوت‌گر (J) / ادراکی (P):</strong> ترجیح برنامه و جمع‌بندی روشن یا حفظ انعطاف و بازماندن گزینه‌ها؛ این تفاوت نشان‌دهنده قضاوت درباره آدم‌ها یا بی‌نظمی نیست.</div>
     </details>
-    <p>برای مطالعه چارچوب نظری: <a href="https://www.myersbriggs.org/my-mbti-personality-type/the-mbti-preferences/" target="_blank" rel="noopener">راهنمای رسمی ترجیحات MBTI</a>.</p>
+    <p>توصیف تیپ‌های این نسخه برای آموزش و تأمل از منابع مرجع بازنویسی شده است؛ سناریوها و توصیه‌های مدیریتی مثال‌های توسعه‌ای اختصاصی هستند، نه یافته‌های مستقیم آزمون یا پیش‌بینی عملکرد.</p>
+    <p>منابع نظری: <a href="https://www.myersbriggs.org/my-mbti-personality-type/the-16-mbti-personality-types/" target="_blank" rel="noopener">توصیف ۱۶ تیپ</a> و <a href="https://www.myersbriggs.org/unique-features-of-myers-briggs/type-dynamics-overview/" target="_blank" rel="noopener">تعامل ترجیحات در تیپ‌ها</a>.</p>
   </details>
   <div class="report-actions noPrint">
     <button class="primary" id="print">چاپ یا ذخیره گزارش PDF</button>
@@ -309,6 +311,9 @@ main:not(.report-mode) footer{display:none}
 <script src="session4-mbti-insights.js?v=20261118b"></script>
 <script src="session4-mbti-profiles-20261119.js?v=2"></script>
 <script src="session4-mbti-mentor-copy-20261119.js?v=2"></script>
+<script src="session4-mbti-canonical-20261120-a.js?v=1"></script>
+<script src="session4-mbti-canonical-20261120-b.js?v=1"></script>
+<script src="session4-mbti-canonical-bridge-20261120.js?v=1"></script>
 <script>
 "use strict";
 const ITEMS=window.BEHPARVAR_MBTI_BANK.items;
@@ -421,7 +426,9 @@ function refreshRoleReflection(){
 if(new URLSearchParams(location.search).get("facilitator")==="1")$("facilitatorAudit").hidden=false;
 const audit=document.createDocumentFragment();ITEMS.forEach((item,i)=>{const d=document.createElement("details");const title=document.createElement("summary");title.textContent="سؤال "+(i+1)+" · "+CONTEXTS[i];const p=document.createElement("p");p.textContent="رفتار اول: "+item[2]+" | رفتار دوم: "+item[3];d.append(title,p);audit.append(d)});$("auditList").append(audit);
 function createDemoAnswers(){
- const desired={EI:"E",SN:"N",TF:"F",JP:"J"},seen={EI:0,SN:0,TF:0,JP:0};
+ const requested=new URLSearchParams(window.location.search).get("demoType");
+  const demoType=/^[IE][SN][TF][JP]$/.test(requested||"")?requested:"ENFJ";
+  const desired={EI:demoType[0],SN:demoType[1],TF:demoType[2],JP:demoType[3]},seen={EI:0,SN:0,TF:0,JP:0};
  return ITEMS.map(q=>{
   const index=seen[q[0]]++;
   if(index===3||index===10)return 3;
@@ -465,5 +472,5 @@ $("print").addEventListener("click",()=>window.print());
 $("restart").addEventListener("click",clearAndRestart);
 if(new URLSearchParams(window.location.search).get("demo")==="1")window.addEventListener("load",openDemoReport,{once:true});
 </script>
-<script src="session4-mbti-report-upgrade-20261119.js?v=5"></script>
+<script src="session4-mbti-report-upgrade-20261119.js?v=20261120-all16"></script>
 </body></html>

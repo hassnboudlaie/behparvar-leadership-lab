@@ -3,10 +3,10 @@
 "use strict";
 const MENTOR=window.BEHPARVAR_MBTI_MENTOR_COPY||{};
 const AXIS_SIMPLE={
- EI:{E:"در پاسخ‌های شما، تعامل با محیط و گفت‌وگو کمی پررنگ‌تر است.",I:"در پاسخ‌های شما، تأمل مستقل و فرصت فکرکردن کمی پررنگ‌تر است."},
- SN:{S:"در دریافت اطلاعات، مثال‌های واقعی و تجربه ملموس بیشتر توجهتان را جلب می‌کنند.",N:"در دریافت اطلاعات، الگوها و ارتباط میان ایده‌ها بیشتر توجهتان را جلب می‌کنند."},
- TF:{T:"در انتخاب‌ها، معیار منطقی و اصول مشترک برایتان پررنگ‌تر بوده‌اند.",F:"در انتخاب‌ها، ارزش‌ها و پیامد انسانی تصمیم برایتان پررنگ‌تر بوده‌اند."},
- JP:{J:"در شیوه کار، برنامه روشن و رسیدن به جمع‌بندی برایتان طبیعی‌تر بوده است.",P:"در شیوه کار، انعطاف و بازگذاشتن گزینه‌ها برایتان طبیعی‌تر بوده است."}
+ EI:{E:"در پاسخ‌ها، توجه به تعامل و تجربه بیرونی پررنگ‌تر بوده است؛ این به معنای مهارت اجتماعی بالاتر نیست.",I:"در پاسخ‌ها، توجه به تأمل و پردازش مستقل پررنگ‌تر بوده است؛ این به معنای کم‌رویی نیست."},
+ SN:{S:"در دریافت اطلاعات، جزئیات قابل مشاهده و تجربه مستقیم بیشتر توجهتان را جلب می‌کنند.",N:"در دریافت اطلاعات، الگوها، پیوندها و برداشت‌های شهودی پررنگ‌تر بوده‌اند؛ نه پیش‌گویی آینده."},
+ TF:{T:"در انتخاب‌ها، استدلال منطقی و پیامدهای قابل بررسی پررنگ‌تر بوده‌اند.",F:"در انتخاب‌ها، ارزش‌ها و پیامدهای تصمیم برای افراد پررنگ‌تر بوده‌اند؛ نه احساساتی‌بودن."},
+ JP:{J:"در مواجهه با کارهای بیرونی، ساختار و جمع‌بندی روشن پررنگ‌تر بوده است؛ نه قضاوت درباره دیگران.",P:"در مواجهه با کارهای بیرونی، انعطاف و بازگذاشتن گزینه‌ها پررنگ‌تر بوده است؛ نه بی‌نظمی."}
 };
 function renderExpandedProfile(code){
  const area=$("expandedProfile");area.replaceChildren();
@@ -20,8 +20,13 @@ function renderExpandedProfile(code){
  const narrative=node("div",undefined,"profile-narrative");
  m.story.forEach(p=>narrative.append(node("p",p)));
  area.append(narrative);
+ if(m.blend){
+  const blend=node("section",undefined,"type-blend");
+  blend.append(node("h3","این ترجیحات کنار هم چه معنایی دارند؟"),node("p",m.blend));
+  area.append(blend);
+ }
  const highlights=node("div",undefined,"mentor-highlights");
- [["ظرفیتی که ممکن است در خودتان ببینید",m.gifts],["جایی که بهتر است کمی بیشتر مراقب باشید",m.watch]].forEach(([heading,copy])=>{
+ [["ظرفیتی که می‌توانید در تجربه خود بررسی کنید",m.gifts],["چالشی که ارزش تأمل دارد",m.watch]].forEach(([heading,copy])=>{
   if(!copy)return;
   const section=node("section",undefined,"mentor-highlight");
   section.append(node("h3",heading),node("p",copy));highlights.append(section);
@@ -137,6 +142,7 @@ function upgradedReport(){
  if(started!==null&&(Date.now()-started)/1000<120)flags.push("زمان پاسخ‌دهی کمتر از دو دقیقه بوده است.");
  $("quality").textContent=flags.length?"نکته درباره پاسخ‌دهی: "+flags.join(" ")+" این موارد به‌تنهایی کیفیت پاسخ را تعیین نمی‌کنند.":"این پرسشنامه هنوز با داده واقعی برای روایی و پایایی اعتبارسنجی نشده است.";
  $("synthesis").replaceChildren();
+ $("synthesis").append(node("p","پیشنهادهای این بخش تمرین‌های توسعه‌ای هستند، نه پیش‌بینی عملکرد یا اثبات مهارت بر اساس تیپ شخصیتی."));
  refreshRoleReflection();
  show("report");$("reportHeading").focus();
 }

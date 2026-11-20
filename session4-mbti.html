@@ -195,6 +195,18 @@ main.report-mode{max-width:1130px}
 #report .scenario-row.next-step{border-right:3px solid var(--report-teal);padding-right:12px}
 @media(max-width:760px){#report .profile-grid{grid-template-columns:1fr}#report .profile-detail:last-child{grid-column:auto}}
 @media print{#report .profile-detail,#report .profile-narrative{break-inside:avoid}}
+
+/* Session 4 participant view: focused question and five concise options */
+#intro .intro-short{margin:18px 0 0;color:#35548c;font-size:.86rem;font-weight:750;line-height:1.9}
+#quiz #stem{font-weight:900;line-height:1.85;margin:6px 0 27px}
+#quiz .answers{gap:11px}
+#quiz .answer{align-items:center;gap:15px;padding:14px 16px;min-height:69px;border-radius:14px}
+#quiz .answer-copy{display:flex;flex:1;flex-direction:column;gap:1px;min-width:0}
+#quiz .answer-qualifier{color:#36548a;font-size:.77rem;line-height:1.4;font-weight:750}
+#quiz .answer-action{color:#15284b;font-size:.92rem;line-height:1.65;font-weight:750}
+#quiz .answer[aria-pressed="true"] .answer-qualifier{color:#1a3773}
+main:not(.report-mode) footer{display:none}
+@media(max-width:600px){#quiz .answer{padding:11px 12px;min-height:65px}#quiz .answer-action{font-size:.9rem}#quiz #stem{font-size:1.22rem}}
 </style>
 <link rel="stylesheet" href="assets/behparvar-brand-20261118.css?v=1">
 <link rel="stylesheet" href="assets/behparvar-mbti-mentor-20261119.css?v=2">
@@ -203,26 +215,17 @@ main.report-mode{max-width:1130px}
 <main>
 <header><div class="brand"><img src="assets/behparvar-official-logo.png" alt="لوگوی رسمی گروه به‌پرور" width="130" height="36"><span class="brand-context">ارزیابی ترجیحات شخصیتی</span></div><a href="session4-communication-journey.html">بازگشت به جلسه چهارم</a></header>
 <section class="card" id="intro">
-<div class="kicker">Behavioral Preferences · Educational Pilot v0.8</div>
-<h1>شناخت ترجیحات شخصیتی در چارچوب MBTI</h1>
-<p>در هر سؤال، دو عبارت کوتاه می‌بینید. <strong>کدام به رفتار معمول شما نزدیک‌تر است؟</strong> پاسخ را بر اساس ترجیح خود بدهید، نه آنچه دیگران از شما انتظار دارند. پاسخ درست یا غلط وجود ندارد.</p>
-<div class="grid">
-<div><strong>۴ جفت ترجیح</strong><span class="muted">E/I، S/N، T/F، J/P</span></div>
-<div><strong>۴۸ سؤال دوگزاره‌ای</strong><span class="muted">۱۲ سؤال برای هر جفت</span></div>
-<div><strong>بدون آزمون قبولی</strong><span class="muted">مدت پیشنهادی: حدود ۱۰ تا ۱۵ دقیقه</span></div>
-<div><strong>گزارش فردی یکسان</strong><span class="muted">برای مدیران و سرپرستان، با چهار ترجیح</span></div>
-</div>
-<div class="caution"><strong>توجه:</strong> این ابزار، آزمون رسمی MBTI® نیست و هیچ گویه رسمیِ دارای حق نشر در آن استفاده نشده است. این نسخه «الهام‌گرفته از چارچوب چهار جفت ترجیح» و <strong>فاقد شواهد اعتبارسنجی روان‌سنجی</strong> است. هم‌خوانی مفاهیم و توصیف تیپ‌ها با منابع مرجع، به معنای استاندارد یا هم‌ارز شدن پرسشنامه با آزمون رسمی نیست. نتیجه آن نباید مبنای استخدام، ارتقا، ارزیابی عملکرد، برچسب‌گذاری یا تصمیم بالینی باشد.</div>
-<p class="muted">پرسشنامه برای مدیر و سرپرست یکسان است؛ فقط نمونه‌های توسعه‌ای گزارش قابل تغییرند. پاسخ‌ها فقط در حافظه همین صفحه پردازش می‌شوند، به سرور ارسال نمی‌شوند و پس از بارگذاری مجدد پاک می‌شوند. در پایان امکان چاپ یا ذخیره گزارش به‌صورت PDF توسط مرورگر وجود دارد.</p>
+<div class="kicker">جلسه چهارم به‌پرور · خودشناسی</div>
+<h1>کمی بیشتر با سبک شخصیتی خودتان آشنا شوید</h1>
+<p>در هر موقعیت، از میان پنج گزینه، <strong>رفتاری را انتخاب کنید که معمولاً به شما نزدیک‌تر است.</strong> پاسخ درست یا غلطی وجود ندارد.</p>
+<p class="intro-short">۴۸ پرسش کوتاه <span aria-hidden="true">·</span> حدود ۱۰ تا ۱۵ دقیقه <span aria-hidden="true">·</span> گزارش شخصی در پایان</p>
 <div class="actions"><button class="primary" id="start">شروع ارزیابی</button><button type="button" id="openDemo" class="demo-preview">مشاهده نمونه گزارش، بدون تکمیل ۴۸ سؤال</button></div>
-<details class="note"><summary>مرور کامل ۴۸ سؤال برای مدرس</summary><p class="muted">این فهرست برای بررسی wording و سازگاری محتواست؛ امتیاز یا کلید پاسخ نمایش داده نمی‌شود.</p><div id="auditList"></div></details>
+<details class="note" id="facilitatorAudit" hidden><summary>مرور سؤال‌ها برای تسهیل‌گر</summary><p class="muted">برای بررسی متن سؤال‌ها؛ امتیاز یا کلید پاسخ نمایش داده نمی‌شود.</p><div id="auditList"></div></details>
 </section>
 <section class="card hidden" id="quiz" aria-label="پرسشنامه ترجیحات">
 <div class="kicker" id="counter" aria-live="polite">سؤال ۱ از ۴۸</div>
 <div class="progress" id="progress" role="progressbar" aria-label="پیشرفت" aria-valuemin="0" aria-valuemax="48" aria-valuenow="0"><span id="fill"></span></div>
-<h2 id="stem" tabindex="-1">در این موقعیت، معمولاً کدام رفتار به شما نزدیک‌تر است؟</h2><p id="context" class="note"></p>
-<div class="choicePair"><div><b>عبارت اول</b><span id="first"></span></div><div><b>عبارت دوم</b><span id="second"></span></div></div>
-<details id="examples" class="examples"><summary>مشاهده مثال واقعی برای هر دو رفتار</summary><p class="muted">این مثال‌ها فقط برای روشن‌شدن تفاوت دو رفتار هستند؛ هیچ‌کدام پاسخ درست یا بهتر نیست.</p><div class="grid"><div><strong>نمونه رفتار اول</strong><p id="exampleA"></p></div><div><strong>نمونه رفتار دوم</strong><p id="exampleB"></p></div></div></details><p class="muted">اگر رفتار شما با شرایط تغییر می‌کند، گزینه میانی را انتخاب کنید.</p>
+<h2 id="stem" tabindex="-1">در این موقعیت، معمولاً کدام رفتار به شما نزدیک‌تر است؟</h2>
 <div class="answers" id="answers" role="group" aria-label="پنج درجه ترجیح"></div>
 <div class="actions"><button id="previous">سؤال قبل</button><button class="primary" id="next" disabled>سؤال بعد</button></div>
 <div class="caption" id="live" aria-live="polite"></div>
@@ -301,13 +304,16 @@ main.report-mode{max-width:1130px}
 </section>
 <footer>چارچوب نظری: چهار جفت ترجیح منسوب به Jung–Myers. متن و نمره‌گذاریِ این ابزار اختصاصی است و به MBTI® رسمی وابسته نیست. برای اطلاعات رسمی: <a href="https://www.themyersbriggs.com/en-US/Access-Resources/All-About-the-MBTI-Assessment" target="_blank" rel="noopener">The Myers-Briggs Company</a>.</footer>
 </main>
-<script src="session4-mbti-bank-20261119.js?v=2"></script>
+<script src="session4-mbti-bank-20261119.js?v=20261120"></script>
+<script src="session4-mbti-short-options-20261120.js?v=1"></script>
 <script src="session4-mbti-insights.js?v=20261118b"></script>
 <script src="session4-mbti-profiles-20261119.js?v=2"></script>
 <script src="session4-mbti-mentor-copy-20261119.js?v=2"></script>
 <script>
 "use strict";
 const ITEMS=window.BEHPARVAR_MBTI_BANK.items;
+const SHORT_CHOICES=window.BEHPARVAR_MBTI_SHORT_CHOICES;
+if(!Array.isArray(SHORT_CHOICES)||SHORT_CHOICES.length!==48||SHORT_CHOICES.some(p=>!Array.isArray(p)||p.length!==2))throw new Error("متن گزینه‌ها ناقص است.");
 const CONTEXTS=window.BEHPARVAR_MBTI_BANK.contexts;
 const EXAMPLES=window.BEHPARVAR_MBTI_BANK.examples;
 if(ITEMS.length!==48||CONTEXTS.length!==48||EXAMPLES.length!==48)throw new Error('بانک سؤال‌ها ناقص است.');
@@ -318,26 +324,38 @@ const AXES=[
 {id:"TF",a:"T",b:"F",title:"شیوه تصمیم‌گیری",nameA:"تفکری",nameB:"احساسی",aText:"در پاسخ‌ها، آغاز تصمیم با تحلیل منطقی و معیارهای غیرشخصی ترجیح بیشتری داشته است.",bText:"در پاسخ‌ها، آغاز تصمیم با ارزش‌ها، روابط و شرایط افراد ترجیح بیشتری داشته است؛ این ترجیح به معنی تصمیم غیرمنطقی نیست.",q:"چگونه هم اصول و منطق و هم ارزش‌ها و پیامدهای انسانی را لحاظ می‌کنید؟"},
 {id:"JP",a:"J",b:"P",title:"شیوه مواجهه با جهان بیرون",nameA:"قضاوت‌گر",nameB:"ادراکی",aText:"در پاسخ‌ها، سازمان‌دهی امور بیرونی، برنامه مشخص و رسیدن به جمع‌بندی ترجیح بیشتری داشته است.",bText:"در پاسخ‌ها، انعطاف، دریافت اطلاعات بیشتر و بازماندن گزینه‌ها ترجیح بیشتری داشته است؛ ادراکی به معنی بی‌برنامه‌بودن نیست.",q:"کجا تصمیم‌گیری و کجا بازماندن گزینه‌ها مفیدتر است؟"}
 ];
-const LABELS=["همیشه","بیشتر اوقات","بسته به شرایط","بیشتر اوقات","همیشه"];
+const LABELS=["تقریباً همیشه","بیشتر اوقات","بسته به شرایط","بیشتر اوقات","تقریباً همیشه"];
 let replies=Array(ITEMS.length).fill(null),cursor=0,started=null,demoMode=false;
 const $=id=>document.getElementById(id);
 function show(id){for(const key of ["intro","quiz","report"])$(key).classList.toggle("hidden",key!==id);document.querySelector("main").classList.toggle("report-mode",id==="report");if(id==="report"||id==="intro")window.scrollTo(0,0)}
 function render(){
- const item=ITEMS[cursor];
- $("context").textContent=CONTEXTS[cursor]+"؛";
- $("exampleA").textContent=EXAMPLES[cursor][0];
- $("exampleB").textContent=EXAMPLES[cursor][1];
- $("examples").open=false;
- $("counter").textContent="سؤال "+(cursor+1)+" از "+ITEMS.length;
- $("first").textContent=item[2];$("second").textContent=item[3];
- const completed=replies.reduce((n,x)=>n+(x!==null?1:0),0);
- $("counter").textContent="سؤال "+(cursor+1)+" از "+ITEMS.length+" · "+completed+" پاسخ ثبت‌شده";
- $("progress").setAttribute("aria-valuenow",String(completed));$("fill").style.width=(100*completed/ITEMS.length)+"%";
- $("answers").replaceChildren();
- LABELS.forEach((v,i)=>{const btn=document.createElement("button");btn.type="button";btn.className="answer";btn.setAttribute("aria-pressed",String(replies[cursor]===i+1));
- const mark=document.createElement("span");mark.className="dot";mark.textContent=String(i+1);const t=document.createElement("span");t.textContent=i===2?"بسته به شرایط، گاهی رفتار اول و گاهی رفتار دوم را انتخاب می‌کنم.":(i<2?v+"، "+item[2]:v+"، "+item[3]);btn.append(mark,t);
- btn.addEventListener("click",()=>{replies[cursor]=i+1;for(const [j,b] of Array.from($("answers").children).entries())b.setAttribute("aria-pressed",String(j===i));$("next").disabled=false;btn.focus();});$("answers").append(btn)});
- $("next").disabled=replies[cursor]===null;$("previous").disabled=cursor===0;$("next").textContent=cursor===ITEMS.length-1?"مشاهده گزارش":"سؤال بعد";
+  const [shortA,shortB]=SHORT_CHOICES[cursor];
+  $("stem").textContent="در موقعیت «"+CONTEXTS[cursor]+"»، معمولاً کدام رفتار بیشتر شبیه شماست؟";
+  const completed=replies.reduce((n,x)=>n+(x!==null?1:0),0);
+  $("counter").textContent="سؤال "+(cursor+1)+" از "+ITEMS.length+" · "+completed+" پاسخ ثبت‌شده";
+  $("progress").setAttribute("aria-valuenow",String(completed));
+  $("fill").style.width=(100*completed/ITEMS.length)+"%";
+  $("answers").replaceChildren();
+  LABELS.forEach((label,i)=>{
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="answer";
+    btn.setAttribute("aria-pressed",String(replies[cursor]===i+1));
+    const mark=node("span",String(i+1),"dot"),copy=node("span",undefined,"answer-copy");
+    if(i===2)copy.append(node("span","بسته به موقعیت، از هر دو شیوه استفاده می‌کنم.","answer-action"));
+    else copy.append(node("span",label,"answer-qualifier"),node("span",i<2?shortA:shortB,"answer-action"));
+    btn.append(mark,copy);
+    btn.addEventListener("click",()=>{
+      replies[cursor]=i+1;
+      for(const [j,b] of Array.from($("answers").children).entries())b.setAttribute("aria-pressed",String(j===i));
+      $("next").disabled=false;
+      btn.focus();
+    });
+    $("answers").append(btn);
+  });
+  $("next").disabled=replies[cursor]===null;
+  $("previous").disabled=cursor===0;
+  $("next").textContent=cursor===ITEMS.length-1?"مشاهده گزارش":"سؤال بعد";
 }
 
 function dimensionEvidence(){
@@ -400,6 +418,7 @@ function refreshRoleReflection(){
  $("roleReflection").textContent="تمرین مبتنی بر پاسخ‌های شما"+(first?" در بُعد «"+first.axis.title+"»":"")+": "+action+" این اقدام، پیشنهاد توسعه‌ای است و از آن نمی‌توان سطح مهارت ارتباطی را نتیجه گرفت.";
 }
 
+if(new URLSearchParams(location.search).get("facilitator")==="1")$("facilitatorAudit").hidden=false;
 const audit=document.createDocumentFragment();ITEMS.forEach((item,i)=>{const d=document.createElement("details");const title=document.createElement("summary");title.textContent="سؤال "+(i+1)+" · "+CONTEXTS[i];const p=document.createElement("p");p.textContent="رفتار اول: "+item[2]+" | رفتار دوم: "+item[3];d.append(title,p);audit.append(d)});$("auditList").append(audit);
 function createDemoAnswers(){
  const desired={EI:"E",SN:"N",TF:"F",JP:"J"},seen={EI:0,SN:0,TF:0,JP:0};

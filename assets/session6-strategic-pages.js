@@ -89,7 +89,7 @@ markup=seven.map(d=>question(d.name,d.desc,selectRow("ارزیابی اولیه:
 markup=bsc.map(d=>question(d.name,d.desc,selectRow("هدف و شاخص پیشنهادی:",choices(d.opts.map(o=>[o[0],o[1]]),"bsc."+d.id+".metric","یک هدف راهبردی انتخاب کنید"))+selectRow("افق زمانی این هدف:",choices([["year","یک‌ساله"],["three","سه‌ساله"],["research","ابتدا نیازمند تعیین خط مبنا"]],"bsc."+d.id+".horizon","افق زمانی را انتخاب کنید")))).join("");
 }
 $("toolForm").innerHTML=markup;
-document.querySelectorAll('input[name="role"]').forEach(x=>x.checked===false&&(x.checked=x.value===st.role));
+document.querySelectorAll('input[name="role"]').forEach(x=>{x.checked=x.value===st.role;});
 renderReport();
 }
 function analysis(){
@@ -124,7 +124,7 @@ for(const f of fallback){const r=st.q.rows?.[f.id]||{};const complete=r.w!=null&
 if(complete){if((String(r.a)==="0")!==(String(r.b)==="0"))valid=false;else completeness++;tw+=Number(r.w);wa+=Number(r.w)*Number(r.a);wb+=Number(r.w)*Number(r.b);used++;lines.push(f.name+" — اهمیت: "+r.w+"، جذابیت اول: "+r.a+"، جذابیت دوم: "+r.b);}
 else lines.push(f.name+" — تکمیل نشده");}
 remaining=total-completeness;
-if(!valid){insight="در یک عامل، صفر فقط وقتی درست است که آن عامل برای هیچ‌کدام از دو راهبرد مرتبط نباشد؛ لطفاً صفر را برای هر دو انتخاب کنید یا هر دو را از ۱ تا ۴ امتیاز دهید.";completeness=Math.min(completeness,total-1);}
+if(!valid){insight="در یک عامل، صفر فقط وقتی درست است که آن عامل برای هیچ‌کدام از دو راهبرد مرتبط نباشد؛ لطفاً صفر را برای هر دو انتخاب کنید یا هر دو را از ۱ تا ۴ امتیاز دهید.";completeness=Math.min(completeness,total-1);remaining=total-completeness;}
 else if(distinct&&used===fallback.length&&tw>0){const A=wa/tw,B=wb/tw;lines.push("امتیاز وزنی راهبرد اول: "+A.toFixed(2),"امتیاز وزنی راهبرد دوم: "+B.toFixed(2));insight=A>B?"بر پایه قضاوت‌های فعلی، «"+a.name+"» امتیاز بیشتری دارد.":B>A?"بر پایه قضاوت‌های فعلی، «"+b.name+"» امتیاز بیشتری دارد.":"بر پایه قضاوت‌های فعلی، امتیاز دو راهبرد یکسان است.";insight+=" وزن اهمیت هر عامل بر مجموع اهمیت‌ها تقسیم شده و در جذابیت ضرب شده است. نتیجه به داده‌ها و داوری افراد وابسته است.";}
 else insight="برای نتیجه معتبر آموزشی، دو راهبرد متفاوت و امتیازهای هر شش عامل را کامل کنید.";
 }else if(tool==="seven"){
@@ -158,6 +158,6 @@ store();renderReport();
 });
 $("download").addEventListener("click",download);
 $("print").addEventListener("click",()=>window.print());
-$("reset").addEventListener("click",()=>{if(!confirm("فقط پاسخ‌های همین ابزار حذف و از ابتدا آغاز شود؟"))return;try{localStorage.removeItem(key)}catch(e){}st=fresh();renderForm();$("saveStatus").textContent="پاسخ‌های همین ابزار پاک شدند.";});
+$("reset").addEventListener("click",()=>{if(!confirm("فقط پاسخ‌های همین ابزار حذف و از ابتدا آغاز شود؟"))return;st=fresh();store();renderForm();$("saveStatus").textContent="پاسخ‌های همین ابزار پاک شدند.";});
 renderForm();
 })();

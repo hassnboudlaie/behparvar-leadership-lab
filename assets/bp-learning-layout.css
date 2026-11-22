@@ -203,3 +203,61 @@ body[data-bp-brand="session4-communication-journey"] #landing .note {
     justify-self: start;
   }
 }
+
+/* Role preparation is visually separate from the spoken exchange. */
+#learning .roleplay-panel h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  line-height: 1.55;
+  font-weight: 800;
+}
+#learning .bp-examples {
+  margin-block: 16px 12px;
+  padding: 12px 14px;
+  background: #f0f5fd;
+  border-radius: 10px;
+}
+#learning .bp-examples p {margin: 0 0 8px}
+#learning .bp-examples details p {margin: 4px 0 0}
+#learning .bp-examples summary {cursor: pointer; padding-block: 8px; font-weight: 700}
+#learning .roleplay-panel .bp-book-source {
+  font-size: .85rem;
+  color: #425978;
+  margin-bottom: 16px;
+}
+#learning .bp-role-intro {
+  margin-block: 14px 18px;
+  padding: 12px 14px;
+  border: 1px solid #dfd5bf;
+  border-radius: 10px;
+  background: #fbf7ec;
+  color: #453924;
+}
+#learning .bp-role-intro .role-notes {margin: 0; gap: 10px 16px}
+#learning .bp-role-intro .role-notes li {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  color: inherit;
+}
+#learning .role-notes :is(strong,span) {display: block}
+#learning .bp-dialogue-frame {
+  padding: 12px clamp(8px, 2vw, 18px);
+  background: #f2f5f9;
+  border: 1px solid #dce5f1;
+  border-radius: 12px;
+}
+#learning .bp-dialogue-frame .dialogue li {
+  background: #e1ebfb;
+  color: #14294c;
+}
+#learning .bp-dialogue-frame .dialogue li:nth-child(even) {
+  background: #fce8ec;
+  color: #662136;
+}
+@media (max-width: 620px) {
+  #learning .bp-role-intro .role-notes li + li {
+    border-top: 1px solid #dfd5bf;
+    padding-top: 8px;
+  }
+}

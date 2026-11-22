@@ -22,7 +22,10 @@ for(const id of ["welcome","competencies","course","scenarios","progress","home"
  "session2","session4","session5","session6","bp-c-clinic-2"]){
  assert(new RegExp('id="'+id+'"').test(html),"Missing original route: "+id);
 }
-assert((html.match(/class="bp-welcome-tile/g)||[]).length===5,"Five original home destinations must stay");
+const welcome = html.split('id="welcome"')[1].split('<section class="view bp-c-view"')[0];
+for (const route of ["course","competencies","bp-c-lesson","bp-c-test","bp-c-clinic-2"]) {
+ assert(welcome.includes('href="#'+route+'"'),"Missing home destination: "+route);
+}
 assert((html.match(/data-course-session="[1-6]"/g)||[]).length>=6,"Six sessions must stay");
 assert(html.includes('id="bp-install-action"'),"PWA install action must remain in source");
 assert(html.includes('id="bp-global-home"'),"Legacy Home shortcut must be preserved");

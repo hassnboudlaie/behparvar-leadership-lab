@@ -1,0 +1,197 @@
+/* Behparvar learning surfaces: one reading measure and a consistent action hierarchy. */
+body[data-bp-brand] {
+  --bp-reading-bg: #f4f7fb;
+  --bp-reading-line: #d8e1ee;
+  --bp-reading-ink: #14294c;
+  --bp-reading-subtle: #425978;
+  background-color: var(--bp-reading-bg);
+}
+
+body.bp-app-premium #app #welcome .bp-welcome-hero {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+  border: 0;
+  border-radius: 16px;
+  box-shadow: none;
+}
+body.bp-app-premium #app #welcome .bp-welcome-photo {
+  grid-column: 2;
+  grid-row: 1;
+  position: static !important;
+  width: 100%;
+  height: 100% !important;
+  min-height: 220px;
+  object-fit: cover;
+}
+body.bp-app-premium #app #welcome .bp-welcome-hero-text {
+  grid-column: 1;
+  grid-row: 1;
+  position: static !important;
+  align-self: center;
+  padding: clamp(20px, 4vw, 48px) !important;
+  background: transparent !important;
+}
+body.bp-app-premium #app #welcome #bp-welcome-title {
+  font-size: clamp(27px, 4vw, 47px) !important;
+  line-height: 1.45 !important;
+  color: white !important;
+  margin: 0 0 18px;
+}
+#bp-welcome-title span {color: inherit !important}
+#app #welcome .bp-welcome-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 8px 18px;
+  border-radius: 9px;
+  background: #fff;
+  color: #0b286e;
+  font-weight: 800;
+  text-decoration: none;
+}
+body.bp-app-premium #app #welcome .bp-welcome-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+  gap: 0 !important;
+  margin-block: 20px;
+  border-block: 1px solid var(--bp-reading-line);
+}
+body.bp-app-premium #app #welcome .bp-welcome-grid .bp-welcome-tile:nth-child(n) {
+  display: flex !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: 58px !important;
+  padding: 10px 14px !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--bp-reading-line) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  color: var(--bp-reading-ink) !important;
+  transform: none !important;
+}
+body.bp-app-premium #app #welcome .bp-welcome-grid .bp-welcome-tile:hover {background: #eaf1fb !important}
+#app #welcome .bp-welcome-tile::after {
+  content: "‹";
+  order: 2;
+  margin-inline-start: auto;
+  font-size: 24px;
+  line-height: 1;
+}
+#app #welcome .bp-welcome-tile small {color: var(--bp-reading-subtle)}
+body[data-bp-brand] #app :is(#course .course-heading,#session4 .page-heading) {
+  background: transparent !important;
+  color: var(--bp-reading-ink) !important;
+  border: 0;
+  border-bottom: 1px solid var(--bp-reading-line);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 12px 0 18px;
+}
+body[data-bp-brand] #app :is(#course .course-heading h1,#session4 .page-heading h2) {
+  color: var(--bp-reading-ink) !important;
+  line-height: 1.45;
+}
+body.bp-app-premium #app #course .course-session {
+  background: #fff;
+  border: 1px solid var(--bp-reading-line);
+  border-radius: 12px;
+  box-shadow: none;
+}
+body.bp-app-premium #app #course .course-session-number {
+  background: #edf3fb !important;
+  color: #0b286e !important;
+}
+
+body[data-bp-brand="session4-communication-journey"] #landing .hero {
+  background: #0b286e;
+  border-radius: 16px;
+  padding: clamp(22px,4vw,40px);
+}
+body[data-bp-brand="session4-communication-journey"] #landing .hero h1 {margin: 0;color: white}
+body[data-bp-brand="session4-communication-journey"] #landing .hero p {margin-top: 10px}
+body[data-bp-brand="session4-communication-journey"] #landing .grid {
+  display: block;
+  max-width: 880px;
+  margin: 20px auto;
+}
+body[data-bp-brand="session4-communication-journey"] #landing .option {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  align-items: center;
+  gap: 7px 20px;
+  margin-block: 0;
+  padding: 18px 4px;
+  border: 0;
+  border-bottom: 1px solid var(--bp-reading-line);
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+body[data-bp-brand="session4-communication-journey"] #landing .option h2 {grid-column: 1 !important;margin: 0;color: var(--bp-reading-ink)}
+body[data-bp-brand="session4-communication-journey"] #landing .option :is(p,.note,.secondary-journey-link) {grid-column: 1 !important;color: var(--bp-reading-subtle)}
+body[data-bp-brand="session4-communication-journey"] #landing .option .btn {
+  grid-column: 2 !important;
+  grid-row: 1 / span 2;
+  min-height: 46px;
+  margin: 0;
+  text-align: center;
+}
+body[data-bp-brand="session4-communication-journey"] #landing .option:not(.option-learning) .btn {
+  background: white !important;
+  border: 1px solid #a8bbd9 !important;
+  color: #0b286e !important;
+}
+body[data-bp-brand="session4-communication-journey"] #landing .note {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: 14px;
+}
+#learning .tech-options {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 6px;
+}
+#learning .tech-options .stagebtn {
+  border: 1px solid var(--bp-reading-line);
+  border-radius: 9px;
+  background: #fff;
+}
+#learning .tech-options .stagebtn[aria-pressed="true"] {
+  border-color: #0b286e;
+  background: #0b286e;
+  color: #fff;
+}
+#learning .roleplay-panel {font-size: clamp(17px, 2.1vw, 20px)}
+#learning .role-notes {grid-template-columns: repeat(2,minmax(0,1fr))}
+#learning .role-notes li {background: #f0f5fe}
+#learning .role-notes li:nth-child(2) {background: #fff1f3}
+#learning .dialogue li:nth-child(even) {background: #fff1f3;color: #662136}
+
+@media (max-width: 620px) {
+  body.bp-app-premium #app #welcome .bp-welcome-hero {grid-template-columns: minmax(0,1fr)}
+  body.bp-app-premium #app #welcome .bp-welcome-photo {
+    grid-column: 1;
+    grid-row: 1;
+    height: clamp(108px, 30vw, 170px) !important;
+    min-height: 0;
+  }
+  body.bp-app-premium #app #welcome .bp-welcome-hero-text {grid-row: 2}
+  body.bp-app-premium #app #welcome .bp-welcome-grid,
+  #learning :is(.tech-options,.role-notes) {grid-template-columns: minmax(0,1fr) !important}
+  body[data-bp-brand="session4-communication-journey"] #landing .option {
+    grid-template-columns: minmax(0,1fr);
+  }
+  body[data-bp-brand="session4-communication-journey"] #landing .option .btn {
+    grid-column: 1 !important;
+    grid-row: auto;
+    justify-self: start;
+  }
+}

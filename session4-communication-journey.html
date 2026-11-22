@@ -46,6 +46,24 @@ button,a{font:inherit}button{cursor:pointer}a{color:var(--teal)}a:focus-visible,
  #learning .toolhead{gap:10px;margin-block:16px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+#book{max-width:840px;margin:24px auto;color:#14294c}
+#book .book-back{display:inline-flex;align-items:center;min-height:44px;margin-bottom:12px}
+#book h1{margin:0;font-size:clamp(26px,4vw,36px);line-height:1.45}
+#book h2{margin:8px 0;font-size:clamp(21px,3vw,28px)}
+#book p,#book dd{margin:0 0 12px;line-height:1.85}
+#book .book-credit{font-size:15px;color:#425978}
+#book .book-list{margin-top:20px;border-top:1px solid #d8e1ee}
+#book .book-principle{border-bottom:1px solid #d8e1ee;background:white}
+#book .book-principle summary{cursor:pointer;min-height:48px;padding:10px 12px;color:#0b286e}
+#book .book-principle[open] summary{background:#eaf0fa}
+#book .book-number{display:inline-block;min-width:2.1em;margin-inline-start:7px;color:#425978;font-variant-numeric:tabular-nums}
+#book .book-principle-body{padding:14px 16px}
+#book .book-examples{margin:0;display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+#book .book-examples div{background:#f2f5fa;padding:10px 12px;border-radius:8px}
+#book .book-examples dt{font-weight:800}
+#book .book-examples dd{margin:0}
+@media(max-width:620px){#book .book-examples{grid-template-columns:minmax(0,1fr)}}
 </style><link rel="stylesheet" href="assets/bp-life-standard-system-20261113.css?v=20261118">
 <link rel="stylesheet" href="assets/bp-impeccable-unified-navigation-20261114.css?v=20261118">
 <link rel="stylesheet" href="assets/bp-mobile-first-ux-20261115.css?v=20261118">
@@ -60,6 +78,7 @@ button,a{font:inherit}button{cursor:pointer}a{color:var(--teal)}a:focus-visible,
 <div class="grid">
 <article class="option option-learning"><h2>ده گام مهارت‌های ارتباطی</h2><p>در هر گام سه روش برای یک موقعیت کاری، با مثال و گفت‌وگوی نمونه.</p><button class="btn" id="goLearning">شروع یادگیری</button></article>
 <article class="option"><h2>شناخت ترجیحات شخصیتی</h2><p>پرسشنامه ۴۸ سؤالی الهام‌گرفته از MBTI، همراه با گزارش توصیفی برای خودشناسی و گفت‌وگوی توسعه‌ای.</p><div class="note">نسخه پژوهشی و آزمایشی؛ نه آزمون رسمی MBTI و نه ابزار معتبر برای قضاوت شغلی.</div><a class="btn" href="session4-mbti.html?v=20261120-all16">ورود به ارزیابی شخصیت</a></article>
+<article class="option"><h2>معرفی کتاب</h2><p>خلاصهٔ ۵۳ اصل متقاعدسازیِ کوین هوگان با مثال‌های کاری به‌پرور.</p><a class="btn" id="goBook" href="#book">دیدن عنوان‌ها</a></article>
 <article class="option option-journey"><h2>سفر رقابتی ارتباطات</h2><p>۹۰ دقیقه تمرین و تصمیم‌گیری، با دو مسیر مدیران و سرپرستان.</p><a class="btn btn-journey" href="session5-communication-journey.html">ورود به سفر رقابتی ارتباطات</a><a class="secondary-journey-link" href="session4-facilitator.html">کنسول تسهیل‌گر سفر</a></article>
 </div></section>
 <section id="learning" class="hidden" aria-label="ده گام آموزش ارتباطات"><div class="toolhead"><button id="backHome" class="btn alt">صفحه جلسه چهارم</button><div class="roles" role="group" aria-label="انتخاب مخاطب"><button class="choice" data-role="supervisors" aria-pressed="true">سرپرستان</button><button class="choice" data-role="managers" aria-pressed="false">مدیران</button></div></div>
@@ -70,12 +89,551 @@ button,a{font:inherit}button{cursor:pointer}a{color:var(--teal)}a:focus-visible,
 <div class="bottom"><button id="prev" class="btn alt">گام قبل</button><span id="stageCount" aria-live="polite"></span><button id="next" class="btn">گام بعد</button></div>
 <footer><details><summary>منابع آموزش</summary><ul>
 <li><a href="https://us.macmillan.com/books/9780312152277/tonguefu/">سام هورن، «تانگ‌فو: روش برخورد با افراد دشوار»</a>. بخش‌های در دسترس دربارهٔ شنیدن اعتراض، مکث پیش از پاسخ، بازخورد سازنده و حفظ مرز در گفت‌وگوهای دشوار، مبنای اقتباس آموزشی بوده‌اند.</li>
-<li>کوین هوگان، «متقاعدسازی»، ترجمهٔ شادی سمیعی‌فر و علیرضا توسلی، انتشارات نص. شماره‌ها به اصولِ خلاصهٔ «۵۳ اصل متقاعدسازی» اشاره دارند. مثال‌ها برای موقعیت‌های کاری به‌پرور نوشته شده‌اند.</li>
+<li><a href="#book">معرفی کتاب متقاعدسازی</a>، کوین هوگان، ترجمهٔ شادی سمیعی‌فر و علیرضا توسلی، انتشارات نص. شماره‌ها به اصولِ خلاصهٔ «۵۳ اصل متقاعدسازی» اشاره دارند. مثال‌ها برای موقعیت‌های کاری به‌پرور نوشته شده‌اند.</li>
 <li><a href="https://www.acas.org.uk/sites/default/files/2021-04/challenging-conversations-and-how-to-manage-them.pdf">گفت‌وگوهای دشوار در محیط کار</a></li>
 <li><a href="https://toastmasters.org/resources/public-speaking-tips/How-to-Write-and-Deliver-a-Speech">تمرین فن بیان</a></li>
 <li><a href="https://leadersforleaders.s3.amazonaws.com/resources/CCL%20How%20to%20Give%20Feedback.pdf">بازخورد بر اساس موقعیت، رفتار و اثر</a></li>
 <li><a href="https://www.pon.harvard.edu/tag/principled-negotiation/">مذاکره بر اساس نیازها و معیارها</a></li>
 </ul></details></footer></section>
+<section id="book" class="hidden" aria-labelledby="book-title">
+  <a class="book-back" href="#session-home">بازگشت به جلسهٔ چهارم</a>
+  <h1 id="book-title" tabindex="-1">معرفی کتاب</h1>
+  <h2>متقاعدسازی؛ کوین هوگان</h2>
+  <p>مرور ۵۳ اصل از خلاصهٔ کتاب، همراه با نمونه‌های کاری برای مدیران و سرپرستان به‌پرور. هر عنوان را باز کنید تا توضیح و مثال‌هایش را ببینید.</p>
+  <p class="book-credit">ترجمهٔ شادی سمیعی‌فر و علیرضا توسلی، نشر نص. عنوان‌ها و مثال‌ها برای کاربرد در محیط کار بازنویسی شده‌اند. اصول مربوط به فشار و فریب از زاویهٔ شناخت و پاسخ آگاهانه توضیح داده شده‌اند.</p>
+  <div class="book-list">
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۱</span><strong>برداشت اول</strong></summary>
+    <div class="book-principle-body">
+      <p>در لحظهٔ شروع، با توجه و آرامش برخورد کن. موضوع و زمان لازم را روشن بگو تا مخاطب بداند قرار است دربارهٔ چه چیزی حرف بزنید.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«الان دو دقیقه وقت داری؟ می‌خوام دربارهٔ خطای دستگاه با هم تصمیم بگیریم.»</dd></div>
+        <div><dt>برای مدیران</dt><dd>جلسهٔ بودجه را با تصمیم موردنیاز شروع کن و بگو کدام بخش از نظر اعضا هنوز باز است.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۲</span><strong>دلیل یک «نه»</strong></summary>
+    <div class="book-principle-body">
+      <p>قبل از تکرار درخواست، ببین مخالفت از تجربهٔ قبلی، ریسک آینده یا محدودیت فعلی می‌آید.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>وقتی انبار با آزمون بارگیری موافق نیست، بپرس دفعهٔ قبل کدام بخش به مشکل خورد.</dd></div>
+        <div><dt>برای مدیران</dt><dd>وقتی مالی با پیش‌پرداخت مخالف است، بپرس نگرانی دربارهٔ جریان نقدی است یا تجربهٔ قرارداد قبلی.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۳</span><strong>زمینهٔ مشترک</strong></summary>
+    <div class="book-principle-body">
+      <p>پیش از اختلاف، هدفی را پیدا کن که برای هر دو طرف مهم است و از آن برای شروع گفت‌وگو استفاده کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«هم تولید و هم کیفیت می‌خوایم محصول برگشت نخوره. کدوم کنترل زودتر نتیجه می‌ده؟»</dd></div>
+        <div><dt>برای مدیران</dt><dd>با فروش و عملیات بر سر حفظ موعد مشتری توافق کن، بعد اختلاف دربارهٔ روش تحویل را بررسی کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۴</span><strong>رابطه و توجه</strong></summary>
+    <div class="book-principle-body">
+      <p>اعتماد را با گوش‌دادن، صداقت و توجه مشخص به کار طرف مقابل بساز.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>قبل از درخواست کمک، بپرس تیم فناوری در همان روز چه کار فوری دیگری دارد.</dd></div>
+        <div><dt>برای مدیران</dt><dd>در آغاز بازبینی کمپین، به اقدام مشخص بازاریابی که خطاهای قیمت را کم کرده اشاره کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۵</span><strong>موانع عاطفی</strong></summary>
+    <div class="book-principle-body">
+      <p>وقتی تجربهٔ بد یا نگرانی پنهانی وجود دارد، دلیل‌آوردن را عقب بینداز و ابتدا مانع را روشن کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>بپرس آیا نگرانی کارشناس از فرم دیجیتال، تکرار گم‌شدن پرونده‌های قبلی است.</dd></div>
+        <div><dt>برای مدیران</dt><dd>قبل از دفاع از ارزیابی تازه، از مدیر واحد بپرس اجرای قبلی چه فشاری برای تیمش ایجاد کرد.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۶</span><strong>محدودیت واقعی و ارزش پیشنهاد</strong></summary>
+    <div class="book-principle-body">
+      <p>اگر ظرفیت، منابع یا زمان واقعاً محدود است، مقدار و دلیل محدودیت را شفاف اعلام کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«برای آزمایش امروز سه نمونه جا داریم. کدوم سه مورد برای تصمیم کیفیت ضروریه؟»</dd></div>
+        <div><dt>برای مدیران</dt><dd>دو ظرفیت واقعی اجرای پایلوت را اعلام کن و معیار اولویت را پیش از انتخاب توضیح بده.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۷</span><strong>معیار مقایسه</strong></summary>
+    <div class="book-principle-body">
+      <p>ارزش یک پیشنهاد در مقایسه روشن می‌شود. گزینه‌ها را با مرجع، بازه و واحد اندازه‌گیری یکسان نشان بده.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>دو روش بسته‌بندی را با زمان صرف‌شده برای صد بسته مقایسه کن.</dd></div>
+        <div><dt>برای مدیران</dt><dd>هزینهٔ سال اول هر دو نرم‌افزار را با هزینهٔ آموزش و پشتیبانی کنار هم بگذار.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۸</span><strong>کمک متقابل</strong></summary>
+    <div class="book-principle-body">
+      <p>همکاری را با یک کمک روشن شروع کن و مراقب باش لطف به بدهی یا فشار تبدیل نشود.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>قالب شمارش موجودی را با همکار انبار به اشتراک بگذار و اگر لازم شد از او بخواه خطاهای قالب را گزارش کند.</dd></div>
+        <div><dt>برای مدیران</dt><dd>به تیم فناوری دادهٔ واقعی کاربر بده و جداگانه دربارهٔ ظرفیت پشتیبانی درخواست مشخصی مطرح کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۹</span><strong>تعهد روشن</strong></summary>
+    <div class="book-principle-body">
+      <p>توافق وقتی به اجرا نزدیک‌تر است که داوطلبانه، کوچک و قابل پیگیری باشد.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«تا پنجشنبه سه پرونده رو با فرم تازه ثبت می‌کنیم و جمعه خطاها رو مرور می‌کنیم.»</dd></div>
+        <div><dt>برای مدیران</dt><dd>در پایان کارگروه، از هر مدیر بخواه سهم واحدش و موعد را تأیید کند.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۱۰</span><strong>قدرت و اعتبار</strong></summary>
+    <div class="book-principle-body">
+      <p>نفوذ ناشی از سمت یا تخصص بر تصمیم اثر می‌گذارد. اختیار تصمیم، تخصص و دلیل پیشنهاد را شفاف کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>برای استثنای کنترل کیفیت، نظر مسئول فنی و مرجع تأیید را از هم جدا کن.</dd></div>
+        <div><dt>برای مدیران</dt><dd>در کمیتهٔ خرید بگو توصیهٔ کارشناسی با فناوری است و تصویب بودجه با کدام مرجع.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۱۱</span><strong>تعلق به گروه</strong></summary>
+    <div class="book-principle-body">
+      <p>افراد راحت‌تر در تصمیمی مشارکت می‌کنند که جایگاه و سهم خودشان در آن روشن باشد.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>برای اصلاح فرم انبار، کسی را که هر روز فرم را پر می‌کند به بررسی دعوت کن.</dd></div>
+        <div><dt>برای مدیران</dt><dd>در انتخاب شاخص کمپین، علاوه بر مدیران فروش، نمایندهٔ خدمات مشتری را هم وارد بحث کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۱۲</span><strong>هماهنگی در گفت‌وگو</strong></summary>
+    <div class="book-principle-body">
+      <p>زبان و میزان جزئیات را با مخاطب هماهنگ کن و از فهم مشترک مطمئن شو.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>برای همکار جدید، کد خطا را با یک نمونه توضیح بده و بپرس چه برداشتی داشت.</dd></div>
+        <div><dt>برای مدیران</dt><dd>برای شورای مالی، ابتدا اثر خطای سامانه بر هزینه را بگو و جزئیات فنی را در پیوست بیاور.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۱۳</span><strong>احساس و دلیل</strong></summary>
+    <div class="book-principle-body">
+      <p>ابتدا اثر مسئله را به رسمیت بشناس و سپس داده و گزینه ارائه کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«می‌فهمم دوباره‌کاری خسته‌کننده‌ست. بیایید ببینیم ثبت دوباره کجا شروع می‌شه.»</dd></div>
+        <div><dt>برای مدیران</dt><dd>قبل از معرفی راه‌حل، بگو تأخیر سامانه چه اثری روی بستن حساب‌ها گذاشته، سپس برنامهٔ رفع را توضیح بده.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۱۴</span><strong>پذیرش مرحله‌ای</strong></summary>
+    <div class="book-principle-body">
+      <p>به‌جای درخواست تغییر کامل و یک‌باره، یک آزمایش کوچک با امکان بازبینی پیشنهاد کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>فرم کنترل تازه را ابتدا روی ده قطعه بیازمایید.</dd></div>
+        <div><dt>برای مدیران</dt><dd>به‌جای اجرای سراسری، یک ماه آزمایشی در دو شعبه با معیار توقف روشن پیشنهاد کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۱۵</span><strong>مسئلهٔ مشترک</strong></summary>
+    <div class="book-principle-body">
+      <p>همکاری را حول مانع مشخص شکل بده و تمرکز بحث را روی رفتار یا فرایند نگه دار.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>به‌جای سرزنش انبار، با هم نقطهٔ ثبت دوگانهٔ کالا را پیدا کنید.</dd></div>
+        <div><dt>برای مدیران</dt><dd>فروش و مالی را دور مسئلهٔ «پاسخ معتبر قبل از موعد مشتری» جمع کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۱۶</span><strong>از درد مسئله تا راه‌حل</strong></summary>
+    <div class="book-principle-body">
+      <p>اثر واقعی مشکل را روشن کن و نشان بده راه‌حل پیشنهادی کدام بخش آن را کم می‌کند.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>اگر ثبت دوباره وقت می‌گیرد، نشان بده یک فرم مشترک کدام ورود اطلاعات را حذف می‌کند.</dd></div>
+        <div><dt>برای مدیران</dt><dd>پیشنهاد گزارش خودکار را با تعداد ساعت کاری آزادشده و هزینهٔ نگهداری توضیح بده.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۱۷</span><strong>مکث هنگام تنش</strong></summary>
+    <div class="book-principle-body">
+      <p>در بحث داغ، تغییر کوتاه در ریتم می‌تواند فرصت فکرکردن بدهد. زمان بازگشت به موضوع را روشن کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«بیایید دو دقیقه فایل رو نگاه کنیم؛ بعد برگردیم به علت اختلاف عددها.»</dd></div>
+        <div><dt>برای مدیران</dt><dd>در شورای بودجه پس از دو واکنش تند، چند دقیقه برای بازخوانی ارقام بده و دوباره همان تصمیم را مطرح کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۱۸</span><strong>تجربهٔ دیگران</strong></summary>
+    <div class="book-principle-body">
+      <p>نمونهٔ واقعی و مشابه نشان می‌دهد دیگران چگونه مسئله را حل کرده‌اند. تفاوت شرایط را هم بگو.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>روش مستندسازی یک خط مشابه را نشان بده و بگو دستگاه این خط چه تفاوتی دارد.</dd></div>
+        <div><dt>برای مدیران</dt><dd>نتیجهٔ پایلوت شعبهٔ هم‌اندازه را بیاور و توضیح بده کدام فرض در شعبه‌های بزرگ‌تر فرق می‌کند.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۱۹</span><strong>نگرانی از تغییر ناآشنا</strong></summary>
+    <div class="book-principle-body">
+      <p>با نمایش، آزمون و توضیح مسیر بازگشت، بخشی از عدم‌اطمینان را کم کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>قبل از حذف فرم کاغذی، بازیابی یک پرونده در سامانه را نشان بده.</dd></div>
+        <div><dt>برای مدیران</dt><dd>برای ورود نرم‌افزار تازه، یک جلسهٔ آزمایشی و یک روش بازگشت به فرایند قبلی مشخص کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۲۰</span><strong>نسبت و مقیاس</strong></summary>
+    <div class="book-principle-body">
+      <p>بزرگ یا کوچک به نظر رسیدنِ یک عدد به مبنای آن بستگی دارد. صورت و مخرج را کنار هم بیاور.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«سه خطا در صد قطعه داشتیم؛ هفتهٔ قبل دو خطا در پنجاه قطعه بود.»</dd></div>
+        <div><dt>برای مدیران</dt><dd>صرفه‌جویی را هم به تومان و هم به درصد هزینهٔ همان فرایند گزارش کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۲۱</span><strong>نگاه بی‌طرفانه</strong></summary>
+    <div class="book-principle-body">
+      <p>پیش از تصمیم، داده و برداشت شخصی را جدا کن و پیشنهاد رقیب را با همان معیار بسنج.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>در اختلاف تولید و انبار، زمان ثبت هر دو سامانه را بررسی کن.</dd></div>
+        <div><dt>برای مدیران</dt><dd>در کارگروه تأمین، همان پرسش‌های کیفیت و هزینه را از هر دو فروشنده بپرس.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۲۲</span><strong>تمایز معنادار</strong></summary>
+    <div class="book-principle-body">
+      <p>فرق یک پیشنهاد را از نظر چیزی که برای مخاطب اهمیت دارد توضیح بده.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«تفاوت این چک‌لیست اینه که هشدارها قبل از تحویل نمونه ثبت می‌شن.»</dd></div>
+        <div><dt>برای مدیران</dt><dd>دو نرم‌افزار را با اثرشان بر زمان پاسخ خدمات مشتری متمایز کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۲۳</span><strong>درخواست مشخص</strong></summary>
+    <div class="book-principle-body">
+      <p>کاری که می‌خواهی، خروجی، مسئول و موعد را قابل مشاهده بیان کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«تا سه، فایل سه ستونِ شمارهٔ بچ، کد خطا و زمان رو در پوشهٔ کیفیت بگذارید.»</dd></div>
+        <div><dt>برای مدیران</dt><dd>در خواستهٔ کمیته روشن کن واحد مالی چه گزارشی، با چه بازه‌ای و تا کدام روز تهیه کند.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۲۴</span><strong>گوش دادن کامل</strong></summary>
+    <div class="book-principle-body">
+      <p>اجازه بده طرف مقابل حرفش را تمام کند. برداشتت را بازگو کن و فرصت اصلاح بده.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«درست فهمیدم؟ مشکلت خود فرم نیست؛ پیدا کردن پروندهٔ قدیمیه؟»</dd></div>
+        <div><dt>برای مدیران</dt><dd>پیش از دفاع از تاریخ استقرار، دغدغهٔ مدیر مالی دربارهٔ پایان ماه را جمع‌بندی کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۲۵</span><strong>انتخاب واژه</strong></summary>
+    <div class="book-principle-body">
+      <p>واژه می‌تواند بحث را باز یا بسته کند. رفتار قابل مشاهده و راه بعدی را با زبان روشن بگو.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«در فایل امروز ستون کنترل ناقصه؛ چه چیزی برای تکمیلش لازمه؟»</dd></div>
+        <div><dt>برای مدیران</dt><dd>به‌جای «تیمتان مقاومت می‌کند»، بپرس در چه مرحله‌ای استفاده از سامانه افت کرده است.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۲۶</span><strong>زبان القایی</strong></summary>
+    <div class="book-principle-body">
+      <p>بعضی جمله‌ها موافقت مخاطب را از پیش فرض می‌گیرند. برای تصمیم آگاهانه، سؤال باز و امکان مخالفت فراهم کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>از همکار بپرس «این روش چه مشکلی داره؟» تا مخالفتش را آزادانه بگوید.</dd></div>
+        <div><dt>برای مدیران</dt><dd>در رأی‌گیری شورا، پیش از درخواست تأیید، گزینهٔ رد یا اصلاح پیشنهاد را صریح اعلام کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۲۷</span><strong>شیوهٔ فکر کردن مخاطب</strong></summary>
+    <div class="book-principle-body">
+      <p>بفهم مخاطب برای تصمیم به نمونه، تصویر کلی، جزئیات یا امکان آزمون نیاز دارد.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>یک مسیر واقعی سفارش را نشان بده و بپرس کدام مرحله هنوز مبهم است.</dd></div>
+        <div><dt>برای مدیران</dt><dd>از اعضای کارگروه بپرس تصمیم را با دادهٔ مالی راحت‌تر می‌گیرند یا با مقایسهٔ دو اجرای آزمایشی.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۲۸</span><strong>صدا و زبان بدن</strong></summary>
+    <div class="book-principle-body">
+      <p>در کنار واژه‌ها، سرعت، مکث و حالت بدن پیام می‌دهند. برای شنیده‌شدن عددها و خبرهای مهم مکث کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«قطر نمونه، [مکث] هفت و چهار دهم میلی‌متره.»</dd></div>
+        <div><dt>برای مدیران</dt><dd>عدد سقف بودجه را آهسته بگو و پیش از ادامه بپرس آیا عدد روشن شنیده شد.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۲۹</span><strong>استفاده از اعداد</strong></summary>
+    <div class="book-principle-body">
+      <p>عدد مرتبط با بازه، واحد و مبنا کمک می‌کند مخاطب نتیجه را درست بفهمد.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«در پنج روز کاری، چهار مورد از بیست بسته برگشت خورد.»</dd></div>
+        <div><dt>برای مدیران</dt><dd>نرخ تکمیل فرم سه ماه را همراه تعداد کاربران هر ماه نشان بده.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۳۰</span><strong>شواهد و مدارک</strong></summary>
+    <div class="book-principle-body">
+      <p>مدرک مرتبط را همراه دامنه و محدودیتش ارائه کن تا بتوان آن را بررسی کرد.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>برای صحبت دربارهٔ خطای دستگاه، ثبت همان رخداد را روی میز بگذار.</dd></div>
+        <div><dt>برای مدیران</dt><dd>نتیجهٔ پایلوت را با حجم نمونه و اختلاف شرایط شعب گزارش کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۳۱</span><strong>شرح اتفاق و توضیح علت</strong></summary>
+    <div class="book-principle-body">
+      <p>مشاهده را از توضیح علّی جدا کن. وقتی علت قطعی نیست، آن را فرضیه معرفی کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«دو نمونه نشت داشتن. هنوز معلوم نیست جنس بسته مشکل داره یا نوع دوخت.»</dd></div>
+        <div><dt>برای مدیران</dt><dd>آمار افت فروش را گزارش کن و اثر احتمالی قیمت، زمان و موجودی را جداگانه بررسی کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۳۲</span><strong>به‌یادماندن پیام</strong></summary>
+    <div class="book-principle-body">
+      <p>پیام کلیدی را کوتاه کن، با یک مثال همراهش کن و در پایان به شکل قابل مراجعه ثبت کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>پس از آموزش کنترل دستگاه، سه نقطهٔ اصلی را کنار دستگاه یادداشت کن.</dd></div>
+        <div><dt>برای مدیران</dt><dd>جمع‌بندی جلسه را با سه تصمیم، سه مسئول و موعدهایشان بفرست.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۳۳</span><strong>تمرکز بر نتیجه</strong></summary>
+    <div class="book-principle-body">
+      <p>روشن کن بعد از گفت‌وگو چه تغییری قرار است دیده شود و چطور آن را می‌سنجید.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«هدف اینه تا هفتهٔ بعد سفارش ناقص به چاپخانه نره. تعداد برگشتی‌ها رو نگاه می‌کنیم.»</dd></div>
+        <div><dt>برای مدیران</dt><dd>برای طرح بهبود پاسخ‌گویی، کاهش زمان انتظار و آستانهٔ قابل قبول را از قبل تعیین کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۳۴</span><strong>سه قدم برای تغییر</strong></summary>
+    <div class="book-principle-body">
+      <p>وضع فعلی را روشن کن، نتیجهٔ مطلوب را مشخص کن و قدم کوچک بعدی را انتخاب کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>اول دوباره‌کاری ثبت را ببین، بعد مشخص کن چه ثبت واحدی می‌خواهی و یک پرونده را آزمایشی انجام بده.</dd></div>
+        <div><dt>برای مدیران</dt><dd>فاصلهٔ زمان تحویل فعلی و هدف را مشخص کن و برای دو محموله برنامهٔ آزمایشی ببند.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۳۵</span><strong>شیوهٔ ارائهٔ اطلاعات</strong></summary>
+    <div class="book-principle-body">
+      <p>قالب را با کار مخاطب هماهنگ کن. نمودار، توضیح شفاهی و فهرست عمل گاهی نقش‌های متفاوتی دارند.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>جای قطعه را با عکس نشان بده و ترتیب کنترل را کنار آن بنویس.</dd></div>
+        <div><dt>برای مدیران</dt><dd>برای بحث بودجه، جدول هزینه بده و برای جلسهٔ عملیات نقشهٔ فرایند را نمایش بده.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۳۶</span><strong>مشارکت مخاطب</strong></summary>
+    <div class="book-principle-body">
+      <p>مخاطب را در بررسی یا آزمون وارد کن تا هم فهمش روشن شود و هم بتواند نظر مؤثر بدهد.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>از همکار بخواه یک ثبت واقعی را انجام دهد و بگوید کجا گیر می‌کند.</dd></div>
+        <div><dt>برای مدیران</dt><dd>به مدیران دو گزینه بده و از هر واحد بخواه اثر گزینه‌ها را روی کار خودش توضیح دهد.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۳۷</span><strong>تصمیم در گروه</strong></summary>
+    <div class="book-principle-body">
+      <p>قبل از درخواست تصمیم گروهی، معیارها و حق اظهارنظر را روشن کن و مخالفت‌ها را بشنو.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>در کارگروه بسته‌بندی، از کیفیت، تولید و انبار یک نکتهٔ محدودکننده بگیر.</dd></div>
+        <div><dt>برای مدیران</dt><dd>در شورا معیار انتخاب را اول مشخص کن و نظر مخالف را قبل از جمع‌بندی بخوان.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۳۸</span><strong>شفافیت در برابر سردرگمی</strong></summary>
+    <div class="book-principle-body">
+      <p>پیام مبهم می‌تواند مخاطب را به پذیرش شتاب‌زده بکشاند. زمان فهم، پرسش و بررسی بده.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>شرایط فرم تازه را یک‌به‌یک توضیح بده و از همکار بخواه موارد نامفهوم را بپرسد.</dd></div>
+        <div><dt>برای مدیران</dt><dd>تصویب پیشنهاد پیچیده را تا وقتی اعضا نسخهٔ روشن هزینه و تعهد را می‌بینند، جلو نبر.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۳۹</span><strong>درخواست کردن</strong></summary>
+    <div class="book-principle-body">
+      <p>درخواست را روشن، محترمانه و به‌اندازهٔ نیاز مطرح کن. پاسخِ ممکن و محدودیت مخاطب را بشنو.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«تا ظهر فقط عدد موجودی تأییدشده رو لازم دارم. می‌رسونی یا موعد دیگه‌ای بذاریم؟»</dd></div>
+        <div><dt>برای مدیران</dt><dd>از مدیر فناوری فقط دو شاخص لازم برای شورا را بخواه و دربارهٔ موعد واقعی توافق کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۴۰</span><strong>شنیدن نقد</strong></summary>
+    <div class="book-principle-body">
+      <p>دغدغهٔ منتقد را دقیق بشنو و از او بخواه شرط یا شاهدی را که تصمیم را عوض می‌کند روشن کند.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«نگران خرابی بعد از تغییر ابزارید؟ کدوم تست نشون می‌ده می‌شه مطمئن شد؟»</dd></div>
+        <div><dt>برای مدیران</dt><dd>از مدیر مخالف پایلوت بپرس چه نتیجه‌ای باعث می‌شود از اجرای محدود حمایت کند.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۴۱</span><strong>اثر واقعی پیشنهاد بر مخاطب</strong></summary>
+    <div class="book-principle-body">
+      <p>نشان بده پیشنهاد چه مسئله‌ای را برای مخاطب سبک‌تر می‌کند. هزینه و دشواری اجرا را هم شفاف نگه دار.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>توضیح بده برگهٔ مشترک یک ثبت تکراری را کم می‌کند و آموزش اولیه چقدر زمان می‌خواهد.</dd></div>
+        <div><dt>برای مدیران</dt><dd>اثر زمان‌بندی تازه را بر تیم خدمات و زمان پاسخ به مشتری با نمونه نشان بده.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۴۲</span><strong>داستان کوتاه</strong></summary>
+    <div class="book-principle-body">
+      <p>یک رخداد واقعی و کوتاه بگو که تصمیم یا پیام اصلی را روشن‌تر کند.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>شرح بده یک برچسب اشتباه چگونه باعث توقف بسته‌بندی شد و اصلاح چه بود.</dd></div>
+        <div><dt>برای مدیران</dt><dd>برای شروع بحث تجربهٔ مشتری، مسیر یک درخواست واقعی را از اولین تماس تا پاسخ بگو.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۴۳</span><strong>داستان و تصمیم</strong></summary>
+    <div class="book-principle-body">
+      <p>داستان را به تصمیم موردنیاز وصل کن و اگر نتیجه‌گیری عمومی می‌خواهی، شاهد جداگانه بیاور.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>بعد از روایت یک سفارش برگشتی، پیشنهاد آزمون برچسب را مشخص کن.</dd></div>
+        <div><dt>برای مدیران</dt><dd>پس از نمونهٔ یک شعبه، دادهٔ سایر شعب و دامنهٔ تصمیم را هم نشان بده.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۴۴</span><strong>روایت روشن</strong></summary>
+    <div class="book-principle-body">
+      <p>ترتیب رخداد، نقطهٔ تغییر و نتیجه را ساده بگو. جزئیات را به اندازه‌ای نگه دار که پیام گم نشود.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>برای آموزش خطا، در سه جمله بگو چه شد، کجا متوجه شدید و دفعهٔ بعد چه می‌کنید.</dd></div>
+        <div><dt>برای مدیران</dt><dd>در شورای محصول یک روایت کوتاه از مشکل کاربر بگو و با پرسش تصمیم‌گیری تمام کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۴۵</span><strong>هنر سؤال کردن</strong></summary>
+    <div class="book-principle-body">
+      <p>سؤال باز برای فهمیدن و سؤال دقیق برای روشن‌کردن جزئیات مفید است. جواب را به مخاطب تحمیل نکن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«آخرین بار کدام فایل ناقص بود و در کدام مرحله متوجه شدی؟»</dd></div>
+        <div><dt>برای مدیران</dt><dd>«پیش از تصویب، چه چیزی اگر روشن شود تصمیم شما را تغییر می‌دهد؟»</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۴۶</span><strong>متقاعدسازیِ گفت‌وگومحور</strong></summary>
+    <div class="book-principle-body">
+      <p>دلیل، نگرانی و امکان انتخاب مخاطب را بشناس. پیشنهاد روشن بده و فرصت پاسخ باقی بگذار.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>یک روش تازه پیشنهاد کن و از همکار بخواه مانع اجرای آن را بگوید.</dd></div>
+        <div><dt>برای مدیران</dt><dd>نظر مخالف را ثبت کن و بپرس کدام بخش پیشنهاد برای بازنگری اولویت دارد.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۴۷</span><strong>تشخیص تبلیغات جهت‌دار</strong></summary>
+    <div class="book-principle-body">
+      <p>وقتی پیامی فقط یک سوی داده را نمایش می‌دهد، منبع، موارد حذف‌شده و گزینه‌های دیگر را بررسی کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>اگر تأمین‌کننده فقط عکس نمونه‌های سالم را نشان می‌دهد، نرخ خرابی کل سری را هم بخواه.</dd></div>
+        <div><dt>برای مدیران</dt><dd>برای تصمیم خرید، دادهٔ مستقل و نتیجهٔ یک آزمون مقایسه‌ای را کنار ادعای فروشنده بگذار.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۴۸</span><strong>موج همراهی و فشار زمان</strong></summary>
+    <div class="book-principle-body">
+      <p>رواج یک گزینه یا نزدیک‌بودن موعد می‌تواند تصمیم را شتاب‌زده کند. موعد واقعی و دلیل انتخاب را جداگانه بررسی کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«این تخفیف واقعاً چه ساعتی تموم می‌شه و کالا از نظر کیفیت تأیید شده؟»</dd></div>
+        <div><dt>برای مدیران</dt><dd>اگر همهٔ واحدها نرم‌افزاری را انتخاب کرده‌اند، همچنان تناسب با نیازهای واحد خودت را بسنج.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۴۹</span><strong>شعارهای فریبنده</strong></summary>
+    <div class="book-principle-body">
+      <p>عبارت جذاب را به یک ادعای قابل بررسی تبدیل کن. بپرس موفقیت دقیقاً چگونه اندازه‌گیری می‌شود.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>وقتی برچسبی «بدون خطا» معرفی می‌شود، شرایط آزمون و تعداد نمونه را بخواه.</dd></div>
+        <div><dt>برای مدیران</dt><dd>برای وعدهٔ «نصف شدن زمان پاسخ»، بازه، تعریف پاسخ و روش سنجش را روشن کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۵۰</span><strong>برچسب و تصویرسازی</strong></summary>
+    <div class="book-principle-body">
+      <p>وقتی بحث به برچسب‌زدن دربارهٔ افراد یا واحدها می‌رسد، آن را به رفتار و شاهد مشخص برگردان.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>به‌جای «بچه‌های انبار بی‌دقت‌اند»، مشخص کن کدام ثبت و کدام شمارهٔ کالا اختلاف دارد.</dd></div>
+        <div><dt>برای مدیران</dt><dd>در شورا به‌جای «فناوری همیشه مانع است»، مثال و محدودیت فنی را روی میز بگذار.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۵۱</span><strong>زبان ساده و آشنا</strong></summary>
+    <div class="book-principle-body">
+      <p>از زبان قابل فهم برای مخاطب استفاده کن و ادعای شباهت یا تجربه‌ای را مطرح کن که واقعاً وجود دارد.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>برای آموزش فرم، واژه‌هایی را بگو که همکاران روی خود فرم می‌بینند.</dd></div>
+        <div><dt>برای مدیران</dt><dd>گزارش شورا را با یک نمونهٔ آشنا از ثبت سفارش توضیح بده و اصطلاح تخصصی را همان‌جا معنی کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۵۲</span><strong>شناخت فشار و کنترل</strong></summary>
+    <div class="book-principle-body">
+      <p>اگر انتخاب‌ها عمداً محدود یا هزینهٔ مخالفت مبهم شده، اختیار تصمیم و گزینه‌های مجاز را دوباره روشن کن.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>«فقط همین گزینه مجازه یا می‌تونیم بعد از بررسی نمونه، پیشنهاد دیگه‌ای بدیم؟»</dd></div>
+        <div><dt>برای مدیران</dt><dd>اگر اعضا احساس می‌کنند باید همان لحظه موافقت کنند، مهلت بررسی و امکان رأی مخالف را مشخص کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  <details name="persuasion-principle" class="book-principle">
+    <summary><span class="book-number">۵۳</span><strong>اعتماد قابل بررسی</strong></summary>
+    <div class="book-principle-body">
+      <p>نشانه‌های ظاهری اعتماد کافی نیستند. اعتبار از صداقت، پیگیری تعهد و امکان بررسی مستقل می‌آید.</p>
+      <dl class="book-examples">
+        <div><dt>برای سرپرستان</dt><dd>اگر قول دادی تا چهار خبر بدهی، حتی با پاسخ ناقص همان ساعت وضعیت را بگو.</dd></div>
+        <div><dt>برای مدیران</dt><dd>پس از جلسه، فرض‌ها و تعهدهای مهم را ثبت کن و دسترسی به مستندات تصمیم را فراهم کن.</dd></div>
+      </dl>
+    </div>
+  </details>
+  </div>
+</section>
 </main>
 <script id="sessionData" type="application/json">[
   {
@@ -948,6 +1506,7 @@ button,a{font:inherit}button{cursor:pointer}a{color:var(--teal)}a:focus-visible,
   }
   byId("goLearning").addEventListener("click", openLearning);
   byId("backHome").addEventListener("click", () => {
+    if (location.hash === "#learning") history.replaceState(null, "", "#session-home");
     byId("learning").classList.add("hidden");
     byId("landing").classList.remove("hidden");
     byId("goLearning").focus();
@@ -968,6 +1527,26 @@ button,a{font:inherit}button{cursor:pointer}a{color:var(--teal)}a:focus-visible,
   stageSelect.addEventListener("change", () => goToStage(Number(stageSelect.value)));
   byId("prev").addEventListener("click", () => goToStage(stage - 1, true));
   byId("next").addEventListener("click", () => goToStage(stage + 1, true));
-  if (location.hash === "#learning") openLearning();
+  function showHashView() {
+    const book = byId("book");
+    if (location.hash === "#book") {
+      byId("landing").classList.add("hidden");
+      byId("learning").classList.add("hidden");
+      book.classList.remove("hidden");
+      byId("book-title").focus();
+      return;
+    }
+    const wasReadingBook = !book.classList.contains("hidden");
+    book.classList.add("hidden");
+    if (location.hash === "#learning") {
+      openLearning();
+    } else if (wasReadingBook || location.hash === "#session-home") {
+      byId("learning").classList.add("hidden");
+      byId("landing").classList.remove("hidden");
+      byId("goBook").focus();
+    }
+  }
+  window.addEventListener("hashchange", showHashView);
+  showHashView();
 })();
 </script></body></html>

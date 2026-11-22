@@ -85,6 +85,14 @@ body.bp-app-premium #app #welcome .bp-welcome-grid .bp-welcome-tile:hover {backg
   line-height: 1;
 }
 #app #welcome .bp-welcome-tile small {color: var(--bp-reading-subtle)}
+body[data-bp-brand] #app #welcome #bp-install-action {
+  min-height: 44px;
+  color: #0b286e !important;
+  background: #fff !important;
+  border: 1px solid #a8bbd9 !important;
+}
+body[data-bp-brand] #app #welcome #bp-install-action:hover {background: #eaf1fb !important}
+
 body[data-bp-brand] #app :is(#course .course-heading,#session4 .page-heading) {
   background: transparent !important;
   color: var(--bp-reading-ink) !important;

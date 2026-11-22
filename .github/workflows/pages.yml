@@ -45,6 +45,8 @@ jobs:
         run: |
           for attempt in {1..12}; do
             if count=$(gh api --method GET "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts" -f name="$PAGES_ARTIFACT" --jq '.total_count') && [[ "$count" == 1 ]]; then
+              # The Pages action reads a separate artifact index from the REST API.
+              sleep 15
               exit 0
             fi
             sleep 3

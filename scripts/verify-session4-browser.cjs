@@ -27,7 +27,7 @@ async function inspect(name,viewport,browser){
   await p.locator("#goLearning").click();
   await p.locator('[data-role="managers"]').click();
   assert.equal(await p.locator('[data-role="managers"]').getAttribute("aria-pressed"),"true");
-  await p.locator('#stagebar [data-stage="1"]').click();
+  await p.locator("#stagebar").selectOption("1");
   assert.match(await p.locator("#stageCount").innerText(),/۲ از ۱۰/);
   assert.equal(await p.locator(".roleplay-panel").count(),1);
   await snap("teaching");

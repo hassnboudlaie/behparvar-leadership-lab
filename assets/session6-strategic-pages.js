@@ -8,7 +8,7 @@ let st=fresh();
 try{let saved=JSON.parse(localStorage.getItem(key)||"null");if(!saved){const legacy=JSON.parse(localStorage.getItem("bp-s6-strategic-toolkit-v2")||"null");if(legacy)saved=legacy}if(saved&&typeof saved==="object")st={...fresh(),...saved,swot:{...fresh().swot,...(saved.swot||{})},q:{...fresh().q,...(saved.q||{})}};}catch(e){}
 function val(path){return path.split(".").reduce((x,k)=>x?.[k],st)}
 function set(path,v){const a=path.split(".");let o=st;for(let i=0;i<a.length-1;i++)o=o[a[i]]??(o[a[i]]={});o[a[a.length-1]]=v}
-function store(){try{localStorage.setItem(key,JSON.stringify(st));$("saveStatus").textContent="پاسخ‌های همین ابزار روی این دستگاه ذخیره شد."}catch(e){$("saveStatus").textContent="ذخیره محلی امکان‌پذیر نیست. گزارش را دریافت کنید."}}
+function store(){try{localStorage.setItem(key,JSON.stringify({role:st.role,[tool]:st[tool]}));$("saveStatus").textContent="پاسخ‌های همین ابزار روی این دستگاه ذخیره شد."}catch(e){$("saveStatus").textContent="ذخیره محلی امکان‌پذیر نیست. گزارش را دریافت کنید."}}
 const pest=[
 {id:"p",name:"سیاست و تجارت",desc:"چه تصمیم‌های کلان می‌توانند شکل صنعت خوراک را تغییر دهند؟",opts:[["1","تغییر سیاست واردات نهاده‌های خوراک"],["2","تغییر سیاست‌های حمایتی صنعت دام و طیور"],["3","تغییر روابط تجاری و دسترسی به بازارهای خارجی"]]},
 {id:"e",name:"شرایط اقتصادی",desc:"کدام روند اقتصادی برای آینده شرکت مهم‌تر است؟",opts:[["1","نوسان بلندمدت هزینه مواد اولیه"],["2","تغییر قدرت خرید دامداران و مرغداران"],["3","افزایش هزینه سرمایه‌گذاری و تأمین مالی"]]},

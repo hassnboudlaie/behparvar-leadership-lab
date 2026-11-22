@@ -32,8 +32,8 @@ progress{width:100%;height:10px;display:block;margin:8px 0 14px;accent-color:var
 .steps button:disabled{background:#ecf0f6;color:#52617a;cursor:default}
 .panel,.learn{padding:clamp(17px,4vw,36px);background:white;border:1px solid var(--line);border-radius:20px;margin-top:16px}
 .lesson{padding:12px 15px;margin-block:12px 21px;border-radius:9px;border-inline-start:4px solid var(--blue);background:var(--wash)}
-.lesson p:last-child,.choice-note:last-child,.report p:last-child{margin-bottom:0}
-.scene,.report section{border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin-block:12px}
+.lesson p:last-child,.choice-note:last-child{margin-bottom:0}
+.scene{border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin-block:12px}
 .scene p:last-child{margin-bottom:0}
 .field{margin:17px 0}
 label{display:block;font-weight:780;margin-bottom:6px}
@@ -46,9 +46,8 @@ select{display:block;width:100%;min-height:48px;border:1px solid #8b9dba;border-
 details{padding:10px 0;border-top:1px solid var(--line)}
 summary{cursor:pointer;font-weight:750;color:var(--navy)}
 details ol,details ul{padding-inline-start:24px}
-.report dl{margin:0}
-.report dt{font-weight:790}
-.report dd{margin:0 0 10px}
-.report .result{font-weight:720;color:var(--navy);margin-block:9px}
 @media(max-width:560px){body{font-size:16px}.shell{width:calc(100% - 20px)}.hero{border-radius:16px}.top{font-size:.86rem}.steps button{min-height:44px;padding:5px 9px}}
-@media print{body{background:white;color:black;font-size:12pt}.shell{width:100%;padding:0}.top,.hero,#progress-panel,.actions,.learn,.status,#stage-title,.report-intro{display:none!important}.panel{border:0;padding:0;margin:0}.report section{break-inside:avoid}}
+@media print{body{background:white;color:black;font-size:12pt}.shell{width:100%;padding:0}.top,.hero,#progress-panel,.actions,.learn,.status,#stage-title,.report-intro{display:none!important}.panel{border:0;padding:0;margin:0}#work{display:block}}
+@media screen{.panel:has(.perdoo-report){padding:clamp(10px,2vw,20px)}}
+.report-actions{margin:4px 0 14px}
+[data-export-status]{margin:5px 0 10px;min-height:0}

@@ -1,0 +1,73 @@
+.perdoo-report {
+  --report-navy: #122958;
+  --report-ink: #182a46;
+  --report-muted: #465976;
+  --report-red: #a5263d;
+  --report-line: #dce4ef;
+  --report-soft: #f0f4fa;
+  --report-good: #0c5946;
+  color: var(--report-ink);
+  font: 16px/1.78 Vazirmatn, Tahoma, sans-serif;
+  overflow-wrap: anywhere;
+}
+.perdoo-report *, .perdoo-report *::before, .perdoo-report *::after { box-sizing: border-box; }
+.perdoo-report h1, .perdoo-report h2, .perdoo-report h3, .perdoo-report p, .perdoo-report dl { margin: 0; }
+.perdoo-report ul { margin: 0; padding-inline-start: 1.15em; }
+.perdoo-report .report-sheet { background: #fff; border: 1px solid var(--report-line); border-radius: 15px; overflow: hidden; }
+.perdoo-report .report-sheet + .report-sheet { margin-top: 18px; }
+.perdoo-report .report-banner { background: var(--report-navy); color: white; border-block-start: 5px solid #cb3b55; padding: clamp(17px, 4vw, 33px); }
+.perdoo-report .report-brand { font-weight: 760; font-size: .82em; color: #d9e6ff; }
+.perdoo-report .report-banner h1 { font-size: clamp(1.62rem, 4vw, 2.28rem); line-height: 1.42; margin-block: .22em .25em; }
+.perdoo-report .report-banner h2 { font-size: clamp(1.35rem, 3vw, 1.72rem); line-height: 1.45; margin-block-start: .2em; }
+.perdoo-report .report-subtitle { color: #e8efff; }
+.perdoo-report .report-inner { padding: clamp(13px, 3vw, 26px); }
+.perdoo-report .report-hero-grid, .perdoo-report .report-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .65em; }
+.perdoo-report .report-hero-grid { margin-block-end: 1em; }
+.perdoo-report .report-callout { background: var(--report-soft); border-inline-start: 3px solid var(--report-red); border-radius: 7px; padding: .62em .8em; }
+.perdoo-report .report-label { display: block; margin-block-end: .14em; font-size: .79em; font-weight: 760; color: var(--report-muted); }
+.perdoo-report .report-callout p { font-weight: 680; line-height: 1.62; }
+.perdoo-report .report-block + .report-block { margin-block-start: 1.14em; }
+.perdoo-report .report-section-title { font-size: 1.12em; color: var(--report-navy); margin-block-end: .48em; padding-block-end: .23em; border-block-end: 1px solid var(--report-line); }
+.perdoo-report .report-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55em .8em; }
+.perdoo-report .report-field { min-width: 0; padding-inline-start: .55em; border-inline-start: 2px solid var(--report-line); }
+.perdoo-report .report-field.wide { grid-column: 1 / -1; }
+.perdoo-report .report-field dd { margin: 0; }
+.perdoo-report .report-field li + li { margin-top: .15em; }
+.perdoo-report .report-metric { border: 1px solid var(--report-line); border-radius: 8px; padding: .55em .68em; }
+.perdoo-report .report-metric + .report-metric { margin-block-start: .55em; }
+.perdoo-report .report-metric-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .2em .6em; }
+.perdoo-report .report-metric h3 { font-size: 1em; color: var(--report-navy); }
+.perdoo-report .report-result { font-weight: 770; font-size: .77em; color: var(--report-red); }
+.perdoo-report .report-result.achieved { color: var(--report-good); }
+.perdoo-report .report-metric-data { width: 100%; table-layout: fixed; border-collapse: collapse; margin-block: .36em; text-align: center; background: var(--report-soft); }
+.perdoo-report .report-metric-data th { font-size: .73em; font-weight: 660; color: var(--report-muted); padding: .24em .12em .02em; }
+.perdoo-report .report-metric-data td { font-weight: 800; padding: .02em .12em .22em; }
+.perdoo-report .report-metric-data :is(th, td) + :is(th, td) { border-inline-start: 1px solid var(--report-line); }
+.perdoo-report .report-meta { color: var(--report-muted); font-size: .78em; line-height: 1.54; }
+.perdoo-report .report-footer { display: flex; justify-content: space-between; gap: .55em; border-block-start: 1px solid var(--report-line); color: var(--report-muted); font-size: .74em; padding: .5em 0 0; margin-block-start: .8em; }
+.perdoo-report .report-footer b { white-space: nowrap; }
+.perdoo-export { margin: 0; padding: 16px; background: #edf1f7; }
+.perdoo-export .perdoo-report { max-width: 940px; margin-inline: auto; }
+.perdoo-export .export-bar { max-width: 940px; margin: 0 auto 12px; text-align: end; }
+.perdoo-export .export-bar button { appearance: none; border: 0; border-radius: 8px; color: #fff; background: #133168; padding: 8px 14px; font: 600 15px Vazirmatn, Tahoma, sans-serif; cursor: pointer; }
+.perdoo-report .report-banner h1, .perdoo-report .report-banner h2 { color: inherit; }
+@media (max-width: 560px) {
+  .perdoo-report { font-size: 14px; }
+  .perdoo-report .report-hero-grid, .perdoo-report .report-pair, .perdoo-report .report-fields { grid-template-columns: minmax(0, 1fr); }
+  .perdoo-export { padding: 7px; }
+}
+@page { size: A4; margin: 13mm 14mm; }
+@media print {
+  .perdoo-export { padding: 0; background: white; }
+  .perdoo-export .export-bar { display: none; }
+  .perdoo-report { font-size: 10.3pt; line-height: 1.54; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .perdoo-report .report-sheet { border: 0; border-radius: 0; overflow: visible; }
+  .perdoo-report .report-sheet + .report-sheet { break-before: page; margin-block-start: 0; }
+  .perdoo-report .report-banner { padding: 4mm 5mm; }
+  .perdoo-report .report-banner h1 { font-size: 21pt; }
+  .perdoo-report .report-banner h2 { font-size: 17pt; }
+  .perdoo-report .report-inner { padding: 3.5mm 0 0; }
+  .perdoo-report .report-hero-grid, .perdoo-report .report-pair, .perdoo-report .report-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .perdoo-report .report-callout, .perdoo-report .report-field, .perdoo-report .report-metric, .perdoo-report .report-footer { break-inside: avoid; }
+  .perdoo-report .report-section-title { break-after: avoid; }
+}

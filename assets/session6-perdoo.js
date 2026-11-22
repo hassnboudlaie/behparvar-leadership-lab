@@ -228,53 +228,121 @@ function stageBody() {
   }
 }
 
-function reportContent() {
-  const item = scenario();
-  const data = perdooIdentity;
-  const sample = choice("snapshot");
-  const audit = [];
-  if (choice("ultimate") !== 0) audit.push("صورت‌بندی هدف غایی را با جمع‌بندی مأموریت و چشم‌انداز بازبینی کنید.");
-  if (choice("evidence") !== saved.case) audit.push("منبع شواهد اولیه را به مسئله انتخابی نزدیک‌تر کنید.");
-  if (choice("barrier") !== choice("decision")) audit.push("ارتباط تصمیم میان‌دوره با مانع انتخاب‌شده را بازبینی کنید.");
-  const allAchieved = item.metrics.every((metric) => achieved(metric, metric.end[sample]));
-  if (!allAchieved && choice("next") === 0) audit.push("قبل از استانداردسازی، علت شکاف باقی‌مانده را بررسی کنید.");
-  const result = item.metrics.filter((metric) => achieved(metric, metric.end[sample])).length;
-  return [
-    ["زمینه و جهت‌گیری", [
-      ["موقعیت راهبردی", item.title], ["شواهد اولیه", data.evidence[choice("evidence")]],
-      ["مأموریت", data.mission[choice("mission")]], ["چشم‌انداز", data.vision[choice("vision")]],
-      ["ارزش‌های محوری", data.value.join(" | ")], ["ارزشِ راهنمای این تصمیم", data.value[choice("value")]],
-      ["هدف غایی", ultimateOptions()[choice("ultimate")]]
-    ]],
-    ["ارکان و هم‌راستایی", [
-      ["رکن منتخب", selectedPillar()], ["رکن مکمل", choice("pillar") === 0 ? item.secondaryPillar : item.pillar],
-      ["هدف سالانه شرکت", item.annual], ["تیم اجرا", item.team[choice("team")]],
-      ["هدف تیم در این فصل", item.contribution[choice("team")]],
-      ["نتیجه کلیدی تیم", teamResult(item, choice("team"))], ["حامی پاسخ‌گو", item.sponsor]
-    ]],
-    ["شاخص‌ها و تعهد فصل", [
-      ["شاخص برجسته در گزارش مدیریتی", item.metrics[choice("primaryMetric")].name],
-      ...item.metrics.map((m) => [m.name, `${m.definition} مقدار پایه ${pct(m.base)}، حد مطلوب ${pct(m.threshold)}، مسئول ${m.owner}، منبع ${m.source}.`]),
-      ["هدف فصل", item.objective], ...item.metrics.map((m, i) => [`نتیجه کلیدی ${fa(i + 1)}`, krText(m)])
-    ]],
-    ["اجرا و مرور دوره", [
-      ["اقدام برای نتیجه اول", item.initiatives[0][choice("action0")]],
-      ["اقدام برای نتیجه دوم", item.initiatives[1][choice("action1")]],
-      ["شرط تصمیم‌گیری", item.guard], ["تناوب مرور", data.cadence[choice("cadence")]],
-      ...item.metrics.map((m) => ["شواهد پیشرفت", sampleText(m, sample)]),
-      ["جمع‌بندی فصل", `${fa(result)} نتیجه از ${fa(item.metrics.length)} نتیجه کلیدی محقق شد.`],
-      ["مانع و تصمیم میان‌دوره", `${item.barrier[choice("barrier")]} · ${item.decision[choice("decision")]}`],
-      ["تصمیم چرخه بعد", data.next[choice("next")]],
-      ["بازبینی پیش از ارائه", audit.join(" ") || "تعریف سنجه‌ها و مقدارهای پایه را با داده واقعی به‌پرور اعتبارسنجی کنید."]
-    ]]
-  ];
+function reportField(label, content, wide = false) {
+  return `<div class="report-field${wide ? " wide" : ""}"><dt class="report-label">${label}</dt><dd>${content}</dd></div>`;
+}
+
+function reportCallout(label, content) {
+  return `<div class="report-callout"><span class="report-label">${label}</span><p>${content}</p></div>`;
+}
+
+function reportReviewNotes(allAchieved) {
+  const notes = [];
+  if (choice("ultimate") !== 0) notes.push("صورت‌بندی هدف غایی را با جمع‌بندی مأموریت و چشم‌انداز بازبینی کنید.");
+  if (choice("evidence") !== saved.case) notes.push("منبع شواهد اولیه را به مسئله انتخابی نزدیک‌تر کنید.");
+  if (choice("barrier") !== choice("decision")) notes.push("ارتباط تصمیم میان‌دوره با مانع انتخاب‌شده را بازبینی کنید.");
+  if (!allAchieved && choice("next") === 0) notes.push("قبل از استانداردسازی، علت شکاف باقی‌مانده را بررسی کنید.");
+  if (notes.length === 0) notes.push("تعریف سنجه‌ها و مقدارهای پایه را با داده واقعی به‌پرور اعتبارسنجی کنید.");
+  return `<ul>${notes.map((note) => `<li>${note}</li>`).join("")}</ul>`;
+}
+
+function reportMetric(metric, sample, index) {
+  const hit = achieved(metric, metric.end[sample]);
+  const heading = `report-metric-${index}`;
+  return `<div class="report-metric">
+    <div class="report-metric-head">
+      <h3 id="${heading}">${metric.name}</h3>
+      <span class="report-result${hit ? " achieved" : ""}">${hit ? "هدف محقق شد" : "شکاف تا هدف"}</span>
+    </div>
+    <table class="report-metric-data" aria-labelledby="${heading}">
+      <thead><tr><th scope="col">خط مبنا</th><th scope="col">هدف فصل</th><th scope="col">میان‌دوره</th><th scope="col">پایان فصل</th></tr></thead>
+      <tbody><tr><td>${pct(metric.base)}</td><td>${pct(metric.targets[choice("ambition")])}</td><td>${pct(metric.mid[sample])}</td><td>${pct(metric.end[sample])}</td></tr></tbody>
+    </table>
+    <p class="report-meta">${metric.definition}</p>
+    <p class="report-meta"><strong>منبع:</strong> ${metric.source} · <strong>مسئول:</strong> ${metric.owner}</p>
+    <p class="report-meta"><strong>حد مطلوب پایش:</strong> ${metric.threshold > metric.base ? "دست‌کم" : "حداکثر"} ${pct(metric.threshold)} · <strong>پیشرفت میان‌دوره:</strong> ${pct(progressOf(metric, metric.mid[sample]))}</p>
+  </div>`;
+}
+
+function reportFooter(page) {
+  return `<footer class="report-footer"><span>گزارش آموزشی · سناریو و داده‌های شبیه‌سازی‌شده</span><b>صفحه ${fa(page)} از ۲</b></footer>`;
 }
 
 function renderReport() {
-  return `<p class="report-intro">گزارش مستقل خود را برای گفت‌وگوی کلاسی دانلود یا چاپ کنید.</p>
-    <div class="report"><p><strong>به‌پرور | گزارش آموزشی اجرای استراتژی به روش پردو</strong></p>
-    <p>سناریو و داده‌های شبیه‌سازی‌شده برای جلسه ششم</p>
-    ${reportContent().map(([heading, entries]) => `<section><h3>${heading}</h3><dl>${entries.map(([label, content]) => row(label, content)).join("")}</dl></section>`).join("")}</div>`;
+  const item = scenario();
+  const data = perdooIdentity;
+  const sample = choice("snapshot");
+  const result = item.metrics.filter((metric) => achieved(metric, metric.end[sample])).length;
+  const team = choice("team");
+  const values = `<ul>${data.value.map((value) => `<li>${value}</li>`).join("")}</ul>`;
+
+  return `<div class="report perdoo-report">
+    <article class="report-sheet" aria-labelledby="report-title">
+      <header class="report-banner">
+        <p class="report-brand">به‌پرور · جلسه ششم</p>
+        <h1 id="report-title">گزارش اجرای استراتژی</h1>
+        <p class="report-subtitle">${item.title} · روش پردو</p>
+      </header>
+      <div class="report-inner">
+        <div class="report-hero-grid">
+          ${reportCallout("هدف غایی", ultimateOptions()[choice("ultimate")])}
+          ${reportCallout("نتیجه پایان فصل", `${fa(result)} از ${fa(item.metrics.length)} نتیجه کلیدی محقق شد.`)}
+        </div>
+        <section class="report-block" aria-labelledby="report-direction">
+          <h2 class="report-section-title" id="report-direction">هویت و جهت‌گیری</h2>
+          <dl class="report-fields">
+            ${reportField("مأموریت", data.mission[choice("mission")])}
+            ${reportField("چشم‌انداز", data.vision[choice("vision")])}
+            ${reportField("ارزش‌های محوری", values, true)}
+            ${reportField("ارزش راهنمای این تصمیم", data.value[choice("value")])}
+            ${reportField("شواهد اولیه برای بررسی", data.evidence[choice("evidence")])}
+          </dl>
+        </section>
+        <section class="report-block" aria-labelledby="report-alignment">
+          <h2 class="report-section-title" id="report-alignment">ارکان و هم‌راستایی تیم</h2>
+          <dl class="report-fields">
+            ${reportField("رکن منتخب", selectedPillar())}
+            ${reportField("رکن مکمل", choice("pillar") === 0 ? item.secondaryPillar : item.pillar)}
+            ${reportField("هدف سالانه شرکت", item.annual)}
+            ${reportField("هدف تیم در این فصل", item.contribution[team])}
+            ${reportField("تیم اجرا", item.team[team])}
+            ${reportField("حامی پاسخ‌گو", item.sponsor)}
+            ${reportField("نتیجه کلیدی تیم", teamResult(item, team), true)}
+          </dl>
+        </section>
+        ${reportFooter(1)}
+      </div>
+    </article>
+    <article class="report-sheet" aria-labelledby="report-execution">
+      <header class="report-banner">
+        <p class="report-brand">به‌پرور · ${item.title}</p>
+        <h2 id="report-execution">تعهد فصل، اجرا و تصمیم بعدی</h2>
+      </header>
+      <div class="report-inner">
+        <div class="report-hero-grid">
+          ${reportCallout("هدف فصل", item.objective)}
+          ${reportCallout("تصمیم چرخه بعد", data.next[choice("next")])}
+        </div>
+        <section class="report-block" aria-labelledby="report-kpis">
+          <h2 class="report-section-title" id="report-kpis">شاخص‌ها و نتیجه واقعی در تمرین</h2>
+          <p class="report-meta"><strong>شاخص برجسته:</strong> ${item.metrics[choice("primaryMetric")].name} · <strong>تناوب مرور:</strong> ${data.cadence[choice("cadence")]}</p>
+          ${item.metrics.map((metric, index) => reportMetric(metric, sample, index)).join("")}
+        </section>
+        <section class="report-block" aria-labelledby="report-actions-heading">
+          <h2 class="report-section-title" id="report-actions-heading">اقدام‌ها و مرور میان‌دوره</h2>
+          <dl class="report-fields">
+            ${reportField("اقدام برای نتیجه اول", item.initiatives[0][choice("action0")])}
+            ${reportField("اقدام برای نتیجه دوم", item.initiatives[1][choice("action1")])}
+            ${reportField("مانع منتخب", item.barrier[choice("barrier")])}
+            ${reportField("تصمیم میان‌دوره", item.decision[choice("decision")])}
+            ${reportField("شرط تصمیم‌گیری", item.guard)}
+            ${reportField("بازبینی پیش از ارائه", reportReviewNotes(result === item.metrics.length))}
+          </dl>
+        </section>
+        ${reportFooter(2)}
+      </div>
+    </article>
+  </div>`;
 }
 
 function renderPreview() {
@@ -315,14 +383,20 @@ function render() {
   renderNavigation();
   const end = current === steps.length - 1;
   stage.innerHTML = `<h2 id="stage-title" tabindex="-1">${steps[current][1]}</h2>
-    <form id="step-form">${stageBody()}
+    ${end ? `<div class="actions report-actions">
+        <button class="button primary" type="button" data-print>چاپ یا ذخیره PDF</button>
+        <button class="button" type="button" data-download>دانلود گزارش صفحه‌آرایی‌شده</button>
+        <button class="button" type="button" data-back>گام قبل</button>
+      </div>
+      <p class="status report-intro" data-export-status role="status"></p>
+      ${stageBody()}`
+      : `<form id="step-form">${stageBody()}
       <div class="actions">
         ${current > 0 ? '<button class="button" type="button" data-back>گام قبل</button>' : ""}
-        ${end ? '<button class="button primary" type="button" data-download>دانلود گزارش</button><button class="button" type="button" data-print>چاپ یا ذخیره پی‌دی‌اف</button>'
-          : `<button class="button primary" type="submit">${current === steps.length - 2 ? "مشاهده نقشه نهایی" : "ادامه"}</button>`}
+        <button class="button primary" type="submit">${current === steps.length - 2 ? "مشاهده نقشه نهایی" : "ادامه"}</button>
       </div>
       <p id="form-error" class="form-error" role="alert"></p>
-    </form>`;
+    </form>`}`;
   renderPreview();
   renderFeedback();
 }
@@ -335,17 +409,64 @@ function go(index) {
   $("stage-title").focus({preventScroll:true});
 }
 
-function downloadReport() {
-  const lines = ["به‌پرور | گزارش آموزشی اجرای استراتژی به روش پردو", "سناریو و داده‌های شبیه‌سازی‌شده برای جلسه ششم", ""];
-  for (const [heading, entries] of reportContent()) {
-    lines.push(heading, ...entries.map(([label, content]) => `${label} — ${content}`), "");
+async function embeddedReportFont() {
+  try {
+    const response = await fetch("assets/vazirmatn.woff2");
+    if (!response.ok) return "";
+    const font = await response.blob();
+    const url = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(font);
+    });
+    return `@font-face{font-family:Vazirmatn;src:url("${url}") format("woff2");font-weight:100 900;font-display:swap}`;
+  } catch {
+    return "";
   }
-  const url = URL.createObjectURL(new Blob(["\ufeff", lines.join("\n")], {type:"text/plain;charset=utf-8"}));
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "behparvar-perdoo-strategy-report.txt";
-  link.click();
-  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function standaloneReport(markup, styles, font) {
+  return `<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>گزارش اجرای استراتژی به روش پردو | به‌پرور</title>
+<style>${font}
+${styles}</style>
+</head>
+<body class="perdoo-export">
+<div class="export-bar"><button type="button" onclick="window.print()">چاپ یا ذخیره PDF</button></div>
+<main>${markup}</main>
+</body>
+</html>`;
+}
+
+async function downloadReport(button) {
+  const status = stage.querySelector("[data-export-status]");
+  if (button.disabled) return;
+  button.disabled = true;
+  status.textContent = "فایل گزارش در حال آماده‌سازی است.";
+  try {
+    const markup = renderReport();
+    const styles = Array.from($("perdoo-report-styles").sheet.cssRules, (rule) => rule.cssText).join("\n");
+    const font = await embeddedReportFont();
+    const output = standaloneReport(markup, styles, font);
+    const url = URL.createObjectURL(new Blob([output], {type:"text/html;charset=utf-8"}));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "behparvar-perdoo-strategy-report.html";
+    document.body.append(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    status.textContent = "فایل گزارش آماده شد. آن را با مرورگر باز کنید.";
+  } catch {
+    status.textContent = "فایل آماده نشد. از گزینه «چاپ یا ذخیره PDF» استفاده کنید.";
+  } finally {
+    button.disabled = false;
+  }
 }
 
 stage.addEventListener("change", (event) => {
@@ -379,7 +500,8 @@ stage.addEventListener("submit", (event) => {
 
 stage.addEventListener("click", (event) => {
   if (event.target.closest("[data-back]")) go(current - 1);
-  if (event.target.closest("[data-download]")) downloadReport();
+  const download = event.target.closest("[data-download]");
+  if (download) downloadReport(download);
   if (event.target.closest("[data-print]")) window.print();
 });
 $("step-nav").addEventListener("click", (event) => {

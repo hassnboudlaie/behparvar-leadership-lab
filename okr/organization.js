@@ -10,11 +10,23 @@ function memberField(record){
  return options('ownerId','مسئول',values,record.ownerId||'');
 }
 function organizationHome(){
- const assigned=data.goals.filter(g=>g.ownerId===cloud.userId&&isOpenGoal(g)),tasks=data.tasks.filter(t=>t.ownerId===cloud.userId);
- const tabs=[['goals','اهداف',assigned.length],['tasks','اقدامات',tasks.length]];
- const selected=homeTab==='tasks'?'tasks':'goals';
- const rows=selected==='tasks'?tasks.map(t=>'<p>'+esc(t.name)+' · '+(t.done?'تکمیل‌شده':'باز')+'</p>').join(''):assigned.map(g=>'<div class="action"><button data-id="'+esc(g.id)+'">'+esc(g.name)+'</button>'+refProgress(g)+'</div>').join('');
- return heading(memberName(cloud.userId),'خانه')+panel('مرکز اقدامات',assigned.filter(g=>!drivenByChildren(g)&&cloud.role==='admin').map(g=>'<div class="action">'+esc(g.name)+btn('checkin:'+g.id,'ثبت پیشرفت')+'</div>').join('')||'<p>اقدامی برای ثبت پیشرفت ندارید.</p>')+panel('مسئولیت‌های من','<div class="tabline">'+tabs.map(([k,n,count])=>'<button data-act="home-tab:'+k+'" class="'+(selected===k?'selected':'')+'">'+n+' · '+fa(count)+'</button>').join('')+'</div>'+(rows||'<p>موردی به حساب شما تخصیص داده نشده است.</p>'));
+ const uid=cloud.userId,leading=data.goals.filter(g=>g.ownerId===uid&&isOpenGoal(g)),supporting=data.goals.filter(g=>g.contributors?.includes(uid)&&isOpenGoal(g));
+ const tasks=data.tasks.filter(t=>t.ownerId===uid),teams=data.teams.filter(t=>teamMemberIds(t).includes(uid));
+ const reports=organizationDirectory.filter(p=>data.reportingLines?.[p.user_id]===uid);
+ const tabs=[['goals','اهداف',new Set([...leading,...supporting]).size],['tasks','اقدامات',tasks.length],['teams','تیم‌ها',teams.length],['reports','همکاران مستقیم',reports.length],['kudos','قدردانی‌ها',null]];
+ const selected=tabs.some(([k])=>k===homeTab)?homeTab:'goals';
+ let rows='',filters='';
+ if(selected==='goals'){
+  filters='<div class="segments">'+[['leading','مسئول هدف'],['contributing','مشارکت‌کننده']].map(([k,n])=>'<button data-act="responsibility:'+k+'" aria-pressed="'+(responsibilityFilter===k)+'">'+n+'</button>').join('')+'</div>';
+  rows=(responsibilityFilter==='leading'?leading:supporting).map(g=>'<div class="action"><button data-id="'+esc(g.id)+'">'+esc(g.name)+'</button>'+refProgress(g)+'</div>').join('');
+ }else if(selected==='tasks')rows=tasks.map(t=>'<p>'+esc(t.name)+' · '+(t.done?'تکمیل‌شده':'باز')+'</p>').join('');
+ else if(selected==='teams')rows=teams.map(t=>btn('team-profile:'+encodeURIComponent(t),esc(t),'secondary')).join(' ');
+ else if(selected==='reports')rows=reports.map(p=>btn('org-person:'+p.user_id,esc(p.display_name),'secondary')).join(' ');
+ const progressActions=leading.filter(g=>!drivenByChildren(g)&&cloud.role==='admin').map(g=>'<div class="action">'+esc(g.name)+btn('checkin:'+g.id,'ثبت پیشرفت')+'</div>').join('');
+ if(orgReviews.state==='idle')queueMicrotask(loadOrgReviews);
+ const reviews=orgReviews.entries.filter(e=>!e.completed&&e.evaluator_id===uid).map(e=>'<div class="action">'+esc(orgReviews.cycles.find(c=>c.id===e.cycle_id)?.name)+btn('org-entry:'+e.id,'ثبت ارزیابی')+'</div>').join('');
+ const pending=orgReviews.state==='error'?'<p>'+esc(orgReviews.error)+'</p>':'';
+ return heading(memberName(uid),'خانه')+panel('مرکز اقدامات',progressActions+reviews+pending||'اقدامی ثبت نشده است.')+panel('مسئولیت‌های من','<div class="tabline">'+tabs.map(([k,n,count])=>'<button data-act="home-tab:'+k+'" class="'+(selected===k?'selected':'')+'">'+n+(count===null?'':' · '+fa(count))+'</button>').join('')+'</div>'+filters+(rows||(selected==='kudos'?'<p>داده قدردانی برای این حساب در دسترس نیست.</p>':'<p>موردی ثبت نشده است.</p>')));
 }
 async function loadMeetings(){
  if(!cloud||meetingLoad==='loading')return;
@@ -90,7 +102,7 @@ async function loadOrgReviews(){
   if(epoch!==cloudEpoch)return;
   orgReviews={state:'ready',cycles,entries,error:''};
  }catch(e){if(epoch!==cloudEpoch)return;orgReviews.state='error';orgReviews.error=e.message}
- if(cloud&&page==='people')render();
+ if(cloud&&['people','home'].includes(page))render();
 }
 function reviewCards(entries){
  return entries.map(e=>{
@@ -141,8 +153,17 @@ function directoryPage(){
  const person=organizationDirectory.find(p=>p.user_id===profilePerson);
  if(!person)return heading('افراد','')+panel('اعضای سازمان',organizationDirectory.map(p=>'<div class="action"><div class="row">'+av(p.display_name)+esc(p.display_name)+'</div>'+btn('org-person:'+p.user_id,'پروفایل','secondary')+'</div>').join(''));
  const goals=data.goals.filter(g=>g.ownerId===person.user_id);
- return heading(esc(person.display_name),'پروفایل سازمانی',btn('ref-nav:users','همه افراد','secondary'))+panel('اهداف مرتبط',table(goals))+panel('اقدامات',data.tasks.filter(t=>t.ownerId===person.user_id).map(t=>'<p>'+esc(t.name)+'</p>').join('')||'اقدامی به این حساب تخصیص داده نشده است.')+panel('تیم‌های اهداف',[...new Set(goals.map(g=>g.team).filter(Boolean))].map(esc).join('، ')||'—');
+ return heading(esc(person.display_name),'پروفایل سازمانی',btn('ref-nav:users','همه افراد','secondary'))+panel('اهداف مرتبط',table(goals))+panel('اقدامات',data.tasks.filter(t=>t.ownerId===person.user_id).map(t=>'<p>'+esc(t.name)+'</p>').join('')||'اقدامی به این حساب تخصیص داده نشده است.')+panel('تیم‌ها',data.teams.filter(t=>teamMemberIds(t).includes(person.user_id)).map(esc).join('، ')||'—')+panel('مدیر مستقیم',(data.reportingLines?.[person.user_id]?esc(memberName(data.reportingLines[person.user_id])):'تعیین نشده')+(cloud.role==='admin'?btn('org-manager:'+person.user_id,'تغییر مدیر','secondary'):''));
 }
 function sparkPanel(){
  drawer('Spark','<p>دستیار اجرای استراتژی</p><ul><li>بازبینی اهداف و نتایج کلیدی</li><li>پیشنهاد شاخص‌های عملکرد</li><li>شفاف‌سازی ارکان راهبردی</li><li>پیش‌نویس بازبینی کسب‌وکار</li></ul><p>اتصال امن مدل برای به‌پرور پیکربندی نشده است.</p>');
+}
+let responsibilityFilter='leading';
+function contributorField(g){
+ if(!cloud)return '';
+ return '<details><summary>مشارکت‌کنندگان هدف</summary>'+organizationDirectory.map(p=>'<label class="check"><input type="checkbox" name="contributor" value="'+esc(p.user_id)+'" '+((g.contributors||[]).includes(p.user_id)?'checked':'')+'>'+esc(p.display_name)+'</label>').join('')+'</details>';
+}
+function managerEditor(id){
+ const optionsList=organizationDirectory.filter(p=>p.user_id!==id).map(p=>[p.user_id,p.display_name]);
+ modal('مدیر مستقیم','<form id="managerAssignment" data-id="'+esc(id)+'">'+options('manager','مدیر مستقیم',[['','بدون مدیر مستقیم'],...optionsList],data.reportingLines?.[id]||'')+dialogFooter()+'</form>');
 }

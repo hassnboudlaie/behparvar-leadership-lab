@@ -34,18 +34,14 @@
   const prefix=answer('scenario')+'-'+direction;
   const growth=direction==='growth';
   const directionSteps=[
-   ['ultimate','هدف غایی','هدف غایی اثری است که به‌پرور در بلندمدت برای مشتری و زنجیره پرورش می‌خواهد ایجاد کند.',
-    growth?['پرورش‌دهندگان با خوراک باکیفیت و خدمت فنی قابل اتکا، تولید پایدارتر و قابل پیش‌بینی‌تری داشته باشند.','پرورش‌دهندگان با خوراک قابل رهگیری و کیفیت یکنواخت، با اطمینان بیشتری تصمیم بگیرند.']:['پرورش‌دهندگان حتی در دوره اختلال، به خوراک ایمن و قابل تأمین دسترسی داشته باشند.','پایداری زنجیره تولید غذا با دسترسی مداوم به خوراک اقتصادی تقویت شود.']],
-   ['mission','مأموریت','مأموریت می‌گوید امروز به چه کسی خدمت می‌کنیم و چگونه به هدف غایی کمک می‌کنیم.',
-    growth?['تولید خوراک یکنواخت و ارائه پشتیبانی فنی به پرورش‌دهندگان','عرضه خوراک قابل رهگیری و پاسخ‌گویی فنی به مشتریان هدف']:['تولید و تأمین پایدار خوراک ایمن با بهره‌وری منابع','تأمین اقتصادی خوراک با مدیریت موجودی، اتلاف و کیفیت']],
-   ['vision','چشم‌انداز','چشم‌انداز جایگاه مطلوب به‌پرور را در یک افق مشخص توصیف می‌کند.',
-    growth?['در سه سال، شریک منتخب مشتریان منطقه برای خوراک با ثبات و خدمت قابل اتکا باشیم.','در سه سال، در بخش هدف بازار با کیفیت مستند و رهگیری محصول شناخته شویم.']:['در سه سال، تأمین‌کننده‌ای پایدار با هزینه رقابتی و تعهد تحویل مطمئن باشیم.','در سه سال، بنگاهی تاب‌آور با کنترل هزینه و توان حفظ تولید در دوره‌های شوک باشیم.']],
-   ['values','ارزش سازمانی','ارزش سازمانی برای تصمیم‌های دشوار یک قاعده رفتاری می‌دهد.',
-    growth?['ادعای کیفیت را با شواهد آزمون و داده قابل رهگیری پشتیبانی کنیم.','در مواجهه با مغایرت کیفیت، شفاف و سریع به مشتری پاسخ دهیم.']:['برای کاهش هزینه از الزامات ایمنی خوراک عبور نکنیم.','هزینه‌های پنهان و اتلاف را شفاف ثبت و اصلاح کنیم.']],
-   ['pillar','رکن راهبردی','رکن راهبردی اولویتی است که تصمیم‌ها و منابع بنگاه را به هدف غایی وصل می‌کند.',
-    growth?['تمایز از مسیر کیفیت، رهگیری و خدمت قابل اتکا','رشد در مشتریان هدف از مسیر تجربه متمایز']:['بهره‌وری، کاهش اتلاف و هزینه رقابتی','تاب‌آوری عملیاتی و حفاظت از نقدینگی']]
+   ['ultimate','هدف غایی','هدف غایی، مأموریت و چشم‌انداز را در یک جمله جمع می‌کند: برای چه کسی چه تغییری می‌سازیم و موفقیت بلندمدت چگونه دیده می‌شود؟',['پرورش‌دهندگان با دسترسی پایدار به خوراک ایمن و قابل اتکا، تولید قابل پیش‌بینی‌تری داشته باشند.','شریک قابل اعتماد پرورش‌دهندگان باشیم تا بتوانند کیفیت تولید خود را پایدار نگه دارند.']],
+   ['mission','مأموریت','امروز برای چه کسی چه ارزشی ایجاد می‌کنیم؟',['تأمین خوراک ایمن و یکنواخت برای پرورش‌دهندگان','همراهی با پرورش‌دهندگان از طریق خوراک قابل رهگیری و خدمت فنی']],
+   ['vision','چشم‌انداز','در افق بلندمدت به چه جایگاهی می‌خواهیم برسیم؟',['شریک منتخب پرورش‌دهندگان منطقه برای تأمین پایدار خوراک باشیم.','مرجع مورد اعتماد مشتریان هدف در کیفیت و رهگیری خوراک باشیم.']],
+   ['values','ارزش سازمانی','حتی زیر فشار هزینه و زمان به چه رفتاری پایبندیم؟',['ایمنی خوراک را در هر تصمیم خرید حفظ کنیم.','مغایرت کیفیت را شفاف و سریع با مشتری در میان بگذاریم.']],
+   ['pillar','رکن راهبردی','رکن راهبردی انتخابی است که روشن می‌کند چرا مشتری ما را انتخاب خواهد کرد.',
+    growth?['تمایز از مسیر کیفیت، رهگیری و خدمت قابل اتکا','رشد در مشتریان هدف از مسیر تجربه متمایز']:['بهره‌وری، کاهش اتلاف و هزینه رقابتی','تداوم تأمین خوراک مشتریان حتی در دوره اختلال']]
   ];
-  base.push(...directionSteps.map(([id,title,definition,options])=>step(prefix+'-'+id,title,definition,options[0],'کدام عبارت را برای به‌پرور انتخاب می‌کنید؟',list(options))));
+  base.push(...directionSteps.map(([id,title,definition,options])=>step((id==='pillar'?prefix:'identity')+'-'+id,title,definition,options[0],'کدام عبارت را برای به‌پرور انتخاب می‌کنید؟',list(options))));
   const group=appendScope(base,prefix,'group',direction,scenario);
   const companyId=prefix+'-company';
   base.push(step(companyId,'انتخاب شرکت تابعه','هدف بنگاه می‌تواند مستقیم به دپارتمان‌های مرکزی یا از مسیر یک شرکت تابعه آبشاری شود.','هدف رشد خرید مجدد در بنگاه می‌تواند برای یک شرکت تولیدی به ثبات کیفیت و برای شرکت توزیعی به تحویل به‌موقع تبدیل شود.','این زنجیره از کدام مسیر پایین می‌رود؟',[
@@ -65,14 +61,14 @@
   return base;
  }
  function appendScope(steps,prefix,unit,direction,scenario,parent,alias){
-  const name=alias||units[unit].name, work=units[unit][direction];
+  const name=alias||units[unit].name, work=parent?.cash?cashWork(unit):units[unit][direction];
   const node={name};
-  const key=prefix+'-'+unit, metricId=key+'-metric', goalId=key+'-goal';
+  const key=prefix+'-'+unit+'-audit-'+(parent?.lineage||'root'), metricId=key+'-metric', goalId=key+'-goal';
   const context={scope:name,section:key};
   steps.push(step(goalId,'هدف راهبردی','تغییر مطلوب این سطح را مشخص کنید. هدف این واحد باید سهمی روشن در هدف بالادست داشته باشد.',work.objective,'کدام صورت‌بندی را برای این فصل ثبت می‌کنید؟',[
-   option('whole',work.objective),option('pilot','در دامنه آزمایشی شروع کنیم: '+work.objective)
+   option('whole',work.objective),option('focused','تمرکز بر بهبود «'+work.metrics[1].label+'» در این فصل')
   ],{...context,context:parent?'هم‌راستا با '+parent.name+(parent.result?' · '+parent.result:''):undefined}));
-  steps.push(step(metricId,'شاخص عملکرد (KPI)','شاخص مشخص می‌کند عملکرد را با چه معیار و واحدی بسنجیم. مقدار مبنا در این تمرین نمونه است.',work.metrics[0].label+' · واحد: '+work.metrics[0].unit,'در این سطح کدام شاخص برای پایش هدف مناسب‌تر است؟',work.metrics.map((m,i)=>option(String(i),m.label,'مقدار مبنا: '+n(m.base)+m.unit)),context));
+  steps.push(step(metricId,'شاخص عملکرد (KPI)','KPI عملکرد جاری را دوره‌به‌دوره نشان می‌دهد. در این تمرین یک تغییر فصلی در همان شاخص را به‌عنوان نتیجه کلیدی انتخاب می‌کنید. مقدار مبنا در این تمرین نمونه است.',work.metrics[0].label+' · واحد: '+work.metrics[0].unit,'در این سطح کدام شاخص برای پایش هدف مناسب‌تر است؟',work.metrics.map((m,i)=>option(String(i),m.label,'مقدار مبنا: '+n(m.base)+m.unit)).filter(o=>answer(goalId)!=='focused'||o.value==='1'),context));
   const metricIndex=answer(metricId), metric=work.metrics.find((_,i)=>String(i)===metricIndex);
   if(!metric) return node;
   const targetId=key+'-target-'+metricIndex+'-'+answer(goalId);
@@ -80,12 +76,29 @@
   steps.push(step(targetId,'تارگت و نتیجه کلیدی (KR)','تارگت مقدار مقصد شاخص است. نتیجه کلیدی مقدار مبنا، تارگت و مهلت را در یک جمله به هم وصل می‌کند.',kr(metric,choices[0],answer(goalId)),'کدام سطح تغییر با سناریو و ظرفیت این واحد سازگارتر است؟',choices.map((value,i)=>option(String(value),kr(metric,value,answer(goalId)),i===0?'تعهد محتاطانه‌تر در این سناریو':'تعهد بلندپروازانه‌تر با ظرفیت و منابع بیشتر')),context));
   const target=answer(targetId);
   if(!choices.map(String).includes(target)) return node;
+  node.lineage=(parent?.lineage||unit)+'-'+metricIndex;
+  node.cash=parent?.cash||(unit==='group'&&direction==='survival'&&metricIndex==='1');
   node.result=kr(metric,target,answer(goalId));
-  steps.push(step(key+'-action-'+metricIndex,'اقدام اجرایی','اقدام کاری است که واحد مسئول برای تغییر نتیجه کلیدی انجام می‌دهد. اثر اقدام را در مرور هفتگی بررسی کنید.',work.actions[metricIndex],'برای شروع، کدام اقدام را به این واحد می‌سپارید؟',list([work.actions[metricIndex],'روند همین شاخص را برای یک ماه هفتگی بررسی کنیم و پرتکرارترین مانع را با یک پایلوت محدود برطرف کنیم.']),context));
+  steps.push(step(key+'-action-'+metricIndex,'اقدام اجرایی','اقدام کاری است که واحد مسئول برای تغییر نتیجه کلیدی انجام می‌دهد. اثر اقدام را در مرور هفتگی بررسی کنید.',work.actions[metricIndex],'برای شروع، کدام اقدام را به این واحد می‌سپارید؟',list([work.actions[metricIndex], 'ابتدا در یک واحد منتخب اجرا کنیم: '+work.actions[metricIndex]]),context));
   return node;
  }
+ function cashWork(unit){
+  const rows={
+   production:['ماند موجودی در جریان ساخت','بچ‌های نیمه‌تمام را بر اساس سفارش قطعی تکمیل کنیم.'],
+   distribution:['فاصله ارسال تا صدور فاکتور','مدرک تحویل را در زمان ارسال به مالی برسانیم.'],
+   factory:['ماند موجودی در جریان ساخت','گلوگاه تکمیل سفارش‌های نیمه‌ساخته را رفع کنیم.'],
+   supply:['پوشش موجودی مازاد بر ذخیره ایمن','خرید را به تقاضای قطعی و ذخیره ایمن پیوند دهیم.'],
+   quality:['زمان انتظار موجودی برای ترخیص کیفی','آزمون محموله‌های آماده ارسال را زمان‌بندی کنیم.'],
+   sales:['زمان وصول فاکتور مشتری','پیش از سررسید، اختلاف فاکتور را با مشتری حل کنیم.'],
+   logistics:['زمان انتظار کالای فروش‌رفته برای ارسال','برای سفارش آماده، نوبت حمل رزرو کنیم.'],
+   finance:['زمان وصول مطالبات','پرونده‌های وصول را بر اساس سررسید پیگیری کنیم.'],
+   people:['زمان انتظار ارسال ناشی از کمبود نیروی مجاز','جانشین تأییدشده برای شیفت ارسال تعیین کنیم.']
+  };
+  const [label,action]=rows[unit];
+  return {objective:'با کاهش «'+label+'» به آزادسازی نقد کمک کنیم.',metrics:['میانگین','صدک نودم'].map((stat,i)=>({label:stat+' '+label,unit:' روز',base:5+i*3,balanced:4+i*2,stretch:3+i*2})),actions:[action,action]};
+ }
  function targetOptions(metric,scenario){
-  if(scenario===scenarios.opening) return [metric.balanced,metric.stretch];
+  if(/نقد|مطالبات|وصول/.test(metric.label)||scenario===scenarios.opening) return [metric.balanced,metric.stretch];
   const ratio=scenario===scenarios.shock?0.4:0.7;
   const delta=metric.balanced-metric.base;
   const guarded=metric.base+Math.sign(delta)*Math.max(1,Math.round(Math.abs(delta)*ratio));

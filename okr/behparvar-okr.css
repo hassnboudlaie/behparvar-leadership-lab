@@ -1,0 +1,17 @@
+:root{--nav:#12294d;--blue:#135a99;--ink:#192d49;--bg:#f5f7fb;--line:#dbe4f0}
+.rail{border-inline-end:3px solid #ae233e}
+.rail button.active{background:#24436d;color:white}
+.side h2{padding:10px 5px;border-block-end:2px solid #ae233e}
+.top{border-block-end:1px solid #cbd9ea}
+.main .head h1{font-size:clamp(20px,2vw,27px);line-height:1.35}
+.content .panel{border-radius:12px}
+.content .panel h2{color:#142f56}
+.period-board tbody:nth-of-type(even){background:#f2f6fb}
+.period-board th[scope=rowgroup]{text-align:start;min-width:185px}
+.period-board .period-goal{background:transparent;border:0;padding:2px;color:#124980;font-weight:700;text-align:start}
+.board-tools{justify-content:flex-start;gap:10px}
+.board-tools select{display:inline-block;width:auto}
+.board-tools .segments{flex-wrap:wrap}
+.connectors .connector{border-radius:12px;background:white}
+.connectors .connector header{border-inline-start:3px solid #ae233e;padding-inline-start:8px}
+.period-board button:focus-visible,.refcard button:focus-visible{outline:2px solid #0e609f;outline-offset:2px}

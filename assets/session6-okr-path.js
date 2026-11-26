@@ -1,162 +1,167 @@
 (() => {
-  'use strict';
-
-  const lesson = (title, definition, example, question, options) => ({title, definition, example, question, options});
-  const direction = [
-    lesson('هدف غایی', 'هدف غایی (Ultimate Goal) اثر بلندمدتی است که سازمان می‌خواهد برای مشتریان و ذی‌نفعان ایجاد کند.',
-      'پرورش‌دهندگان بتوانند به خوراک ایمن و یکنواخت تکیه کنند و تولید پایدارتری داشته باشند.',
-      'کدام اثر بلندمدت را برای به‌پرور انتخاب می‌کنید؟', [
-        'کمک به تولید پایدار پرورش‌دهندگان با خوراک قابل اتکا',
-        'تقویت امنیت زنجیره تأمین غذا با خوراک ایمن و قابل رهگیری',
-        'کمک به پرورش‌دهندگان برای تولید اقتصادی‌تر با کاهش اتلاف خوراک'
-      ]),
-    lesson('مأموریت', 'مأموریت می‌گوید امروز برای چه کسی، چه کاری انجام می‌دهیم و چه ارزشی ایجاد می‌کنیم.',
-      'برای پرورش‌دهندگان، خوراکی با کیفیت یکنواخت تولید و تأمین می‌کنیم تا عملکرد گله قابل پیش‌بینی‌تر باشد.',
-      'به‌پرور چگونه هر روز به هدف غایی انتخابی شما کمک می‌کند؟', [
-        'تولید و تأمین خوراک یکنواخت برای پرورش‌دهندگان',
-        'تأمین خوراک ایمن و قابل رهگیری برای کسب‌وکارهای زنجیره پرورش',
-        'تولید خوراک و ارائه راهنمای مصرف برای کاهش اتلاف در واحدهای پرورش'
-      ]),
-    lesson('چشم‌انداز', 'چشم‌انداز تصویری از جایگاه مطلوب سازمان در یک افق زمانی مشخص است.',
-      'تا سه سال آینده، مشتریان منطقه به‌پرور را به‌عنوان تأمین‌کننده قابل اتکای خوراک بشناسند.',
-      'در افق سه‌ساله، دوست دارید به‌پرور با چه جایگاهی شناخته شود؟', [
-        'تأمین‌کننده مرجع خوراک یکنواخت در بازار منطقه',
-        'شریک قابل اتکای پرورش‌دهندگان در ایمنی و رهگیری خوراک',
-        'شریک منتخب مشتریان در کاهش اتلاف خوراک و بهبود بهره‌وری'
-      ]),
-    lesson('ارزش‌ها', 'ارزش سازمانی قاعده‌ای برای رفتار و تصمیم‌گیری است، به‌ویژه وقتی انتخاب دشوار می‌شود.',
-      'در زمان فشار برای تحویل، محموله‌ای که آزمون ایمنی را نگذرانده از کارخانه خارج نمی‌شود.',
-      'کدام رفتار را در تصمیم‌های دشوار مبنا قرار می‌دهید؟', [
-        'ایمنی خوراک را حتی هنگام فشار برای تحویل رعایت کنیم.',
-        'هر انحراف را ثبت و شفاف گزارش کنیم، حتی اگر خبر خوبی نباشد.',
-        'در تغییر زمان تحویل، اثر تصمیم بر مشتری و واحدهای دیگر را بررسی کنیم.'
-      ]),
-    lesson('رکن راهبردی', 'رکن راهبردی حوزه‌ای است که سازمان برای رسیدن به چشم‌انداز، زمان و منابعش را روی آن متمرکز می‌کند.',
-      '«کیفیت قابل اتکا» سبب می‌شود تولید، آزمایشگاه و خرید برای کاهش نوسان کیفیت هم‌جهت شوند.',
-      'برای ساخت شاخه بعدی نقشه، یکی از این دو اولویت را انتخاب کنید.', ['کیفیت قابل اتکای خوراک', 'تحویل قابل اتکا به مشتری'])
+ 'use strict';
+ const {plans,scenarios,units,departments}=window.BehparvarStrategy;
+ const storageKey='bp-session6-okr-cascade-v2';
+ const format=new Intl.NumberFormat('fa-IR',{useGrouping:false});
+ const n=value=>format.format(value);
+ const byId=id=>document.getElementById(id);
+ const stage=byId('stage'), review=byId('review');
+ const option=(value,label,detail='')=>({value,label,detail});
+ const step=(id,title,definition,example,question,options,extra={})=>({id,title,definition,example,question,options,...extra});
+ let state={answers:{},active:'scenario'};
+ try {
+  const value=JSON.parse(localStorage.getItem(storageKey));
+  if(value && value.answers && typeof value.answers==='object' && !Array.isArray(value.answers)) state=value;
+ } catch {}
+ const answer=id=>state.answers[id];
+ function valid(item){
+  const keys=item.options.map(x=>x.value);
+  const value=answer(item.id);
+  return item.multiple?Array.isArray(value)&&value.length>0&&value.every(x=>keys.includes(x)):keys.includes(value);
+ }
+ function selectedLabel(item){
+  const selected=answer(item.id);
+  return item.options.filter(x=>item.multiple?selected?.includes(x.value):x.value===selected).map(x=>x.label).join('، ');
+ }
+ const list=labels=>labels.map((label,i)=>option(String(i),label));
+ function build(){
+  const base=[
+   step('scenario','موقعیت راهبردی به‌پرور','فرض کارگاه برای ایران امروز، محیط پرنوسان و آینده نامطمئن است. نرخ ارز، هزینه نهاده، انرژی و تقاضا ممکن است هم‌زمان تغییر کنند.','در به‌پرور ممکن است برای یک سفارش، هم تأمین ماده اولیه عقب بیفتد و هم مشتری خریدش را کم کند.','برای طراحی فصل آینده، کدام آینده محتمل را مبنا می‌گیرید؟',Object.entries(scenarios).map(([id,s])=>option(id,s.name,s.story))),
+   step('direction','جهت‌گیری راهبردی','رشد و بقا جهت‌گیری‌اند. تمایز و رهبری هزینه شیوه رقابت‌اند. در این تمرین دو ترکیب را می‌سنجید.','به‌پرور می‌تواند برای رشد روی خدمت و کیفیت قابل تشخیص سرمایه‌گذاری کند یا برای بقا با حفظ کیفیت، هزینه هر تن و مصرف نقد را پایین بیاورد.','در سناریوی انتخاب‌شده، چه راهبردی را مبنا می‌گذارید؟',Object.entries(plans).map(([id,p])=>option(id,p.name,p.advantage)))
   ];
-
-  const quality = [
-    ['ثبات کیفیت خوراک را برای مشتریان بهتر کنیم.', 'نوسان انطباق محصول بین نوبت‌های تولید را کاهش دهیم.'],
-    ['نرخ انطباق سری‌های تولید در آزمون اول، هر هفته', 'نرخ محموله‌های برگشتی به علت کیفیت، هر ماه'],
-    ['نرخ انطباق در آزمون اول را این فصل از ۹۲٪ به ۹۸٪ برسانیم.', 'نرخ انطباق در آزمون اول را این فصل از ۹۲٪ به ۹۶٪ برسانیم.'],
-    ['تیم تولید · انطباق خط منتخب در آزمون اول را تا پایان فصل از ۹۰٪ به ۹۷٪ برساند.', 'تیم تولید · انطباق خط منتخب در آزمون اول را تا پایان فصل از ۹۰٪ به ۹۵٪ برساند.'],
-    ['تولید و آزمایشگاه · ثبت تنظیمات شروع هر نوبت و نمونه‌گیری از اولین سری', 'تولید و نگهداری · بررسی و کالیبراسیون ترازوهای توزین مواد'],
-    ['تولید و آزمایشگاه هر هفته انحراف‌ها را مرور و یک اقدام اصلاحی تعیین کنند.', 'در پایان هر ماه، نرخ انطباق و اثر اقدامات اصلاحی را بررسی کنیم.']
+  const scenario=scenarios[answer('scenario')], direction=answer('direction'), plan=plans[direction];
+  if(!scenario||!plan) return base;
+  const prefix=answer('scenario')+'-'+direction;
+  const growth=direction==='growth';
+  const directionSteps=[
+   ['ultimate','هدف غایی','هدف غایی اثری است که به‌پرور در بلندمدت برای مشتری و زنجیره پرورش می‌خواهد ایجاد کند.',
+    growth?['پرورش‌دهندگان با خوراک باکیفیت و خدمت فنی قابل اتکا، تولید پایدارتر و قابل پیش‌بینی‌تری داشته باشند.','پرورش‌دهندگان با خوراک قابل رهگیری و کیفیت یکنواخت، با اطمینان بیشتری تصمیم بگیرند.']:['پرورش‌دهندگان حتی در دوره اختلال، به خوراک ایمن و قابل تأمین دسترسی داشته باشند.','پایداری زنجیره تولید غذا با دسترسی مداوم به خوراک اقتصادی تقویت شود.']],
+   ['mission','مأموریت','مأموریت می‌گوید امروز به چه کسی خدمت می‌کنیم و چگونه به هدف غایی کمک می‌کنیم.',
+    growth?['تولید خوراک یکنواخت و ارائه پشتیبانی فنی به پرورش‌دهندگان','عرضه خوراک قابل رهگیری و پاسخ‌گویی فنی به مشتریان هدف']:['تولید و تأمین پایدار خوراک ایمن با بهره‌وری منابع','تأمین اقتصادی خوراک با مدیریت موجودی، اتلاف و کیفیت']],
+   ['vision','چشم‌انداز','چشم‌انداز جایگاه مطلوب به‌پرور را در یک افق مشخص توصیف می‌کند.',
+    growth?['در سه سال، شریک منتخب مشتریان منطقه برای خوراک با ثبات و خدمت قابل اتکا باشیم.','در سه سال، در بخش هدف بازار با کیفیت مستند و رهگیری محصول شناخته شویم.']:['در سه سال، تأمین‌کننده‌ای پایدار با هزینه رقابتی و تعهد تحویل مطمئن باشیم.','در سه سال، بنگاهی تاب‌آور با کنترل هزینه و توان حفظ تولید در دوره‌های شوک باشیم.']],
+   ['values','ارزش سازمانی','ارزش سازمانی برای تصمیم‌های دشوار یک قاعده رفتاری می‌دهد.',
+    growth?['ادعای کیفیت را با شواهد آزمون و داده قابل رهگیری پشتیبانی کنیم.','در مواجهه با مغایرت کیفیت، شفاف و سریع به مشتری پاسخ دهیم.']:['برای کاهش هزینه از الزامات ایمنی خوراک عبور نکنیم.','هزینه‌های پنهان و اتلاف را شفاف ثبت و اصلاح کنیم.']],
+   ['pillar','رکن راهبردی','رکن راهبردی اولویتی است که تصمیم‌ها و منابع بنگاه را به هدف غایی وصل می‌کند.',
+    growth?['تمایز از مسیر کیفیت، رهگیری و خدمت قابل اتکا','رشد در مشتریان هدف از مسیر تجربه متمایز']:['بهره‌وری، کاهش اتلاف و هزینه رقابتی','تاب‌آوری عملیاتی و حفاظت از نقدینگی']]
   ];
-  const delivery = [
-    ['قابلیت اتکای تحویل سفارش‌ها را بهتر کنیم.', 'اختلال در تحویل سفارش به پرورش‌دهندگان را کاهش دهیم.'],
-    ['سهم سفارش‌های کامل و به‌موقع، هر هفته', 'سهم سفارش‌های دارای تأخیر بیش از یک روز، هر هفته'],
-    ['سهم تحویل کامل و به‌موقع را این فصل از ۸۵٪ به ۹۵٪ برسانیم.', 'سهم تحویل کامل و به‌موقع را این فصل از ۸۵٪ به ۹۲٪ برسانیم.'],
-    ['تیم ارسال · سهم سفارش‌های آماده بارگیری در موعد را تا پایان فصل از ۸۸٪ به ۹۶٪ برساند.', 'تیم ارسال · سهم سفارش‌های آماده بارگیری در موعد را تا پایان فصل از ۸۸٪ به ۹۳٪ برساند.'],
-    ['برنامه‌ریزی و ارسال · تأیید حجم تولید و ظرفیت بارگیری پیش از اعلام موعد', 'انبار و ارسال · آماده‌سازی سفارش‌ها طبق زمان‌بندی مسیرهای تحویل'],
-    ['ارسال و برنامه‌ریزی هر هفته تأخیرهای تکرارشونده را بررسی و گلوگاه را مشخص کنند.', 'هر ماه علت تأخیر و تغییر سهم سفارش‌های کامل و به‌موقع را مرور کنیم.']
-  ];
-
-  function steps() {
-    const [objective,kpi,kr,baseTeam,initiative,baseReview] = state.choices[4] === 1 ? delivery : quality;
-    const [metric] = kpi;
-    const chosenMetric = state.choices[6] === 1;
-    const otherMetricKr = state.choices[4] === 1
-      ? ['سهم سفارش‌های با تأخیر بیش از یک روز را این فصل از ۱۲٪ به ۵٪ برسانیم.', 'سهم سفارش‌های با تأخیر بیش از یک روز را این فصل از ۱۲٪ به ۸٪ برسانیم.']
-      : ['نرخ برگشت ناشی از کیفیت را این فصل از ۴٪ به ۱٪ برسانیم.', 'نرخ برگشت ناشی از کیفیت را این فصل از ۴٪ به ۲٪ برسانیم.'];
-    const team = chosenMetric ? (state.choices[4] === 1
-      ? ['تیم ارسال · سفارش‌های از دست‌دهنده نوبت بارگیری را تا پایان فصل از ۱۰٪ به ۴٪ برساند.', 'تیم ارسال · سفارش‌های از دست‌دهنده نوبت بارگیری را تا پایان فصل از ۱۰٪ به ۶٪ برساند.']
-      : ['تیم تولید · سهم سری‌های خارج از حدود کیفیت را تا پایان فصل از ۷٪ به ۲٪ برساند.', 'تیم تولید · سهم سری‌های خارج از حدود کیفیت را تا پایان فصل از ۷٪ به ۴٪ برساند.']) : baseTeam;
-    const review = chosenMetric ? (state.choices[4] === 1
-      ? ['هر هفته سفارش‌های با تأخیر بیش از یک روز را با آخرین هفته مقایسه کنیم و درباره تغییر برنامه بارگیری تصمیم بگیریم.', 'هر ماه سهم تأخیرهای طولانی را با هدف فصل مقایسه و علت اصلی را ثبت کنیم.']
-      : ['هر هفته علت برگشت‌های کیفی را مرور و یک اقدام اصلاحی تعیین کنیم.', 'در پایان ماه، نرخ برگشت کیفی را با هدف فصل بسنجیم و اثر اصلاحات را بررسی کنیم.']) : baseReview;
-    const results = chosenMetric ? otherMetricKr : kr;
-
-    return [...direction,
-      lesson('هدف سازمانی (Objective)', 'هدف سازمانی، تغییر مشخصی است که می‌خواهیم در این دوره ایجاد کنیم.', objective[0],
-        'برای رکن انتخابی، کدام جهت را در این فصل دنبال می‌کنید؟', objective),
-      lesson('شاخص عملکرد (KPI)', 'شاخص عملکرد نشان می‌دهد وضعیت کار چطور است و می‌توان آن را در چند دوره دنبال کرد.', metric + '.',
-        'برای پایش هدف انتخابی، کدام شاخص به کار شما می‌آید؟', kpi),
-      lesson('نتیجه کلیدی سازمان (KR)', 'نتیجه کلیدی، تغییر عددی مورد انتظار روی یک شاخص است. مقدار شروع، مقصد و مهلت را مشخص می‌کند.', results[0],
-        'با توجه به شاخص انتخابی، کدام نتیجه را تا پایان فصل تعهد می‌کنید؟', results),
-      lesson('هم‌راستایی تیم (Team OKR)', 'تیم بخشی از نتیجه سازمان را که در حوزه اختیار خودش است، به هدف و نتیجه قابل سنجش تبدیل می‌کند.', team[0],
-        'کدام نتیجه را به‌عنوان سهم تیم در نتیجه سازمان ثبت می‌کنید؟', team),
-      lesson('اقدام اجرایی (Initiative)', 'اقدام اجرایی کاری است که تیم برای حرکت دادن نتیجه کلیدی انجام می‌دهد.', initiative[0],
-        'کدام اقدام به تیم کمک می‌کند نتیجه انتخابی را جلو ببرد؟', initiative),
-      lesson('مرور پیشرفت (Check-in)', 'در مرور، مقدار واقعی با هدف مقایسه می‌شود و تیم درباره ادامه یا اصلاح اقدام تصمیم می‌گیرد.', review[0],
-        'تیم چه زمانی و چگونه مسیر را بازبینی کند؟', review)
-    ];
+  base.push(...directionSteps.map(([id,title,definition,options])=>step(prefix+'-'+id,title,definition,options[0],'کدام عبارت را برای به‌پرور انتخاب می‌کنید؟',list(options))));
+  const group=appendScope(base,prefix,'group',direction,scenario);
+  const companyId=prefix+'-company';
+  base.push(step(companyId,'انتخاب شرکت تابعه','هدف بنگاه می‌تواند مستقیم به دپارتمان‌های مرکزی یا از مسیر یک شرکت تابعه آبشاری شود.','هدف رشد خرید مجدد در بنگاه می‌تواند برای یک شرکت تولیدی به ثبات کیفیت و برای شرکت توزیعی به تحویل به‌موقع تبدیل شود.','این زنجیره از کدام مسیر پایین می‌رود؟',[
+   option('direct','مستقیم از بنگاه به دپارتمان‌ها'),option('production',units.production.name+' (نمونه)'),option('distribution',units.distribution.name+' (نمونه)')
+  ],{companyName:true}));
+  const company=answer(companyId);
+  if(!['direct','production','distribution'].includes(company)) return base;
+  const child=prefix+'-'+company;
+  const companyName=answer(companyId+'-name')?.[company]||units[company]?.name;
+  const owner=company==='direct'?group:appendScope(base,child,company,direction,scenario,group,companyName);
+  const deptId=child+'-departments';
+  base.push(step(deptId,'انتخاب دپارتمان‌ها','اهداف و اقدامات را به واحدهایی بسپارید که می‌توانند بر نتیجه اثر مستقیم یا پشتیبان بگذارند.','برای ثبات کیفیت، خرید می‌تواند ثبات مواد را پیگیری کند و کنترل کیفیت، رهگیری و ریشه‌یابی را بهبود دهد.','کدام دپارتمان‌ها در این زنجیره نقش دارند؟ یک یا چند مورد را انتخاب کنید.',departments.map(id=>option(id,units[id].name)),{multiple:true}));
+  const chosen=answer(deptId);
+  if(!Array.isArray(chosen)||!chosen.length) return base;
+  for(const id of departments.filter(d=>chosen.includes(d))) appendScope(base,child,id,direction,scenario,owner);
+  base.push(step(child+'-stress','آزمون سناریویی و مرور پیشرفت','راهبرد را در یک آینده متفاوت آزمایش کنید. اگر نشانه‌های تغییر ظاهر شدند، فرض‌ها و تارگت را بازبینی کنید.','نشانه پایش: '+scenario.signal+' · آستانه بازبینی: '+scenario.trigger,scenario.stress,list(scenario.responses),{context:plan.guardrail+' مرور منظم: هفتگی در مرحله آزمایشی.'}));
+  return base;
+ }
+ function appendScope(steps,prefix,unit,direction,scenario,parent,alias){
+  const name=alias||units[unit].name, work=units[unit][direction];
+  const node={name};
+  const key=prefix+'-'+unit, metricId=key+'-metric', goalId=key+'-goal';
+  const context={scope:name,section:key};
+  steps.push(step(goalId,'هدف راهبردی','تغییر مطلوب این سطح را مشخص کنید. هدف این واحد باید سهمی روشن در هدف بالادست داشته باشد.',work.objective,'کدام صورت‌بندی را برای این فصل ثبت می‌کنید؟',[
+   option('whole',work.objective),option('pilot','در دامنه آزمایشی شروع کنیم: '+work.objective)
+  ],{...context,context:parent?'هم‌راستا با '+parent.name+(parent.result?' · '+parent.result:''):undefined}));
+  steps.push(step(metricId,'شاخص عملکرد (KPI)','شاخص مشخص می‌کند عملکرد را با چه معیار و واحدی بسنجیم. مقدار مبنا در این تمرین نمونه است.',work.metrics[0].label+' · واحد: '+work.metrics[0].unit,'در این سطح کدام شاخص برای پایش هدف مناسب‌تر است؟',work.metrics.map((m,i)=>option(String(i),m.label,'مقدار مبنا: '+n(m.base)+m.unit)),context));
+  const metricIndex=answer(metricId), metric=work.metrics.find((_,i)=>String(i)===metricIndex);
+  if(!metric) return node;
+  const targetId=key+'-target-'+metricIndex+'-'+answer(goalId);
+  const choices=targetOptions(metric,scenario);
+  steps.push(step(targetId,'تارگت و نتیجه کلیدی (KR)','تارگت مقدار مقصد شاخص است. نتیجه کلیدی مقدار مبنا، تارگت و مهلت را در یک جمله به هم وصل می‌کند.',kr(metric,choices[0],answer(goalId)),'کدام سطح تغییر با سناریو و ظرفیت این واحد سازگارتر است؟',choices.map((value,i)=>option(String(value),kr(metric,value,answer(goalId)),i===0?'تعهد محتاطانه‌تر در این سناریو':'تعهد بلندپروازانه‌تر با ظرفیت و منابع بیشتر')),context));
+  const target=answer(targetId);
+  if(!choices.map(String).includes(target)) return node;
+  node.result=kr(metric,target,answer(goalId));
+  steps.push(step(key+'-action-'+metricIndex,'اقدام اجرایی','اقدام کاری است که واحد مسئول برای تغییر نتیجه کلیدی انجام می‌دهد. اثر اقدام را در مرور هفتگی بررسی کنید.',work.actions[metricIndex],'برای شروع، کدام اقدام را به این واحد می‌سپارید؟',list([work.actions[metricIndex],'روند همین شاخص را برای یک ماه هفتگی بررسی کنیم و پرتکرارترین مانع را با یک پایلوت محدود برطرف کنیم.']),context));
+  return node;
+ }
+ function targetOptions(metric,scenario){
+  if(scenario===scenarios.opening) return [metric.balanced,metric.stretch];
+  const ratio=scenario===scenarios.shock?0.4:0.7;
+  const delta=metric.balanced-metric.base;
+  const guarded=metric.base+Math.sign(delta)*Math.max(1,Math.round(Math.abs(delta)*ratio));
+  return [...new Set([guarded,metric.balanced])];
+ }
+ function kr(metric,target,draft){
+  return (draft==='pilot'?'در دامنه آزمایشی، ':'')+metric.label+' تا پایان فصل از '+n(metric.base)+metric.unit+' به '+n(Number(target))+metric.unit;
+ }
+ function escape(value){
+  return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+ }
+ function save(){
+  try{localStorage.setItem(storageKey,JSON.stringify(state));}
+  catch{byId('storage-status').textContent='این مرورگر اجازه ذخیره نمی‌دهد. صفحه را تا پایان تمرین باز نگه دارید.';}
+ }
+ function go(id){
+  state.active=id;
+  save();
+  render(true);
+ }
+ function render(focus=false){
+  const steps=build(), incomplete=steps.findIndex(s=>!valid(s));
+  const complete=incomplete<0 && steps.at(-1)?.id.endsWith('-stress');
+  let index=steps.findIndex(s=>s.id===state.active);
+  if(index<0 && !(complete&&state.active==='summary')) index=Math.max(0,incomplete);
+  if(incomplete>=0 && index>incomplete)index=incomplete;
+  const item=steps[index];
+  const progress=byId('step-progress');
+  const answered=steps.filter(valid).length;
+  byId('step-label').textContent=item?(item.scope?item.scope+' · ':'')+'گام '+n(index+1):'جمع‌بندی';
+  progress.max=steps.length;progress.value=answered;
+  review.hidden=!complete||!item;
+  if(item) renderStep(item,steps,index);
+  else renderSummary(steps);
+  if(focus){byId('stage-title').focus({preventScroll:true});window.scrollTo(0,0);}
+ }
+ function renderStep(item,steps,index){
+  const previous=steps[index-1];
+  const context=item.context||((previous&&valid(previous)&&!previous.multiple&& !['scenario','direction'].includes(item.id))?selectedLabel(previous):'');
+  const choices=item.options.map(o=>'<label class="choice"><input type="'+(item.multiple?'checkbox':'radio')+'" name="answer" value="'+escape(o.value)+'" '+(!item.multiple?'required ':'')+((item.multiple?answer(item.id)?.includes(o.value):answer(item.id)===o.value)?'checked':'')+'><span>'+escape(o.label)+(o.detail?'<span class="option-detail">'+escape(o.detail)+'</span>':'')+'</span></label>').join('');
+  stage.innerHTML='<h2 id="stage-title" tabindex="-1">'+escape(item.title)+'</h2>'+ (context?'<p class="context">'+escape(context)+'</p>':'')+
+    '<p>'+escape(item.definition)+'</p><p class="example"><strong>مثال به‌پرور</strong><br>'+escape(item.example)+'</p>'+
+    '<form><fieldset><legend>'+escape(item.question)+'</legend>'+choices+'</fieldset>'+(item.companyName?'<label for="company-name">نام شرکت تابعه (اختیاری)</label><input id="company-name" name="companyName" maxlength="80" value="'+escape(answer(item.id+'-name')?.[answer(item.id)]||'')+'">':'')+'<p role="alert" id="choice-error" hidden>دست‌کم یک دپارتمان را انتخاب کنید.</p>'+
+    '<div class="actions"><button type="submit" class="primary">'+(item.id.endsWith('-stress')?'دیدن زنجیره کامل':'گام بعدی ←')+'</button>'+
+    (previous?'<button type="button" data-step="'+previous.id+'">گام قبل</button>':'')+'</div></form>'+
+    (item.id==='scenario'?'<details class="sources"><summary>مبنای سناریوها</summary><p>این سه وضعیت، آینده‌های محتمل برای تمرین‌اند. سیگنال‌ها و آستانه‌ها باید با داده‌های به‌پرور تنظیم شوند.</p><a href="https://www.worldbank.org/ext/en/country/iran" target="_blank" rel="noopener noreferrer">زمینه اقتصاد ایران · بانک جهانی</a><br><a href="https://www.oecd.org/en/publications/strategic-foresight-toolkit-for-resilient-public-policy_bcd2dd12-en.html" target="_blank" rel="noopener noreferrer">سناریونویسی و آزمون راهبرد · OECD</a></details>':'');
+  state.active=item.id;
+ }
+ function renderSummary(steps){
+  const scenario=scenarios[answer('scenario')], plan=plans[answer('direction')];
+  let section='', sections='';
+  for(const item of steps){
+   const next=item.scope||'جهت‌گیری و قواعد بازبینی';
+   if(next!==section){sections+=(section?'</ol>':'')+'<h3>'+escape(next)+'</h3><ol class="chain">';section=next;}
+   sections+='<li><strong>'+escape(item.title)+'</strong><br>'+escape(selectedLabel(item))+' <button type="button" data-step="'+item.id+'" aria-label="ویرایش '+escape(item.title+(item.scope?' · '+item.scope:''))+'">ویرایش</button></li>';
   }
-
-  const key = 'bp-session6-okr-cascade-v1';
-  let state = {choices: [], index: 0};
-  try {
-    const saved = JSON.parse(localStorage.getItem(key));
-    if (saved && Array.isArray(saved.choices) && Number.isInteger(saved.index)) state = saved;
-  } catch {}
-  state.index = Math.max(0, Math.min(steps().length, state.index));
-  const stage = document.getElementById('stage');
-  const jump = document.getElementById('review');
-  const format = new Intl.NumberFormat('fa-IR', {useGrouping: false});
-  const number = value => format.format(value);
-
-  function save() {
-    try {
-      localStorage.setItem(key, JSON.stringify(state));
-    } catch {
-      document.getElementById('storage-status').textContent = 'مرورگر اجازه ذخیره نمی‌دهد. تا پایان تمرین این صفحه را باز نگه دارید.';
-    }
+  stage.innerHTML='<h2 id="stage-title" tabindex="-1">زنجیره استراتژی و OKR شما</h2><p class="example">'+escape(scenario.name+' · '+plan.name)+'<br>'+escape(scenario.trigger)+'<br>'+escape(plan.guardrail)+'</p>'+
+    sections+'</ol><div class="actions"><button class="primary" type="button" id="print">چاپ یا ذخیره PDF</button></div>';
+ }
+ stage.addEventListener('submit',event=>{
+  event.preventDefault();
+  const current=build().find(s=>s.id===state.active);if(!current)return;
+  const form=new FormData(event.target), choices=form.getAll('answer');
+  if(!choices.length){byId('choice-error').hidden=false;return;}
+  state.answers[current.id]=current.multiple?choices:choices[0];
+  if(current.companyName&&choices[0]!=='direct'){
+   const names=state.answers[current.id+'-name']??={};names[choices[0]]=String(form.get('companyName')||'').trim();
   }
-  function valid(i, item) {
-    const answer = state.choices[i];
-    return Number.isInteger(answer) && answer >= 0 && answer < item.options.length;
-  }
-  function go(i) {
-    state.index = i;
-    save();
-    render(true);
-  }
-  function render(focus = false) {
-    const items = steps(), index = state.index, item = items[index];
-    const complete = items.every((step,i) => valid(i, step));
-    const progress = document.getElementById('step-progress');
-    progress.max = items.length;
-    progress.value = items.filter((step,i) => valid(i,step)).length;
-    document.getElementById('step-label').textContent = item ? 'گام ' + number(index+1) + ' از ' + number(items.length) : 'جمع‌بندی';
-    jump.hidden = !complete || !item;
-
-    if (item) {
-      const previous = items[index-1];
-      const parent = index === 4 ? 0 : index === 8 ? 7 : index-1;
-      const context = previous && valid(parent, items[parent]) ? '<p class="context"><strong>' + items[parent].title + '</strong> · ' + items[parent].options[state.choices[parent]] + '</p>' : '';
-      stage.innerHTML = '<h2 id="stage-title" tabindex="-1">' + item.title + '</h2>' + context + '<p>' + item.definition + '</p>' +
-        '<p class="example"><strong>مثال به‌پرور</strong><br>' + item.example + '</p><form><fieldset><legend>' + item.question + '</legend>' +
-        item.options.map((option,i) => '<label class="choice"><input required type="radio" name="answer" value="' + i + '" ' + (state.choices[index] === i ? 'checked' : '') + '><span>' + option + '</span></label>').join('') +
-        '</fieldset><div class="actions"><button class="primary" type="submit">' + (index === items.length-1 ? 'دیدن زنجیره کامل' : 'گام بعدی ←') +
-        '</button>' + (index ? '<button type="button" data-step="' + (index-1) + '">گام قبل</button>' : '') + '</div></form>';
-    } else {
-      stage.innerHTML = '<h2 id="stage-title" tabindex="-1">زنجیره استراتژی شما</h2><ol class="chain">' +
-        items.map((step,i) => '<li><strong>' + step.title + '</strong><br>' + (valid(i, step) ? step.options[state.choices[i]] : 'انتخاب نشده') +
-          ' <button type="button" data-step="' + i + '" aria-label="ویرایش ' + step.title + '">ویرایش</button></li>').join('') +
-        '</ol><div class="actions"><button type="button" class="primary" id="print">چاپ یا ذخیره PDF</button></div>';
-    }
-    if (focus) {
-      document.getElementById('stage-title').focus({preventScroll:true});
-      window.scrollTo(0,0);
-    }
-  }
-  stage.addEventListener('submit', event => {
-    event.preventDefault();
-    const index = state.index, choice = Number(new FormData(event.target).get('answer'));
-    if (state.choices[index] !== choice) {
-      if (index === 4) state.choices.length = Math.min(state.choices.length, 5);
-      if (index === 6) state.choices.length = Math.min(state.choices.length, 7);
-      state.choices[index] = choice;
-    }
-    go(index+1);
-  });
-  stage.addEventListener('click', event => {
-    const button = event.target.closest('button');
-    if (!button) return;
-    if (button.hasAttribute('data-step')) go(Number(button.dataset.step));
-    if (button.id === 'print') window.print();
-  });
-  jump.addEventListener('click', () => go(steps().length));
-  render();
+  const revised=build(), index=revised.findIndex(s=>s.id===current.id);
+  go(revised[index+1]?.id||'summary');
+ });
+ stage.addEventListener('click',event=>{
+  const button=event.target.closest('button');if(!button)return;
+  if(button.hasAttribute('data-step'))go(button.dataset.step);
+  if(button.id==='print')window.print();
+ });
+ review.addEventListener('click',()=>go('summary'));
+ render();
 })();

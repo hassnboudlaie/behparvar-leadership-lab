@@ -32,3 +32,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 .chain button{margin-inline-start:8px}
 [hidden]{display:none!important}
 @media print{.top,button,.step-meta,progress,#storage-status{display:none!important}main{width:100%;padding:0}body{background:white}.panel{border:0;padding:0}.chain li{break-inside:avoid}}
+
+.option-detail{display:block;color:#314966;margin-top:3px}
+.sources{padding:10px 14px}
+#company-name{display:block;width:100%;min-height:48px;font:inherit;border:1px solid #bac8db;border-radius:9px;padding:5px 10px}

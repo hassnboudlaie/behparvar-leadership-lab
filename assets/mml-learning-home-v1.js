@@ -23,6 +23,11 @@ function sessionCards(){
  grid.querySelectorAll(".course-session[data-course-session]").forEach(function(card){
   var n=Number(card.dataset.courseSession);
   if(n<1||n>6)return;
+  if(n===6){
+   card.setAttribute("aria-label","جلسه ششم؛ شایستگی‌های معطوف به نتیجه و سازمان");
+   var old=card.querySelector(".mml-course-progress");if(old)old.remove();
+   return;
+  }
   if(n===3){
    var label=card.querySelector("small");
    if(label)label.textContent="کارگاه توسعه شایستگی‌های معطوف به خود";

@@ -8,12 +8,7 @@ var EMOJI=["🧭","🗓️","📊","💬","🤝","🚀"];
 function portal(){
   var map=document.getElementById("bp-competency-map");
   var target=document.getElementById("bp-competency-portal");
-  var hub=document.querySelector("#course .mml-hub");
-  var sessions=hub&&hub.querySelector(".mml-session-area");
-  if(!map||!target||!sessions)return;
-  var inModel=document.getElementById("competencies").classList.contains("active");
-  if(inModel&&map.parentNode!==target){target.appendChild(map)}
-  else if(!inModel&&map.parentNode!==hub){hub.insertBefore(map,sessions)}
+  if(map&&target&&map.parentNode!==target)target.appendChild(map);
 }
 function progress(){
  var root=document.getElementById("bp-progress-content");
@@ -24,14 +19,14 @@ function progress(){
  audience=audience==="supervisors"?"supervisors":"managers";
  var done=Array.isArray(record.done)?record.done:[];
  var count=0;var groups=[];
- for(var session=1;session<=6;session++){
+ for(var session=1;session<=5;session++){
    var valid=new Set(done.filter(function(k){
      return typeof k==="string"&&k.indexOf(audience+":"+session+":")===0;
    }).map(function(k){return k.split(":")[2]}));
    var n=PARTS.filter(function(key){return valid.has(key)}).length;
    count+=n;groups.push(n);
  }
- var percent=Math.round(count/42*100);
+ var percent=Math.round(count/35*100);
  root.replaceChildren();
  var card=document.createElement("div");card.className="bp-progress-summary";
  var circle=document.createElement("div");circle.className="bp-progress-ring";
@@ -39,7 +34,7 @@ function progress(){
  var center=document.createElement("span");center.textContent=percent.toLocaleString("fa-IR")+"٪";
  circle.appendChild(center);
  var body=document.createElement("div");
- var strong=document.createElement("strong");strong.textContent=count.toLocaleString("fa-IR")+" از ۴۲ بخش مرورشده";
+ var strong=document.createElement("strong");strong.textContent=count.toLocaleString("fa-IR")+" از ۳۵ بخش مرورشده";
  var intro=document.createElement("p");
  intro.textContent="مسیر "+(audience==="supervisors"?"سرپرستان":"مدیران")+" · مرور دستی در همین مرورگر. معیار سنجش شایستگی نیست.";
  body.append(strong,intro);
@@ -54,6 +49,11 @@ function progress(){
   track.append(bar);node.append(title,note,track);
   list.append(node);
  });
+ var workshop=document.createElement('a');
+ workshop.className='bp-progress-row';
+ workshop.href='session6-tool-perdoo.html';
+ workshop.textContent='جلسه ۶ · ادامه تمرین آبشاری OKR';
+ list.append(workshop);
  root.append(list);
 }
 function setHeroFallback(){

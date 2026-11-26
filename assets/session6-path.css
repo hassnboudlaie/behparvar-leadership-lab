@@ -1,0 +1,34 @@
+@font-face{font-family:Vazirmatn;src:url(vazirmatn.woff2) format("woff2");font-weight:100 900;font-display:swap}
+*{box-sizing:border-box}
+body{margin:0;background:#f5f7fa;color:#162844;font:clamp(18px,2.6vw,21px)/1.75 Vazirmatn,Tahoma,sans-serif}
+main{width:min(100% - 32px,780px);margin:auto;padding:22px 0 60px}
+header{margin-block:22px}
+h1{font-size:clamp(28px,5vw,44px);line-height:1.35;margin:6px 0 14px}
+h2{font-size:clamp(21px,3vw,27px);line-height:1.5;margin:0 0 10px}
+p{margin:0 0 12px}
+a{color:#174a87}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid #d2dae5}
+.top img{width:108px;height:38px;object-fit:contain}
+.panel,.entry,details{padding:clamp(15px,3vw,25px);background:white;border:1px solid #d2dae5;border-radius:14px;margin-block:10px}
+.entry{display:block;text-decoration:none;color:#162844}
+.entry strong,.entry span{display:block}
+.entry span{margin-top:4px}
+.primary{background:#183e75;color:white;border-color:#183e75}
+summary{cursor:pointer;font-weight:750}
+.choice{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid #bac8db;border-radius:10px;margin-bottom:8px;cursor:pointer}
+.choice:has(:checked){border-color:#174785;background:#edf4ff}
+.choice input{margin:.45em 0 0;flex:none;width:20px;height:20px;accent-color:#173e73}
+fieldset{min-width:0;border:0;padding:0;margin:16px 0}
+legend{font-weight:750;margin-bottom:8px}
+.example{background:#f1f5fb;border-inline-start:4px solid #a32943;padding:10px 15px;margin:14px 0}
+.context{color:#31547a;margin-bottom:10px}
+.step-meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+progress{width:100%;height:10px;accent-color:#ad2743}
+button{font:inherit;color:#173e73;cursor:pointer;border:1px solid #a9b9cf;background:white;border-radius:9px;min-height:47px;padding:5px 14px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid #a32943;outline-offset:3px}
+.chain{padding-inline-start:1.3em;margin:0}
+.chain li{padding:10px 0;border-bottom:1px solid #d2dae5}
+.chain button{margin-inline-start:8px}
+[hidden]{display:none!important}
+@media print{.top,button,.step-meta,progress,#storage-status{display:none!important}main{width:100%;padding:0}body{background:white}.panel{border:0;padding:0}.chain li{break-inside:avoid}}

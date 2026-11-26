@@ -27,7 +27,7 @@
  function build(){
   const base=[
    step('scenario','موقعیت راهبردی به‌پرور','فرض کارگاه برای ایران امروز، محیط پرنوسان و آینده نامطمئن است. نرخ ارز، هزینه نهاده، انرژی و تقاضا ممکن است هم‌زمان تغییر کنند.','در به‌پرور ممکن است برای یک سفارش، هم تأمین ماده اولیه عقب بیفتد و هم مشتری خریدش را کم کند.','برای طراحی فصل آینده، کدام آینده محتمل را مبنا می‌گیرید؟',Object.entries(scenarios).map(([id,s])=>option(id,s.name,s.story))),
-   step('direction','جهت‌گیری راهبردی','رشد و بقا جهت‌گیری‌اند. تمایز و رهبری هزینه شیوه رقابت‌اند. در این تمرین دو ترکیب را می‌سنجید.','به‌پرور می‌تواند برای رشد روی خدمت و کیفیت قابل تشخیص سرمایه‌گذاری کند یا برای بقا با حفظ کیفیت، هزینه هر تن و مصرف نقد را پایین بیاورد.','در سناریوی انتخاب‌شده، چه راهبردی را مبنا می‌گذارید؟',Object.entries(plans).map(([id,p])=>option(id,p.name,p.advantage)))
+   step('direction','جهت‌گیری راهبردی','رشد و بقا جهت‌گیری‌اند. تمایز و رهبری هزینه شیوه رقابت‌اند. در این تمرین دو ترکیب را می‌سنجید.','به‌پرور می‌تواند برای رشد روی خدمت و کیفیت قابل تشخیص سرمایه‌گذاری کند یا برای بقا با حفظ کیفیت، هزینه هر تن و مصرف نقد را پایین بیاورد.','در سناریوی انتخاب‌شده، چه راهبردی را مبنا می‌گذارید؟',Object.entries(plans).map(([id,p])=>option(id,p.name,p.advantage)),{context:scenarios[answer('scenario')]?.story})
   ];
   const scenario=scenarios[answer('scenario')], direction=answer('direction'), plan=plans[direction];
   if(!scenario||!plan) return base;
@@ -124,7 +124,7 @@
  }
  function renderStep(item,steps,index){
   const previous=steps[index-1];
-  const context=item.context||((previous&&valid(previous)&&!previous.multiple&& !['scenario','direction'].includes(item.id))?selectedLabel(previous):'');
+  const context=item.context||((previous&&valid(previous)&&!previous.multiple&&!item.companyName&&!item.multiple&& !['scenario','direction'].includes(item.id))?selectedLabel(previous):'');
   const choices=item.options.map(o=>'<label class="choice"><input type="'+(item.multiple?'checkbox':'radio')+'" name="answer" value="'+escape(o.value)+'" '+(!item.multiple?'required ':'')+((item.multiple?answer(item.id)?.includes(o.value):answer(item.id)===o.value)?'checked':'')+'><span>'+escape(o.label)+(o.detail?'<span class="option-detail">'+escape(o.detail)+'</span>':'')+'</span></label>').join('');
   stage.innerHTML='<h2 id="stage-title" tabindex="-1">'+escape(item.title)+'</h2>'+ (context?'<p class="context">'+escape(context)+'</p>':'')+
     '<p>'+escape(item.definition)+'</p><p class="example"><strong>مثال به‌پرور</strong><br>'+escape(item.example)+'</p>'+
@@ -136,15 +136,27 @@
  }
  function renderSummary(steps){
   const scenario=scenarios[answer('scenario')], plan=plans[answer('direction')];
-  let section='', sections='';
+  const outline=new Map();
   for(const item of steps){
-   const next=item.scope||'جهت‌گیری و قواعد بازبینی';
-   if(next!==section){sections+=(section?'</ol>':'')+'<h3>'+escape(next)+'</h3><ol class="chain">';section=next;}
-   sections+='<li><strong>'+escape(item.title)+'</strong><br>'+escape(selectedLabel(item))+' <button type="button" data-step="'+item.id+'" aria-label="ویرایش '+escape(item.title+(item.scope?' · '+item.scope:''))+'">ویرایش</button></li>';
+   const key=item.section|| (item.id.endsWith('-stress')?'check-in':'foundation');
+   const title=item.scope||(key==='check-in'?'مرور و واکنش به تغییر سناریو':'مبنای راهبرد و دامنه آبشار');
+   if(!outline.has(key))outline.set(key,{title,items:[]});
+   outline.get(key).items.push(item);
   }
+  const sections=[...outline.values()].map(({title,items})=>'<h3>'+escape(title)+'</h3><ol class="chain">'+items.map(item=>
+    '<li><strong>'+escape(item.title)+'</strong><br>'+escape(selectedLabel(item))+' <button type="button" data-step="'+item.id+'" aria-label="ویرایش '+escape(item.title+(item.scope?' · '+item.scope:''))+'">ویرایش</button></li>'
+  ).join('')+'</ol>').join('');
   stage.innerHTML='<h2 id="stage-title" tabindex="-1">زنجیره استراتژی و OKR شما</h2><p class="example">'+escape(scenario.name+' · '+plan.name)+'<br>'+escape(scenario.trigger)+'<br>'+escape(plan.guardrail)+'</p>'+
-    sections+'</ol><div class="actions"><button class="primary" type="button" id="print">چاپ یا ذخیره PDF</button></div>';
+    sections+'<div class="actions"><button class="primary" type="button" id="print">چاپ یا ذخیره PDF</button></div>';
  }
+ stage.addEventListener('change',event=>{
+  if(event.target.name!=='answer')return;
+  const field=byId('company-name');if(!field)return;
+  const id=state.active,company=event.target.value;
+  field.disabled=company==='direct';
+  if(answer(id)||field.dataset.company)field.value=answer(id+'-name')?.[company]||'';
+  field.dataset.company=company;
+ });
  stage.addEventListener('submit',event=>{
   event.preventDefault();
   const current=build().find(s=>s.id===state.active);if(!current)return;
